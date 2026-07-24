@@ -30,6 +30,8 @@ Kubernetes `1.33` is now available in Amazon EKS. For more information about Kub
 * {aws} is not releasing an EKS-optimized Amazon Linux 2 AMI for Kubernetes 1.33. 
 ** {aws} encourages you to migrate to Amazon Linux 2023. Learn how to <<al2023>>.
 ** For more information, see <<al2-ami-deprecation>>.
+* Amazon EKS updated containerd from 1.7 to 2.1 in the Amazon EKS optimized Amazon Linux 2023 AMIs, starting with link:https://github.com/awslabs/amazon-eks-ami/releases/tag/v20251016[AMI release v20251016].
+** The containerd 2.0 release removes or deprecates some features and configuration settings that containerd 1.7 supports. If you experience issues after you update your AMIs, see the link:https://github.com/containerd/containerd/blob/v2.1.0/docs/containerd-2.0.md[containerd 2.0 documentation] and the link:https://github.com/containerd/containerd/releases/tag/v2.1.0[containerd 2.1 release notes].
 ====
 
 * *In-Place Pod Resource Resize (Beta):* Kubernetes 1.33 promotes in-place resource resize to beta. This allows dynamic updates to CPU and memory resources for existing Pods without restarts, enabling vertical scaling of stateful workloads with zero downtime.
@@ -55,6 +57,9 @@ Kubernetes `1.32` is now available in Amazon EKS. For more information about Kub
 
 * Kubernetes version `1.32` is the last version for which Amazon EKS will release Amazon Linux 2 (AL2) AMIs. From version `1.33` onwards, Amazon EKS will continue to release Amazon Linux 2023 (AL2023) and Bottlerocket based AMIs. 
 
+* Amazon EKS updated containerd from 1.7 to 2.1 in the Amazon EKS optimized Amazon Linux 2023 AMIs, starting with link:https://github.com/awslabs/amazon-eks-ami/releases/tag/v20251023[AMI release v20251023].
+** The containerd 2.0 release removes or deprecates some features and configuration settings that containerd 1.7 supports. If you experience issues after you update your AMIs, see the link:https://github.com/containerd/containerd/blob/v2.1.0/docs/containerd-2.0.md[containerd 2.0 documentation] and the link:https://github.com/containerd/containerd/releases/tag/v2.1.0[containerd 2.1 release notes].
+** The Amazon Linux 2 AMIs stay on containerd 1.7.
 ====
 
 * The Memory Manager feature has graduated to Generally Available (GA) status in Kubernetes version `1.32`. This enhancement provides more efficient and predictable memory allocation for containerized applications, particularly beneficial for workloads with specific memory requirements.
@@ -96,6 +101,9 @@ Kubernetes `1.31` is now available in Amazon EKS. For more information about Kub
 
 * The kubelet flag `--keep-terminated-pod-volumes` deprecated since 2017 has been removed as part of the version `1.31` release. This change impacts how terminated pod volumes are handled by the kubelet. If you are using this flag in your node configurations, you must update your bootstrap scripts and launch templates to remove it before upgrading.
 
+* Amazon EKS updated containerd from 1.7 to 2.1 in the Amazon EKS optimized Amazon Linux 2023 AMIs, starting with link:https://github.com/awslabs/amazon-eks-ami/releases/tag/v20251108[AMI release v20251108].
+** The containerd 2.0 release removes or deprecates some features and configuration settings that containerd 1.7 supports. If you experience issues after you update your AMIs, see the link:https://github.com/containerd/containerd/blob/v2.1.0/docs/containerd-2.0.md[containerd 2.0 documentation] and the link:https://github.com/containerd/containerd/releases/tag/v2.1.0[containerd 2.1 release notes].
+** The Amazon Linux 2 AMIs stay on containerd 1.7.
 ====
 
 * The beta `VolumeAttributesClass` feature gate and API resource is enabled in Amazon EKS version `1.31`. This feature allows cluster operators to modify mutable properties of Persistent Volumes (PVs) managed by compatible CSI Drivers, including the Amazon EBS CSI Driver. To leverage this feature, ensure that your CSI Driver supports the `VolumeAttributesClass` feature (for the Amazon EBS CSI Driver, upgrade to version `1.35.0` or later to automatically enable the feature). You will be able to create `VolumeAttributesClass` objects to define the desired volume attributes, such as volume type and throughput, and associate them with your Persistent Volume Claims (PVCs). See the https://kubernetes.io/docs/concepts/storage/volume-attributes-classes/[official Kubernetes documentation] as well as the documentation of your CSI driver for more information.
