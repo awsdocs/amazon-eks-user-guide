@@ -51,7 +51,7 @@ spec:
 
 == Commonly used annotations
 
-The following table lists commonly used annotations supported by EKS Auto Mode. Note that EKS Auto Mode may not support all annotations. 
+The following table lists the supported annotations for Amazon EKS Auto Mode. Amazon EKS Auto Mode does not support all service annotations available in the {aws} Load Balancer Controller.
 
 [TIP]
 ====
