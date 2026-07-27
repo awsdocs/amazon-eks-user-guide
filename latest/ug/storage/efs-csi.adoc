@@ -29,6 +29,7 @@ Isolated and confidential pods that run in Nitro Sandboxes can mount Amazon EFS 
 * Take note of the resource quotas for Amazon EFS. For more information, see link:efs/latest/ug/limits.html[Amazon EFS quotas,type="documentation"].
 * Starting in version https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/CHANGELOG-2.x.md#v200[2.0.0], this driver switched from using `stunnel` to `efs-proxy` for TLS connections. When `efs-proxy` is used, it will open a number of threads equal to one plus the number of cores for the node it's running on.
 * The Amazon EFS CSI driver isn't compatible with Amazon EKS Hybrid Nodes.
+* Don't install `amazon-efs-utils` on worker nodes that run the Amazon EFS CSI driver. The driver packages its own copy of `efs-utils` and manages the mount process, including the watchdog that maintains TLS connections. Installing `amazon-efs-utils` on the node runs a second watchdog, and the two can conflict when managing TLS configuration and state files. This can cause mount failures and permission denied errors on Amazon EFS directories hours after the mounts initially succeed. If you need to mount an Amazon EFS file system directly on a node, do so on nodes that don't run the Amazon EFS CSI driver.
 
 
 [#efs-csi-prereqs]
