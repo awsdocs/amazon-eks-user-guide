@@ -283,6 +283,8 @@ spec:
 
 * *Nonexistent or deleted placement group* — If a `NodeClass` references a placement group that does not exist or has been deleted, no instances are launched. The placement group ID format is validated at admission, but existence is checked only at launch time. If a placement group is deleted while nodes are running, existing nodes are marked as drifted and remain running indefinitely because drift replacement launches are also blocked.
 
+* *Hugepages* — For information about configuring hugepages on nodes, see <<hugepages>>.
+
 
 [#pod-subnet-selector]
 == Separate subnets and security groups for Pods
@@ -474,3 +476,43 @@ spec:
       interfaceType: efa-only
       networkCardIndex: 3
 ----
+
+[#hugepages]
+== Configure hugepages on nodes
+
+Use the `advancedCompute.hugepages` field to pre-allocate hugepages on nodes in the `NodeClass`. Hugepages improve memory-access performance for latency-sensitive workloads such as high-performance computing (HPC), databases, and network-intensive applications. To consume hugepages, configure your Pods to explicitly request hugepage resources. For more information, see https://kubernetes.io/docs/tasks/manage-hugepages/scheduling-hugepages/[Manage HugePages] in the Kubernetes documentation.
+
+[#hugepages-example]
+=== Example configuration
+
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: hugepages-compute
+spec:
+  role: MyNodeRole
+
+  subnetSelectorTerms:
+    - tags:
+        Name: "private-subnet"
+
+  securityGroupSelectorTerms:
+    - tags:
+        Name: "eks-cluster-sg"
+
+  advancedCompute:
+    hugepages:
+      pages:
+        - size: "2Mi"
+          count: 512
+----
+
+[#hugepages-considerations]
+=== Hugepages considerations
+
+Consider the following when configuring hugepages on a NodeClass:
+
+* *Memory reservation*: Hugepages count against the instance's total memory. Amazon EKS marks instance types as incompatible with the NodeClass when the hugepages reservation would exceed 80% of total memory.
+* *EFA mutual exclusion*: EFA and hugepages cannot coexist on the same NodeClass. If you set `interfaceType: efa-only`, NodeClass validation fails. Amazon EKS does not provision Pods that request `vpc.amazonaws.com/efa` from a hugepages NodeClass. Use a separate NodeClass for EFA workloads.
