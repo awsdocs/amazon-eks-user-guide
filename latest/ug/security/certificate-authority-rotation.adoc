@@ -112,7 +112,7 @@ If you do not append a successor CA on your own timeline, we will automatically 
 
 === EKS Capabilities updates
 
-{aws} automatically updates EKS Capabilities (such as managed Argo CD, ACK, and Kro) to trust the successor CA. These managed resources communicate with your cluster's API server and are updated as part of the CA distribution process. No action is required from you for EKS Capabilities.
+{aws} automatically updates EKS Capabilities ({aws} Controllers for Kubernetes (ACK), Argo CD, and kro (Kube Resource Orchestrator)) to trust the successor CA. These managed resources communicate with your cluster's API server and are updated as part of the CA distribution process. No action is required from you for the managed resources in EKS Capabilities. For more information, see link:capabilities/capabilities.html["EKS Capabilities",type="documentation"].
 
 === Distribution status tracking
 
