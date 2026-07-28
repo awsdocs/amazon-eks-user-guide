@@ -245,14 +245,14 @@ kube-system   metrics-server-5b966ff79c-hr58p   1/1     Running   0          9m2
 kube-system   metrics-server-5b966ff79c-szs2d   1/1     Running   0          9m22s
 ----
 +
-*Enable automatic node repair*
+*Enable Karpenter feature gates*
 +
-EKS Auto Mode enables automatic node repair by default. On self-managed Karpenter, automatic node repair is gated behind the `NodeRepair=true` feature gate and must be enabled explicitly. The following command patches the Karpenter deployment to add the `NodeRepair=true` feature gate. Updating the deployment env triggers a rollout of the Karpenter pods:
+EKS Auto Mode enables automatic node repair by default. On self-managed Karpenter, you must explicitly enable the `NodeRepair` feature gate. The `StaticCapacity` gate enables static NodePools, which maintain a fixed node count through `spec.replicas` instead of scaling in response to pending pods. This walkthrough does not create a static NodePool, but enabling the gate keeps the cluster ready for one. Both gates are Alpha and off by default in Karpenter. The following command patches the Karpenter deployment to enable both gates. Updating the deployment environment triggers a rollout of the Karpenter pods:
 +
 [source,bash]
 ----
 kubectl set env deployment/karpenter -n karpenter \
-  FEATURE_GATES=NodeRepair=true
+  FEATURE_GATES=NodeRepair=true,StaticCapacity=true
 ----
 +
 Expected output:
@@ -627,7 +627,7 @@ EOF
 +
 `instanceStorePolicy: RAID0` assembles local NVMe disks into a RAID-0 array. The `al2023@latest` AMI alias resolves to the EKS-optimized AL2023 AMI. When Karpenter launches a GPU instance type, it automatically selects the AL2023_x86_64_NVIDIA accelerated variant, which includes the NVIDIA driver pre-installed.
 +
-The `FastImagePull` feature gate enables SOCI snapshotter parallel pull mode, which downloads and unpacks image layers concurrently. This matches the EKS Auto Mode behavior on G, P, and Trn instance families. This is an EKS node bootstrap feature gate set in the AL2023 `NodeConfig` (`node.eks.aws/v1alpha1`), and is independent of the Karpenter controller feature gates such as `NodeRepair` set in <<cluster-setup-cli-create-cluster,Step 1>>.
+The `FastImagePull` feature gate enables SOCI snapshotter parallel pull mode, which downloads and unpacks image layers concurrently. This matches the EKS Auto Mode behavior on G, P, and Trn instance families. This is an EKS node bootstrap feature gate set in the AL2023 `NodeConfig` (`node.eks.aws/v1alpha1`), and is independent of the Karpenter controller feature gates (`NodeRepair`, `StaticCapacity`) set in <<cluster-setup-cli-create-cluster,Step 1>>.
 +
 For more SOCI tuning options (concurrent downloads per image, chunk size, etc.), see the https://github.com/aws-samples/karpenter-blueprints/tree/main/blueprints/soci-snapshotter[Karpenter SOCI blueprint].
 +
@@ -1475,14 +1475,14 @@ You access Grafana through an internet-facing {aws} Application Load Balancer (A
 The `alb.ingress.kubernetes.io/healthcheck-path` annotation in the values file points the load balancer's health checks at the Grafana `/api/health` endpoint, which returns `200`. Without it, the ALB health checks default to `/`, which Grafana answers with a `302` redirect to `/login`, causing the target group to report the endpoint as unhealthy.
 ====
 
-Retrieve the ALB hostname. The load balancer is created asynchronously, so allow a minute or two:
+Print the load balancer URL. The load balancer is created asynchronously, so allow a minute or two:
 
 [source,bash]
 ----
-kubectl get ingress kube-prometheus-stack-grafana -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+echo "http://$(kubectl get ingress kube-prometheus-stack-grafana -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
 ----
 
-Open the hostname in your browser. Log in with username `admin` and the password from the following command:
+Open the URL in your browser. Log in with username `admin` and the password from the following command:
 
 [source,bash]
 ----
