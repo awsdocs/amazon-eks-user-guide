@@ -9,7 +9,7 @@ In public key infrastructure (PKI), a certificate authority (CA) is a trusted en
 
 In Amazon Elastic Kubernetes Service (Amazon EKS), a CA is created for each EKS cluster at the time of cluster creation. This follows the same model as upstream Kubernetes: each EKS cluster has its own CA that signs certificates for the API server. This is what enables control plane components, worker nodes, and clients to authenticate to the API server and establish encrypted connections to the EKS cluster.
 
-These certificate authorities (CAs) have a defined validity period. CA rotation is the process of replacing your EKS cluster's certificate authority before it expires, ensuring your cluster remains operational and accessible. EKS has built-in safeguards that automatically manage this process. If you do not initiate CA rotation yourself, EKS will automatically append a successor CA and activate it before the outgoing CA expires, ensuring your cluster remains available.
+These certificate authorities (CAs) have a defined validity period. CA rotation is the process of replacing your EKS cluster's certificate authority before it expires, ensuring your cluster remains operational and accessible. We have built-in safeguards that automatically manage this process. If you do not initiate CA rotation yourself, we will automatically append a successor CA and activate it before the outgoing CA expires, ensuring your cluster remains available.
 
 During CA rotation, a successor CA is appended to your EKS cluster. EKS distributes the successor CA to all {aws} managed components (control plane, link:automode/automode.html["EKS Auto Mode",type="documentation"] instances, and {aws} Fargate nodes) automatically. You are responsible for updating the worker nodes that you manage (non-EKS Auto Mode, non-Fargate) and external clients (such as kubeconfig files and CI/CD pipelines) to trust the successor CA before it is activated. After the successor CA is activated, the EKS cluster transitions to signing certificates with the successor CA. The outgoing CA is then retired.
 
@@ -120,7 +120,7 @@ As {aws} updates managed components in your EKS cluster, you can monitor progres
 
 * The successor CA cannot be activated until distribution to all {aws} managed components in EKS is complete
 * An {aws}-appended successor CA cannot be deleted while it is the only successor on the cluster. This safeguard ensures your cluster always has a valid CA path to prevent expiry. After a successor CA has been activated, the outgoing CA can be deleted.
-* A customer-appended successor CA cannot be deleted once it reaches the two-year mark before CA expiration. After this point, the CA is protected from deletion to ensure your cluster always has a successor CA in place as expiration approaches.
+* A customer-appended successor CA cannot be deleted after it reaches the two-year mark before CA expiration. After this point, the CA is protected from deletion to ensure your cluster always has a successor CA in place as expiration approaches.
 * We will automatically activate the successor CA if the expiration deadline approaches and you have not activated it yourself
 
 These safeguards ensure that EKS cluster availability is preserved throughout the rotation lifecycle regardless of whether you act or not.
@@ -193,7 +193,7 @@ Update the trust configuration on each hybrid node to include the successor CA. 
 
 You can identify which types of worker nodes are running in your EKS cluster using Cluster Insights. Detailed step-by-step guidance for updating each type is provided in a later section.
 
-EKS provides CA rollback as a safety net if any worker nodes are missed. However, updating all worker nodes before activation of the successor CA avoids connectivity interruptions entirely. Nodes not updated before the successor CA is activated will lose connectivity to the EKS cluster's API server until they are replaced or CA rollback is performed.
+We provide CA rollback as a safety net if any worker nodes are missed. However, updating all worker nodes before activation of the successor CA avoids connectivity interruptions entirely. Nodes not updated before the successor CA is activated will lose connectivity to the EKS cluster's API server until they are replaced or CA rollback is performed.
 
 === Why only you can do this
 
@@ -215,7 +215,7 @@ Detailed guidance on how to update each type of client and worker node is provid
 Before starting CA rotation, confirm the following:
 
 * *{aws} CLI:* Version 2.x or later. CA rotation APIs are available in the latest {aws} CLI. Run `aws --version` to check.
-* *Console access:* CA rotation is available in the Amazon EKS console for supported regions.
+* *Console access:* CA rotation is available in the Amazon EKS console for supported Regions.
 * *Region availability:* CA rotation is available in all {aws} commercial Regions where Amazon EKS is supported.
 
 No additional IAM permissions are required beyond those needed to manage your EKS cluster. If you can call EKS APIs for your EKS cluster today, you can perform CA rotation.
@@ -317,7 +317,7 @@ NOTE: If the update status shows `UPDATE_FAILED` and the successor CA's `distrib
 aws eks list-certificate-authorities --cluster-name my-cluster --region us-west-2
 ----
 
-You should now see two CAs. The successor CA will have `signingStatus: NOT_USED` and `distributionStatus` will progress from `IN_PROGRESS` to `COMPLETE` once {aws} has updated all managed components in your EKS cluster.
+You should now see two CAs. The successor CA will have `signingStatus: NOT_USED` and `distributionStatus` will progress from `IN_PROGRESS` to `COMPLETE` after {aws} has updated all managed components in your EKS cluster.
 
 Do not proceed until the successor CA's distribution status is `COMPLETE`.
 
@@ -678,7 +678,7 @@ An EKS cluster can have at most two CAs at any time: the current active CA and o
 
 *No certificate revocation*
 
-CA rotation does not support revoking individual certificates. This is consistent with upstream Kubernetes, which does not implement certificate revocation (CRL or OCSP). Rotation replaces the entire CA, which naturally invalidates all certificates signed by the outgoing CA once it is removed from the trust bundle.
+CA rotation does not support revoking individual certificates. This is consistent with upstream Kubernetes, which does not implement certificate revocation (CRL or OCSP). Rotation replaces the entire CA, which naturally invalidates all certificates signed by the outgoing CA after it is removed from the trust bundle.
 
 *{aws}-appended CAs cannot be deleted*
 
