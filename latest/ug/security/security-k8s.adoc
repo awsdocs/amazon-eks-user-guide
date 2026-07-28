@@ -17,6 +17,8 @@ The following are considerations for security in the cloud, as they affect Kuber
 
 include::cert-signing.adoc[leveloffset=+1]
 
+include::certificate-authority-rotation.adoc[leveloffset=+1]
+
 include::default-roles-users.adoc[leveloffset=+1]
 
 include::enable-kms.adoc[leveloffset=+1]
