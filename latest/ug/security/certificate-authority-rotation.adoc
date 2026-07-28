@@ -110,6 +110,10 @@ If you do not append a successor CA on your own timeline, we will automatically 
 
 {aws} automatically updates EKS Auto Mode nodes and Fargate pods to trust the successor CA. These components are fully managed by {aws} and require no action from you during CA rotation.
 
+=== EKS Capabilities updates
+
+{aws} automatically updates EKS Capabilities (such as managed Argo CD, ACK, and Kro) to trust the successor CA. These managed resources communicate with your cluster's API server and are updated as part of the CA distribution process. No action is required from you for EKS Capabilities.
+
 === Distribution status tracking
 
 As {aws} updates managed components in your EKS cluster, you can monitor progress through the CA's distribution status. This tells you whether {aws} has completed its side of the rotation. The successor CA cannot be activated until distribution is complete.
