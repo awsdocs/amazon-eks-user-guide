@@ -10,7 +10,10 @@ include::../attributes.txt[]
 Learn how to enable Kubernetes secrets encryption with {aws} KMS on an existing Amazon EKS cluster, ensuring secure storage of sensitive data.
 --
 
-IMPORTANT: This procedure only applies to EKS clusters running Kubernetes version 1.27 or lower. If you are running Kubernetes version 1.28 or higher, your Kubernetes secrets are protected with envelope encryption by default. For more information, see <<envelope-encryption>>. 
+[IMPORTANT]
+====
+*Deprecation notice:* This procedure is deprecated and only applies to EKS clusters running Kubernetes version 1.27 or lower. If you are running Kubernetes version 1.28 or higher, Amazon EKS protects your Kubernetes secrets with envelope encryption by default. For more information, see <<envelope-encryption>>.
+====
 
 If you enable https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/[secrets encryption], the Kubernetes secrets are encrypted using the {aws} KMS key that you select. The KMS key must meet the following conditions:
 
