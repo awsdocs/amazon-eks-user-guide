@@ -50,6 +50,7 @@ EKS Auto Mode does *not* support:
 * Other configurations supported by the open source {aws} VPC CNI.
 * Network Policy configurations such as conntrack timer customization (default is 300s).
 * Exporting network event logs to CloudWatch.
+* Alternate CNI plugins (such as Cilium or Calico) and alternate network policy plugins. Amazon EKS Auto Mode uses the built-in networking capability described earlier. For more information, see <<alternate-cni-plugins,Considerations for Amazon EKS Auto Mode>>.
 
 === Network Resource Management
 
