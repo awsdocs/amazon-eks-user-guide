@@ -91,14 +91,14 @@ If the Deployment is missing or not ready, complete <<ml-inference-load-serve-mo
 
 === Access Grafana
 
-You watch the load test in the pre-loaded vLLM dashboard, so make sure the Grafana load balancer you set up in the <<cluster-setup-cli-grafana-loadbalancer,Access Grafana>> section is reachable. Retrieve its hostname:
+You watch the load test in the pre-loaded vLLM dashboard, so make sure the Grafana load balancer you set up in the <<cluster-setup-cli-grafana-loadbalancer,Access Grafana>> section is reachable. Print its URL:
 
 [source,bash]
 ----
-kubectl get ingress kube-prometheus-stack-grafana -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+echo "http://$(kubectl get ingress kube-prometheus-stack-grafana -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
 ----
 
-Open the hostname in your browser and log in with username `admin` and the password from the following command:
+Open the URL in your browser and log in with username `admin` and the password from the following command:
 
 [source,bash]
 ----

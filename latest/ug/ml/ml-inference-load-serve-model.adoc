@@ -349,107 +349,6 @@ server: uvicorn
 content-length: 0
 ----
 
-[#ml-inference-load-serve-model-loadbalancer]
-=== Expose the inference endpoint with a load balancer
-
-The port-forward approach shown previously is convenient for local testing, but it is not suitable for production or shared access. To expose `vllm-inference-svc` (a ClusterIP Service on port 8000 with selector `app=vllm-inference-app`) to external traffic, place an {aws} Application Load Balancer (ALB) in front of it by creating a Kubernetes Ingress. The load balancer is internet-facing and restricted to your own IP address with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation.
-
-[WARNING]
-.vLLM endpoint is publicly accessible with no authentication
-====
-This exposes the vLLM inference endpoint on the public internet over plain text HTTP with no authentication. Anyone who can reach the endpoint can send inference requests and consume your cluster's GPU capacity. Automated scanners discover public load balancers within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation, and treat source-IP allowlisting as a minimum safeguard, not a complete one. For a stronger posture, use an *internal* scheme (reachable only from within your VPC or a connected VPN) by setting the scheme to `internal`, add a TLS certificate, and put authentication in front of the endpoint.
-====
-
-Find your public IP address to use as the allowlist CIDR:
-
-[source,bash]
-----
-curl -s https://checkip.amazonaws.com
-----
-
-Use the result as a `/32` CIDR (for example, `203.0.113.4/32`). If your network assigns addresses dynamically, your IP address might change over time, so you would need to update the annotation or specify a broader range (for example, `203.0.113.0/24`). Replace `<your-cidr>` in the following manifest with this value.
-
-This walkthrough uses the `alb` `IngressClass` and load balancing prerequisites you set up in the <<cluster-setup-cli-loadbalancing,Set up load balancing>> section of the cluster setup (subnet tags, plus the built-in controller for EKS Auto Mode or the {aws} Load Balancer Controller for self-managed Karpenter). If you have not completed that section, do so before creating the Ingress.
-
-Apply the following `Ingress`. It is the same for both paths, because you set the ALB scheme and other behavior through annotations on the `Ingress` rather than the `IngressClass`:
-
-[source,yaml]
-----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: vllm-ingress
-  annotations:
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/inbound-cidrs: <your-cidr>
-    alb.ingress.kubernetes.io/healthcheck-path: /health
-spec:
-  ingressClassName: alb
-  rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: vllm-inference-svc
-            port:
-              number: 8000
-----
-
-[NOTE]
-.Health check path prevents unhealthy target group status
-====
-The `alb.ingress.kubernetes.io/healthcheck-path` annotation points the load balancer's health checks at the vLLM `/health` endpoint. Without it, the ALB health checks default to `/`, which vLLM answers with `404`, causing the target group to report the endpoint as unhealthy.
-====
-
-For the full list of supported annotations, see <<alb-ingress>>.
-
-==== Verify the ALB
-
-After you apply the Ingress, the controller provisions an ALB. This process typically takes 2-3 minutes. Retrieve the ALB DNS hostname:
-
-[source,bash]
-----
-kubectl get ingress vllm-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
-----
-
-After the hostname resolves, verify the endpoint is healthy:
-
-[source,bash]
-----
-ALB_DNS=$(kubectl get ingress vllm-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-curl -sI -X GET http://${ALB_DNS}/health
-----
-
-Expected output:
-
-[source,console]
-----
-HTTP/1.1 200 OK
-date: Fri, 18 May 2026 00:42:10 GMT
-server: uvicorn
-content-length: 0
-----
-
-==== Clean up the load balancer
-
-To remove the ALB, delete the `Ingress`:
-
-[source,bash]
-----
-kubectl delete ingress vllm-ingress
-----
-
-Leave the `alb` `IngressClass` in place. It is shared cluster foundation from <<cluster-setup-cli-loadbalancing,Set up load balancing>> and is also used by Grafana.
-
-[NOTE]
-.Port-forwarding is an alternative for local testing
-====
-Port-forwarding (`kubectl port-forward svc/vllm-inference-svc 8000:8000`) remains a valid option for quick local testing without provisioning a load balancer.
-====
-
 [#ml-inference-load-serve-model-monitoring]
 == Step 4: Monitor vLLM
 
@@ -543,14 +442,14 @@ The `vllm:prompt_tokens_total` and `vllm:generation_tokens_total` metrics are mo
 
 The kube-prometheus-stack values file from the <<cluster-setup-cli-monitoring,Monitoring>> section already provisions the community https://grafana.com/grafana/dashboards/25263-vllm-metrics/[vLLM dashboard (gnetId 25263)] under the *GPU Monitoring* folder, so no extra import is needed.
 
-Access Grafana through the load balancer you set up in the <<cluster-setup-cli-grafana-loadbalancer,Access Grafana>> section. Retrieve its hostname:
+Access Grafana through the load balancer you set up in the <<cluster-setup-cli-grafana-loadbalancer,Access Grafana>> section. Print its URL:
 
 [source,bash]
 ----
-kubectl get ingress kube-prometheus-stack-grafana -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+echo "http://$(kubectl get ingress kube-prometheus-stack-grafana -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
 ----
 
-Open the hostname in your browser and log in with username `admin` and the password from the following command:
+Open the URL in your browser and log in with username `admin` and the password from the following command:
 
 [source,bash]
 ----
@@ -660,18 +559,77 @@ Expected output:
 pod/open-webui-6cbfc9867f-jf9w9 condition met
 ----
 
-To access the application, set up port forwarding:
+To access the application, expose Open WebUI through an internet-facing {aws} Application Load Balancer (ALB) using the `alb` `IngressClass` you created in <<cluster-setup-cli-loadbalancing,Set up load balancing>>.
+
+[WARNING]
+.Open WebUI is publicly accessible with no authentication
+====
+Open WebUI runs with authentication disabled (`WEBUI_AUTH: "False"`), so anyone who reaches the load balancer gets an unauthenticated chat interface backed by your GPU inference endpoint and can consume GPU capacity. Automated scanners find public load balancers within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation and treat source-IP allowlisting as a minimum safeguard rather than a complete one. For a stronger posture, use an internal scheme, add a TLS certificate, and enable Open WebUI authentication.
+====
+
+Find your public IP address and store it as a `/32` CIDR:
 
 [source,bash]
 ----
-kubectl port-forward svc/open-webui 8080:80
+export MY_CIDR="$(curl -s https://checkip.amazonaws.com)/32"
+echo $MY_CIDR
 ----
 
-Open http://localhost:8080[http://localhost:8080^] in your browser.
+The result looks like `203.0.113.4/32`. If your network assigns addresses dynamically, your IP address can change, in which case you might need a broader range such as `203.0.113.0/24`.
 
-The chat interface appears where you can interact with the Ministral model.
+Apply the following `Ingress` to create the ALB:
 
-When you finish testing, stop the port-forward with kbd:[Ctrl+C].
+[source,yaml]
+----
+cat << EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: open-webui
+  namespace: default
+  labels:
+    guide: ai-eks-docs
+  annotations:
+    alb.ingress.kubernetes.io/load-balancer-name: ai-eks-docs-chat-app
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/inbound-cidrs: ${MY_CIDR}
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+spec:
+  ingressClassName: alb
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: open-webui
+            port:
+              number: 80
+EOF
+----
+
+[NOTE]
+.Health check path
+====
+The `healthcheck-path` annotation points the load balancer health checks at the Open WebUI `/health` endpoint, because the ALB default health check matcher expects a 200 response.
+====
+
+The load balancer is created asynchronously and takes a minute or two. Print the URL:
+
+[source,bash]
+----
+echo "http://$(kubectl get ingress open-webui -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+----
+
+Open the URL in your browser. The chat interface appears and you can interact with the Ministral model.
+
+[NOTE]
+.Port-forwarding as an alternative
+====
+Port-forwarding (`kubectl port-forward svc/open-webui 8080:80`) remains an option for local testing without provisioning a load balancer.
+====
 
 image::images/ml-inference-load-serve-model-chatui.png["Screenshot of Open WebUI chat interface showing a conversation with the Ministral model",width=75%]
 
@@ -681,6 +639,7 @@ To remove the workload resources that you created in this section, delete the Op
 
 [source,bash]
 ----
+kubectl delete ingress open-webui
 kubectl delete deployment open-webui
 kubectl delete service open-webui
 kubectl delete deployment vllm-inference-app
