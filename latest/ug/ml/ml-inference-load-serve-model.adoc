@@ -505,7 +505,7 @@ spec:
             memory: "500Mi"
           limits:
             cpu: "1000m"
-            memory: "1Gi"
+            memory: "2Gi"
         env:
         - name: OPENAI_API_BASE_URLS
           value: "http://vllm-inference-svc:8000/v1"
