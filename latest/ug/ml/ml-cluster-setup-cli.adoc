@@ -239,7 +239,7 @@ eksctl create cluster -f /tmp/cluster-karpenter.yaml
 +
 This command takes about 15 minutes. It creates an EKS cluster with a managed node group dedicated to hosting add-ons and the Karpenter controller. Karpenter is installed with the Spot interruption queue enabled so it can handle Spot interruption and rebalance recommendations. The `autoModeConfig.enabled: false` setting makes it explicit that this cluster does not use EKS Auto Mode, so the Karpenter components installed in this path are responsible for node management.
 +
-The cluster also gets the https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html[EKS Pod Identity Agent], the https://docs.aws.amazon.com/eks/latest/userguide/node-health.html[EKS node monitoring agent], and the Amazon EBS CSI driver installed as EKS add-ons. EKS Pod Identity is used later in the guide. The EKS node monitoring agent runs on every node and reads kernel logs to set node conditions such as `AcceleratedHardwareReady`, `KernelReady`, and `NetworkingReady`, which Karpenter automatic node repair uses to decide when to replace an unhealthy node. Because the cluster config enables OIDC (`iam.withOIDC: true`) and the `aws-ebs-csi-driver` addon entry does not specify an explicit IAM configuration, `eksctl` creates its IAM role with the recommended Amazon EBS CSI driver policy attached.
+The cluster also gets the https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html[EKS Pod Identity Agent], the https://docs.aws.amazon.com/eks/latest/userguide/node-health.html[EKS node monitoring agent], and the Amazon EBS CSI driver installed as EKS add-ons. EKS Pod Identity is used later in the guide. The EKS node monitoring agent runs on every node and reads kernel logs to set node conditions such as `AcceleratedHardwareReady`, `KernelReady`, and `NetworkingReady`, which Karpenter automatic node repair uses to decide when to replace an unhealthy node.
 +
 Verify the cluster is operational:
 +
@@ -271,7 +271,7 @@ kube-system   metrics-server-5b966ff79c-szs2d   1/1     Running   0          9m2
 +
 *Enable Karpenter feature gates*
 +
-EKS Auto Mode enables automatic node repair by default. On self-managed Karpenter, you must explicitly enable the `NodeRepair` feature gate. The `StaticCapacity` gate enables static NodePools, which maintain a fixed node count through `spec.replicas` instead of scaling in response to pending pods. This walkthrough does not create a static NodePool, but enabling the gate keeps the cluster ready for one. Both gates are Alpha and off by default in Karpenter. The following command patches the Karpenter deployment to enable both gates. Updating the deployment environment triggers a rollout of the Karpenter pods:
+EKS Auto Mode enables automatic node repair and static capacity by default. On self-managed Karpenter, you must explicitly enable the `NodeRepair` feature gate, and the `StaticCapacity` gate for static NodePools, which maintain a fixed node count through `spec.replicas` instead of scaling in response to pending pods. Both gates are Alpha and off by default in Karpenter. The following command patches the Karpenter deployment to enable both gates. Updating the deployment environment triggers a rollout of the Karpenter pods:
 +
 [source,bash]
 ----
@@ -659,7 +659,7 @@ EOF
 +
 `instanceStorePolicy: RAID0` assembles local NVMe disks into a RAID-0 array. The `al2023@latest` AMI alias resolves to the EKS-optimized AL2023 AMI. When Karpenter launches a GPU instance type, it automatically selects the AL2023_x86_64_NVIDIA accelerated variant, which includes the NVIDIA driver pre-installed.
 +
-The `FastImagePull` feature gate enables SOCI snapshotter parallel pull mode, which downloads and unpacks image layers concurrently. This matches the EKS Auto Mode behavior on G, P, and Trn instance families. This is an EKS node bootstrap feature gate set in the AL2023 `NodeConfig` (`node.eks.aws/v1alpha1`), and is independent of the Karpenter controller feature gates (`NodeRepair`, `StaticCapacity`) set in <<cluster-setup-cli-create-cluster,Step 1>>.
+The `FastImagePull` feature gate enables SOCI snapshotter parallel pull mode, which downloads and unpacks image layers concurrently. This matches the EKS Auto Mode behavior on G, P, and Trn instance families.
 +
 For more SOCI tuning options (concurrent downloads per image, chunk size, etc.), see the https://github.com/aws-samples/karpenter-blueprints/tree/main/blueprints/soci-snapshotter[Karpenter SOCI blueprint].
 +
