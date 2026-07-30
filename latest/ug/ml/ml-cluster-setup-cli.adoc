@@ -27,6 +27,11 @@ The diagram shows the {aws} high-level architecture for this section’s setup. 
 [#cluster-setup-cli-prerequisites]
 == Prerequisites
 
+[IMPORTANT]
+====
+The resources you create in this tutorial, including EKS clusters, GPU instances, Application Load Balancers, and Amazon Managed Service for Prometheus, incur charges. Delete resources when you finish to avoid ongoing charges.
+====
+
 * `kubectl` >= 1.36. For setup instructions, see <<install-kubectl>>.
 * {aws} CLI >= 2.27. For setup instructions, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"].
 * Helm >= 3.14. For setup instructions, see <<helm,Setup Helm>>.
@@ -804,7 +809,7 @@ Expected output:
 +-----------------------------------------+------------------------+----------------------+
 ----
 
-The output shows the GPU model, driver version, CUDA version, and available memory. In this example, Karpenter provisioned a G6 instance which has an NVIDIA L4 GPU with 24 GB of memory. The 42C is the current GPU temperature and P8 is a low-power idle state, which is expected because no workload is using the GPU. The 16W / 72W shows current power draw vs max power capacity, and 0MiB / 23034MiB shows current GPU memory used vs total available. Since the Pod just ran nvidia-smi and exited, no workload is using the GPU so memory is at 0 and power is at idle. The NVIDIA GPU driver version (580.159.03) comes from the Bottlerocket AMI, while the CUDA version (13.0) comes from the container image. The GPU model and memory will vary depending on the instance type Karpenter selects. G5 instances have NVIDIA A10G GPUs (24 GB), G6 instances have NVIDIA L4 GPUs (24 GB), and G6e instances have NVIDIA L40S GPUs (48 GB).
+The output shows the GPU model, driver version, CUDA version, and available memory. In this example, Karpenter provisioned a G6 instance which has an NVIDIA L4 GPU with 24 GB of memory. The 42C is the current GPU temperature and P8 is a low-power idle state, which is expected because no workload is using the GPU. The 16W / 72W shows current power draw compared to max power capacity, and 0MiB / 23034MiB shows current GPU memory used compared to total available. Since the Pod just ran nvidia-smi and exited, no workload is using the GPU so memory is at 0 and power is at idle. The NVIDIA GPU driver version (580.159.03) comes from the Bottlerocket AMI, while the CUDA version (13.0) comes from the container image. The GPU model and memory will vary depending on the instance type Karpenter selects. G5 instances have NVIDIA A10G GPUs (24 GB), G6 instances have NVIDIA L4 GPUs (24 GB), and G6e instances have NVIDIA L40S GPUs (48 GB).
 
 To understand how Karpenter and the Kubernetes scheduler coordinated to provision a node and place the Pod, check the Pod's lifecycle events:
 
