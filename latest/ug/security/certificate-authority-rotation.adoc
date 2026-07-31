@@ -166,6 +166,11 @@ These safeguards ensure that EKS cluster availability is preserved throughout th
 
 |===
 
+[NOTE]
+====
+Clusters created in 2018-2019 have a different notification timeline. These clusters will receive automated notifications on an adjusted schedule.
+====
+
 You can also configure your own notifications using Amazon EventBridge to integrate CA rotation events into your existing monitoring and alerting workflows.
 
 
@@ -813,3 +818,7 @@ Running workload pods are not directly affected by CA rotation. The kubelet on e
 Yes. During CA rotation, your cluster's trust bundle will contain two certificate authorities simultaneously: the outgoing CA and the successor CA. This is expected behavior during the dual trust period and is how the rotation process maintains connectivity for all components.
 
 Applications and clients should be configured to trust a CA bundle rather than pin to a single CA certificate. CA pinning (strict validation against a single CA) is not recommended, as it will cause failures when the trust bundle is updated. This applies to any client-side TLS configuration that connects to your EKS cluster's API server.
+
+=== Why is my notification timeline different from what this documentation describes?
+
+If your cluster was created in 2018-2019, your cluster will receive automated notifications on an adjusted timeline. Your first notification will include the relevant dates and next steps specific to your cluster. The standard notification milestones are calculated relative to your cluster's CA expiration date. For clusters in this range, those calculated dates precede the availability of this feature, so an adjusted schedule is applied.
