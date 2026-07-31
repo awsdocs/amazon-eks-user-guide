@@ -601,9 +601,9 @@ kubectl get nodeclaims
 Expected output:
 
 ----
-NAME            TYPE        CAPACITY   ZONE         NODE                  READY   AGE
-gpu-inf-vw99m   g6.xlarge   reserved   us-east-2c   i-0f50cdbacb2017202   True    6m
-gpu-inf-s65s6   g6.xlarge   spot       us-east-2b   i-08741a36089ff2088   True    5m59s
+NAME            TYPE          CAPACITY   ZONE         NODE                  READY   AGE
+gpu-inf-vw99m   g6e.4xlarge   reserved   us-east-2c   i-0f50cdbacb2017202   True    6m
+gpu-inf-s65s6   g6.xlarge     spot       us-east-2b   i-08741a36089ff2088   True    5m59s
 ----
 
 The reserved node launched first, followed by a Spot or On-Demand node once the reservation was full.
