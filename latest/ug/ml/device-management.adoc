@@ -117,6 +117,9 @@ For examples of using `ResourceClaim` objects to share EFA devices between Pods,
 * <<device-management-efa>>
 * <<device-management-neuron>>
 * <<device-management-nvidia>>
+* <<device-management-nvidia-dra-device-plugin>>
+* <<device-management-nvidia-mig>>
+* <<device-management-nvidia-time-slicing>>
 
 
 include::device-management-efa.adoc[leveloffset=+1]
