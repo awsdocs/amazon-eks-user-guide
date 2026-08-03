@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#device-management-neuron]
 = Manage Neuron devices on Amazon EKS
-:info_titleabbrev: Manage Neuron accelerators
+:info_titleabbrev: Neuron accelerators
 
 [abstract]
 --
@@ -12,13 +12,11 @@ Learn how to manage {aws} Trainium and Inferentia devices on Amazon EKS using th
 
 {aws} Trainium and {aws} Inferentia are purpose-built machine learning chips designed by {aws}. Amazon EKS supports two mechanisms for managing Neuron devices in EKS clusters: the _Neuron DRA driver_ and the _Neuron Kubernetes device plugin_.
 
-It's recommended to use the Neuron DRA driver for new deployments on EKS clusters running Kubernetes version 1.34 or later with EKS managed node groups or self-managed node groups. The Neuron DRA driver provides topology-aware allocation, connected device subset scheduling, Logical NeuronCore (LNC) configuration, and UltraServer multi-node allocation without requiring custom scheduler extensions.
-
-The Neuron DRA driver is not supported with Karpenter or EKS Auto Mode. Use the <<neuron-device-plugin, Neuron device plugin>> with Karpenter and EKS Auto Mode. The Neuron device plugin also remains supported for EKS managed node groups and self-managed nodes.
+We recommend using DRA drivers for new deployments with Kubernetes versions 1.34 and later when using link:https://karpenter.sh/docs/concepts/nodepools/#static-nodepool[static capacity provisioning] in Karpenter, EKS managed node groups, or self-managed nodes. DRA is not currently supported with EKS Auto Mode. The Neuron DRA driver provides topology-aware allocation, connected device subset scheduling, Logical NeuronCore (LNC) configuration, and UltraServer multi-node allocation without requiring custom scheduler extensions.
 
 == Neuron DRA driver vs. Neuron device plugin
 
-[cols="1,1,1", options="header"]
+[cols="1,2,2", options="header"]
 |===
 | Feature
 | Neuron DRA driver
@@ -29,7 +27,7 @@ The Neuron DRA driver is not supported with Karpenter or EKS Auto Mode. Use the 
 | All EKS-supported Kubernetes versions
 
 | EKS Compute
-| Managed node groups, self-managed nodes
+| Karpenter (static capacity only), managed node groups, self-managed nodes
 | EKS Auto Mode, Karpenter, managed node groups, self-managed nodes
 
 | EKS-optimized AMI support
@@ -67,7 +65,7 @@ Detailed information about the Neuron DRA driver is available in the link:https:
 
 === Prerequisites
 
-* An Amazon EKS cluster running Kubernetes version 1.34 or later with EKS managed node groups or self-managed node groups.
+* An Amazon EKS cluster running Kubernetes version 1.34 or later with static capacity provisioned by Karpenter, EKS managed node groups, or self-managed node groups.
 * Nodes with {aws} Trainium or Inferentia2 instance types.
 * Helm installed in your command-line environment, see the <<helm,Setup Helm instructions>> for more information.
 * `kubectl` configured to communicate with your cluster, see <<kubectl-install-update>> for more information.
@@ -76,7 +74,7 @@ Detailed information about the Neuron DRA driver is available in the link:https:
 
 [IMPORTANT]
 ====
-Do not install the Neuron DRA driver on nodes where the Neuron device plugin is running. The two mechanisms cannot coexist on the same node. See upstream Kubernetes link:https://github.com/kubernetes/enhancements/issues/5004[KEP-5004] for updates.
+Do not install the Neuron DRA driver on nodes where the Neuron device plugin is running. The two mechanisms cannot coexist on the same node. Doing so can cause silent oversubscription of the underlying devices to multiple pods on the same node.
 ====
 
 . Install the Neuron DRA driver using Helm.

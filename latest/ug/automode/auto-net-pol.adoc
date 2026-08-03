@@ -154,6 +154,13 @@ spec:
   - Egress
   egress:
   - to:
+    - ipBlock: { cidr: 10.100.0.10/32 }
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+  - to:
     - domainNames:
       - "myapp.mydomain.com"
     ports:
@@ -161,9 +168,34 @@ spec:
       port: 8080
 ----
 
-At the Kubernetes network level, this would allow egress from any pods in the "galaxy" namespace labelled with `role: backend` to connect to the domain name *myapp.mydomain.com* on TCP port 8080. In addition, you would need to set up the network connectivity for egress traffic from your VPC to your corporate data center. 
+At the Kubernetes network level, this would allow egress from any pods in the "galaxy" namespace labelled with `role: backend` to connect to the domain name *myapp.mydomain.com* on TCP port 8080 and to CoreDNS on port 53. In addition, you would need to set up the network connectivity for egress traffic from your VPC to your corporate data center. 
 
 image::images/eks-auto-to-on-prem.png[Illustration of workload in EKS Auto communicating with applications on prem]
+
+=== Determining the CoreDNS IP address
+
+For your application to resolve DNS, it must be allowed to communicate with CoreDNS, which runs locally on each EKS Auto Mode instance. The CoreDNS IP address is derived from the Service CIDR range configured for the cluster, and it remains fixed for the lifetime of the cluster. You can therefore determine it once and reference it directly in your network policies.
+
+. Retrieve the Service CIDR for your cluster.
++
+For IPv4 clusters:
++
+[source,bash]
+----
+aws eks describe-cluster --name my-cluster --query 'cluster.kubernetesNetworkConfig.serviceIpv4Cidr' --output text
+----
++
+For IPv6 clusters:
++
+[source,bash]
+----
+aws eks describe-cluster --name my-cluster --query 'cluster.kubernetesNetworkConfig.serviceIpv6Cidr' --output text
+----
+. Derive the CoreDNS IP address from the Service CIDR:
++
+* *IPv4* — use the `.10` address of the CIDR. For example, `10.100.0.0/16` becomes `10.100.0.10/32`.
+* *IPv6* — append `a` to the network address. For example, `fd12:3456:789a::/108` becomes `fd12:3456:789a::a/128`.
+
 
 === Admin (or cluster) network policy
 
