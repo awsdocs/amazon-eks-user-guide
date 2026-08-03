@@ -13,7 +13,7 @@ Learn how to manage IAM principal access to your Amazon EKS cluster using the aw
 [IMPORTANT]
 ====
 
-The `aws-auth ConfigMap`  is deprecated. For the recommended method to manage access to Kubernetes APIs, see <<access-entries>>. 
+The `aws-auth ConfigMap` is deprecated. For the recommended method to manage access to Kubernetes APIs, see <<access-entries>>. 
 
 ====
 
@@ -179,13 +179,13 @@ roleRef:
 +
 . Edit the `aws-auth` `ConfigMap`. You can use a tool such as `eksctl` to update the `ConfigMap` or you can update it manually by editing it.
 +
-IMPORTANT: We recommend using `eksctl`, or another tool, to edit the `ConfigMap`. For information about other tools you can use, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#use-tools-to-make-changes-to-the-aws-auth-configmap[Use tools to make changes to the aws-authConfigMap] in the Amazon EKS best practices guides. An improperly formatted `aws-auth` `ConfigMap` can cause you to lose access to your cluster. 
+IMPORTANT: We recommend using `eksctl`, or another tool, to edit the `ConfigMap`. For information about other tools you can use, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#use-tools-to-make-changes-to-the-aws-auth-configmap[Use tools to make changes to the aws-auth ConfigMap] in the Amazon EKS best practices guides. An improperly formatted `aws-auth` `ConfigMap` can cause you to lose access to your cluster. 
 +
 ** View steps to <<configmap-eksctl,edit configmap with eksctl>>.
 ** View steps to <<configmap-manual,edit configmap manually>>.
 
 [#configmap-eksctl]
-=== Edit Configmap with Eksctl
+=== Edit ConfigMap with eksctl
 
 . You need version `{eksctl-min-version}` or later of the `eksctl` command line tool installed on your device or {aws} CloudShell. To install or update `eksctl`, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
 +
@@ -255,7 +255,7 @@ ARN                                                                             
 ----
 
 [#configmap-manual]
-=== Edit Configmap manually
+=== Edit ConfigMap manually
 . Open the `ConfigMap` for editing.
 +
 [source,bash,subs="verbatim,attributes"]

@@ -12,7 +12,7 @@
 :comp-cap-desc: If the compute capability is enabled, EKS Auto Mode will create and delete EC2 managed instances in your {aws} account.
 :comp-cap-link: {fmis} EKS Auto Mode compute capability {in-guide}.
 
-:lb-cap-desc: If the load balancing capability is enabled, EKS Auto Mode will create and delete EC2 managed instances in your {aws} account.
+:lb-cap-desc: If the load balancing capability is enabled, EKS Auto Mode will create and delete Elastic Load Balancers in your {aws} account.
 :lb-cap-link: {fmis} EKS Auto Mode load balancing capability {in-guide}.
 
 :ebs-cap-desc: If the block storage capability is enabled, EKS Auto Mode will create and delete EBS volumes in your {aws} account.

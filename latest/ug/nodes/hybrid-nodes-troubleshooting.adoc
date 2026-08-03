@@ -281,7 +281,7 @@ kubectl logs [.replaceable]`POD_NAME`
 
 ----
 
-*Check `kubectl` logs*
+*Check `kubelet` logs*
 
 [source,bash,subs="verbatim,attributes"]
 ----

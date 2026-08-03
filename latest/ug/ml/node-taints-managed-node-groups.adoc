@@ -58,9 +58,9 @@ Use the link:cli/latest/reference/eks/update-nodegroup-config.html[aws eks updat
 
 [source,bash,subs="verbatim,attributes"]
 ----
-aws eks update-nodegroup-config 
-  --cluster-name my-cluster 
-  --nodegroup-name node-taints-example 
+aws eks update-nodegroup-config \
+  --cluster-name my-cluster \
+  --nodegroup-name node-taints-example \
   --taints 'removeTaints=[{key=dedicated,value=gpuGroup,effect=NO_SCHEDULE}]'
 ----
 

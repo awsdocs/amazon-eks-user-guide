@@ -203,7 +203,7 @@ When you use some resource-creating actions, you can specify tags at the same ti
 |Create a Fargate profile
 |link:cli/latest/reference/eks/create-fargate-profile.html[create-fargate-profile,type="documentation"]
 |link:powershell/latest/reference/items/New-EKSFargateProfile.html[New-EKSFargateProfile,type="documentation"]
-|link:eks/latest/APIReference/API_CreateFargateProfile.html[CreateFargateProfile.html,type="documentation"]
+|link:eks/latest/APIReference/API_CreateFargateProfile.html[CreateFargateProfile,type="documentation"]
 |`create fargateprofile`
 |===
 

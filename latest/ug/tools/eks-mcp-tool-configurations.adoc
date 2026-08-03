@@ -40,7 +40,7 @@ The Amazon EKS MCP Server is in preview release for Amazon EKS and is subject to
 
 == IAM permissions
 
-The role used for connecting to the MCP server requires *`eks-mcp:InvokeMcp`*  permissions for initialization and retrieving information about available tools. *`eks-mcp:CallReadOnlyTool`* is required for usage of read-only tools and *`eks-mcp:CallPrivilegedTool`* is required for usage of full access (write) tools.
+The role used for connecting to the MCP server requires *`eks-mcp:InvokeMcp`* permissions for initialization and retrieving information about available tools. *`eks-mcp:CallReadOnlyTool`* is required for usage of read-only tools and *`eks-mcp:CallPrivilegedTool`* is required for usage of full access (write) tools.
 
 == Environment variables
 

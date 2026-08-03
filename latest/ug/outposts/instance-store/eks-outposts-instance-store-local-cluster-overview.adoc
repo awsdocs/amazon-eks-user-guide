@@ -24,7 +24,7 @@ The updated architecture used with EC2 instance store-backed Outposts adds the f
 * *Managed control plane.* The Kubernetes control plane runs in an {aws}-managed service account on your Outpost. Amazon EKS manages the control plane lifecycle, including Amazon EKS platform version updates and `etcd` backups.
 * *Greater feature parity with Amazon EKS in the cloud.* Use <<eks-outposts-instance-store-local-cluster-addons,Amazon EKS add-ons>>, <<iam-roles-for-service-accounts,IAM Roles for Service Accounts>>, <<pod-identities,EKS Pod Identity>>, <<authenticate-oidc-identity-provider,OIDC authentication>>, and <<access-entries>>. Use https://aws.amazon.com/bottlerocket/[Bottlerocket] as the worker node operating system, in addition to Amazon Linux 2023-based worker nodes.
 * *Aligned with the Amazon EKS Kubernetes version lifecycle.* New Kubernetes versions and Amazon EKS platform versions become available for local clusters on the same cadence as Amazon EKS in the cloud. Extended support Kubernetes versions are available with the same pricing as cloud clusters.
-* *Available in all commercial {aws} Regions support {aws} Outposts racks.*
+* *Available in all commercial {aws} Regions that support {aws} Outposts racks.*
 
 [NOTE]
 ====

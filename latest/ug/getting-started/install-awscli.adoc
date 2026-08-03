@@ -14,7 +14,7 @@ The link:cli/[{aws} CLI,type="marketing"] is a command line tool for working wit
 
 [#create-access-key]
 == To create an access key
-. Sign into the https://console.aws.amazon.com/[{aws-management-console}].
+. Sign in to the https://console.aws.amazon.com/[{aws-management-console}].
 . For single-user or multiple-user accounts:
 +
 ** *Single-user account –*::

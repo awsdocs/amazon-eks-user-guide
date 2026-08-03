@@ -111,7 +111,7 @@ NOTE: The node groups listed are <<managed-node-groups,managed node groups>> onl
 . Delete the cluster.
 +
 .. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
-.. choose the cluster to delete and choose *Delete*.
+.. Choose the cluster to delete and choose *Delete*.
 .. On the delete cluster confirmation screen, choose *Delete*.
 . (Optional) Delete the VPC {aws} CloudFormation stack.
 +

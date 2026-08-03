@@ -13,7 +13,7 @@ The Amazon EKS MCP Server is in preview release for Amazon EKS and is subject to
 ====
 
 [#read_only_tools]
-= Read-only tools
+== Read-only tools
 
 This section describes the read-only tools available for the EKS MCP Server. Note that all read-only Kubernetes API operations can access both:
 
@@ -21,7 +21,7 @@ This section describes the read-only tools available for the EKS MCP Server. Not
 * *Public clusters*
 
 [#search_eks_documentation]
-= search_eks_documentation
+=== search_eks_documentation
 
 Search EKS documentation for up-to-date information and guidance. This tool provides access to the latest EKS documentation, including new features and recent enhancements that agents may not be aware of.
 
@@ -31,7 +31,7 @@ Parameters:
 * *limit* (optional): Maximum number of documentation results to return (1-10). Default: 5.
 
 [#search_eks_troubleshooting_guide]
-= search_eks_troubleshooting_guide
+=== search_eks_troubleshooting_guide
 
 Searches the EKS Troubleshooting Guide for troubleshooting information based on a query. It helps identify common problems and provides step-by-step solutions.
 
@@ -40,7 +40,7 @@ Parameters:
 * *query* (required): Your specific question or issue description related to EKS troubleshooting.
 
 [#describe_eks_resource]
-= describe_eks_resource
+=== describe_eks_resource
 
 Retrieves detailed information about a specific EKS cluster resource including configuration, status, and metadata.
 
@@ -54,7 +54,7 @@ Parameters:
 * *resource_name* (optional): Name of the specific resource to describe (required for most resource types).
 
 [#list_eks_resources]
-= list_eks_resources
+=== list_eks_resources
 
 Lists EKS resources of a specific type, returning a summary of all resources of the specified type that are accessible.
 
@@ -68,7 +68,7 @@ Parameters:
 * *cluster_name* (optional): Name of the EKS cluster (required for cluster-scoped resources).
 
 [#get_eks_insights]
-= get_eks_insights
+=== get_eks_insights
 
 Retrieves EKS cluster insights and recommendations for optimization. Provides actionable insights for security, performance, and cost optimization based on {aws} best practices and cluster analysis.
 
@@ -80,7 +80,7 @@ Parameters:
 * *next_token* (optional): Optional token for pagination to get the next set of results.
 
 [#get_eks_vpc_config]
-= get_eks_vpc_config
+=== get_eks_vpc_config
 
 Retrieves VPC configuration for an EKS cluster, including subnets, route tables, and network connectivity.
 
@@ -90,7 +90,7 @@ Parameters:
 * *vpc_id* (optional): ID of the specific VPC to query (optional, will use cluster VPC if not specified).
 
 [#get_k8s_events]
-= get_k8s_events
+=== get_k8s_events
 
 Retrieves Kubernetes events related to specific resources for troubleshooting and monitoring.
 
@@ -102,7 +102,7 @@ Parameters:
 * *namespace* (optional): Namespace of the involved object. Required for namespaced resources (like Pods, Deployments). Not required for cluster-scoped resources (like Nodes, PersistentVolumes).
 
 [#get_pod_logs]
-= get_pod_logs
+=== get_pod_logs
 
 Retrieves logs from pods in an EKS cluster with filtering options.
 
@@ -118,7 +118,7 @@ Parameters:
 * *tail_lines* (optional): Number of lines to return from the end of the logs. Default: 100.
 
 [#list_api_versions]
-= list_api_versions
+=== list_api_versions
 
 Lists all available API versions in the specified Kubernetes cluster.
 
@@ -127,7 +127,7 @@ Parameters:
 * *cluster_name* (required): Name of the EKS cluster.
 
 [#list_k8s_resources]
-= list_k8s_resources
+=== list_k8s_resources
 
 Lists Kubernetes resources of a specific kind in an EKS cluster.
 
@@ -141,7 +141,7 @@ Parameters:
 * *namespace* (optional): Namespace of the Kubernetes resources to list. If not provided, resources will be listed across all namespaces (for namespaced resources).
 
 [#read_k8s_resource]
-= read_k8s_resource
+=== read_k8s_resource
 
 Retrieves detailed information about a specific Kubernetes resource in an EKS cluster.
 
@@ -154,7 +154,7 @@ Parameters:
 * *namespace* (optional): Namespace of the Kubernetes resource. Required for namespaced resources. Not required for cluster-scoped resources (like Nodes, PersistentVolumes).
 
 [#generate_app_manifest]
-= generate_app_manifest
+=== generate_app_manifest
 
 Generates standardized Kubernetes deployment and service manifests for containerized applications.
 
@@ -173,7 +173,7 @@ Parameters:
 * *replicas* (optional): Number of replicas to deploy. Default: 2
 
 [#get_cloudwatch_logs]
-= get_cloudwatch_logs
+=== get_cloudwatch_logs
 
 Queries CloudWatch logs with filtering based on the input parameters and support for standard log groups used for EKS cluster observability.
 
@@ -197,7 +197,7 @@ Parameters:
 * *limit* (optional): Maximum number of log entries to return. Use lower values (10-50) for faster queries, higher values (100-1000) for more comprehensive results. Higher values may impact performance.
 
 [#get_cloudwatch_metrics]
-= get_cloudwatch_metrics
+=== get_cloudwatch_metrics
 
 Retrieves CloudWatch metrics and data points for EKS cluster monitoring and performance analysis. Handles Container Insights metrics, custom metrics, and configurable time periods and dimensions.
 
@@ -221,13 +221,13 @@ Parameters:
 * *period* (optional): Period in seconds for the metric data points. Default: 60 (1 minute). Lower values (1-60) provide higher resolution but may be less available.
 * *stat* (optional): Statistic to use for the metric aggregation. Default: "Average". Valid values: +
     * `Average`: Mean value during the period 
-    * `Sum:` Total value during the period 
+    * `Sum`: Total value during the period 
     * `Maximum`: Highest value during the period 
     * `Minimum`: Lowest value during the period 
     * `SampleCount`: Number of samples during the period. 
 
 [#get_eks_metrics_guidance]
-= get_eks_metrics_guidance
+=== get_eks_metrics_guidance
 
 Get CloudWatch metrics guidance for specific resource types in EKS clusters. Useful for the agent when determining the correct dimensions to use with the get_cloudwatch_metrics tool.
 
@@ -236,7 +236,7 @@ Parameters:
 * *resource_type* (required): Type of resource to get metrics for (cluster, node, pod, namespace, service).
 
 [#get_policies_for_role]
-= get_policies_for_role
+=== get_policies_for_role
 
 Retrieves all policies attached to a specified IAM role, including assume role policy, managed policies, and inline policies.
 
@@ -245,14 +245,14 @@ Parameters:
 * *role_name* (required): Name of the IAM role to get policies for. The role must exist in your {aws} account.
 
 [#full_access_tools]
-= Full access (write) tools
+== Full access (write) tools
 
 This section describes the full access (write) tools available for the EKS MCP Server. Note that (as of "today") all write Kubernetes API operations can access only:
 
 * *Public clusters* (endpointPublicAccess=true)
 
 [#manage_k8s_resource]
-= manage_k8s_resource
+=== manage_k8s_resource
 
 Manages a single Kubernetes resource with write operations (create, update, patch, or delete).
 
@@ -272,7 +272,7 @@ Parameters:
 * *namespace* (optional): Namespace of the Kubernetes resource. Required for namespaced resources. Not required for cluster-scoped resources (like Nodes, PersistentVolumes).
 
 [#apply_yaml]
-= apply_yaml
+=== apply_yaml
 
 Applies Kubernetes YAML manifests to an EKS cluster.
 
@@ -284,7 +284,7 @@ Parameters:
 * *force* (optional): Whether to update resources if they already exist (similar to kubectl apply). Set to false to only create new resources.
 
 [#manage_eks_stacks]
-= manage_eks_stacks
+=== manage_eks_stacks
 
 Manages EKS CloudFormation stacks with operations for generating templates, deploying, describing, and deleting EKS clusters and their underlying infrastructure. Cluster creation typically takes 15-20 minutes to complete. For deploy and delete operations, the stack must have been created by this tool (i.e., tagged with CreatedBy=EksMcpServer).
 
@@ -299,7 +299,7 @@ Parameters:
 * *template_content* (optional): CloudFormation template content (for deploy operations). This should be the complete YAML or JSON template content. Supports both single resources and multi-document YAML content separated by '---'.
 
 [#add_inline_policy]
-= add_inline_policy
+=== add_inline_policy
 
 Adds a new inline policy to an IAM role.
 

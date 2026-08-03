@@ -14,8 +14,8 @@ The Amazon EKS console displays **Inspect with Amazon Q** buttons contextually a
 The integration appears in the following locations within the Amazon EKS console:
 
 * **Cluster health** - Investigate cluster health issues and status messages in the Cluster health tab in observability dashboard
-* **Control plane** - Troubleshoot control plane component errors and warnings  in Control plane monitoring in observability dashboard
-* **Upgrade insights** - Analyze potential upgrade blockers and compatibility issues  in  Upgrade insights  in observability dashboard
+* **Control plane** - Troubleshoot control plane component errors and warnings in Control plane monitoring in observability dashboard
+* **Upgrade insights** - Analyze potential upgrade blockers and compatibility issues in Upgrade insights in observability dashboard
 * **Node health** - Investigate node-level issues affecting cluster capacity in Node health issues in observability dashboard
 * **Workloads** - Analyze Kubernetes events on pods indicating failures or issues
 
@@ -26,7 +26,7 @@ The integration appears in the following locations within the Amazon EKS console
 
 1. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 2. Choose the name of the cluster to investigate.
-3. When you encounter an error message or issue indicator, look for the **Inspect with Amazon Q** button. The button appears contextually next to the issue or in the error  status details view.
+3. When you encounter an error message or issue indicator, look for the **Inspect with Amazon Q** button. The button appears contextually next to the issue or in the error status details view.
 4. Choose **Inspect with Amazon Q**. 
 5. Amazon Q automatically investigates the issue and displays the analysis in a chat panel on the right side of the console.
 6. Review the investigation results, including root cause analysis and suggested mitigation steps.

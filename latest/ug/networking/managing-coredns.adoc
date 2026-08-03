@@ -5,16 +5,6 @@ include::../attributes.txt[]
 = Manage CoreDNS for DNS in Amazon EKS clusters
 :info_titleabbrev: CoreDNS
 
-include::coredns-add-on-create.adoc[leveloffset=+1]
-
-include::coredns-add-on-update.adoc[leveloffset=+1]
-
-include::coredns-add-on-self-managed-update.adoc[leveloffset=+1]
-
-include::coredns-autoscaling.adoc[leveloffset=+1]
-
-include::coredns-metrics.adoc[leveloffset=+1]
-
 [abstract]
 --
 Learn how to manage the CoreDNS Amazon EKS add-on for DNS service discovery in Kubernetes clusters with configuration updates and version upgrades.
@@ -109,3 +99,13 @@ topologySpreadConstraints:
 === CoreDNS `v1.11` upgrade considerations
 
 * In EKS add-on versions `v1.11.1-eksbuild.4` and later, the container image is based on a https://gallery.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base[minimal base image] maintained by Amazon EKS Distro, which contains minimal packages and doesn't have shells. For more information, see https://distro.eks.amazonaws.com/[Amazon EKS Distro]. The usage and troubleshooting of the CoreDNS image remains the same.
+
+include::coredns-add-on-create.adoc[leveloffset=+1]
+
+include::coredns-add-on-update.adoc[leveloffset=+1]
+
+include::coredns-add-on-self-managed-update.adoc[leveloffset=+1]
+
+include::coredns-autoscaling.adoc[leveloffset=+1]
+
+include::coredns-metrics.adoc[leveloffset=+1]

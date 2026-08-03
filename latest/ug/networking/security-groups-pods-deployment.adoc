@@ -23,7 +23,7 @@ An example output is as follows.
 v1.7.6
 ----
 +
-If your Amazon VPC CNI plugin for Kubernetes version is earlier than `1.7.7`, then update the plugin to version `1.7.7` or later. For more information, see <<managing-vpc-cni>>
+If your Amazon VPC CNI plugin for Kubernetes version is earlier than `1.7.7`, then update the plugin to version `1.7.7` or later. For more information, see <<managing-vpc-cni>>.
 . Add the link:iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController[AmazonEKSVPCResourceController,type="console"] managed IAM policy to the <<create-service-role,cluster role>> that is associated with your Amazon EKS cluster. The policy allows the role to manage network interfaces and their private IP addresses, and to attach and detach the network interfaces to and from instances.
 +
 .. Retrieve the name of your cluster IAM role and store it in a variable. Replace [.replaceable]`my-cluster` with the name of your cluster.

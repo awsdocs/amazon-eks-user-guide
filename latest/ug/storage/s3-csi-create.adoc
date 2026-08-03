@@ -12,13 +12,13 @@ This procedure will show you how to deploy the Mountpoint for Amazon S3 CSI Amaz
 
 With the https://github.com/awslabs/mountpoint-s3-csi-driver[Mountpoint for Amazon S3 Container Storage Interface (CSI) driver], your Kubernetes applications can access Amazon S3 objects through a file system interface, achieving high aggregate throughput without changing any application code.
 
-This procedure will show you how to deploy the <<s3-csi, Mountpoint for Amazon S3 CSI Amazon EKS driver>>. Before proceeding, please review the <<s3-csi-considerations,Considerations>>.
+This procedure will show you how to deploy the <<s3-csi, Mountpoint for Amazon S3 CSI Amazon EKS driver>>. Before proceeding, review the <<s3-csi-considerations,Considerations>>.
 
 [#s3-csi-prereqs]
 == Prerequisites
 
 * An existing {aws} Identity and Access Management (IAM) OpenID Connect (OIDC) provider for your cluster. To determine whether you already have one, or to create one, see <<enable-iam-roles-for-service-accounts>>.
-* Version 2.12.3 or later of the {aws} CLI installed and configured on your device or {aws} CloudShell.
+* Version `2.12.3` or later of the {aws} CLI installed and configured on your device or {aws} CloudShell.
 * The `kubectl` command line tool is installed on your device or {aws} CloudShell. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster. For example, if your cluster version is `1.29`, you can use `kubectl` version `1.28`, `1.29`, or `1.30` with it. To install or upgrade `kubectl`, see <<install-kubectl>>.
 
 [#s3-create-iam-policy]
@@ -139,7 +139,7 @@ Add a comma to the end of the previous line, and then add the following line aft
 . Choose *Update policy* to finish.
 
 === {aws} CLI [[awscli_s3_store_app_data]]
-. View the OIDC provider URL for your cluster. Replace [.replaceable]`my-cluster` with the name of your cluster. If the output from the command is `None`,  review the <<s3-csi-prereqs,Prerequisites>>.
+. View the OIDC provider URL for your cluster. Replace [.replaceable]`my-cluster` with the name of your cluster. If the output from the command is `None`, review the <<s3-csi-prereqs,Prerequisites>>.
 +
 [source,bash,subs="verbatim,attributes"]
 ----

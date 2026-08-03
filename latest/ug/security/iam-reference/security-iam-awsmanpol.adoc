@@ -111,7 +111,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == {aws} managed policy: AmazonEKSForFargateServiceRolePolicy
 :info_titleabbrev: AmazonEKSForFargateServiceRolePolicy
 
-You can't attach `AmazonEKSForFargateServiceRolePolicy` to your IAM entities. This policy is attached to a service-linked role that allows Amazon EKS to perform actions on your behalf. For more information, see `AWSServiceRoleforAmazonEKSForFargate`.
+You can't attach `AmazonEKSForFargateServiceRolePolicy` to your IAM entities. This policy is attached to a service-linked role that allows Amazon EKS to perform actions on your behalf. For more information, see `AWSServiceRoleForAmazonEKSForFargate`.
 
 This policy grants necessary permissions to Amazon EKS to run Fargate tasks. The policy is only used if you have Fargate nodes.
 
@@ -242,13 +242,13 @@ You can attach `AmazonEKSMCPReadOnlyAccess` to your IAM entities. This policy pr
 
 This policy includes the following permissions that allow principals to complete the following tasks:
 
-* *`eks`* &endash; Allows principals to describe and list EKS clusters, node groups, add-ons, access entries, insights, and access the Kubernetes API for read-only operations.
-* *`iam`* &endash; Allows principals to retrieve information about IAM roles, policies, and their attachments to understand the permissions associated with EKS resources.
-* *`ec2`* &endash; Allows principals to describe VPCs, subnets, and route tables to understand the network configuration of EKS clusters.
-* *`sts`* &endash; Allows principals to retrieve caller identity information for authentication and authorization purposes.
-* *`logs`* &endash; Allows principals to start queries and retrieve query results from CloudWatch Logs for troubleshooting and monitoring.
-* *`cloudwatch`* &endash; Allows principals to retrieve metric data for monitoring cluster and workload performance.
-* *`eks-mcp`* &endash; Allows principals to invoke MCP operations and call read-only tools within the Amazon EKS MCP Server.
+* *`eks`* – Allows principals to describe and list EKS clusters, node groups, add-ons, access entries, insights, and access the Kubernetes API for read-only operations.
+* *`iam`* – Allows principals to retrieve information about IAM roles, policies, and their attachments to understand the permissions associated with EKS resources.
+* *`ec2`* – Allows principals to describe VPCs, subnets, and route tables to understand the network configuration of EKS clusters.
+* *`sts`* – Allows principals to retrieve caller identity information for authentication and authorization purposes.
+* *`logs`* – Allows principals to start queries and retrieve query results from CloudWatch Logs for troubleshooting and monitoring.
+* *`cloudwatch`* – Allows principals to retrieve metric data for monitoring cluster and workload performance.
+* *`eks-mcp`* – Allows principals to invoke MCP operations and call read-only tools within the Amazon EKS MCP Server.
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSMCPReadOnlyAccess.html[AmazonEKSMCPReadOnlyAccess,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
@@ -256,7 +256,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == {aws} managed policy: AmazonEKSServicePolicy
 :info_titleabbrev: AmazonEKSServicePolicy
 
-You can attach `AmazonEKSServicePolicy` to your IAM entities. Clusters that were created before April 16, 2020, required you to create an IAM role and attach this policy to it. Clusters that were created on or after April 16, 2020, don't require you to create a role and don't require you to assign this policy. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, the <<service-linked-role-permissions-eks,AWSServiceRoleforAmazonEKS>> service-linked role is automatically created for you. The service-linked role has the <<security-iam-awsmanpol-amazoneksservicerolepolicy,managed policy: AmazonEKSServiceRolePolicy>> attached to it.
+You can attach `AmazonEKSServicePolicy` to your IAM entities. Clusters that were created before April 16, 2020, required you to create an IAM role and attach this policy to it. Clusters that were created on or after April 16, 2020, don't require you to create a role and don't require you to assign this policy. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, the <<service-linked-role-permissions-eks,AWSServiceRoleForAmazonEKS>> service-linked role is automatically created for you. The service-linked role has the <<security-iam-awsmanpol-amazoneksservicerolepolicy,managed policy: AmazonEKSServiceRolePolicy>> attached to it.
 
 This policy allows Amazon EKS to create and manage the necessary resources to operate Amazon EKS clusters. 
 
@@ -276,7 +276,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == {aws} managed policy: AmazonEKSServiceRolePolicy
 :info_titleabbrev: AmazonEKSServiceRolePolicy
 
-You can't attach `AmazonEKSServiceRolePolicy` to your IAM entities. This policy is attached to a service-linked role that allows Amazon EKS to perform actions on your behalf. For more information, see <<service-linked-role-permissions-eks>>. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, the <<service-linked-role-permissions-eks,AWSServiceRoleforAmazonEKS>> service-linked role is automatically created for you and this policy is attached to it.
+You can't attach `AmazonEKSServiceRolePolicy` to your IAM entities. This policy is attached to a service-linked role that allows Amazon EKS to perform actions on your behalf. For more information, see <<service-linked-role-permissions-eks>>. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, the <<service-linked-role-permissions-eks,AWSServiceRoleForAmazonEKS>> service-linked role is automatically created for you and this policy is attached to it.
 
 This policy allows the service-linked role to call {aws} services on your behalf. 
 
@@ -429,7 +429,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == {aws} managed policy: AmazonS3FilesCSIDriverPolicy
 :info_titleabbrev: AmazonS3FilesCSIDriverPolicy
 
-The `AmazonS3FilesCSIDriverPolicy` policy allows the Amazon EFS Container Storage Interface (CSI) to create and delete Amazon S3 Files access points on your behalf. It also grants the Amazon EFS CSI driver permissions to list your Amazon S3 Files access points and file systems.
+The `AmazonS3FilesCSIDriverPolicy` policy allows the Amazon S3 Files Container Storage Interface (CSI) to create and delete Amazon S3 Files access points on your behalf. It also grants the Amazon S3 Files CSI driver permissions to list your Amazon S3 Files access points and file systems.
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonS3FilesCSIDriverPolicy.html#AmazonS3FilesCSIDriverPolicy-json[AmazonS3FilesCSIDriverPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
@@ -453,7 +453,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == {aws} managed policy: AmazonEKSLocalOutpostServiceRolePolicy
 :info_titleabbrev: AmazonEKSLocalOutpostServiceRolePolicy
 
-You can't attach this policy to your IAM entities. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, Amazon EKS automatically creates the <<using-service-linked-roles-eks-outpost,AWSServiceRoleforAmazonEKSLocalOutpost>> service-linked role for you and attaches this policy to it. This policy allows the service-linked role to call {aws} services on your behalf for local clusters. 
+You can't attach this policy to your IAM entities. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, Amazon EKS automatically creates the <<using-service-linked-roles-eks-outpost,AWSServiceRoleForAmazonEKSLocalOutpost>> service-linked role for you and attaches this policy to it. This policy allows the service-linked role to call {aws} services on your behalf for local clusters. 
 
 The `AmazonEKSLocalOutpostServiceRolePolicy` includes the following permissions:
 
@@ -490,7 +490,7 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |June 26, 2026
 
 |Updated permissions to <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>.
-|Added `elasticloadbalancing:SetRulePriorities`, `ec2:DescribeIpamPools` permissions in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to set priorities of the specified listiner rules for ALB and describe ipam pools respectively
+|Added `elasticloadbalancing:SetRulePriorities`, `ec2:DescribeIpamPools` permissions in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to set priorities of the specified listener rules for ALB and describe IPAM pools, respectively.
 |June 15, 2026
 
 |Added permissions to <<security-iam-awsmanpol-amazonebscsidrivereksclusterscopedpolicy,AmazonEBSCSIDriverEKSClusterScopedPolicy>>.
@@ -510,7 +510,7 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |May 12, 2026
 
 |Added permission to  <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>
-|Added `elasticloadbalancing:DescribeLoadBalancers` permission in `AmazonEKSLoadBalancingPolicy` to allow Amazon EKS Auto Mode Controller to describe LoadBalancer 
+|Added `elasticloadbalancing:DescribeLoadBalancers` permission in `AmazonEKSLoadBalancingPolicy` to allow Amazon EKS Auto Mode Controller to describe load balancers.
 |April 27, 2026
 
 |Added permission to  <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>

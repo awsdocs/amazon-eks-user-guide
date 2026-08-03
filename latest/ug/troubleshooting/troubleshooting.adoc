@@ -363,7 +363,7 @@ The diagnostic information is collected and stored at:
 /var/log/eks_i-EXAMPLE_2025-03-25_0000-UTC_0.7.8.tar.gz
 ----
 
-To retrieve log bundle for Bottlerocket nodes, please refer to https://github.com/bottlerocket-os/bottlerocket?tab=readme-ov-file#logs[Bottlerocket Log] for more details.
+To retrieve the log bundle for Bottlerocket nodes, please refer to https://github.com/bottlerocket-os/bottlerocket?tab=readme-ov-file#logs[Bottlerocket Logs] for more details.
 
 
 [#troubleshoot-container-runtime-network]
@@ -445,7 +445,7 @@ spec:
 ----
 
 
-[#troubleshoot-node-grups-must-match-kubernetes-version]
+[#troubleshoot-node-groups-must-match-kubernetes-version]
 == Node groups must match Kubernetes version before upgrading control plane
 
 Before you upgrade a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as your control plane's current version. The Amazon EKS `update-cluster-version` API rejects requests until you upgrade all Amazon EKS managed nodes to the current cluster version. Amazon EKS provides APIs to upgrade managed nodes. For information on upgrading a managed node group's Kubernetes version, see <<update-managed-node-group>>. To upgrade the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you upgrade your control plane. For more information, see <<update-cluster>>.
@@ -599,7 +599,7 @@ To access the health of your cluster in the Amazon EKS console, look for a table
 
 
 *Why should I use this feature?*::
-You will get increased visibility into the health of your Amazon EKS cluster, quickly diagnose and fix any issues, without needing to spend time debugging or opening {aws} support cases. For example: you accidentally deleted a subnet for the Amazon EKS cluster, Amazon EKS won't be able to create cross account network interfaces and Kubernetes {aws} CLI commands such as `kubectl` exec or `kubectl` logs. These will fail with the error: `Error from server: error dialing backend: remote error: tls: internal error.` Now you will see an Amazon EKS health issue that says: `subnet-da60e280 was deleted: could not create network interface`.
+You will get increased visibility into the health of your Amazon EKS cluster, quickly diagnose and fix any issues, without needing to spend time debugging or opening {aws} support cases. For example: you accidentally deleted a subnet for the Amazon EKS cluster, Amazon EKS won't be able to create cross-account network interfaces and Kubernetes {aws} CLI commands such as `kubectl` exec or `kubectl` logs. These will fail with the error: `Error from server: error dialing backend: remote error: tls: internal error.` Now you will see an Amazon EKS health issue that says: `subnet-da60e280 was deleted: could not create network interface`.
 
 
 *How does this feature relate or work with other {aws} services?*::
@@ -634,22 +634,22 @@ The first two columns are what are needed for API response values. The third fie
 
 |SUBNET_NOT_FOUND
 |We couldn't find one or more subnets currently associated with your cluster. Call Amazon EKS update-cluster-config API to update subnets.
-|Subnet Ids
+|Subnet IDs
 |Yes
 
 |SECURITY_GROUP_NOT_FOUND
-|We couldn't find one or more security groups currently associated with your cluster. Call Amazon EKS update-cluster-config API to update security groups
-|Security group Ids
+|We couldn't find one or more security groups currently associated with your cluster. Call Amazon EKS update-cluster-config API to update security groups.
+|Security group IDs
 |Yes
 
 |IP_NOT_AVAILABLE
 |One or more of the subnets associated with your cluster does not have enough available IP addresses for Amazon EKS to perform cluster management operations. Free up addresses in the subnet(s), or associate different subnets to your cluster using the Amazon EKS update-cluster-config API.
-|Subnet Ids
+|Subnet IDs
 |Yes
 
 |VPC_NOT_FOUND
 |We couldn't find the VPC associated with your cluster. You must delete and recreate your cluster.
-|VPC id
+|VPC ID
 |No
 
 |ASSUME_ROLE_ACCESS_DENIED
@@ -684,7 +684,7 @@ The first two columns are what are needed for API response values. The third fie
 
 |KMS_KEY_DISABLED
 |The {aws} KMS Key associated with your cluster is disabled. Re-enable the key to recover your cluster.
-|The KMS Key Arn
+|The KMS Key ARN
 |Yes
 
 |KMS_KEY_NOT_FOUND
@@ -694,7 +694,7 @@ The first two columns are what are needed for API response values. The third fie
 
 |KMS_GRANT_REVOKED
 |Grants for the {aws} KMS Key associated with your cluster are revoked. You must delete and recreate the cluster.
-|The KMS Key Arn
+|The KMS Key ARN
 |No
 
 |ETCD_DB_SIZE_EXCEEDED

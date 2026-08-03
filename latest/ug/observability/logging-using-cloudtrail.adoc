@@ -19,7 +19,6 @@ To learn more about CloudTrail, see the link:awscloudtrail/latest/userguide/[{aw
 [.topiclist]
 [[Topic List]]
 
-[.topic]
 include::service-name-info-in-cloudtrail.adoc[leveloffset=+1]
 
 include::understanding-service-name-entries.adoc[leveloffset=+1]

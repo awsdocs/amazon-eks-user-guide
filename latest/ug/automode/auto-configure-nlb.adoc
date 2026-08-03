@@ -165,4 +165,4 @@ This consolidated format provides a more consistent and flexible way to configur
 | `spec.networking.ingress.from` | Not supported | No longer supports NLB without security groups
 |===
 
-Note: To use the custom TargetGroupBinding feature, you must tag the target group with the `eks:eks-cluster-name` tag with cluster name to grant the controller the necessary IAM permissions. Be aware that the controller will delete the target group when the TargetGroupBinding resource or the cluster is deleted. 
+Note: To use the custom TargetGroupBinding feature, you must tag the target group with the `eks:eks-cluster-name` tag with cluster name to grant the controller the necessary IAM permissions. Be aware that the controller will delete the target group when the TargetGroupBinding resource or the cluster is deleted.

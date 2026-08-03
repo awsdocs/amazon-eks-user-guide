@@ -137,7 +137,7 @@ status:
     status: "True"
     lastTransitionTime: "2024-01-15T10:30:00Z"
   - type: ACK.Terminal
-    status: "True"
+    status: "False"
   ackResourceMetadata:
     arn: arn:aws:s3:::my-unique-bucket-name
     ownerAccountID: "111122223333"

@@ -15,7 +15,7 @@ Amazon EKS doesn't automatically update an add-on when new versions are released
 [#updating-an-add-on-prereq]
 == Prerequisites
 
-Complete the following before you create an add-on:
+Complete the following before you update an add-on:
 
 
 

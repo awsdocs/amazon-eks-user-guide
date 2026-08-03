@@ -12,7 +12,7 @@ Discover compliance resources to help secure your {aws} workloads, meet regulato
 
 // Entire topic last refreshed to match the ComplianceResources shared entity on 2025-04-15.
 
-To learn whether an {aws} service is within the scope of specific compliance programs, see link:compliance/services-in-scope/[{aws} services in Scope by Compliance Program,type="marketing"] and choose the compliance program that you are interested in. For general information, see link:compliance/programs/[{aws} Compliance Programs,type="marketing"].
+To learn whether an {aws} service is within the scope of specific compliance programs, see link:compliance/services-in-scope/[{aws} Services in Scope by Compliance Program,type="marketing"] and choose the compliance program that you are interested in. For general information, see link:compliance/programs/[{aws} Compliance Programs,type="marketing"].
 
 You can download third-party audit reports using {aws} Artifact. For more information, see link:artifact/latest/ug/downloading-documents.html[Downloading Reports in {aws} Artifact,type="documentation"].
 

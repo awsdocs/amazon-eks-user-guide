@@ -1,3 +1,5 @@
+include::../attributes.txt[]
+
 [.topic]
 [#zone-shift-enable]
 = Enable EKS zonal shift to avoid impaired Availability Zones

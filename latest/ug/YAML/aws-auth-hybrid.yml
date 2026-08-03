@@ -1,12 +1,12 @@
-apiVersion: v1 
-kind: ConfigMap 
+apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: aws-auth 
-  namespace:  kube-system 
+  name: aws-auth
+  namespace: kube-system
 data:
   mapRoles: |
     - groups:
-    - system:bootstrappers
-    - system:nodes 
-    rolearn: <ARN of the Hybrid Nodes IAM Role> 
-    username: system:node:{{SessionName}}
+      - system:bootstrappers
+      - system:nodes
+      rolearn: <ARN of the Hybrid Nodes IAM Role>
+      username: system:node:{{SessionName}}

@@ -109,7 +109,7 @@ spec:
     operator: Exists
 ----
 
-Note the `eks.amazonaws.com/compute-type: auto` selector requires the workload be deployed on an Amazon EKS Auto Mode node. The NodePool also sets a taint that only allows pods with tolerations for Nvidia GPUs to be scheduled.
+Note the `eks.amazonaws.com/compute-type: auto` selector requires the workload be deployed on an Amazon EKS Auto Mode node. The NodePool also sets a taint that only allows pods with tolerations for NVIDIA GPUs to be scheduled.
 
 Apply the NodePool and workload to your cluster.
 
@@ -123,7 +123,7 @@ You should see the following output:
 
 [source,bash]
 ----
-nodepool.karpenter.sh/gpu configured created
+nodepool.karpenter.sh/gpu created
 pod/nvidia-smi created
 ----
 
@@ -139,7 +139,7 @@ gpu-dnknr   g6e.2xlarge   on-demand   us-west-2b   i-02315c7d7643cdee6   True   
 
 == Step 2: Validate
 
-You can see Amazon EKS Auto Mode launched a `g6e.2xlarge` rather than a `g6.2xlarge` as the workload required an instance with l40s `GPU`, according to the following Kubernetes scheduling constraints:
+You can see Amazon EKS Auto Mode launched a `g6e.2xlarge` rather than a `g6.2xlarge` as the workload required an instance with an L40S `GPU`, according to the following Kubernetes scheduling constraints:
 
 [source,yaml]
 ----

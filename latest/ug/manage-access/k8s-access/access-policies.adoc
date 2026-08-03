@@ -115,7 +115,7 @@ An example output is as follows.
 ----
 {
     "clusterName": "my-cluster",
-    "principalArn": "{arn-aws}iam::111122223333",
+    "principalArn": "{arn-aws}iam::111122223333:role/my-role",
     "associatedAccessPolicies": [
         {
             "policyArn": "{arn-aws}eks::aws:cluster-access-policy/AmazonEKSViewPolicy",

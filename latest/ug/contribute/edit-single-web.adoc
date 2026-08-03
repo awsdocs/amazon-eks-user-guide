@@ -26,7 +26,7 @@ If you want to edit multiple pages from your web browser, see <<edit-web>>.
 . Once on GitHub, open the editor by either:
 ** Pressing the `e` key on your keyboard.
 ** Clicking the pencil icon and selecting *Edit in Place* from the dropdown menu.
-** If you don't have the option to edit, you need to login to GitHub. Your GitHub account does not need any special permissions to suggest changes. However, internal Amazon contributors should link their GitHub profile.
+** If you don't have the option to edit, you need to log in to GitHub. Your GitHub account does not need any special permissions to suggest changes. However, internal Amazon contributors should link their GitHub profile.
 
 . Make your required changes to the content in the GitHub editor.
 ** The editor provides syntax highlighting and preview capabilities.

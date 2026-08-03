@@ -35,5 +35,5 @@ kubectl edit daemonset -n kube-system aws-node
 [source,yaml,subs="verbatim,attributes"]
 ----
      - args:
-        - --enable-network-policy=true
+        - --enable-network-policy=false
 ----

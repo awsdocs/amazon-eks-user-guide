@@ -188,7 +188,7 @@ kubectl exec "$(kubectl get pods -l app=inflate-stateful \
   cat /data/out.txt
 ----
 
-== Step 6: Cleanup 
+== Step 6: Cleanup
 
 Run the following command to remove all resources created in this tutorial:
 

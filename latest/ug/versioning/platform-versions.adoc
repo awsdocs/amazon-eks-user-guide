@@ -1104,18 +1104,24 @@ The following admission controllers are enabled for all `1.30` platform versions
 
 | `1.30.0`
 | `eks.2`
-| Initial release of Kubernetes version `1.30` for EKS. For more information, see <<kubernetes-1-30>>.
+| Initial release of Kubernetes version `1.30` for EKS.
 | May 23, 2024
 |===
 
 [#get-platform-version]
 == Get current platform version
+
+[#get-platform-version-console]
+=== Get current platform version ({aws} Console)
 . Open the Amazon EKS console.
 . In the navigation pane, choose *Clusters*.  
 . In the list of clusters, choose the *Cluster Name* to check the platform version of.
 . Choose the *Overview* tab.  
 . The *Platform Version* is available in the *Details* section.
-. Determine the *Name* of the cluster you want to check the platform version of.  
+
+[#get-platform-version-cli]
+=== Get current platform version ({aws} CLI)
+. Determine the name of the cluster you want to check the platform version of.  
 . Run the following command:
 +
 [source,bash,subs="verbatim,attributes"]

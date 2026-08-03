@@ -44,4 +44,4 @@ For more information about using Security Lake with Amazon EKS and setting up da
 
 Security Lake normalizes EKS log events to the OCSF format, making it easier to analyze and correlate the data with other security events. You can use various tools and services, such as Amazon Athena, Amazon QuickSight, or third-party security analytics tools, to query and visualize the normalized data.
 
-For more information about the OCSF mapping for EKS log events, refer to the https://github.com/ocsf/examples/tree/main/mappings/markdown/{aws}/v1.1.0/EKS Audit Logs[mapping reference] in the OCSF GitHub repository.
+For more information about the OCSF mapping for EKS log events, refer to the https://github.com/ocsf/examples/tree/main/mappings/markdown/AWS/v1.1.0/EKS%20Audit%20Logs[mapping reference^] in the OCSF GitHub repository.

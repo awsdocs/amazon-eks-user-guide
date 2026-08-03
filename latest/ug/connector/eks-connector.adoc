@@ -9,7 +9,7 @@ include::../attributes.txt[]
 Discover how to connect conformant Kubernetes clusters to {aws} and visualize them in the Amazon EKS console using the Amazon EKS Connector agent and required IAM roles.
 --
 
-You can use Amazon EKS Connector to register and connect any conformant Kubernetes cluster to {aws} and visualize it in the Amazon EKS console. After a cluster is connected, you can see the status, configuration, and workloads for that cluster in the Amazon EKS console. You can use this feature to view connected clusters in Amazon EKS console, but you can't manage them. The Amazon EKS Connector requires an agent that is an https://github.com/aws/amazon-eks-connector[open source project on Github]. For additional technical content, including frequently asked questions and troubleshooting, see <<troubleshooting-connector>>.
+You can use Amazon EKS Connector to register and connect any conformant Kubernetes cluster to {aws} and visualize it in the Amazon EKS console. After a cluster is connected, you can see the status, configuration, and workloads for that cluster in the Amazon EKS console. You can use this feature to view connected clusters in Amazon EKS console, but you can't manage them. The Amazon EKS Connector requires an agent that is an https://github.com/aws/amazon-eks-connector[open source project on GitHub]. For additional technical content, including frequently asked questions and troubleshooting, see <<troubleshooting-connector>>.
 
 
 The Amazon EKS Connector can connect the following types of Kubernetes clusters to Amazon EKS.

@@ -68,11 +68,11 @@ You can use any of the following Amazon EKS add-ons.
 
 |SageMaker HyperPod task governance optimizes compute resource allocation and usage across teams in Amazon EKS clusters, addressing inefficiencies in task prioritization and resource sharing.
 |<<addons-hyperpod>>
-|EC2, EKS Auto Mode, 
+|EC2, EKS Auto Mode
 
 |The Amazon SageMaker HyperPod Observability AddOn provides comprehensive monitoring and observability capabilities for HyperPod clusters.
 |<<addons-hyperpod-observability>>
-|EC2, EKS Auto Mode, 
+|EC2, EKS Auto Mode
 
 |Amazon SageMaker HyperPod training operator enables efficient distributed training on Amazon EKS clusters with advanced scheduling and resource management capabilities.
 |<<addons-hyperpod-training-operator>>
@@ -790,7 +790,7 @@ NOTE: This add-on requires nodes with SR-IOV-capable network interfaces.
 |===
 
 [#add-ons-aws-secrets-store-csi-driver-provider]
-=== {aws} Secrets Store CSI Driver provider
+== {aws} Secrets Store CSI Driver provider
 
 The {aws} provider for the Secrets Store CSI Driver is an add-on that enables retrieving secrets from {aws} Secrets Manager and parameters from {aws} Systems Manager Parameter Store and mounting them as files in Kubernetes pods.
 

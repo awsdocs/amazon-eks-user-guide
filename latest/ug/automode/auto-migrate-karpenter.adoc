@@ -20,7 +20,7 @@ This topic assumes you are familiar with Karpenter and NodePools. For more infor
 
 [NOTE]
 ====
-Some CRDs (e.g. `nodepools.karpenter.sh` and `nodeclaims.karpenter.sh`) are shared between EKS Auto Mode and Karpenter. Don't update or modify these CRDs during the migration.
+Some CRDs (e.g., `nodepools.karpenter.sh` and `nodeclaims.karpenter.sh`) are shared between EKS Auto Mode and Karpenter. Don't update or modify these CRDs during the migration.
 ====
 
 == Step 1: Enable EKS Auto Mode on the cluster
@@ -29,7 +29,7 @@ Enable EKS Auto Mode on your existing cluster using the {aws} CLI or Management 
 
 [NOTE]
 ====
-While enabling EKS Auto Mode, don't enable the `general purpose` nodepool at this stage during transition. This node pool is not selective. 
+While enabling EKS Auto Mode, don't enable the `general purpose` nodepool at this stage during transition. This node pool is not selective.
 
 For more information, see <<set-builtin-node-pools>>. 
 ====

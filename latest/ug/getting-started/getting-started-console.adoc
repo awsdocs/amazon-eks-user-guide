@@ -15,7 +15,7 @@ Learn how to create your first Amazon EKS cluster with nodes using the {aws-mana
 ====
 This topic covers getting started *without* EKS Auto Mode. It uses Managed Node Groups to deploy nodes.
 
-EKS Auto Mode automates routine tasks for cluster compute, storage, and networking. <<getting-started-automode,Learn how to get started with Amazon EKS Auto Mode. >> EKS Auto Mode is the preferred method of deploying nodes.
+EKS Auto Mode automates routine tasks for cluster compute, storage, and networking. <<getting-started-automode,Learn how to get started with Amazon EKS Auto Mode.>> EKS Auto Mode is the preferred method of deploying nodes.
 ====
 
 This guide helps you to create all of the required resources to get started with Amazon Elastic Kubernetes Service (Amazon EKS) using the {aws-management-console} and the {aws} CLI. In this guide, you manually create each resource. At the end of this tutorial, you will have a running Amazon EKS cluster that you can deploy applications to.  
@@ -33,7 +33,7 @@ Before starting this tutorial, you must install and configure the following tool
 * *`kubectl`*
  – A command line tool for working with Kubernetes clusters. For more information, see <<install-kubectl>>.
 * *Required IAM permissions*
- – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, {aws} CloudFormation, a VPC, and related resources. For more information, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] and link:IAM/latest/UserGuide/using-service-linked-roles.html[Using service-linked roles,type="documentation"] in the IAM User Guide. You must complete all steps in this guide as the same user. To check the current user, run the following command:
+ – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service-linked roles, {aws} CloudFormation, a VPC, and related resources. For more information, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html[Actions, resources, and condition keys for Amazon Elastic Kubernetes Service,type="documentation"] and link:IAM/latest/UserGuide/using-service-linked-roles.html[Using service-linked roles,type="documentation"] in the IAM User Guide. You must complete all steps in this guide as the same user. To check the current user, run the following command:
 +
 [source,bash,subs="verbatim,attributes"]
 ----

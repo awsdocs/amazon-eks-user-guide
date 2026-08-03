@@ -1,3 +1,5 @@
+include::../attributes.txt[]
+
 [.topic]
 [#zone-shift]
 = Learn about Amazon Application Recovery Controller (ARC) zonal shift in Amazon EKS
@@ -200,7 +202,8 @@ metadata:
   namespace: ecommerce
   labels:
     app.kubernetes.io/version: "0.1.6"
-    
+spec:
+  template:
     spec:
       serviceAccountName: graphql-service-account
       affinity:

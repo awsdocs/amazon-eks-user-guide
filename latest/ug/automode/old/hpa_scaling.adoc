@@ -6,7 +6,7 @@ include::../../attributes.txt[]
 
 This guide shows you how Karpenter autoscales nodes in conjunction with HPA scaling your applications.
 
-== What we'll do?
+== What you will do
 
 * Install the Metrics Server
 * Deploy an application with 1 replica to start with
@@ -234,5 +234,5 @@ kubectl delete deployment retail-store-sample-ui
 kubectl delete service retail-store-sample-ui
 helm uninstall metrics-server -n kube-system
 kubectl delete hpa retail-store-sample-ui-hpa
-kubectl delete load-generator
+kubectl delete pod load-generator
 ----

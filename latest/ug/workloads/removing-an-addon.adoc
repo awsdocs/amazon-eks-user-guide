@@ -28,7 +28,7 @@ When you remove an Amazon EKS add-on from a cluster:
 [#removing-an-add-on-prereq]
 == Prerequisites
 
-Complete the following before you create an add-on:
+Complete the following before you remove an add-on:
 
 
 

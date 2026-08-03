@@ -7,7 +7,7 @@ include::../attributes.txt[]
 [#kubecost-prereqs-dashboard]
 == Prerequisites
 
-. Make sure the kubecost related Pods' states are "Running".
+. Make sure the Kubecost-related Pods' states are "Running".
 
 [source,bash,subs="verbatim,attributes"]
 ----
@@ -19,21 +19,21 @@ kubectl get pods --namespace kubecost
 
 . On your device, enable port-forwarding to expose the Kubecost dashboard.
 +
-* If kubecost v3 is installed using helm:
+* If Kubecost v3 is installed using Helm:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl port-forward deployment/kubecost-frontend 9090 --namespace kubecost
 ----
 
-* If kubecost v1 or v2 is installed using helm:
+* If Kubecost v1 or v2 is installed using Helm:
 +
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl port-forward deployment/kubecost-cost-analyzer 9090 --namespace kubecost
 ----
 
-* If kubecost is installed using Amazon EKS add-on:
+* If Kubecost is installed using Amazon EKS add-on:
 +
 [source,bash,subs="verbatim,attributes"]
 ----

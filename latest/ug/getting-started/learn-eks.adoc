@@ -22,7 +22,7 @@ This Amazon EKS User Guide contains general-purpose procedures to create your fi
 * *Automate updates*. Using features like GitOps, you can set up to provision cluster infrastructure and workloads automatically, based on changes that occur to those components in your Git repositories.
 * *Use advanced cluster setup tools*. While `eksctl` provides a quick way to create a cluster, there are other tools that can make it easier to configure and upgrade more complex clusters. These include tools like https://www.terraform.io/[Terraform] and link:cloudformation/[CloudFormation,type="marketing"].
 
-To start out on your Amazon EKS learning path, I recommend that you visit some of the sites described on this page. If you run into problems along the way, there are also resources to help you get through them. For example, the https://repost.aws/search/content?globalSearch=EKS[Re:post Knowledge Center] lets you search the support database for Amazon EKS-related support issues. Also the https://aws.github.io/aws-eks-best-practices/[Amazon EKS Best Practices Guide] offers tips on the best ways to set up your production-grade clusters.
+To start out on your Amazon EKS learning path, we recommend that you visit some of the sites described on this page. If you run into problems along the way, there are also resources to help you get through them. For example, the https://repost.aws/search/content?globalSearch=EKS[Re:post Knowledge Center] lets you search the support database for Amazon EKS-related support issues. Also the https://aws.github.io/aws-eks-best-practices/[Amazon EKS Best Practices Guide] offers tips on the best ways to set up your production-grade clusters.
 
 [#eks-workshop]
 == Amazon EKS Workshop

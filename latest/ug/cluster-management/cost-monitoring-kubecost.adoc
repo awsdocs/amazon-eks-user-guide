@@ -12,9 +12,9 @@ Amazon EKS provides an {aws} optimized bundle of Kubecost for cluster cost visib
 [NOTE]
 ====
 
-Kubecost v3 introduces major architectural improvements including dramatically faster performance and enhanced automation capabilities. <<kubecost-v3,Learn more about Kubecost v3. >>
+Kubecost v3 introduces major architectural improvements including dramatically faster performance and enhanced automation capabilities. <<kubecost-v3,Learn more about Kubecost v3.>>
 
-Kubecost v2 introduces several major new features. <<kubecost-v2,Learn more about Kubecost v2. >>
+Kubecost v2 introduces several major new features. <<kubecost-v2,Learn more about Kubecost v2.>>
 
 ====
 
@@ -46,4 +46,4 @@ For multi-cluster deployments with Kubecost v3, you need S3-compatible object st
 [#kubecost-access-dashboard]
 == Access Kubecost dashboard
 
-Once the _Amazon EKS optimized Kubecost bundle_ setup is done, you should have access to Kubecost dashboard. For more information, see <<cost-monitoring-kubecost-dashboard>>.
+After the _Amazon EKS optimized Kubecost bundle_ setup is complete, you can access the Kubecost dashboard. For more information, see <<cost-monitoring-kubecost-dashboard>>.

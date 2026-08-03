@@ -171,7 +171,7 @@ Events:            <none>
 ----
 +
 In the previous output, the value for `IP:` is a unique IP address that can be reached from any node or Pod within the cluster, but it can't be reached from outside of the cluster. The values for `Endpoints` are IP addresses assigned from within your VPC to the Pods that are part of the service.
-. View the details of one of the Pods listed in the output when you <<sample-app-view-namespace,viewed the namespace>> in a previous step. Replace [.replaceable]`776d8f8fd8-78w66` with the value returned for one of your Pods.
+. View the details of one of the Pods listed in the output when you <<sample-app-view-namespace,viewed the namespace>> in a previous step. Replace [.replaceable]`65b7669776-m6qxz` with the value returned for one of your Pods.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
