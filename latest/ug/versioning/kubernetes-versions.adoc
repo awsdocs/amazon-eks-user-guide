@@ -37,8 +37,6 @@ The following Kubernetes versions are currently available in Amazon EKS standard
 * `1.36`
 * `1.35`
 * `1.34`
-* `1.33`
-
 
 For important changes to be aware of for each version in standard support, see link:eks/latest/userguide/kubernetes-versions-standard.html[Kubernetes versions standard support,type="documentation"].
 
@@ -47,9 +45,9 @@ For important changes to be aware of for each version in standard support, see l
 
 The following Kubernetes versions are currently available in Amazon EKS extended support:
 
+* `1.33`
 * `1.32`
 * `1.31`
-* `1.30`
 
 For important changes to be aware of for each version in extended support, see link:eks/latest/userguide/kubernetes-versions-extended.html[Kubernetes versions extended support,type="documentation"].
 

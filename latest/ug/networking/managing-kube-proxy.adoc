@@ -41,14 +41,11 @@ The following table lists the latest version of the Amazon EKS add-on type for e
 | 1.33 | v1.33.10-eksbuild.13
 | 1.32 | v1.32.13-eksbuild.16
 | 1.31 | v1.31.14-eksbuild.20
-| 1.30 | v1.30.14-eksbuild.38
 
 |===
 
 [NOTE]
 ====
-
-An earlier version of the documentation was incorrect. `kube-proxy` versions `v1.28.5`, `v1.27.9`, and `v1.26.12` aren't available.
 
 If you're self-managing this add-on, the versions in the table might not be the same as the available self-managed versions.
 
@@ -71,7 +68,6 @@ The following table lists the latest available self-managed `kube-proxy` contain
 | 1.33 | v1.33.10-minimal-eksbuild.13
 | 1.32 | v1.32.13-minimal-eksbuild.16
 | 1.31 | v1.31.14-minimal-eksbuild.20
-| 1.30 | v1.30.14-minimal-eksbuild.38
 
 |===
 

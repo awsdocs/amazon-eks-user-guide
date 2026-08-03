@@ -41,7 +41,6 @@ The following table lists the latest available version of the Amazon EKS add-on 
 | 1.33 | v1.22.3-eksbuild.1
 | 1.32 | v1.22.3-eksbuild.1
 | 1.31 | v1.22.3-eksbuild.1
-| 1.30 | v1.22.3-eksbuild.1
 |===
 
 [IMPORTANT]
