@@ -117,12 +117,6 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/vers
 |November 26, 2025
 |November 26, 2026
 
-|`1.30`
-|April 17, 2024
-|May 23, 2024
-|July 23, 2025
-|July 23, 2026
-
 |===
 
 [#version-cli]
