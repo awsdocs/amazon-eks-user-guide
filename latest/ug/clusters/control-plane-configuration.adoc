@@ -1,0 +1,260 @@
+include::../attributes.txt[]
+
+[.topic]
+[#control-plane-configuration]
+= Advanced Kubernetes control plane configuration
+:info_titleabbrev: Advanced control plane configuration
+
+[abstract]
+--
+Learn how to configure advanced Kubernetes control plane parameters for the API server, scheduler, and controller manager on your Amazon EKS cluster.
+--
+
+== Overview
+
+Amazon EKS manages the Kubernetes control plane for your cluster, including the API server, scheduler, and controller manager. EKS runs these components with default upstream Kubernetes settings that work well for the majority of workloads, and you don't need to change them for most clusters. But some workloads benefit from different control plane settings. You might want the scheduler to pack pods onto fewer nodes to reduce compute costs, retain Kubernetes events for a shorter period to limit cluster database (etcd) growth, or evaluate autoscaling decisions more frequently.
+
+With advanced Kubernetes control plane configuration, you set these parameters directly on your cluster. EKS applies them to the control plane, and your cluster continues to operate with the same availability and performance characteristics.
+
+These are advanced configurations. Each configuration parameter changes how a core Kubernetes control plane component behaves for workloads running on the cluster, and the right value depends on your workload. Before you change a parameter, read the considerations for it in the following sections and test the change in a non-production cluster.
+
+You can set advanced control plane configuration parameters when you create a cluster, or update them on an existing cluster at any time. This capability uses the existing `CreateCluster` and `UpdateClusterConfig` operations with new parameters, so you can set it through the {aws-management-console}, {aws} CLI, {aws} SDKs, or {aws} CloudFormation. EKS validates each configuration before applying it, and records changes in {aws} CloudTrail.
+
+Advanced control plane parameters apply to the entire cluster and to all workloads running on it. You can't scope them to individual namespaces or workloads. EKS constrains each parameter to a validated range. The supported values for each parameter are listed with that parameter in the following section.
+
+== Kubernetes control plane parameters supported
+
+Amazon EKS supports the following parameters. Each parameter belongs to a control plane component and is set through the configuration field for that component: `kubeSchedulerConfig`, `kubeControllerManagerConfig`, or `kubeApiServerConfig`.
+
+[cols="1,2,1,1,1",options="header"]
+|===
+| Component | Parameter | Supported values | Default | Requires Provisioned Control Plane
+
+| kube-scheduler
+| `nodeResourcesFit.scoringStrategy`
+| `LeastAllocated`, `MostAllocated`
+| `LeastAllocated`, with `cpu: 1` and `memory: 1`
+| No
+
+| kube-controller-manager
+| `horizontalPodAutoscalerControllerConfig.horizontalPodAutoscalerSyncPeriod`
+| `10s` to `15s`
+| `15s` (seconds)
+| Yes
+
+| kube-apiserver
+| `eventTtl`
+| `10m` to `60m`
+| `60m` (minutes)
+| No
+
+| kube-apiserver
+| `serviceNodePortRange`
+| `minPort` and `maxPort` between `10260` and `32767`
+| `minPort: 30000`, `maxPort: 32767`
+| No
+|===
+
+The defaults and supported values in this topic apply to the Kubernetes version (EKS v1.31 and above) available at publication, and might change in later versions. The `DescribeClusterVersions` operation reports the current default and supported values for each parameter and Kubernetes version, so use it as the source of truth if you manage clusters across several versions or automate cluster configuration. For more information, see <<control-plane-configuration-getting-started>>.
+
+The following sections describe each parameter, when to change it, and what to consider before you do.
+
+=== Scheduler: node resources fit
+
+The scheduler assigns pods to nodes in two phases. It first filters the nodes that can run a pod, then scores the remaining candidates and places the pod on the highest scoring node. The `nodeResourcesFit` plugin checks whether a node has the resources a pod requests, and scores nodes according to a scoring strategy.
+
+[cols="1,2,1,1",options="header"]
+|===
+| Field | Description | Supported values | Default
+
+| `nodeResourcesFit.scoringStrategy.type`
+| The strategy used to score nodes by resource allocation.
+| `LeastAllocated`, `MostAllocated`
+| `LeastAllocated`
+
+| `nodeResourcesFit.scoringStrategy.resources`
+| The resources considered when scoring, each with a relative weight.
+| `cpu`, `memory`, `nvidia.com/gpu`, `aws.amazon.com/neuron`, `aws.amazon.com/neuroncore`. Weights from `1` to `100`.
+| `cpu: 1`, `memory: 1`
+|===
+
+`LeastAllocated` favors nodes with lower resource allocation, which spreads pods across the nodes in your cluster and leaves headroom on each node. This is the default Kubernetes behavior and is a good choice when you want capacity available on every node to absorb growth in existing pods.
+
+`MostAllocated` favors nodes that already have higher resource allocation, which packs pods onto fewer nodes. Because your workloads occupy less total capacity, you can run them on a fewer number of nodes and reduce compute spend. Over time, this packing behavior keeps lightly used nodes free of new workloads, so node pools that support consolidation can remove them.
+
+EKS supports the `LeastAllocated` and `MostAllocated` strategies. The upstream Kubernetes `RequestedToCapacityRatio` strategy isn't supported.
+
+==== Resource weights
+
+You can optionally specify a `resources` array with custom weights to influence which resources matter most in scoring decisions. This is useful when a specific resource is the constraint in your cluster. For example, on clusters where accelerators (GPU) are the scarce resource, weighting `nvidia.com/gpu` above CPU and memory concentrates accelerator-requesting pods onto nodes that are already partly occupied.
+
+Weights are relative, not absolute. Setting `cpu: 100` and `memory: 1` doesn't cause the scheduler to ignore memory. It weighs CPU 100 times more heavily than memory in the scoring formula. If every candidate node has identical CPU availability, CPU no longer distinguishes them and scoring effectively falls through to memory.
+
+Omitting a resource is different from giving it a low weight. When you specify a `resources` array, only the resources you list are scored. A resource you leave out is excluded from the calculation entirely. For example, `cpu: 100` with no `memory` entry scores nodes on CPU alone, and memory availability has no influence on the result. To keep a resource in the calculation while reducing its influence, list it with a low weight rather than omitting it.
+
+Weighting an accelerator resource such as `nvidia.com/gpu` only affects scoring for pods that actually declare `resources.requests` for that resource. Pods that don't request accelerators aren't influenced by the accelerator weight.
+
+The three accelerator resources are Kubernetes extended resources, meaning node-level resources advertised to Kubernetes by a plugin rather than built in. They're scored only when a device plugin advertises them to the kubelet through the device plugin API. Resources made available on a node by a device driver alone aren't visible to the `nodeResourcesFit` plugin and aren't scored. Resources managed through Dynamic Resource Allocation (DRA) are scheduled by a separate plugin and aren't part of `nodeResourcesFit` scoring, so enabling DRA doesn't change how this parameter behaves.
+
+The scoring strategy is one input to the score the scheduler calculates for each node. For more information about how the scheduler filters and scores nodes, see https://kubernetes.io/docs/concepts/scheduling-eviction/scheduling-framework/[Scheduling Framework] in the Kubernetes documentation.
+
+==== Considerations for the scoring strategy
+
+* *Running pods aren't moved.* The Kubernetes scheduler never relocates a pod that is already running. Changing the scoring strategy affects future scheduling decisions only, and existing pod placement is permanent. To rebalance pods that are already running, evict or restart them.
+
+* *Filtering behavior doesn't change.* The scoring strategy affects only the scoring phase, in which the scheduler ranks nodes by preference. The filtering phase, which determines whether a pod can run on a node at all, is unchanged. A pod that doesn't fit on a node still isn't scheduled there under either strategy.
+
+* *`MostAllocated` concentrates blast radius.* Packing workloads onto fewer nodes means more pods are affected at once if a node becomes unhealthy, an instance is retired, or an Availability Zone is disrupted. Under high pod churn, densely packed nodes also fill up faster, which can leave pods in `Pending` state while new capacity is provisioned.
+
+* *The scheduler and node management operate at different layers.* The scoring strategy influences where pods are placed among nodes that can already run them. It doesn't change how EKS Auto Mode or Karpenter provisions or removes nodes. Validate the combined behavior for your workload before you change the configuration.
+
+=== Controller manager: Horizontal Pod Autoscaler sync period
+
+The controller manager runs the Kubernetes controllers that drive cluster state toward the desired state, including the Horizontal Pod Autoscaler (HPA) controller. On each cycle, the HPA controller retrieves metrics for each `HorizontalPodAutoscaler` object, calculates the desired replica count, and updates the target workload if the count has changed.
+
+[cols="2,2,1,1",options="header"]
+|===
+| Field | Description | Supported values | Default
+
+| `horizontalPodAutoscalerControllerConfig.horizontalPodAutoscalerSyncPeriod`
+| How frequently the HPA controller evaluates scaling decisions.
+| `10s` to `15s`
+| `15s`
+|===
+
+Shortening the sync period means your workloads scale sooner after load increases, rather than waiting out a full cycle before adding capacity.
+
+To configure this parameter, your cluster must be on Amazon EKS Provisioned Control Plane. Shortening the interval increases the rate at which the HPA controller reconciles every `HorizontalPodAutoscaler` object in the cluster, which generates more API requests. Each reconciliation consumes at least one API request, and a reconciliation that changes the replica count consumes two more. Provisioned Control Plane clusters pre-allocate control plane capacity that is always ready for demanding workloads, so they are sized to absorb that additional load. For more information, see <<eks-provisioned-control-plane>>.
+
+==== Effect on the number of HPA objects your cluster supports
+
+* *Shortening the sync period reduces the number of `HorizontalPodAutoscaler` objects your control plane can reconcile* on schedule, because the controller has less time to work through the same queue. Reducing the period from `15s` to `10s` lowers the supported object count by roughly one third. Before you shorten the sync period, count the `HorizontalPodAutoscaler` objects in your cluster and confirm the shorter period still supports that count on your scaling tier:
++
+[source,bash]
+----
+kubectl get hpa --all-namespaces --no-headers | wc -l
+----
+
+* *EKS doesn't validate the sync period against your HPA object count.* The configuration change succeeds even if your cluster already has more `HorizontalPodAutoscaler` objects than the shorter period supports. Verify the count yourself before making the change.
+
+* *Exceeding the supported count degrades autoscaling silently.* If the controller can't work through every object within the period, some objects aren't reconciled on schedule. EKS doesn't emit an alarm or a Kubernetes event for this condition, and the symptom is autoscaling that responds more slowly than expected — the opposite of the intended effect. If you observe delayed scaling after shortening the sync period, return the parameter to the default of `15s`.
+
+* *The sync period applies to every HPA object in the cluster.* You can't set different sync periods for different objects or namespaces.
+
+=== API server: event retention
+
+The API server is the front end for the Kubernetes control plane. It serves the Kubernetes API and persists cluster state to the cluster database (etcd). Kubernetes records events to describe what is happening in your cluster, such as pod scheduling decisions, image pulls, health check failures, and scaling actions.
+
+[cols="1,2,1,1",options="header"]
+|===
+| Field | Description | Supported values | Default
+
+| `eventTtl`
+| How long the API server retains Kubernetes events before deleting them.
+| `10m` to `60m`
+| `60m`
+|===
+
+Clusters running high-churn workloads, such as large-scale batch jobs, AI workloads, CI/CD pipelines, and frequent CronJobs, accumulate thousands of events quickly. Every retained event consumes cluster database space that competes with the objects your cluster needs to run, and a large event collection makes API server list operations more expensive to serve.
+
+Shortening event retention clears this short-lived diagnostic data sooner, which reduces cluster database storage pressure and improves API server response times for event-heavy queries.
+
+A shorter retention period is a good fit when:
+
+* Your cluster runs batch, CI/CD, AI, or CronJob workloads that generate a high volume of events.
+* You observe cluster database storage growing toward its limit.
+* You rely on an external system to capture events durably, and you don't depend on `kubectl get events` for historical debugging.
+
+==== Considerations for event retention
+
+* *A change applies to new events only.* Kubernetes sets an event's expiry when the event is created. Events that already exist keep the retention period that was in effect at their creation and expire on that schedule. Shortening `eventTtl` doesn't shorten the lifetime of events already in the cluster database, so the reduction in storage takes effect gradually as existing events age out.
+
+* *Deleted events can't be recovered.* After Kubernetes removes an event, it's gone permanently. If you shorten retention further than intended and lose event history, there is no way to restore it. Verify that anything you depend on for troubleshooting is captured outside the cluster before shortening this value.
+
+* *Events can persist slightly beyond the configured period.* Under some conditions, an event's expiry can be extended past the value you configured because of etcd lease renewal that might happen during control plane leader election.
+
+* *Reduced debugging window.* A shorter retention period narrows the window shown by `kubectl get events` and `kubectl describe`. Monitoring tools that scrape events from the cluster have less data available. Choose a value that balances storage efficiency against your debugging workflow.
+
+* *The setting is cluster-wide.* Retention applies to all events, including pod scheduling, node conditions, and scaling events, across every namespace. You can't set different retention periods per namespace.
+
+=== API server: service node port range
+
+Kubernetes allocates a port from this range on every node for each service that needs one. This includes services of type `NodePort` and, by default, services of type `LoadBalancer`.
+
+[cols="1,2,1,1",options="header"]
+|===
+| Field | Description | Supported values | Default
+
+| `serviceNodePortRange.minPort`
+| The lowest port in the range.
+| `10260` to `32767`
+| `30000`
+
+| `serviceNodePortRange.maxPort`
+| The highest port in the range.
+| `10260` to `32767`
+| `32767`
+|===
+
+`minPort` must be less than or equal to `maxPort`. Amazon EKS rejects a configuration where `minPort` is greater than `maxPort`.
+
+By changing the range, you can align node port allocation with the network and firewall policies your organization already enforces. Widening the range also raises the number of services a single cluster can support. This parameter is particularly useful during migrations. Applications moving to Amazon EKS, and the clients that call them, often expect services on specific fixed ports. When those ports fall outside the default range, the usual options are to modify the application or to place a proxy in front of it. Aligning the range with the ports your applications already use removes that work, so you can move workloads to EKS without rewriting them or adding network components to maintain.
+
+==== Why the range is bounded at 10260 and 32767
+
+The lower bound of `10260` keeps `NodePort` allocation clear of ports that Kubernetes system components on your nodes already use, including the kubelet health port (`10248`) and the kube-proxy health check port (`10256`).
+
+The upper bound of `32767` keeps the range clear of the Linux ephemeral port range, which typically begins at `32768`. If a `NodePort` fell inside the ephemeral range, the kernel could select that port for an outbound connection from the node and conflict with the service.
+
+==== Considerations for the service node port range
+
+* *Existing services keep their assigned ports.* If you narrow the range, services that already hold a port outside the new range continue to work, and kube-proxy continues to route traffic to them. Amazon EKS doesn't reassign ports for existing services when the range changes.
+
+* *Recreating a service reallocates its port.* If a service holding an out-of-range port is deleted and recreated, that port can no longer be assigned. Plan for this before you narrow a range that existing services depend on, particularly if your deployment process recreates services rather than updating them.
+
+* *New allocations outside the range are rejected.* Creating or updating a service that requires a port outside the configured range fails with a validation error from the API server.
+
+* *Explicitly specified ports are validated too.* If a service specifies a `nodePort` value directly rather than letting Kubernetes assign one, that port must fall within the configured range. A static port request outside the range is rejected, even if the same port was valid under a wider range you configured previously.
+
+* *The range is cluster-wide.* You can't configure different ranges for different namespaces.
+
+Before you change this parameter, confirm that your security groups and network ACLs allow traffic on the new range, and that the range doesn't conflict with ports used by other software on your nodes.
+
+== Considerations
+
+Review the following before you configure advanced control plane parameters.
+
+* *Cluster-wide scope* – Control plane parameters apply to the whole cluster and to all workloads running on it. You can't scope them to individual namespaces or workloads. Test parameter changes in a non-production cluster before you apply them to production.
+
+* *Provisioned Control Plane required for HPA sync period* – The `horizontalPodAutoscalerSyncPeriod` parameter is only available on clusters using Amazon EKS Provisioned Control Plane. Amazon EKS restricts parameters that materially increase control plane resource consumption to clusters with pre-allocated control plane capacity. Setting this parameter on a cluster in Standard control plane mode fails. To use it, first move your cluster to a Provisioned Control Plane scaling tier. For more information, see <<eks-provisioned-control-plane>>.
+
+* *Exit restriction for HPA sync period* – If `horizontalPodAutoscalerSyncPeriod` is set to a value other than the default, you can't move your cluster's control plane from Provisioned mode back to Standard mode. To return to Standard mode, first set this parameter back to the default of `15s`, then change the control plane scaling tier to `standard`.
+
+* *No reset to default* – Amazon EKS doesn't provide an operation that resets a parameter to its default value, and omitting a field from an update leaves its current value in place rather than clearing it. To return a parameter to its default, set it explicitly to the default value. Retrieve the default value with `DescribeClusterVersions` for the Kubernetes version your cluster runs. For more information, see <<control-plane-configuration-getting-started>>.
+
+* *Update semantics* – Updates merge with your existing configuration. Only the fields you specify change, and fields you omit keep their current values. This applies both across components and within a single component. For example, an update that specifies only the scheduler configuration leaves your controller manager and API server configuration unchanged.
+
+* *Viewing current configuration* – The `describe-cluster` operation returns the complete configuration running on your control plane, including parameters you haven't customized and their default values.
+
+* *Defaults and supported values can change between Kubernetes versions* – The values documented in this topic apply to the Kubernetes versions available at publication. Use `DescribeClusterVersions` to retrieve the current default and supported values for each parameter and Kubernetes version. See <<control-plane-configuration-getting-started>>.
+
+* *Existing clusters are unchanged* – Amazon EKS doesn't change the behavior of existing clusters. All clusters continue to run with default parameter values until you explicitly set a parameter.
+
+* *Changes aren't applied instantly* – A configuration change isn't in effect when `UpdateClusterConfig` returns. Amazon EKS applies the new configuration through a rolling update of your control plane, so expect several minutes before the change takes full effect. The cluster returns to `ACTIVE` status when the update completes. You can track progress using the link:eks/latest/APIReference/API_DescribeUpdate.html[DescribeUpdate,type="documentation"] operation, or block until the change completes using `aws eks wait cluster-active`.
+
+* *Auditability* – Amazon EKS validates each configuration before applying it, and records configuration changes in {aws} CloudTrail.
+
+* *Tooling support* – Advanced Kubernetes control plane configuration is available through the {aws-management-console}, eksctl, {aws} CLI, Amazon EKS API, {aws} CloudFormation, and {aws} CDK at launch. Support for {aws} Controllers for Kubernetes (ACK), and Terraform is coming soon.
+
+* *Kubernetes version support* – Advanced Kubernetes control plane configuration is supported on new and existing clusters running Kubernetes version 1.31 or later.
+
+* *{aws} Region support* – Advanced Kubernetes control plane configuration is available in all {aws} commercial Regions, {aws} GovCloud (US) Regions, and {aws} China Regions where Amazon EKS is available.
+
+* *Pricing* – There is no additional charge for configuring control plane parameters. Using `horizontalPodAutoscalerSyncPeriod` requires Provisioned Control Plane, which is billed at the hourly rate for your scaling tier. For more information, see https://aws.amazon.com/eks/pricing/[Amazon EKS pricing].
+
+== Next steps
+
+* <<control-plane-configuration-getting-started>> – Set and view control plane parameters using the {aws} CLI and {aws-management-console}.
+* <<eks-provisioned-control-plane>> – Pre-allocate control plane capacity for predictable, high performance.
+
+include::control-plane-configuration-getting-started.adoc[leveloffset=+1]

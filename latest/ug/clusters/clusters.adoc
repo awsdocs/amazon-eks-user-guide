@@ -16,6 +16,8 @@ include::create-cluster.adoc[leveloffset=+1]
 
 include::eks-provisioned-control-plane-introduction.adoc[leveloffset=+1]
 
+include::control-plane-configuration.adoc[leveloffset=+1]
+
 include::cluster-insights.adoc[leveloffset=+1]
 
 include::update-cluster.adoc[leveloffset=+1]
