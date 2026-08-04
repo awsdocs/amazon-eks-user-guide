@@ -90,7 +90,37 @@ The response includes a `controlPlaneComponentConfig` object, organized by contr
         {
             "clusterVersion": "1.35",
             "clusterType": "eks",
+            "defaultVersion": false,
+            "releaseDate": "2026-01-23T00:00:00+00:00",
+            "endOfStandardSupportDate": "2027-03-23T00:00:00+00:00",
+            "endOfExtendedSupportDate": "2028-03-23T00:00:00+00:00",
             "status": "STANDARD_SUPPORT",
+            "controlPlaneScalingTiers": [
+                {
+                    "tierName": "tier-xl",
+                    "apiRequestConcurrency": 2000,
+                    "podSchedulingRatePerSecond": 167,
+                    "clusterDatabaseSizeGb": 16
+                },
+                {
+                    "tierName": "tier-2xl",
+                    "apiRequestConcurrency": 4000,
+                    "podSchedulingRatePerSecond": 283,
+                    "clusterDatabaseSizeGb": 16
+                },
+                {
+                    "tierName": "tier-4xl",
+                    "apiRequestConcurrency": 8000,
+                    "podSchedulingRatePerSecond": 400,
+                    "clusterDatabaseSizeGb": 16
+                },
+                {
+                    "tierName": "tier-8xl",
+                    "apiRequestConcurrency": 16000,
+                    "podSchedulingRatePerSecond": 400,
+                    "clusterDatabaseSizeGb": 16
+                }
+            ],
             "controlPlaneComponentConfig": {
                 "kubeApiServerConfig": {
                     "eventTtl": {
@@ -158,7 +188,7 @@ The response includes a `controlPlaneComponentConfig` object, organized by contr
 }
 ----
 
-The preceding response is abbreviated to show only the control plane configuration fields. `DescribeClusterVersions` also returns version support dates, status, and the available Provisioned Control Plane scaling tiers. For more information, see link:eks/latest/APIReference/API_DescribeClusterVersions.html[DescribeClusterVersions,type="documentation"] in the _Amazon EKS API Reference_.
+The preceding response shows the version support dates, Provisioned Control Plane scaling tiers, and the control plane configuration fields. For more information, see link:eks/latest/APIReference/API_DescribeClusterVersions.html[DescribeClusterVersions,type="documentation"] in the _Amazon EKS API Reference_.
 
 To return only the configuration fields, use the `--query` option:
 
@@ -174,7 +204,7 @@ Each control plane component has its own parameter: `--kube-scheduler-config`, `
 
 === Create a cluster with control plane parameters
 
-The following command creates a cluster that retains Kubernetes events for 10 minutes instead of the default 60 minutes. Parameters you don't specify use their default values.
+The following command creates a cluster that retains new Kubernetes events for 10 minutes instead of the default 60 minutes. Parameters you don't specify use their default values.
 
 [source,bash]
 ----
@@ -247,7 +277,7 @@ Response:
 {
     "nodeResourcesFit": {
         "scoringStrategy": {
-            "type": "MostAllocated"
+            "type": "LeastAllocated"
         }
     }
 }
