@@ -13,6 +13,10 @@ To receive notifications of all source file changes to this specific documentati
 ----
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
 ----
+== August 5, 2026
+
+**Feature**: The Amazon EKS Auto Mode load balancer controller now supports multi-cluster target groups, matching the behavior of the {aws} Load Balancer Controller. With this feature, you can share the same target group ARN across multiple `TargetGroupBinding` resources, so a single target group can serve multiple Kubernetes clusters (in the same VPC) or accept targets from other sources. For more information, see <<auto-multi-cluster-target-groups>>.
+
 == July 27, 2026
 
 **Feature**: The Amazon Elastic Kubernetes Service (Amazon EKS) Auto Mode load balancer controller now supports features from {aws} Load Balancer Controller v2.13 and v2.14.
