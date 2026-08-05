@@ -84,7 +84,7 @@ containers:
   - --model=s3://<MODEL_PATH>
   - --tensor-parallel-size=[.replaceable]`2`
   - --load-format=runai_streamer
-  - --model-loader-extra-config={"concurrency":[.replaceable]`17`,"distributed":[.replaceable]`true`}
+  - --model-loader-extra-config={"concurrency":[.replaceable]``17``,"distributed":[.replaceable]``true``}
   env:
   - name: RUNAI_STREAMER_CHUNK_BYTESIZE
     value: [.replaceable]`"4294967296"`
@@ -371,7 +371,7 @@ spec:
           args:
             - --model=s3://<BUCKET_NAME>/<MODEL_PATH>
             - --load-format=runai_streamer
-            - --model-loader-extra-config={"concurrency":[.replaceable]`17`,"distributed":[.replaceable]`true`}
+            - --model-loader-extra-config={"concurrency":[.replaceable]``17``,"distributed":[.replaceable]``true``}
             - --tensor-parallel-size=[.replaceable]`2`
             - --max-model-len=8192
             - --host=0.0.0.0
