@@ -574,7 +574,7 @@ spec:
 [#hybrid-nodes-nodeadm-kubelet]
 == Node Config for customizing kubelet (Optional)
 
-You can pass kubelet configuration and flags in your `nodeadm` configuration. See the example below for how to add an additional node label `abc.amazonaws.com/test-label` and config for setting `shutdownGracePeriod` to 30 seconds.
+You can pass kubelet configuration and flags in your `nodeadm` configuration. See the following example for how to add an additional node label `abc.example.com/test-label` and set the kubelet config `shutdownGracePeriod` to 30 seconds. For more information about kubelet configuration options, see the https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/[Kubelet Configuration (v1beta1) reference] in the Kubernetes documentation. For more information about kubelet command-line flags, see the https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/[kubelet CLI reference] in the Kubernetes documentation.
 
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -588,7 +588,7 @@ spec:
     config:           # Map of kubelet config and values
        shutdownGracePeriod: 30s
     flags:            # List of kubelet flags
-       - --node-labels=abc.company.com/test-label=true
+       - --node-labels=abc.example.com/test-label=true
   hybrid:
     ssm:
       activationCode: # SSM hybrid activation code
