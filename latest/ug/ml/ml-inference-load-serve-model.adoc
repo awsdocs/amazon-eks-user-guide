@@ -35,7 +35,7 @@ The architecture diagram shows the end-to-end flow:
 . vLLM streams the model directly from S3 to GPU memory using Run:ai Model Streamer.
 . Users send inference requests to the vLLM endpoint.
 
-When you complete these steps, you have a vLLM inference endpoint that you can use to interact with a Ministral model through a chat frontend application.
+When you complete these steps, you have a vLLM inference endpoint that you can use to interact with a Ministral model through a chat frontend application. For additional information on optimizing model loading time on Amazon EKS, see <<ml-inference-fast-model-loading>>.
 
 == Prerequisites
 
@@ -181,6 +181,8 @@ This deployment uses the following {aws} DLC for https://gallery.ecr.aws/deep-le
 The image tag indicates vLLM 0.21.0 with GPU support, Python 3.12, CUDA 13.0, Ubuntu 22.04, optimized for EC2-based workloads, and SOCI-enabled for faster container startup.
 
 This manifest creates a Deployment that runs vLLM on a GPU node and streams the model directly from S3 into GPU memory using Run:ai Model Streamer. The manifest also creates a ClusterIP Service that exposes the vLLM endpoint on port 8000 for in-cluster access.
+
+For additional information on optimizing model loading time on Amazon EKS, see <<ml-inference-fast-model-loading>>. The following example uses `--enforce-eager` to accelerate load times in a getting started scenario. We recommend using other techniques to accelerate model load times as detailed in <<model-loading-enforce-eager-tradeoff>>.
 
 Apply the manifest:
 
@@ -442,14 +444,14 @@ The `vllm:prompt_tokens_total` and `vllm:generation_tokens_total` metrics are mo
 
 The kube-prometheus-stack values file from the <<cluster-setup-cli-monitoring,Monitoring>> section already provisions the community https://grafana.com/grafana/dashboards/25263-vllm-metrics/[vLLM dashboard (gnetId 25263)] under the *GPU Monitoring* folder, so no extra import is needed.
 
-To access Grafana, start a port-forward to the Grafana service:
+Access Grafana through the load balancer you set up in the <<cluster-setup-cli-grafana-loadbalancer,Access Grafana>> section. Print its URL:
 
 [source,bash]
 ----
-kubectl port-forward svc/kube-prometheus-stack-grafana 3000:80 -n monitoring
+echo "http://$(kubectl get ingress kube-prometheus-stack-grafana -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
 ----
 
-Open http://localhost:3000[http://localhost:3000^] in your browser and log in with username `admin` and the password from the following command:
+Open the URL in your browser and log in with username `admin` and the password from the following command:
 
 [source,bash]
 ----
@@ -505,7 +507,7 @@ spec:
             memory: "500Mi"
           limits:
             cpu: "1000m"
-            memory: "1Gi"
+            memory: "2Gi"
         env:
         - name: OPENAI_API_BASE_URLS
           value: "http://vllm-inference-svc:8000/v1"
@@ -559,18 +561,77 @@ Expected output:
 pod/open-webui-6cbfc9867f-jf9w9 condition met
 ----
 
-To access the application, set up port forwarding:
+To access the application, expose Open WebUI through an internet-facing {aws} Application Load Balancer (ALB) using the `alb` `IngressClass` you created in <<cluster-setup-cli-loadbalancing,Set up load balancing>>.
+
+[WARNING]
+.Open WebUI is publicly accessible with no authentication
+====
+Open WebUI runs with authentication disabled (`WEBUI_AUTH: "False"`), so anyone who reaches the load balancer gets an unauthenticated chat interface backed by your GPU inference endpoint and can consume GPU capacity. Automated scanners find public load balancers within minutes. You *must* restrict access with the `alb.ingress.kubernetes.io/inbound-cidrs` annotation and treat source-IP allowlisting as a minimum safeguard rather than a complete one. For a stronger posture, use an internal scheme, add a TLS certificate, and enable Open WebUI authentication.
+====
+
+Find your public IP address and store it as a `/32` CIDR:
 
 [source,bash]
 ----
-kubectl port-forward svc/open-webui 8080:80
+export MY_CIDR="$(curl -s https://checkip.amazonaws.com)/32"
+echo $MY_CIDR
 ----
 
-Open http://localhost:8080[http://localhost:8080^] in your browser.
+The result looks like `203.0.113.4/32`. If your network assigns addresses dynamically, your IP address can change, in which case you might need a broader range such as `203.0.113.0/24`.
 
-The chat interface appears where you can interact with the Ministral model.
+Apply the following `Ingress` to create the ALB:
 
-When you finish testing, stop the port-forward with kbd:[Ctrl+C].
+[source,yaml]
+----
+cat << EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: open-webui
+  namespace: default
+  labels:
+    guide: ai-eks-docs
+  annotations:
+    alb.ingress.kubernetes.io/load-balancer-name: ai-eks-docs-chat-app
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/inbound-cidrs: ${MY_CIDR}
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+spec:
+  ingressClassName: alb
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: open-webui
+            port:
+              number: 80
+EOF
+----
+
+[NOTE]
+.Health check path
+====
+The `healthcheck-path` annotation points the load balancer health checks at the Open WebUI `/health` endpoint, because the ALB default health check matcher expects a 200 response.
+====
+
+The load balancer is created asynchronously and takes a minute or two. Print the URL:
+
+[source,bash]
+----
+echo "http://$(kubectl get ingress open-webui -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+----
+
+Open the URL in your browser. The chat interface appears and you can interact with the Ministral model.
+
+[NOTE]
+.Port-forwarding as an alternative
+====
+Port-forwarding (`kubectl port-forward svc/open-webui 8080:80`) remains an option for local testing without provisioning a load balancer.
+====
 
 image::images/ml-inference-load-serve-model-chatui.png["Screenshot of Open WebUI chat interface showing a conversation with the Ministral model",width=75%]
 
@@ -580,6 +641,7 @@ To remove the workload resources that you created in this section, delete the Op
 
 [source,bash]
 ----
+kubectl delete ingress open-webui
 kubectl delete deployment open-webui
 kubectl delete service open-webui
 kubectl delete deployment vllm-inference-app

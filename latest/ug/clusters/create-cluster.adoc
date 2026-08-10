@@ -183,7 +183,7 @@ When you're done with this page, choose *Next*.
 
 +
 When you're done with this page, choose *Next*.
-. On the *Select add-ons* page, choose the add-ons that you want to add to your cluster. Certain add-ons are pre-selected. You can choose as many *Amazon EKS add-ons* and *{aws} Marketplace add-ons* as you require. If the *{aws} Marketplace add-ons* that you want to install aren't listed, you can click the page numbering to view additional page results or search for available *{aws} Marketplace add-ons* by entering text in the search box. You can also filter by *category*, *vendor*, or *pricing model* and then choose the add-ons from the search results. When creating a cluster, you can view, select, and install any add-on that supports EKS Pod Identities as detailed in <<pod-identities>>. 
+. On the *Select add-ons* page, choose the add-ons that you want to add to your cluster. Certain add-ons are pre-selected. You can choose as many *Amazon EKS add-ons* and *{aws} Marketplace add-ons* as you require. If the *{aws} Marketplace add-ons* that you want to install aren't listed, you can choose the page numbering to view additional page results or search for available *{aws} Marketplace add-ons* by entering text in the search box. You can also filter by *category*, *vendor*, or *pricing model* and then choose the add-ons from the search results. When creating a cluster, you can view, select, and install any add-on that supports EKS Pod Identities as detailed in <<pod-identities>>. 
 +
 When you're done with this page, choose *Next*.
 +

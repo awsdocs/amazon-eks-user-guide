@@ -15,6 +15,11 @@ If you're using a Kubernetes service account with <<iam-roles-for-service-accoun
 * An existing IAM OIDC provider for your cluster. For more information, see <<enable-iam-roles-for-service-accounts>>.
 * An existing Kubernetes service account configured for use with the <<iam-roles-for-service-accounts,Amazon EKS IAM for service accounts>> feature.
 
+[NOTE]
+====
+To make IRSA credential requests private in a VPC without internet egress, create an {aws} STS interface endpoint (`com.amazonaws.region-code.sts`) and set the regional endpoint as described in this topic. The global endpoint (`sts.amazonaws.com`) bypasses the VPC endpoint. To also reach the cluster OIDC discovery/JWKS endpoint privately (for provider setup and token validators), create a separate VPC endpoint (`com.amazonaws.region-code.oidc-eks`). For more information, see <<oidc-vpc-interface-endpoints>>.
+====
+
 The following examples all use the aws-node Kubernetes service account used by the <<cni-iam-role,Amazon VPC CNI plugin>>. You can replace the [.replaceable]`example values` with your own service accounts, Pods, namespaces, and other resources.
 
 . Select a Pod that uses a service account that you want to change the endpoint for. Determine which {aws} Region that the Pod runs in. Replace [.replaceable]`aws-node-6mfgv` with your Pod name and [.replaceable]`kube-system` with your Pod's namespace.

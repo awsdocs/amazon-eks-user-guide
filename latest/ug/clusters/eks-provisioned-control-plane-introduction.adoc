@@ -213,7 +213,37 @@ image::images/control-plane-monitoring.png[EKS Control Plane Monitoring,scaledwi
 
 === Understanding Tier capacity versus actual performance
 
-When you select a Provisioned Control Plane scaling tier, the tier attributes represent the underlying configurations that Amazon EKS applies to your control plane. However, the actual performance you achieve depends on your specific workload patterns, configurations, and adherence to Kubernetes best practices. For example, while a 4XL tier configures API Priority and Fairness (APF) with 6,800 concurrent request seats, the actual request throughput you obtain from the control plane depends on the types of operations being performed. For example, Kubernetes penalizes list requests more than get, and hence the effective number of list requests processed concurrently by control plane is lower than get requests (see https://docs.aws.amazon.com/eks/latest/best-practices/scale-control-plane.html#_api_priority_and_fairness[here]). Similarly, although the default scheduler QPS is set to 400 for a 4XL tier, your actual pod scheduling rate depends on factors like nodes being ready and healthy for scheduling. To achieve optimal performance, ensure your applications follow Kubernetes best practices (see https://docs.aws.amazon.com/eks/latest/best-practices/scalability.html[here]) and are properly configured for your workload characteristics.
+When you select a Provisioned Control Plane scaling tier, the tier attributes represent the underlying configurations that Amazon EKS applies to your control plane. However, the actual performance you achieve depends on your specific workload patterns, configurations, and adherence to Kubernetes best practices. For example, while a 4XL tier configures API Priority and Fairness (APF) with 6,800 concurrent request seats, the actual request throughput you obtain from the control plane depends on the types of operations being performed. For example, Kubernetes penalizes list requests more than get, and hence the effective number of list requests processed concurrently by control plane is lower than get requests. For more information, see https://docs.aws.amazon.com/eks/latest/best-practices/scale-control-plane.html#_api_priority_and_fairness[API Priority and Fairness] in the EKS Best Practices Guide. Similarly, although the default scheduler QPS is set to 400 for a 4XL tier, your actual pod scheduling rate depends on factors like nodes being ready and healthy for scheduling. To achieve optimal performance, ensure your applications follow Kubernetes best practices and are properly configured for your workload characteristics. For more information, see https://docs.aws.amazon.com/eks/latest/best-practices/scalability.html[Scalability best practices] in the EKS Best Practices Guide.
+
+=== Horizontal Pod Autoscaler sync concurrency
+
+In addition to the Control Plane Scaling tier attributes, EKS Provisioned Control Plane clusters are tuned with higher Horizontal Pod Autoscaler (HPA) sync concurrency. HPA sync concurrency is the number of HPA objects that the Kubernetes controller manager processes in parallel. The upstream Kubernetes default is 5. Higher concurrency allows the control plane to reconcile more HPA objects simultaneously, which reduces the time between a change in load and the corresponding scaling action. This is beneficial for clusters that run large numbers of HPA objects, where processing them serially can delay autoscaling.
+
+Each Provisioned Control Plane scaling tier is configured with the following HPA sync concurrency.
+
+[cols="1,1",options="header",]
+|===
+|Provisioned Control Plane Scaling Tier
+|HPA sync concurrency
+
+|XL
+|50
+
+|2XL
+|100
+
+|4XL
+|200
+
+|8XL
+|200
+|===
+
+You can observe the effect of higher HPA sync concurrency through the Kubernetes controller manager workqueue metric for the HPA controller:
+
+* `workqueue_depth{name="horizontalpodautoscaler"}` – the number of HPA objects waiting to be processed by the HPA controller. With higher concurrency, more workers drain this queue in parallel, so the depth remains low and stable (ideally reaching zero within each reconciliation period). A workqueue depth that stays at or near zero indicates the control plane is keeping up with the HPA objects in your cluster and that autoscaling decisions are not delayed by a backlog.
+
+The actual autoscaling responsiveness you observe also depends on factors beyond the control plane. Each HPA reconciliation fetches the metrics that drive its scaling decision, typically from the Kubernetes Metrics Server for CPU and memory utilization, or from a custom or external metrics adapter. The number of HPA objects in your cluster and the latency of these metric lookups both affect how quickly the controller can work through the queue. If your metrics source cannot serve requests fast enough, reconciliations slow down regardless of how many are processed in parallel. Running enough Metrics Server replicas to serve the request volume and scoping metric queries efficiently helps you get the full benefit of the higher HPA sync concurrency. For more information about how the Horizontal Pod Autoscaler works and where it retrieves metrics, see https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/[Horizontal Pod Autoscaling] on the Kubernetes website.
 
 == Considerations
 

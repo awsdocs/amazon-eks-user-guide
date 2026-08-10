@@ -74,7 +74,7 @@ ACK supports a wide range of {aws} services, including but not limited to:
 * {aws} IAM
 
 All {aws} services listed as Generally Available upstream are supported by the EKS Capability for ACK.
-Refer to the https://aws-controllers-k8s.github.io/community/docs/community/services/[full list of {aws} services supported] for details.
+For the complete list of {aws} services supported, see the https://aws-controllers-k8s.github.io/docs/services[ACK services page^] on the ACK website.
 
 == Integration with Other EKS Managed Capabilities
 

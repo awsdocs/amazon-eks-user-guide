@@ -59,6 +59,8 @@ The guide provides two paths for setting up your cluster. Choose one and follow 
 
 == Get started
 
-For step-by-step instructions using the {aws} CLI, see <<ml-cluster-setup-cli>>.
+For step-by-step instructions using the {aws} CLI, see <<ml-cluster-setup-cli>>. For step-by-step instructions using Terraform, see <<ml-cluster-setup-tf>>.
 
 include::ml-cluster-setup-cli.adoc[leveloffset=+1]
+
+include::ml-cluster-setup-tf.adoc[leveloffset=+1]

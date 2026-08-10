@@ -22,7 +22,7 @@ If you are interested in creating a local cluster on an EBS-backed Outpost using
 [#eks-outposts-instance-store-local-cluster-addons-validated]
 == Validated add-ons
 
-[%header,cols="3"]
+[%header,cols="2"]
 |===
 |Add-on
 |Description

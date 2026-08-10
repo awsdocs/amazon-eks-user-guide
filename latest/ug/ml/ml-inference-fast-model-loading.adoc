@@ -1,0 +1,425 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-inference-fast-model-loading]
+= Accelerate model loading on Amazon EKS
+:info_titleabbrev: Accelerate model loading
+
+[abstract]
+--
+Reduce model loading and compilation time for inference workloads on Amazon EKS by tuning Run:ai Model Streamer concurrency and caching torch.compile artifacts for large models.
+--
+
+When you deploy large language models (LLMs) on Amazon EKS, model loading time directly affects how quickly Pods can start serving inference requests. This is especially true during scale up events, when new Pods or nodes must load the model before handling traffic. Model startup has two phases that you can improve with tuning and compile artifact caching:
+
+* *Weights loading* — Streaming model weight files from Amazon S3 into GPU memory using https://github.com/run-ai/runai-model-streamer[Run:ai Model Streamer].
+* *torch.compile* — Compiling the model's computation graph into optimized fused CUDA/Triton kernels. This compilation runs on first startup and can significantly impact start time depending on model size.
+
+This topic shows how you can optimize Run:ai Model Streamer performance and torch.compile caching to reduce both phases of the model loading process. For the full procedure of deploying vLLM on Amazon EKS for inference, see <<ml-inference-load-serve-model>>. 
+
+[#model-loading-auto-mode-s3]
+== Optimize the S3 network path on EKS Auto Mode
+
+If you are running on EKS Auto Mode with GPU nodes in private subnets, we recommend using a link:{aws-docs-url}/vpc/latest/privatelink/vpc-endpoints-s3.html[Gateway VPC endpoint for S3] to optimize the network path between your nodes and S3. With the Gateway VPC endpoint, traffic to S3 stays on the {aws} network and bypasses the NAT Gateway entirely so there is no shared bandwidth ceiling and no per-GB NAT data processing charge. Without the Gateway VPC endpoint, when the traffic traverses through a NAT Gateway, the NAT Gateway becomes a shared bottleneck during scale up when multiple nodes pull the model at the same time.
+
+EKS Auto Mode commonly places nodes in private subnets, so traffic to S3 flows through a NAT Gateway by default. A NAT Gateway provides up to 100 Gbps of bandwidth and 55,000 simultaneous connections per destination. However, that bandwidth is shared across every node in the private subnet. During a scale up event, several nodes downloading the full model at once contend for the same NAT Gateway bandwidth, which can slow model weights loading on all of them.
+
+[#model-loading-runai-model-streamer]
+== Run:ai Model Streamer performance tuning
+
+Inference engines like vLLM and SGLang use Run:ai Model Streamer as an alternative mechanism to load weights during inference startup.
+
+By default, Run:ai Model Streamer uses conservative concurrency settings when downloading model weight files from S3. Increasing the download concurrency and chunk size reduces model weights loading time by downloading more data in parallel.
+
+[#model-loading-calculate-concurrency]
+=== Calculate optimal concurrency
+
+Calculate the optimal concurrency value as:
+
+----
+concurrency = ceil(total_model_size_gb / chunk_size_gb)
+----
+
+Replace the `concurrency` value you use based on your model size and chunk size. See the following table for a few examples. For example, with a 67 GB model and a 4 GB chunk size: `ceil(67 / 4) = 17`.
+
+[cols="2,1,1", options="header"]
+|===
+|Model size |Chunk size |Concurrency
+
+|10 GB
+|4 GB
+|3
+
+|67 GB
+|4 GB
+|17
+
+|140 GB
+|4 GB
+|35
+|===
+
+[#model-loading-apply-configuration]
+=== Apply the configuration
+
+Add the following arguments and environment variables to your inference container spec:
+
+* `--tensor-parallel-size` – The tensor parallel (TP) degree is typically the minimum number of GPUs required to fit the model in GPU memory based on the model size. For example, a 67 GB model on a `p5.48xlarge` instance type requires at least 2 GPUs, so set it to `2`.
+* `concurrency` and `distributed` (in `--model-loader-extra-config`) – Set `concurrency` to the calculated value for your model. Set `distributed` to `true` only when using tensor parallelism (TP > 1). When enabled, each tensor-parallel rank streams its own weight shard from Amazon S3 directly, instead of rank 0 loading all weights and broadcasting to the other ranks. This significantly improves loading performance for multi-GPU deployments. Leave it unset (or `false`) for TP=1, where it provides no benefit. This option requires the vLLM V1 architecture. It is incompatible with `--enforce-eager`, which forces the V0 path; using both together will either error or silently fall back to non-distributed loading.
+* `RUNAI_STREAMER_CHUNK_BYTESIZE` – 4 GB chunk size. This value consistently shows the best performance across benchmarks. Larger chunks reduce the number of S3 requests and improve throughput on high-bandwidth instances.
+* `RUNAI_STREAMER_S3_REQUEST_TIMEOUT_MS` – Per-request timeout in milliseconds. Allows faster retry on slow S3 responses.
+* `RUNAI_STREAMER_S3_LOW_SPEED_LIMIT` – Minimum transfer speed in bytes per second before a request is considered slow and retried.
+
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+containers:
+- name: vllm-inference
+  image: vllm/vllm-openai:v0.21.0
+  command:
+    - python3
+    - -m
+    - vllm.entrypoints.openai.api_server
+  args:
+  # ... your existing args ...
+  - --model=s3://<MODEL_PATH>
+  - --tensor-parallel-size=[.replaceable]`2`
+  - --load-format=runai_streamer
+  - --model-loader-extra-config={"concurrency":[.replaceable]``17``,"distributed":[.replaceable]``true``}
+  env:
+  - name: RUNAI_STREAMER_CHUNK_BYTESIZE
+    value: [.replaceable]`"4294967296"`
+  - name: RUNAI_STREAMER_S3_REQUEST_TIMEOUT_MS
+    value: [.replaceable]`"3000"`
+  - name: RUNAI_STREAMER_S3_LOW_SPEED_LIMIT
+    value: [.replaceable]`"1048576"`
+----
+
+[#model-loading-torch-compile-cold-start]
+== Optimize torch.compile cold start
+
+The `torch.compile` step in the inference serving process traces a model's computation graph (the sequence of math operations) and compiles it into optimized fused CUDA/Triton kernels. It does not compile the model weights — only the operations that transform them.
+
+Inference engines use torch.compile because it provides significant throughput improvements automatically, without custom kernel engineering per model architecture:
+
+* *Kernel fusion* — Multiple small operations (residual add, layernorm, activation) are fused into a single kernel, reducing GPU memory round-trips.
+* *Fewer kernel launches* — A transformer layer drops from ~15-30 separate CUDA kernels to ~10 fused ones, saving CPU overhead per launch.
+* *Python removed from hot path* — The entire forward pass becomes a C++ execution plan, eliminating Python interpreter overhead between operations.
+* *Better CUDA Graph compatibility* — Compiled static graphs are captured and replayed with near-zero CPU overhead.
+* *Automatic optimization* — Works for any model architecture. Throughput improves 5-30% over eager mode.
+
+The following table shows common inference serving engines that use torch.compile.
+
+[cols="1,2", options="header"]
+|===
+|Engine |torch.compile usage
+
+|https://docs.vllm.ai/en/latest/[vLLM]
+|Enabled by default (V1 architecture)
+
+|https://github.com/sgl-project/sglang[SGLang]
+|Optional via `--enable-torch-compile`
+
+|TensorRT-LLM
+|New path supports it alongside legacy engine build
+|===
+
+[#model-loading-cold-start-problem]
+=== The torch.compile cold start problem
+
+The tradeoff of torch.compile is that the first inference Pod must compile before it can serve requests. This compilation can take as long as several minutes depending on model size. The compiled artifacts are small (~15 MB for a 60 GB model) but significantly increase the cold start time. Because the artifacts are small and deterministic for a given configuration, you can cache and reuse them to eliminate the cold start penalty on subsequent Pod and node start.
+
+The artifacts consist of:
+
+* Generated Triton kernel source files
+* Compiled kernel binaries (`.cubin`)
+* Graph structure that sequences kernel calls
+
+[#model-loading-enforce-eager-tradeoff]
+=== The --enforce-eager trade-off
+
+vLLM enables `torch.compile` and CUDA graph capture by default. The `--enforce-eager` flag turns both off and runs the model in eager mode, where each operation executes immediately through the Python interpreter. Because eager mode skips both compilation and graph capture, some quick-start guides — including the base deployment in <<ml-inference-load-serve-model>> — use `--enforce-eager` to start Pods faster.
+
+`--enforce-eager` is a valid choice for debugging, memory-constrained deployments, or model architectures that do not compile cleanly, and you can use it in production for those reasons. Although it can mitigate the `torch.compile` cold start penalty, we recommend other approaches, such as those detailed in subsequent sections on this page, to maintain runtime performance in production.
+
+Understand the startup-time versus runtime-performance trade-off of `--enforce-eager` before deploying in production.
+
+[cols="1,1,1", options="header"]
+|===
+|Aspect |With `--enforce-eager` (eager mode) |Default (torch.compile + CUDA graphs)
+
+|Startup time
+|Fast — no compile or graph capture step
+|Slow cold start (the problem solved by <<model-loading-torch-compile-same-node>> and <<model-loading-torch-compile-new-nodes>>)
+
+|Steady-state throughput
+|Baseline
+|~5–30% higher from kernel fusion
+
+|Per-token latency (small batch)
+|Higher CPU launch overhead
+|Much lower — CUDA graphs replay kernel launches as one unit
+
+|GPU memory
+|Lower and more predictable
+|Higher — graph capture pre-allocates buffer pools
+
+|Debuggability
+|Clean per-operation stack traces
+|Errors surface inside generated kernels
+|===
+
+[#model-loading-torch-compile-same-node]
+== Cache torch.compile artifacts on the same node
+
+This technique applies when you use an inference engine that supports `torch.compile`, such as vLLM (enabled by default) or SGLang (enabled via `--enable-torch-compile`). It works only when `torch.compile` is active, that is, when `--enforce-eager` is *not* set.
+
+IMPORTANT: This improvement has no effect if `torch.compile` is disabled. In vLLM, the `--enforce-eager` flag disables `torch.compile` entirely, so no artifacts are compiled or cached. If you followed the base deployment in <<ml-inference-load-serve-model>> with `--enforce-eager`, vLLM creates the cache directory but never writes to it. Remove `--enforce-eager` before applying this technique.
+
+When an inference engine compiles the model's computation graph on first startup, you can cache the resulting optimized kernels on the node's local storage. Subsequent Pods on the same node reuse the cached artifacts and skip the compilation step entirely, which can significantly reduce startup time.
+
+[#model-loading-add-cache-env-vars]
+=== Add cache environment variables
+
+Add the following environment variables to your inference container spec to direct torch.compile and Triton cache to a persistent host path. We recommend using the node's local NVMe instance store and not the root Amazon Elastic Block Store (Amazon EBS) volume for the `hostPath`. For examples, see the following section.
+
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+containers:
+- name: vllm-inference
+  env:
+  # torch.compile cache
+  - name: XDG_CACHE_HOME
+    value: [.replaceable]`"/compile-cache"`
+  - name: TORCHINDUCTOR_CACHE_DIR
+    value: [.replaceable]`"/compile-cache/inductor"`
+  - name: TRITON_CACHE_DIR
+    value: [.replaceable]`"/compile-cache/triton"`
+  volumeMounts:
+  - name: compile-cache
+    mountPath: /compile-cache
+volumes:
+- name: compile-cache
+  hostPath:
+    path: [.replaceable]`/mnt/k8s-disks/0/compile-cache`
+    type: DirectoryOrCreate
+----
+
+[#model-loading-nvme-instance-store]
+=== Set the cache path to NVMe instance store
+
+Compiled artifacts and streamed weights benefit from fast local storage. On GPU instances with NVMe instance store (such as G-family and P-family instances), the instance store delivers roughly 30 GB/s, compared to roughly 1 GB/s for the root Amazon EBS volume. Direct the cache `hostPath` to the NVMe mount point to optimize throughput.
+
+IMPORTANT: The `hostPath` volume uses `type: DirectoryOrCreate`. If you point it at a path that is not backed by the NVMe instance store, Kubernetes silently creates the directory on the root Amazon EBS volume instead. The cache still works, but you lose the NVMe performance benefit with no error or warning.
+
+The NVMe mount point and how you enable it differ between EKS Auto Mode and self-managed nodes:
+
+[cols="1,2,2", options="header"]
+|===
+|Compute |NVMe mount point |How to enable NVMe instance store
+
+|EKS Auto Mode
+|`/mnt/.ephemeral`
+|Enabled dynamically based on the requested ephemeral storage. EKS Auto Mode formats and mounts the NVMe instance store as a RAID 0 array when the instance has multiple NVMe drives only when the `ephemeralStorage.size` requested in the NodeClass is smaller than the instance's available NVMe capacity. If the requested `ephemeralStorage.size` is equal to or larger than the NVMe capacity, EKS Auto Mode does not use the instance store and the path is backed by the root EBS volume instead.
+
+|Self-managed Karpenter
+|`/mnt/k8s-disks/0`
+|Set `instanceStorePolicy: RAID0` in the Karpenter `EC2NodeClass`. Without it, Karpenter ignores the instance-store volumes and the path is not backed by NVMe.
+|===
+
+For EKS Auto Mode, set the `hostPath` to `/mnt/.ephemeral/compile-cache` in your container spec:
+
+[source,yaml]
+----
+volumes:
+- name: compile-cache
+  hostPath:
+    path: /mnt/.ephemeral/compile-cache
+    type: DirectoryOrCreate
+----
+
+For self-managed Karpenter, set the `hostPath` to `/mnt/k8s-disks/0/compile-cache` in your container spec:
+
+[source,yaml]
+----
+volumes:
+- name: compile-cache
+  hostPath:
+    path: /mnt/k8s-disks/0/compile-cache
+    type: DirectoryOrCreate
+----
+
+[#model-loading-same-node-results]
+=== Sample results
+
+. The first Pod on a node runs torch.compile and writes the compiled kernels to `/compile-cache` on the host.
+. Subsequent Pods on the same node mount the existing cache and skip compilation entirely, which reduces the torch.compile cold start from ~50–80 s to ~4–6 s.
+
+The following table shows the improvement with same-node caching for different model sizes:
+
+[cols="1,1,1", options="header"]
+|===
+|Model size | first Pod torch.compile (no cache) | Subsequent Pods torch.compile (same node)
+
+|60 GB
+|~53s
+|~6s
+
+|140 GB
+|~60s
+|~6s
+
+|640 GB
+|~80s
+|~6s
+|===
+
+[#model-loading-torch-compile-new-nodes]
+== Pre-warm torch.compile cache on new nodes
+
+This technique applies when you are running multi-node inference with homogeneous GPUs, tensor parallelism, models, and PyTorch versions across nodes. The technique in <<model-loading-torch-compile-same-node>> focuses on the single node case, but new nodes added during scale up events start with an empty torch.compile cache. To further reduce cold start time on newly initialized nodes, you can implement a caching mechanism that stores the compiled torch.compile artifacts in S3 and pre-downloads them to new nodes when they join the cluster.
+
+The general approach is:
+
+. After the first Pod compiles the model on the first node, upload the torch.compile artifacts (~15 MB) to an S3 bucket.
+. When new nodes join the cluster, download the cached artifacts to the node's local storage before inference Pods are scheduled.
+
+For example, you can implement a DaemonSet that runs on GPU nodes that packages and uploads the torch.compile cache to S3. It can also sync that cache to local node storage before inference Pods are scheduled on new nodes.
+
+[#model-loading-cross-node-considerations]
+=== Considerations for cross-node caching
+
+When you cache torch.compile artifacts across nodes, the compiled kernels are valid only when these parameters match between the node that generated the cache and the node consuming it. Your caching mechanism must account for all of these. A mismatch on any parameter produces an invalid cache that forces recompilation or causes runtime errors. Your caching tool must differentiate artifacts by these parameters, for example, by incorporating them into the S3 object key or cache directory structure.
+
+[cols="1,3", options="header"]
+|===
+|Parameter |Why it matters
+
+|GPU type
+|Compiled kernels are GPU-architecture-specific (for example, sm_90 for H100 vs sm_89 for L4).
+
+|Tensor parallelism (TP)
+|Different TP degrees produce different computation graph partitions.
+
+|Model
+|Each model architecture and size compiles into different kernels.
+
+|PyTorch version
+|The torch.compile and Triton compiler internals can introduce breaking changes between versions.
+|===
+
+[#model-loading-cross-node-results]
+=== Sample results
+
+In directional testing with cross-node cache pre-warming (Qwen3-6-35B-A3B, 67 GB, 2x GPU with TP=2 on p5.48xlarge), the first Pod on newly scaled nodes achieved the same startup time as subsequent Pods on an already-warm node:
+
+[cols="2,1,1", options="header"]
+|===
+|Scenario |First Pod |Second Pod
+
+|Without cross-node caching (new node)
+|65s
+|16s
+
+|With cross-node caching (new node)
+|16s
+|16s
+|===
+
+[#model-loading-deployment-example]
+== Deployment example
+
+The following example combines Run:ai Model Streamer performance tuning and a torch.compile cache into a single vLLM Deployment manifest. Replace the placeholder values with your own configuration:
+
+* `serviceAccountName` – Service account with an IAM role that has Amazon S3 read access to your model bucket.
+* `nodeSelector` (`karpenter.sh/nodepool`) – Your GPU node pool name (for example, `gpu-nodepool-g6e-12xlarge`).
+* `--model` – Amazon S3 path to your model weights.
+* `--model-loader-extra-config` – Set `concurrency` based on your model size: `ceil(total_model_size_gb / chunk_size_gb)`. For example, a 67 GB model with a 4 GB chunk size gives `ceil(67 / 4) = 17`.
+* `--tensor-parallel-size` – Set the tensor parallel (TP) degree to the minimum number of GPUs required to fit the model in memory.
+* `hostPath` `path` – NVMe instance store mount point for self-managed nodes with Karpenter. On EKS Auto Mode, use `/mnt/.ephemeral/compile-cache` instead. See <<model-loading-torch-compile-same-node>> for details.
+
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-inference
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vllm-inference
+  template:
+    metadata:
+      labels:
+        app: vllm-inference
+    spec:
+      serviceAccountName: <SERVICE_ACCOUNT_NAME>
+      nodeSelector:
+        karpenter.sh/nodepool: <GPU_NODEPOOL>
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: vllm
+          image: vllm/vllm-openai:v0.21.0
+          command:
+            - python3
+            - -m
+            - vllm.entrypoints.openai.api_server
+          args:
+            - --model=s3://<BUCKET_NAME>/<MODEL_PATH>
+            - --load-format=runai_streamer
+            - --model-loader-extra-config={"concurrency":[.replaceable]``17``,"distributed":[.replaceable]``true``}
+            - --tensor-parallel-size=[.replaceable]`2`
+            - --max-model-len=8192
+            - --host=0.0.0.0
+            - --port=8000
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            # Run:ai streamer tuning
+            - name: RUNAI_STREAMER_CHUNK_BYTESIZE
+              value: [.replaceable]`"4294967296"`
+            - name: RUNAI_STREAMER_S3_REQUEST_TIMEOUT_MS
+              value: [.replaceable]`"3000"`
+            - name: RUNAI_STREAMER_S3_LOW_SPEED_LIMIT
+              value: [.replaceable]`"1048576"`
+            # torch.compile cache
+            - name: XDG_CACHE_HOME
+              value: [.replaceable]`"/compile-cache"`
+            - name: TORCHINDUCTOR_CACHE_DIR
+              value: [.replaceable]`"/compile-cache/inductor"`
+            - name: TRITON_CACHE_DIR
+              value: [.replaceable]`"/compile-cache/triton"`
+          resources:
+            requests:
+              cpu: "12"
+              memory: 80Gi
+              nvidia.com/gpu: "2"
+            limits:
+              nvidia.com/gpu: "2"
+          volumeMounts:
+            - name: compile-cache
+              mountPath: /compile-cache
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            periodSeconds: 10
+            failureThreshold: 60
+            initialDelaySeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            periodSeconds: 5
+            timeoutSeconds: 3
+      volumes:
+        - name: compile-cache
+          hostPath:
+            path: [.replaceable]`/mnt/k8s-disks/0/compile-cache`
+            type: DirectoryOrCreate
+----

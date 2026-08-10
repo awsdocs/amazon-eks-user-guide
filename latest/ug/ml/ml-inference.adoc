@@ -103,3 +103,5 @@ The walkthrough uses the cluster infrastructure from the <<ml-cluster-setup>> se
 include::ml-inference-load-serve-model.adoc[leveloffset=+1]
 
 include::ml-inference-autoscaling.adoc[leveloffset=+1]
+
+include::ml-inference-fast-model-loading.adoc[leveloffset=+1]

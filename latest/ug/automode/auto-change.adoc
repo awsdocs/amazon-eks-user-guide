@@ -13,6 +13,29 @@ To receive notifications of all source file changes to this specific documentati
 ----
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
 ----
+== August 5, 2026
+
+**Feature**: The Amazon EKS Auto Mode load balancer controller now supports multi-cluster target groups, matching the behavior of the {aws} Load Balancer Controller. With this feature, you can share the same target group ARN across multiple `TargetGroupBinding` resources, so a single target group can serve multiple Kubernetes clusters (in the same VPC) or accept targets from other sources. For more information, see <<auto-multi-cluster-target-groups>>.
+
+== July 27, 2026
+
+**Feature**: The Amazon Elastic Kubernetes Service (Amazon EKS) Auto Mode load balancer controller now supports features from {aws} Load Balancer Controller v2.13 and v2.14.
+
+* Application Load Balancer (ALB) URL Rewrite – You can now transform request URLs and Host headers before requests reach your backend services, without changing your application. For more information, see https://aws.amazon.com/blogs/networking-and-content-delivery/introducing-url-and-host-header-rewrite-with-aws-application-load-balancers/[Introducing URL and host header rewrite with {aws} Application Load Balancers].
+* PrefixListsIDs and LoadBalancerName in IngressClassParams – You can now set security group prefix lists and a custom load balancer name for your Application Load Balancer. Both are supported as Ingress annotations and as fields in IngressClassParams (prefixListsIDs and loadBalancerName). When set in IngressClassParams, the configuration applies to all Ingresses in the IngressClass. You no longer need to annotate every Ingress resource individually.
+* Frontend NLB for Ingress – You can now place a Network Load Balancer (NLB) in front of an Application Load Balancer. This combines NLB static IP addresses and {aws} PrivateLink with the layer-7 routing capabilities of ALB. Enable this feature with the alb.ingress.kubernetes.io/enable-frontend-nlb annotation. For more information, see https://aws.amazon.com/blogs/networking-and-content-delivery/application-load-balancer-type-target-group-for-network-load-balancer/[Application Load Balancer-type Target Group for Network Load Balancer].
+* TCP_UDP listener support – NLB Services can now use TCP_UDP listeners, which allow both TCP and UDP traffic on the same port. Enable this feature with the service.beta.kubernetes.io/aws-load-balancer-enable-tcp-udp-listener annotation.
+* Per-target-group proxy protocol – You can now configure Proxy Protocol v2 headers at the individual target group level by using the service.beta.kubernetes.io/aws-load-balancer-proxy-protocol-per-target-group annotation, rather than applying the configuration to all target groups uniformly.
+* targetType field in IngressClassParams – You can now set the default target type (instance or IP) directly in IngressClassParams, removing the need to annotate every Ingress resource individually.
+* Subnet discovery by reachability – Subnet selection no longer strictly requires kubernetes.io/role tags. The controller now falls back to route-table-based reachability analysis when tags are absent. The controller doesn't currently support this fallback for load balancers with an ip-address-type of dualstack.
+* IPv4 IP Address Manager (IPAM) support for ALB – An internet-facing ALB can now draw its public IPv4 addresses from an Amazon Virtual Private Cloud (Amazon VPC) IPAM pool instead of from {aws}-managed address ranges. This gives you predictable IP address blocks for allow lists. Specify the pool with the alb.ingress.kubernetes.io/ipam-ipv4-pool-id annotation. For more information, see https://aws.amazon.com/blogs/networking-and-content-delivery/simplify-albs-public-ip-address-assignment-with-vpc-ipam/[Simplify ALB's public IP address assignment with VPC IPAM].
+
+**Feature**: Added the `Balanced` consolidation policy for EKS Auto Mode NodePools. Setting `spec.disruption.consolidationPolicy: Balanced` scores each consolidation action by weighing compute cost savings against disruption cost. It skips actions where the disruption outweighs the savings. If you use `WhenEmpty` today, you can switch to `Balanced` to gain the cost savings of consolidation. If you use `WhenEmptyOrUnderutilized` today, you can switch to `Balanced` to eliminate pod disruption for marginal benefits. `WhenEmpty` and `WhenEmptyOrUnderutilized` are unchanged, and existing NodePools keep their current behavior. For more information, see <<create-node-pool>> and https://karpenter.sh/docs/concepts/disruption/[Disruption] in the Karpenter documentation.
+
+== July 21, 2026
+
+**Feature**: Added support for static network interface configuration on NodeClass. You can now configure Elastic Fabric Adapter (EFA) network interfaces using `advancedNetworking.networkInterfaces` for both dynamic and static capacity provisioning, enabling EFA-ready nodes for distributed training and inference workloads. For more information, see <<static-network-interfaces>>.
+
 == June 30, 2026
 
 **Feature**: The EKS Auto Mode load balancer controller now supports features from {aws} Load Balancer Controller v2.10, v2.11, and v2.12.

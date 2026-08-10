@@ -16,13 +16,13 @@ https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?t
 ====
 
 EKS Auto Mode extends {aws} management of Kubernetes clusters beyond the cluster itself, to allow {aws} to also set up and manage the infrastructure that enables the smooth operation of your workloads.
-You can delegate key infrastructure decisions and leverage the expertise of {aws} for day-to-day operations.
+You can delegate key infrastructure decisions and use the expertise of {aws} for day-to-day operations.
 Cluster infrastructure managed by {aws} includes many Kubernetes capabilities as core components, as opposed to add-ons, such as compute autoscaling, pod and service networking, application load balancing, cluster DNS, block storage, and GPU support. 
 
 To get started, you can deploy a new EKS Auto Mode cluster or enable EKS Auto Mode on an existing cluster.
 You can deploy, upgrade, or modify your EKS Auto Mode clusters using eksctl, the {aws} CLI, the {aws-management-console}, EKS APIs, or your preferred infrastructure-as-code tools. 
 
-With EKS Auto Mode, you can continue using your preferred Kubernetes-compatible tools. EKS Auto Mode integrates with {aws} services like Amazon EC2, Amazon EBS, and ELB, leveraging {aws} cloud resources that follow best practices. These resources are automatically scaled, cost-optimized, and regularly updated to help minimize operational costs and overhead.
+With EKS Auto Mode, you can continue using your preferred Kubernetes-compatible tools. EKS Auto Mode integrates with {aws} services like Amazon EC2, Amazon EBS, and ELB, using {aws} cloud resources that follow best practices. These resources are automatically scaled, cost-optimized, and regularly updated to help minimize operational costs and overhead.
 
 == Features
 
@@ -100,7 +100,7 @@ Under EKS Auto Mode, customers continue to maintain responsibility for the appli
 
 With EKS Auto Mode, {aws} expands its responsibility to include the management of several additional critical components compared to those already managed in EKS clusters not using Auto Mode. In particular, EKS Auto Mode takes over the configuration, management, security, and scaling of the EC2 instances launched as well as cluster capabilities for load balancing, IP address management, networking policy, and block storage. The following components are managed by {aws} in EKS Auto Mode:
 
-* *Auto Mode-launched EC2 Instances*: {aws} handles the complete lifecycle of nodes by leveraging Amazon EC2 managed instances. EC2 managed instances take responsibility for operating system configuration, patching, monitoring, and health maintenance. In this model, both the instance itself and the guest operating system running on it are the responsibility of {aws}. The nodes use variants of https://aws.amazon.com/bottlerocket[Bottlerocket] AMIs that are optimized to run containers. The Bottlerocket AMIs have locked-down software, immutable root file systems, and secure network access (to prevent direct communications through SSH or SSM). Beginning April 22, 2026, new managed instances and associated resources are hidden by default from EC2 console views and API list operations. You can adjust this behavior with managed resource visibility settings. For more information, see <<automode-learn-instances>>.
+* *Auto Mode-launched EC2 Instances*: {aws} handles the complete lifecycle of nodes by using Amazon EC2 managed instances. EC2 managed instances take responsibility for operating system configuration, patching, monitoring, and health maintenance. In this model, both the instance itself and the guest operating system running on it are the responsibility of {aws}. The nodes use variants of https://aws.amazon.com/bottlerocket[Bottlerocket] AMIs that are optimized to run containers. The Bottlerocket AMIs have locked-down software, immutable root file systems, and secure network access (to prevent direct communications through SSH or SSM). Beginning April 22, 2026, new managed instances and associated resources are hidden by default from EC2 console views and API list operations. You can adjust this behavior with managed resource visibility settings. For more information, see <<automode-learn-instances>>.
 
 * *Cluster Capabilities*: {aws} manages compute autoscaling, Pod networking with network policy enforcement, Elastic Load Balancing integration, and storage drivers configuration.
 * *Cluster Control Plane*: {aws} continues to manage the Kubernetes API server, cross-account ENIs, and the etcd database, as with standard EKS.

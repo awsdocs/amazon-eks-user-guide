@@ -1,0 +1,754 @@
+include::../attributes.txt[]
+
+[.topic]
+[#device-management-nvidia-mig]
+= Use multi-instance GPUs (MIG) with NVIDIA GPUs on Amazon EKS
+:info_titleabbrev: Multi-instance GPUs (MIG)
+
+[abstract]
+--
+Learn how to use multi-instance GPUs (MIG) with NVIDIA GPUs on Amazon EKS using the NVIDIA DRA driver or device plugin.
+--
+
+link:https://docs.nvidia.com/datacenter/tesla/mig-user-guide/latest/index.html[Multi-Instance GPU] (MIG) is a hardware feature on NVIDIA GPUs that partitions a single physical GPU into multiple isolated instances. The maximum number of partitioned instances depends on the GPU. Each instance has dedicated memory, compute units, and memory bandwidth, so a workload that runs on one instance cannot affect a workload on another. Unlike <<device-management-nvidia-time-slicing, time-slicing>>, which shares a GPU through software time-multiplexing without isolation, MIG provides hardware-level memory and fault isolation between Pods.
+
+MIG is best suited for multi-tenant inference and workloads that require predictable quality of service. It is available on NVIDIA Ampere (A100), Hopper (H100 and H200), and Blackwell GPUs. On {aws}, these are the P-family instance types and the Blackwell-based `g7` and `g7e` instance types. For the full list, see <<eks-mig-capable-instance-types>>.
+
+MIG is a good fit when:
+
+* You need memory isolation, so that one workload cannot consume the GPU memory that another workload requires.
+* You run multi-tenant inference where tenants share GPU hardware but require per-tenant quality of service.
+* You already run training on A100, H100, H200, or Blackwell instances and want to reuse those GPUs for smaller inference workloads when training is idle.
+
+Consider a different approach when:
+
+* Your nodes use a GPU instance type that does not support MIG, such as the `g5`, `g6`, or `g6e` families. Use <<device-management-nvidia-time-slicing, time-slicing>> instead.
+* You do not need memory isolation and want the simplest configuration. Use <<device-management-nvidia-time-slicing, time-slicing>> instead.
+* You need to change GPU partitions frequently without disruption. Changing MIG mode or the partition layout requires a GPU reset, which the GPU Operator performs by rebooting the node.
+* You run multi-GPU training that depends on collective or peer-to-peer communication between GPUs. MIG does not support NCCL or cross-GPU P2P.
+
+[#eks-mig-considerations]
+== Considerations
+
+Review the following considerations before you use MIG in production.
+
+=== General considerations
+
+* *Changing MIG configuration requires a GPU reset.* Enabling or disabling MIG mode, or changing the partition layout, requires a GPU reset, so it cannot be changed in place. For example, the MIG Manager in the NVIDIA GPU Operator applies a configuration change by stopping the GPU Pods on the node and rebooting the node when a reboot is required to change MIG mode.
+* *Compute is not strictly proportional to instance size.* A `1g` instance does not deliver a proportional share of whole-GPU throughput for every workload, because memory bandwidth and cache behavior differ across profiles. Benchmark your workload on the profile you intend to use before you size partitions.
+* *Time-slicing has no effect on MIG instances.* A MIG instance is already hardware-isolated and cannot be further shared through time-slicing. Requesting the `TimeSlicing` sharing strategy on a MIG device does not change hardware behavior. To share a single MIG instance across containers, use NVIDIA Multi-Process Service (MPS) instead.
+* *Limited cross-GPU communication.* When MIG is enabled, MIG instances on different GPUs cannot use GPU-to-GPU peer-to-peer (P2P) communication, and NCCL does not work with MIG. Multi-GPU workloads that depend on collective communication or P2P across GPUs, such as tensor-parallel multi-GPU training, require whole GPUs instead. For details, see the link:https://docs.nvidia.com/datacenter/tesla/mig-user-guide/index.html#application-considerations[Application Considerations] in the NVIDIA MIG User Guide on the NVIDIA website.
+
+=== NVIDIA device plugin considerations
+
+* *Pod resource requests must match the strategy.* With the single strategy, Pods request `nvidia.com/gpu`. With the mixed strategy, Pods request the profile-specific resource, such as `nvidia.com/mig-1g.10gb`. A Pod that requests a profile the node does not advertise stays in the `Pending` state. Confirm the advertised resources with `kubectl describe node <node-name>`.
+* *Standalone device plugin on AL2023.* If you install the NVIDIA device plugin separately, for example as part of cluster setup, exclude it from your MIG nodes so that it does not conflict with the device plugin that the GPU Operator manages. Add a node affinity rule to the standalone device plugin that excludes nodes that have the `nvidia.com/mig.config` label.
+* *No support on EKS Auto Mode.* EKS Auto Mode manages the NVIDIA device plugin and does not expose its configuration (see <<auto-accelerated>>). You cannot enable MIG on EKS Auto Mode nodes. Configure MIG on self-managed Karpenter nodes or a managed node group, where you control the AMI and device plugin settings.
+
+=== NVIDIA DRA driver considerations
+
+* *Static MIG requires pre-created instances.* With static MIG, the DRA driver allocates existing MIG instances but does not enable MIG mode or partition the GPUs. You must enable MIG mode and create the instances first, for example with the MIG Manager in the NVIDIA GPU Operator or `nvidia-smi`. For more information, see <<eks-mig-dra-driver>>.
+* *Dynamic MIG is an alpha feature.* With dynamic MIG, the driver creates and destroys MIG partitions on demand in response to workload requests. It requires the `DynamicMIG` feature gate, which is disabled by default. For more information, see <<eks-mig-dra-driver>>.
+* *Disable the built-in device plugin on Bottlerocket.* The DRA driver cannot run alongside the NVIDIA device plugin on the same node. On Bottlerocket, disable the built-in device plugin, which requires Bottlerocket version 1.63.0 or later. For more information, see <<eks-nvidia-dra-driver>>.
+* *Compute support.* The NVIDIA DRA driver is supported with static capacity provisioning in Karpenter, EKS managed node groups, or self-managed nodes, and is not supported with EKS Auto Mode. For more information, see the link:https://karpenter.sh/docs/concepts/nodepools/#static-nodepool[Karpenter static NodePool documentation] on the Karpenter website.
+
+[#eks-mig-capable-instance-types]
+== MIG-capable instance types
+
+On {aws}, the following instance types provide MIG-capable GPUs.
+
+[cols="1,1,1", options="header"]
+|===
+| Instance type
+| GPUs
+| GPU memory
+
+| `p4d.24xlarge`
+| 8 x NVIDIA A100 40 GB
+| 320 GB
+
+| `p4de.24xlarge`
+| 8 x NVIDIA A100 80 GB
+| 640 GB
+
+| `p5.48xlarge`
+| 8 x NVIDIA H100 80 GB
+| 640 GB
+
+| `p5e.48xlarge`
+| 8 x NVIDIA H200
+| 1128 GB
+
+| `p5en.48xlarge`
+| 8 x NVIDIA H200
+| 1128 GB
+
+| `p6-b200.48xlarge`
+| 8 x NVIDIA Blackwell B200
+| 1432 GB
+
+| `p6-b300.48xlarge`
+| 8 x NVIDIA Blackwell Ultra B300
+| 2144 GB
+
+| `g7.48xlarge`
+| 8 x NVIDIA RTX PRO 4500 Blackwell Server Edition
+| 256 GB
+
+| `g7e.48xlarge`
+| 8 x NVIDIA RTX PRO 6000 Blackwell Server Edition
+| 768 GB
+|===
+
+MIG is not available on the `g5`, `g6`, or `g6e` families. For `p6e-gb200` UltraServers, which use the MIG-capable NVIDIA GB200 GPU, see <<ml-eks-nvidia-ultraserver>>.
+
+[NOTE]
+====
+The `g7` instance type requires NVIDIA driver version 595 or later. The EKS-optimized accelerated AMIs currently include NVIDIA driver version 580, so to use MIG on `g7` you must build a custom AMI with driver version 595. For more information, see <<eks-ami-build-scripts>>.
+====
+
+MIG instances are described by profiles that use the naming pattern `<slices>g.<memory>gb`, where `<slices>` is the number of compute slices and `<memory>` is the memory of the instance in gigabytes. For example, the `3g.40gb` profile provides three of the seven compute slices and 40 GB of memory. The profiles that each GPU supports are fixed by the hardware. For the complete list, see the link:https://docs.nvidia.com/datacenter/tesla/mig-user-guide/[NVIDIA Multi-Instance GPU User Guide] on the NVIDIA website.
+
+[#eks-mig-profiles-per-instance-type]
+== MIG profiles per instance type
+
+The MIG profiles available on a node depend on the GPU for the instance type. The following sections list the profiles for each MIG-capable Amazon EC2 instance type. For each profile, *Max instances* is the maximum number of instances of that profile you can create on a single GPU, and *Memory per instance* is the GPU memory allocated to each one.
+
+[#eks-mig-profiles-p4d]
+.`p4d.24xlarge` – NVIDIA A100 40 GB
+[%collapsible, expand-section="_collapse_all_"]
+====
+[cols="1,1,1,1", options="header"]
+|===
+| Profile | Compute slices | Memory per instance | Max instances
+
+| `1g.5gb` | 1 of 7 | 5 GB | 7
+| `1g.10gb` | 1 of 7 | 10 GB | 4
+| `2g.10gb` | 2 of 7 | 10 GB | 3
+| `3g.20gb` | 3 of 7 | 20 GB | 2
+| `4g.20gb` | 4 of 7 | 20 GB | 1
+| `7g.40gb` | 7 of 7 | 40 GB | 1
+|===
+====
+
+[#eks-mig-profiles-p4de]
+.`p4de.24xlarge` – NVIDIA A100 80 GB
+[%collapsible, expand-section="_collapse_all_"]
+====
+[cols="1,1,1,1", options="header"]
+|===
+| Profile | Compute slices | Memory per instance | Max instances
+
+| `1g.10gb` | 1 of 7 | 10 GB | 7
+| `1g.20gb` | 1 of 7 | 20 GB | 4
+| `2g.20gb` | 2 of 7 | 20 GB | 3
+| `3g.40gb` | 3 of 7 | 40 GB | 2
+| `4g.40gb` | 4 of 7 | 40 GB | 1
+| `7g.80gb` | 7 of 7 | 80 GB | 1
+|===
+====
+
+[#eks-mig-profiles-p5]
+.`p5.48xlarge` – NVIDIA H100 80 GB
+[%collapsible, expand-section="_collapse_all_"]
+====
+[cols="1,1,1,1", options="header"]
+|===
+| Profile | Compute slices | Memory per instance | Max instances
+
+| `1g.10gb` | 1 of 7 | 10 GB | 7
+| `1g.20gb` | 1 of 7 | 20 GB | 4
+| `2g.20gb` | 2 of 7 | 20 GB | 3
+| `3g.40gb` | 3 of 7 | 40 GB | 2
+| `4g.40gb` | 4 of 7 | 40 GB | 1
+| `7g.80gb` | 7 of 7 | 80 GB | 1
+|===
+====
+
+[#eks-mig-profiles-p5e-p5en]
+.`p5e.48xlarge` and `p5en.48xlarge` – NVIDIA H200 141 GB
+[%collapsible, expand-section="_collapse_all_"]
+====
+[cols="1,1,1,1", options="header"]
+|===
+| Profile | Compute slices | Memory per instance | Max instances
+
+| `1g.18gb` | 1 of 7 | 18 GB | 7
+| `1g.35gb` | 1 of 7 | 35 GB | 4
+| `2g.35gb` | 2 of 7 | 35 GB | 3
+| `3g.71gb` | 3 of 7 | 71 GB | 2
+| `4g.71gb` | 4 of 7 | 71 GB | 1
+| `7g.141gb` | 7 of 7 | 141 GB | 1
+|===
+====
+
+[#eks-mig-profiles-p6-b200]
+.`p6-b200.48xlarge` – NVIDIA Blackwell B200 180 GB
+[%collapsible, expand-section="_collapse_all_"]
+====
+[cols="1,1,1,1", options="header"]
+|===
+| Profile | Compute slices | Memory per instance | Max instances
+
+| `1g.23gb` | 1 of 7 | 23 GB | 7
+| `1g.45gb` | 1 of 7 | 45 GB | 4
+| `2g.45gb` | 2 of 7 | 45 GB | 3
+| `3g.90gb` | 3 of 7 | 90 GB | 2
+| `4g.90gb` | 4 of 7 | 90 GB | 1
+| `7g.180gb` | 7 of 7 | 180 GB | 1
+|===
+====
+
+.`p6-b300.48xlarge` – NVIDIA Blackwell Ultra B300
+[NOTE]
+====
+The `p6-b300.48xlarge` uses the HGX B300, which supports partitioning each GPU into 7 instances of 32 GB, 4 of 67 GB, 2 of 135 GB, or 1 of 270 GB. These sizes are preliminary and might change. For the profile details, see the link:https://docs.nvidia.com/datacenter/tesla/mig-user-guide/supported-mig-profiles.html[NVIDIA Supported MIG Profiles] on the NVIDIA website.
+====
+
+[#eks-mig-profiles-g7]
+.`g7.48xlarge` – NVIDIA RTX PRO 4500 Blackwell Server Edition 32 GB
+[%collapsible, expand-section="_collapse_all_"]
+====
+[cols="1,1,1,1", options="header"]
+|===
+| Profile | Compute slices | Memory per instance | Max instances
+
+| `1g.16gb` | 1 of 2 | 16 GB | 2
+| `2g.32gb` | 2 of 2 | 32 GB | 1
+|===
+====
+
+The RTX PRO 4500 Blackwell also supports graphics-enabled (`+gfx`) and media-engine (`+me.all`, `-me`) profile variants. For the full list, see the link:https://docs.nvidia.com/datacenter/tesla/mig-user-guide/supported-mig-profiles.html[NVIDIA Supported MIG Profiles] on the NVIDIA website.
+
+[#eks-mig-profiles-g7e]
+.`g7e.48xlarge` – NVIDIA RTX PRO 6000 Blackwell Server Edition 96 GB
+[%collapsible, expand-section="_collapse_all_"]
+====
+[cols="1,1,1,1", options="header"]
+|===
+| Profile | Compute slices | Memory per instance | Max instances
+
+| `1g.24gb` | 1 of 4 | 24 GB | 4
+| `2g.48gb` | 2 of 4 | 48 GB | 2
+| `4g.96gb` | 4 of 4 | 96 GB | 1
+|===
+====
+
+The RTX PRO 6000 Blackwell Server Edition also supports graphics-enabled (`+gfx`) and media-engine (`+me.all`, `-me`) profile variants. For the full list, see the link:https://docs.nvidia.com/datacenter/tesla/mig-user-guide/supported-mig-profiles.html[NVIDIA Supported MIG Profiles] on the NVIDIA website.
+
+[#eks-mig-strategies]
+== MIG strategies
+
+The NVIDIA DRA driver and NVIDIA device plugin expose MIG instances to Kubernetes in different ways. The device plugin uses a node-wide *MIG strategy* setting, while the DRA driver has no equivalent setting because it selects instances by their attributes. Understanding this difference is key to choosing between the two models.
+
+=== NVIDIA DRA driver
+
+The NVIDIA DRA driver does not use the single or mixed strategy concept, and there is no equivalent setting to configure. Instead of advertising MIG instances as counted resources, the driver publishes each instance as a device in the `mig.nvidia.com` `DeviceClass` with attributes such as its `profile`. Pods select an instance by matching these attributes with Common Expression Language (CEL) selectors in a `ResourceClaim` or `ResourceClaimTemplate`, as shown in <<eks-mig-dra-driver>>.
+
+Because selection is per-instance, mixed-profile nodes work without a strategy mode switch. A single GPU can be partitioned into several different profiles, and each claim selects the profile it needs. The choice that matters for the DRA driver is not single versus mixed strategy, but static versus dynamic MIG, which controls whether you pre-create the MIG instances or the driver creates them on demand. For more information, see <<eks-mig-dra-driver>>.
+
+=== NVIDIA device plugin
+
+The NVIDIA device plugin advertises MIG instances to Kubernetes using one of two strategies. Because the device plugin exposes MIG instances as node-level extended resources, which carry only an integer count and no per-instance attributes, the strategy determines how those resources are named.
+
+* *Single strategy* – Every GPU on a node uses the same MIG profile. The device plugin advertises each instance as the `nvidia.com/gpu` resource, and Pods request `nvidia.com/gpu: 1` as they would for a dedicated GPU. Existing manifests do not change. Both Bottlerocket and AL2023 support the single strategy.
+* *Mixed strategy* – GPUs on the same node can use different MIG profiles. The device plugin advertises each profile as a distinct resource, such as `nvidia.com/mig-1g.10gb` or `nvidia.com/mig-3g.40gb`, and Pods request the specific profile they need. You cannot use a mixed strategy with Bottlerocket's built-in NVIDIA device plugin. For more information, see the link:https://github.com/bottlerocket-os/bottlerocket/issues/4483[Bottlerocket GitHub issue #4483] on GitHub.
+
+[#eks-mig-dra-driver]
+== Use MIG with the NVIDIA DRA driver
+
+When allocating MIG instances with the NVIDIA DRA driver, Pods request a MIG instance through a `ResourceClaim` or `ResourceClaimTemplate` rather than the device plugin's `nvidia.com/mig-<profile>` extended resource. 
+
+Because the DRA driver describes instances by their attributes rather than as counted resources, it does not use the single or mixed strategy that the device plugin requires (see <<eks-mig-strategies>>). The driver exposes each MIG instance as a device in the `mig.nvidia.com` `DeviceClass` with a `gpu.nvidia.com/type` attribute of `mig`, and advertises per-instance attributes such as the `profile` (for example, `1g.5gb`) and the `parentUUID` of the physical GPU. You match these attributes with Common Expression Language (CEL) selectors to request a specific profile or to keep multiple instances on the same GPU.
+
+The DRA driver allocates MIG instances in one of two modes:
+
+* *Static MIG* – You enable MIG mode and create the MIG instances on the node before the driver starts, for example with the MIG Manager in the NVIDIA GPU Operator as described in <<eks-mig-device-plugin-al2023>>. The driver discovers the existing instances and allocates them to Pods but does not modify the node's MIG configuration. Instances added after the driver starts are not discovered until the GPU kubelet plugin restarts. Static MIG is the default and requires no feature gate.
+* *Dynamic MIG* – The driver creates and destroys MIG partitions on demand in response to workload requests, so you do not partition the GPUs in advance. Dynamic MIG is an alpha feature that is disabled by default. You request a profile with the same `ResourceClaimTemplate` selectors shown in the following sections, and the driver partitions a GPU to satisfy the request.
+
+=== Considerations
+
+* Dynamic MIG replaces static discovery on a node. The driver manages all partitions and destroys any MIG partitions that it did not create when the GPU kubelet plugin starts. Do not enable dynamic MIG on nodes with pre-created partitions that you want to keep, and do not run `mig-parted` or `nvidia-smi mig` while the plugin is running, because manual changes can conflict with the driver's partition state and cause Pod preparation or cleanup to fail.
+* Dynamic MIG is in alpha state and requires a feature gate to be enabled when installing the NVIDIA DRA driver, see <<eks-nvidia-dra-driver>> for instructions.
+* Hopper (H100 and H200) and later architectures enable MIG mode on demand. Previous generations cannot enable MIG mode on demand, including the Ampere (A100) GPUs.
+* Dynamic MIG depends on the Kubernetes partitionable devices feature (link:https://github.com/kubernetes/enhancements/issues/4815[KEP-4815] on GitHub), which is enabled by default in Kubernetes version 1.36 and later. On earlier versions this feature is not enabled by default, so the scheduler cannot allocate dynamically created MIG devices.
+
+=== Prerequisites
+
+* An Amazon EKS cluster running Kubernetes version 1.34 or later with static capacity provisioned by Karpenter, EKS managed node groups, or self-managed node groups.
+* MIG-capable P-family nodes with MIG mode enabled and GPUs partitioned into MIG instances. For static MIG, see the link:https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-operator-mig.html[MIG Manager in the NVIDIA GPU Operator] on the NVIDIA website.
+* The NVIDIA DRA driver installed as described in <<eks-nvidia-dra-driver>>, optionally with Dynamic MIG enabled if you are not using static MIG partitioning.
+
+=== Procedure
+
+The following examples can be used with either static or dynamic MIG and the NVIDIA DRA driver.
+
+. Create a `ResourceClaimTemplate` that requests a MIG instance from the `mig.nvidia.com` `DeviceClass`, and a Pod that references it. This example requests any available MIG instance without constraining the profile.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+cat <<EOF | kubectl apply -f -
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: mig-profile-any
+spec:
+  spec:
+    devices:
+      requests:
+      - name: mig
+        exactly:
+          deviceClassName: mig.nvidia.com
+          count: 1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mig-dra-pod
+spec:
+  tolerations:
+    - key: nvidia.com/gpu
+      operator: Exists
+      effect: NoSchedule
+  containers:
+    - name: cuda
+      image: nvidia/cuda:12.6.0-base-ubuntu22.04
+      command: ["nvidia-smi", "-L"]
+      resources:
+        claims:
+        - name: mig
+  resourceClaims:
+    - name: mig
+      resourceClaimTemplateName: mig-profile-any
+  restartPolicy: OnFailure
+EOF
+----
++
+. Verify that the Pod was allocated a single MIG instance.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl logs mig-dra-pod
+----
++
+An example output is as follows. The Pod sees one MIG instance from the partitioned GPU.
++
+[source,bash,subs="verbatim,attributes"]
+----
+GPU 0: NVIDIA A100-SXM4-40GB (UUID: GPU-edd63844-8488-f76a-f6e0-1027a7319a88)
+  MIG 2g.10gb     Device  0: (UUID: MIG-a5ad493e-e7e8-5675-9381-1d0f5311a456)
+----
+
+=== Request a specific MIG profile
+
+To request a specific profile instead of any available instance, add a CEL selector that matches the `profile` attribute. The following `ResourceClaimTemplate` requests a `1g.5gb` instance, and the Pod references it.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+cat <<EOF | kubectl apply -f -
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: mig-profile-1g.5gb
+spec:
+  spec:
+    devices:
+      requests:
+      - name: mig
+        exactly:
+          deviceClassName: mig.nvidia.com
+          selectors:
+          - cel:
+              expression: "device.attributes['gpu.nvidia.com'].profile == '1g.5gb'"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mig-profile-pod
+spec:
+  tolerations:
+    - key: nvidia.com/gpu
+      operator: Exists
+      effect: NoSchedule
+  containers:
+    - name: cuda
+      image: nvidia/cuda:12.6.0-base-ubuntu22.04
+      command: ["nvidia-smi", "-L"]
+      resources:
+        claims:
+        - name: mig
+  resourceClaims:
+    - name: mig
+      resourceClaimTemplateName: mig-profile-1g.5gb
+  restartPolicy: OnFailure
+EOF
+----
+
+=== Request multiple MIG instances from the same GPU
+
+To ensure that multiple MIG instances in a single claim come from the same physical GPU, add a `constraints` block with `matchAttribute: "gpu.nvidia.com/parentUUID"`. The following `ResourceClaimTemplate` requests a `1g.5gb` instance and a `2g.10gb` instance from the same GPU, and the Pod references the claim. Because the container references the claim without naming a specific request, it receives both MIG instances.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+cat <<EOF | kubectl apply -f -
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: multi-mig
+spec:
+  spec:
+    devices:
+      requests:
+      - name: mig-small
+        exactly:
+          deviceClassName: mig.nvidia.com
+          selectors:
+          - cel:
+              expression: "device.attributes['gpu.nvidia.com'].profile == '1g.5gb'"
+      - name: mig-medium
+        exactly:
+          deviceClassName: mig.nvidia.com
+          selectors:
+          - cel:
+              expression: "device.attributes['gpu.nvidia.com'].profile == '2g.10gb'"
+      constraints:
+      - requests: []
+        matchAttribute: "gpu.nvidia.com/parentUUID"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-mig-pod
+spec:
+  tolerations:
+    - key: nvidia.com/gpu
+      operator: Exists
+      effect: NoSchedule
+  containers:
+    - name: cuda
+      image: nvidia/cuda:12.6.0-base-ubuntu22.04
+      command: ["nvidia-smi", "-L"]
+      resources:
+        claims:
+        - name: mig
+  resourceClaims:
+    - name: mig
+      resourceClaimTemplateName: multi-mig
+  restartPolicy: OnFailure
+EOF
+----
+
+[#eks-mig-device-plugin-bottlerocket]
+== Use MIG on Bottlerocket nodes with the NVIDIA device plugin
+
+On Bottlerocket, the EKS-optimized accelerated AMI includes the NVIDIA device plugin. You enable MIG with the single strategy through the `settings.kubelet-device-plugins.nvidia` settings. Bottlerocket supports MIG in version 1.34.0 and later.
+
+=== Prerequisites
+
+* An Amazon EKS cluster. The following procedure provisions MIG-capable P-family nodes with the EKS-optimized Bottlerocket NVIDIA AMI, version 1.34.0 or later.
+* Karpenter installed and configured in your cluster, because the following procedure uses a Karpenter `EC2NodeClass` to supply the MIG settings in the Bottlerocket node user data. For more information, see the link:https://karpenter.sh/docs/getting-started/getting-started-with-karpenter/[Getting Started with Karpenter] on the Karpenter website.
+* `kubectl` configured to communicate with your cluster, see <<kubectl-install-update>> for more information.
+
+=== Procedure
+
+Add the MIG partitioning setting to the Bottlerocket user data for your GPU nodes. The way you supply user data depends on how you provision nodes. The following example shows a Karpenter `EC2NodeClass` for `p4d.24xlarge` nodes.
+
+[source,bash,subs="verbatim,attributes"]
+----
+cat <<EOF | kubectl apply -f -
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: gpu-bottlerocket-mig
+spec:
+  amiFamily: Bottlerocket
+  amiSelectorTerms:
+    - alias: bottlerocket@latest
+  role: eksctl-KarpenterNodeRole-<cluster-name>
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: <cluster-name>
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: <cluster-name>
+  userData: |
+    [settings.kubelet-device-plugins.nvidia]
+    device-partitioning-strategy = "mig"
+
+    [settings.kubelet-device-plugins.nvidia.mig.profile]
+    "a100.40gb" = "2g.10gb"
+EOF
+----
+
+When nodes provisioned with these settings join the cluster, MIG mode is enabled on the GPUs, each GPU is partitioned into `2g.10gb` instances, and the device plugin advertises the resulting instances as the `nvidia.com/gpu` resource. Because a `p4d.24xlarge` has eight A100 GPUs and each supports three `2g.10gb` instances, the node advertises `nvidia.com/gpu: 24`.
+
+[NOTE]
+====
+The `mig.profile` setting is keyed by GPU model, such as `a100.40gb` or `h100.80gb`. Without a `mig.profile` setting, the GPU enables MIG mode and uses its largest profile. Because Bottlerocket uses the single strategy, every GPU on the node uses the same profile. To use different profiles on the same node (the mixed strategy), use the AL2023 path with the NVIDIA GPU Operator.
+====
+
+[#eks-mig-device-plugin-al2023]
+== Use MIG on AL2023 nodes with the NVIDIA device plugin
+
+On AL2023, the following steps use the NVIDIA GPU Operator to install the NVIDIA device plugin and the MIG Manager. The MIG Manager enables MIG mode and partitions the GPUs according to a configuration that you supply. The NVIDIA device plugin then advertises the resulting instances to Kubernetes. The GPU Operator supports both the single and mixed strategies. 
+
+Because the EKS-optimized AL2023 NVIDIA AMI already includes the NVIDIA driver and toolkit, disable driver management in the GPU Operator to avoid conflicts with the pre-installed driver. Alternatively, you can install and manage the NVIDIA device plugin and MIG Manager yourself without using the GPU Operator.
+
+=== Prerequisites
+
+* An Amazon EKS cluster. The following procedure provisions MIG-capable P-family nodes (such as `p4d.24xlarge`) with the EKS-optimized AL2023 NVIDIA AMI.
+* Karpenter installed and configured in your cluster, because the procedure creates a Karpenter `EC2NodeClass` and `NodePool` to provision the GPU nodes. For more information, see the link:https://karpenter.sh/docs/getting-started/getting-started-with-karpenter/[Getting Started with Karpenter] on the Karpenter website.
+* Helm installed in your command-line environment, see the <<helm,Setup Helm instructions>> for more information.
+* `kubectl` configured to communicate with your cluster, see <<kubectl-install-update>> for more information.
+
+=== Procedure
+
+. Create an `EC2NodeClass` and `NodePool` for AL2023 P-family GPU nodes. On AL2023, the MIG partitioning is applied by the GPU Operator in later steps, so this is a standard AL2023 GPU node class. The following example provisions `p4d.24xlarge` nodes with the EKS-optimized AL2023 NVIDIA AMI.
++
+[source,bash,subs="verbatim,attributes"]
+----
+cat <<EOF | kubectl apply -f -
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: gpu-mig-al2023
+spec:
+  amiFamily: AL2023
+  amiSelectorTerms:
+    - alias: al2023@latest
+  role: eksctl-KarpenterNodeRole-<cluster-name>
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: <cluster-name>
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: <cluster-name>
+  tags:
+    karpenter.sh/discovery: <cluster-name>
+---
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: gpu-mig-al2023
+spec:
+  template:
+    spec:
+      nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
+        name: gpu-mig-al2023
+      taints:
+        - key: nvidia.com/gpu
+          effect: NoSchedule
+      requirements:
+        - key: karpenter.sh/capacity-type
+          operator: In
+          values: ["spot", "on-demand"]
+        - key: node.kubernetes.io/instance-type
+          operator: In
+          values: ["p4d.24xlarge"]
+        - key: kubernetes.io/arch
+          operator: In
+          values: ["amd64"]
+  limits:
+    cpu: 1000
+    memory: 5000Gi
+EOF
+----
++
+. Add the NVIDIA Helm repository.
++
+[source,bash,subs="verbatim,attributes"]
+----
+helm repo add nvidia https://nvidia.github.io/gpu-operator
+helm repo update
+----
++
+. Create a `gpu-operator-values.yaml` file that disables driver management, selects the mixed strategy, and defines the MIG profiles to apply. The following example defines a `p4d-half-balanced` configuration that partitions four of the eight GPUs on a `p4d.24xlarge` node and leaves the rest whole.
++
+[source,bash,subs="verbatim,attributes"]
+----
+cat <<EOF > gpu-operator-values.yaml
+driver:
+  enabled: false
+toolkit:
+  enabled: false
+devicePlugin:
+  enabled: true
+nfd:
+  enabled: true
+gfd:
+  enabled: true
+mig:
+  strategy: mixed
+migManager:
+  enabled: true
+  env:
+    - name: WITH_REBOOT
+      value: "true"
+  config:
+    create: true
+    name: custom-mig-parted-configs
+    default: all-disabled
+    data:
+      config.yaml: |-
+        version: v1
+        mig-configs:
+          all-disabled:
+            - devices: all
+              mig-enabled: false
+          p4d-half-balanced:
+            - devices: [0, 1, 2, 3]
+              mig-enabled: true
+              mig-devices:
+                "1g.5gb": 2
+                "2g.10gb": 1
+                "3g.20gb": 1
+            - devices: [4, 5, 6, 7]
+              mig-enabled: false
+EOF
+----
++
+. Install the GPU Operator with the values file.
++
+[source,bash,subs="verbatim,attributes"]
+----
+helm install gpu-operator nvidia/gpu-operator \
+    --namespace gpu-operator \
+    --create-namespace \
+    --values gpu-operator-values.yaml
+----
++
+. Label your MIG-capable nodes with the profile configuration to apply. The MIG Manager component watches for this label and partitions the GPUs accordingly, rebooting the node to apply the change.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl label nodes -l node.kubernetes.io/instance-type=p4d.24xlarge \
+    nvidia.com/mig.config=p4d-half-balanced --overwrite
+----
++
+. After the GPU Operator partitions the GPUs, Pods request a specific MIG profile by its resource name rather than `nvidia.com/gpu`. The following example runs a Pod that requests one `1g.5gb` instance.
++
+[source,bash,subs="verbatim,attributes"]
+----
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mig-inference
+spec:
+  tolerations:
+    - key: nvidia.com/gpu
+      operator: Exists
+      effect: NoSchedule
+  containers:
+    - name: cuda
+      image: nvidia/cuda:12.6.0-base-ubuntu22.04
+      command: ["nvidia-smi", "-L"]
+      resources:
+        limits:
+          nvidia.com/mig-1g.5gb: 1
+EOF
+----
+
+For complete mixed-strategy configuration examples for P-family instances, including managed node groups with capacity reservations and per-profile workloads, see the MIG section of the link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-compute.html[Amazon EKS Best Practices Guide,type="documentation"].
+
+[#eks-mig-verify]
+== Verify that MIG is active
+
+After your MIG-enabled nodes are `Ready`, confirm that MIG mode is active on the GPUs and that the node advertises the expected MIG resources.
+
+. Confirm that the node advertises MIG resources. With the single strategy, the node reports the instances as `nvidia.com/gpu`. With the mixed strategy, the node reports profile-specific resources, such as `nvidia.com/mig-1g.10gb`.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl describe node <node-name> | grep nvidia.com
+----
++
+. Run `nvidia-smi` from a Pod on a MIG-enabled node to confirm that MIG mode is active.
++
+`nvidia-smi` reports `MIG M.: Enabled` for GPUs that have MIG mode turned on and lists the MIG instances configured on each. The following is example output from an A100 40 GB GPU with MIG enabled and partitioned into `3g.20gb`, `2g.10gb`, and `1g.5gb` instances.
++
+[source,bash,subs="verbatim,attributes"]
+----
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.159.03             Driver Version: 580.159.03     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-40GB          On  |   00000000:10:1C.0 Off |                   On |
+| N/A   35C    P0             65W /  400W |     213MiB /  40960MiB |     N/A      Default |
+|                                         |                        |              Enabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| MIG devices:                                                                            |
++------------------+----------------------------------+-----------+-----------------------+
+| GPU  GI  CI  MIG |              Shared Memory-Usage |        Vol|        Shared         |
+|      ID  ID  Dev |                Shared BAR1-Usage | SM     Unc| CE ENC  DEC  OFA  JPG |
+|                  |                                  |        ECC|                       |
+|==================+==================================+===========+=======================|
+|  0    1   0   0  |             107MiB / 20096MiB    | 42      0 |  3   0    2    0    0 |
+|                  |               0MiB / 12211MiB    |           |                       |
++------------------+----------------------------------+-----------+-----------------------+
+|  0    5   0   1  |              71MiB /  9984MiB    | 28      0 |  2   0    1    0    0 |
+|                  |               0MiB /  6105MiB    |           |                       |
++------------------+----------------------------------+-----------+-----------------------+
+|  0   13   0   2  |              36MiB /  4864MiB    | 14      0 |  1   0    0    0    0 |
+|                  |               0MiB /  3052MiB    |           |                       |
++------------------+----------------------------------+-----------+-----------------------+
+----
++
+With the mixed strategy, a Pod sees only the MIG instance it requested, not the full GPU layout of the node. The `mig-inference` Pod from the previous step requested one `nvidia.com/mig-1g.5gb` instance, so `nvidia-smi -L` inside that Pod lists a single MIG device.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl logs mig-inference
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+GPU 0: NVIDIA A100-SXM4-40GB (UUID: GPU-5b7ce860-1951-004c-4881-6ac6997df770)
+  MIG 1g.5gb      Device  0: (UUID: MIG-9b065868-21b6-5b8d-8ab9-e99089ed472c)
+----
++
+To see the full partition layout of every GPU on a node, run `nvidia-smi -L` on the host instead of inside a workload Pod. The following command starts a privileged debugging Pod on the node and runs the host's `nvidia-smi`. Replace [.replaceable]`node-name` with the name of your MIG-enabled node.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl debug node/<node-name> -it --profile=sysadmin --image=nvidia/cuda:12.6.0-base-ubuntu22.04 -- chroot /host nvidia-smi -L
+----
++
+The following is example output for the `p4d-half-balanced` configuration. The first four GPUs are partitioned into MIG instances, and the remaining four are whole GPUs. Each `MIG` line is a hardware-isolated instance with its own UUID, memory, and compute slices.
++
+[source,bash,subs="verbatim,attributes"]
+----
+GPU 0: NVIDIA A100-SXM4-40GB (UUID: GPU-5b7ce860-1951-004c-4881-6ac6997df770)
+  MIG 3g.20gb     Device  0: (UUID: MIG-7dc16162-7ba2-5894-abde-d753dc8ecf56)
+  MIG 2g.10gb     Device  1: (UUID: MIG-56cfe1f0-0662-50e4-a5f7-111107e4d5e6)
+  MIG 1g.5gb      Device  2: (UUID: MIG-1409727e-2ffa-5fd4-9586-204c9e2b36d5)
+  MIG 1g.5gb      Device  3: (UUID: MIG-9b065868-21b6-5b8d-8ab9-e99089ed472c)
+GPU 1: NVIDIA A100-SXM4-40GB (UUID: GPU-73692a43-dd2d-f1a1-b0df-2f4734e2a87d)
+  MIG 3g.20gb     Device  0: (UUID: MIG-745fd93a-9582-57a6-8b3b-9782d289ca1b)
+  MIG 2g.10gb     Device  1: (UUID: MIG-8440294e-c4a0-5687-add5-2cc506babb2f)
+  MIG 1g.5gb      Device  2: (UUID: MIG-559810c0-f2bb-5ca2-b529-47228d99437f)
+  MIG 1g.5gb      Device  3: (UUID: MIG-a91cf3f9-6459-59e9-97a8-dc69b9958eef)
+GPU 2: NVIDIA A100-SXM4-40GB (UUID: GPU-4e56019e-84de-eef5-5ac3-85e468e93639)
+  MIG 3g.20gb     Device  0: (UUID: MIG-c130392b-fd7c-59f8-9f4b-ecab27a2984b)
+  MIG 2g.10gb     Device  1: (UUID: MIG-7d61cf16-ad08-57be-b2c2-ac6e515b28c3)
+  MIG 1g.5gb      Device  2: (UUID: MIG-f5388dec-d841-506c-bb7a-6ac136ceee53)
+  MIG 1g.5gb      Device  3: (UUID: MIG-02d54020-c6cb-5997-894b-e95af0f49388)
+GPU 3: NVIDIA A100-SXM4-40GB (UUID: GPU-4fd894a0-b471-9e77-eb67-0ad15002ed5b)
+  MIG 3g.20gb     Device  0: (UUID: MIG-10399b59-2625-5106-b3f8-76ae19da46e1)
+  MIG 2g.10gb     Device  1: (UUID: MIG-ef81ee7d-fc48-56ed-8479-8ffa76eb4154)
+  MIG 1g.5gb      Device  2: (UUID: MIG-ed9bf59d-6bf2-5e07-80fb-dd0d7ca41f9d)
+  MIG 1g.5gb      Device  3: (UUID: MIG-a15d6f7d-661b-514e-8838-06fe4ffe7f75)
+GPU 4: NVIDIA A100-SXM4-40GB (UUID: GPU-05b6b91b-da6e-3078-1f4f-a7bbf1ff7ed2)
+GPU 5: NVIDIA A100-SXM4-40GB (UUID: GPU-078a8df1-f387-0315-6b0b-af12e082f6d5)
+GPU 6: NVIDIA A100-SXM4-40GB (UUID: GPU-6cdeffe7-45f1-7e8e-bcc1-4634399ad877)
+GPU 7: NVIDIA A100-SXM4-40GB (UUID: GPU-5f68814a-4e4a-5dec-79b4-8d70a61c7714)
+----

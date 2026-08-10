@@ -93,6 +93,8 @@ For additional arguments, see <<bootstrap-script-configuration-parameters>>.
 
 * *Pod Identity* - Pods configured with EKS Pod Identity acquire credentials from the EKS Auth API. If there is no outbound internet access, you must create and use a VPC endpoint for the EKS Auth API: `com.amazonaws.region-code.eks-auth`. For more information about the EKS and EKS Auth VPC endpoints, see <<vpc-interface-endpoints>>.
 * *IRSA* - Pods configured with <<iam-roles-for-service-accounts,IAM roles for service accounts>> acquire credentials from an {aws} Security Token Service ({aws} STS) API call. If there is no outbound internet access, you must create and use an {aws} STS VPC endpoint in your VPC. Most {aws} `v1` SDKs use the global {aws} STS endpoint by default (`sts.amazonaws.com`), which doesn't use the {aws} STS VPC endpoint. To use the {aws} STS VPC endpoint, you might need to configure your SDK to use the regional {aws} STS endpoint (``sts.[.replaceable]`region-code`.amazonaws.com``). For more information, see <<configure-sts-endpoint>>.
++
+To set up IRSA, you also need to reach the cluster's OIDC discovery/JWKS endpoint from inside the VPC. For example, you reach it when you create the cluster's IAM OIDC identity provider or run your own token validators. If there is no outbound internet access, create and use a VPC endpoint for the cluster OIDC endpoint: `com.amazonaws.[.replaceable]``region-code``.oidc-eks`. This is separate from the {aws} STS VPC endpoint. STS fetches the cluster's JWKS from within {aws}, so the OIDC endpoint privatizes your VPC-originated OIDC traffic, while the STS endpoint privatizes the `AssumeRoleWithWebIdentity` call. For more information, see <<oidc-vpc-interface-endpoints>>.
 * Your cluster's VPC subnets must have a VPC interface endpoint for any {aws} services that your Pods need access to. For more information, see link:vpc/latest/privatelink/create-interface-endpoint.html[Access an {aws} service using an interface VPC endpoint,type="documentation"]. Some commonly-used services and endpoints are listed in the following table. For a complete list of endpoints, see link:vpc/latest/privatelink/aws-services-privatelink-support.html[{aws} services that integrate with {aws} PrivateLink,type="documentation"] in the link:vpc/latest/privatelink/[{aws} PrivateLink Guide,type="documentation"].
 +
 We recommend that you link:vpc/latest/privatelink/interface-endpoints.html#enable-private-dns-names[enable private DNS names,type="documentation"] for your VPC endpoints, that way workloads can continue using public {aws} service endpoints without issues.
@@ -123,6 +125,9 @@ We recommend that you link:vpc/latest/privatelink/interface-endpoints.html#enabl
 
 |{aws} Security Token Service (required when using IAM roles for service accounts)
 |com.amazonaws.[.replaceable]`region-code`.sts
+
+|Amazon EKS cluster OIDC endpoint (required to set up IAM roles for service accounts from inside the VPC)
+|com.amazonaws.[.replaceable]`region-code`.oidc-eks
 
 |Amazon EKS Auth (required when using Pod Identity associations)
 |com.amazonaws.[.replaceable]`region-code`.eks-auth 

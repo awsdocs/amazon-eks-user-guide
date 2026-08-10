@@ -64,7 +64,7 @@ Sample output:
 EKS Auto Mode requires a Cluster IAM Role to perform actions in your {aws} account, such as provisioning new EC2 instances. You must create this role to grant EKS the necessary permissions. {aws} recommends attaching the following {aws} managed policies to the Cluster IAM Role:
 
 * <<security-iam-awsmanpol-AmazonEKSComputePolicy,AmazonEKSComputePolicy>>
-* <<security-iam-awsmanpol-AmazonEKSBlockStoragePolicy,AmazonEKSBlockStoragePolicy>>
+* <<security-iam-awsmanpol-AmazonEKSBlockStoragePolicyV2,AmazonEKSBlockStoragePolicyV2>>
 * <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy,AmazonEKSLoadBalancingPolicy>>
 * <<security-iam-awsmanpol-AmazonEKSNetworkingPolicy,AmazonEKSNetworkingPolicy>>
 * <<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>>
@@ -137,13 +137,13 @@ aws iam attach-role-policy \
     --policy-arn {arn-aws}iam::aws:policy/AmazonEKSComputePolicy
 ----
 
-*AmazonEKSBlockStoragePolicy*:
+*AmazonEKSBlockStoragePolicyV2*:
 
 [source,bash,subs="verbatim,attributes"]
 ----
 aws iam attach-role-policy \
     --role-name AmazonEKSAutoClusterRole \
-    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSBlockStoragePolicy
+    --policy-arn {arn-aws}iam::aws:policy/AmazonEKSBlockStoragePolicyV2
 ----
 
 *AmazonEKSLoadBalancingPolicy*:
@@ -239,6 +239,34 @@ Review these default values and features before creating the cluster:
 * `kubernetesNetworkConfig.elasticLoadBalancing.enabled`: Automates load balancing tasks, including creating and deleting Elastic Load Balancers.
 * `storageConfig.blockStorage.enabled`: Automates storage tasks, such as creating and deleting Amazon EBS volumes.
 * `accessConfig.authenticationMode`: Requires EKS access entries. Learn more about <<grant-k8s-access,EKS authentication modes>>.
+
+==== Set Environment Variables
+
+Before running the `create-cluster` command, set the following environment variables. Replace the placeholder values with your own:
+
+----
+export AWS_REGION=us-east-1
+export CLUSTER_NAME=my-auto-cluster
+export K8S_VERSION=1.35
+export CLUSTER_ROLE_ARN=arn:aws:iam::111122223333:role/AmazonEKSAutoClusterRole
+export NODE_ROLE_ARN=arn:aws:iam::111122223333:role/AmazonEKSAutoNodeRole
+export SUBNETS_JSON='["subnet-ExampleID1","subnet-ExampleID2","subnet-ExampleID3"]'
+----
+
+NOTE: Set the `SUBNETS_JSON` variable with the subnet IDs from the previous step. You must wrap the value in single quotes to prevent the shell from interpreting the brackets and quotes as special characters.
+
+==== Verify Variables (Optional)
+
+Confirm your variables are set correctly:
+
+----
+echo "Region: ${AWS_REGION}"
+echo "Cluster Name: ${CLUSTER_NAME}"
+echo "K8s Version: ${K8S_VERSION}"
+echo "Cluster Role ARN: ${CLUSTER_ROLE_ARN}"
+echo "Node Role ARN: ${NODE_ROLE_ARN}"
+echo "Subnets JSON: ${SUBNETS_JSON}"
+----
 
 ==== Run the Command
 

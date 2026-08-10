@@ -72,6 +72,10 @@ spec:
           operator: In
           values: ["arm64", "amd64"]
 
+  disruption:
+    consolidationPolicy: Balanced
+    consolidateAfter: 30s
+
   limits:
     cpu: "1000"
     memory: 1000Gi
@@ -107,7 +111,7 @@ NOTE: EKS Auto Mode uses different labels than Karpenter. Labels related to EC2 
 
 |karpenter.sh/capacity-type
 |spot
-|Capacity types include `spot`, `on-demand`, `reserved`
+|Capacity types include `spot`, `on-demand`, and `reserved`. If you do not specify a capacity type, Karpenter prioritizes `reserved`, then `spot`, then `on-demand`.
 
 |eks.amazonaws.com/instance-hypervisor
 |nitro
@@ -225,7 +229,15 @@ For more information, see <<automode-get-started-eksctl>>
 
 == Disruption
 
-You can configure EKS Auto Mode to disrupt Nodes through your NodePool in multiple ways. You can use `spec.disruption.consolidationPolicy`, `spec.disruption.consolidateAfter`, or `spec.template.spec.expireAfter`. You can also rate limit EKS Auto Mode's disruption through the NodePool’s `spec.disruption.budgets`. You can also control the time windows and number of simultaneous Nodes disrupted. For instructions on configuring this behavior, see https://karpenter.sh/docs/concepts/disruption/[Disruption] in the Karpenter Documentation. 
+You can configure EKS Auto Mode to disrupt Nodes through your NodePool in multiple ways. You can use `spec.disruption.consolidationPolicy`, `spec.disruption.consolidateAfter`, or `spec.template.spec.expireAfter`. You can also rate limit the disruption of EKS Auto Mode through the NodePool’s `spec.disruption.budgets`. You can also control the time windows and number of simultaneous Nodes disrupted. For instructions on configuring this behavior, see https://karpenter.sh/docs/concepts/disruption/[Disruption] in the Karpenter Documentation.
+
+The `consolidationPolicy` field accepts three values:
+
+* `WhenEmpty` – Consolidates only empty nodes, so running workloads are never disrupted.
+* `WhenEmptyOrUnderutilized` – Aggressively consolidates for cost, disrupting workloads whenever a node's pods can be repacked more cheaply.
+* `Balanced` – Scores each consolidation action by weighing disruption cost against cost savings. Skips actions where the disruption outweighs the savings.
+
+For details on each value, see https://karpenter.sh/docs/concepts/disruption/[Disruption] in the Karpenter documentation.
 
 You can configure disruption for node pools to:
 

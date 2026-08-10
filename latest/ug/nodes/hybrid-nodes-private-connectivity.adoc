@@ -284,6 +284,11 @@ VPC interface endpoints ensure that hybrid nodes can access essential {aws} serv
 |\`sts.__region__.amazonaws.com\`
 |{aws} Security Token Service to assume IAM roles (used by nodes).
 
+|\`com.amazonaws.__region__.oidc-eks\`
+|\`oidc-eks.__region__.api.aws\` +
+\`oidc.eks.__region__.amazonaws.com\`
+|Cluster OIDC discovery/JWKS endpoint (if using IAM roles for service accounts).
+
 |\`com.amazonaws.__region__.rolesanywhere\`
 |\`rolesanywhere.__region__.amazonaws.com\`
 |{aws} IAM Roles Anywhere (if using IAM Roles Anywhere).

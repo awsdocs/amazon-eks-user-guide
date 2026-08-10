@@ -326,7 +326,7 @@ This enables more granular access control with the managed capability.
 
 == Advanced IAM Role Selector patterns
 
-For advanced configuration including label selectors, resource-specific role mapping, and additional examples, see link:https://aws-controllers-k8s.github.io/community/docs/user-docs/irsa/[ACK IRSA Documentation^].
+For advanced configuration including cross-account role mapping, namespace-scoped role selection, and additional examples, see link:https://aws-controllers-k8s.github.io/docs/guides/cross-account[Granular IAM Roles^] on the ACK website.
 
 == Next steps
 

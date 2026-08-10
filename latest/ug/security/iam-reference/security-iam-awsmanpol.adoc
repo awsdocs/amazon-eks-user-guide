@@ -176,11 +176,11 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 
 
  
-[#security-iam-awsmanpol-AmazonEKSBlockStoragePolicy]
-== {aws} managed policy: AmazonEKSBlockStoragePolicy
-:info_titleabbrev: AmazonEKSBlockStoragePolicy
+[#security-iam-awsmanpol-AmazonEKSBlockStoragePolicyV2]
+== {aws} managed policy: AmazonEKSBlockStoragePolicyV2
+:info_titleabbrev: AmazonEKSBlockStoragePolicyV2
  
-You can attach `AmazonEKSBlockStoragePolicy` to your IAM entities. You may attach this policy to your <<cluster-iam-role,cluster IAM role>> to expand the resources EKS can manage in your account. 
+You can attach `AmazonEKSBlockStoragePolicyV2` to your IAM entities. You can attach this policy to your <<cluster-iam-role,cluster IAM role>> to expand the resources EKS can manage in your account. 
  
 This policy grants the necessary permissions for Amazon EKS to create, manage, and maintain EC2 volumes and snapshots for the EKS cluster, enabling the control plane and worker nodes to provision and use persistent storage as required by Kubernetes workloads.
  
@@ -201,7 +201,7 @@ This IAM policy grants the following permissions to allow Amazon EKS to manage E
  
  
  
-To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSBlockStoragePolicy.html#AmazonEKSBlockStoragePolicy-json[AmazonEKSBlockStoragePolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
+To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonEKSBlockStoragePolicyV2.html#AmazonEKSBlockStoragePolicyV2-json[AmazonEKSBlockStoragePolicyV2,type="documentation"] in the {aws} Managed Policy Reference Guide.
  
 
 [#security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy]
@@ -485,6 +485,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Description
 |Date
 
+|Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
+|Added `AmazonEKSPodIdentityPolicy` to the list of access policies that the service-linked role can associate and dissociate from cluster access entries. With this addition, Amazon EKS can manage pod identity credentials for workloads running on EKS clusters.
+|June 26, 2026
+
 |Updated permissions to <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>.
 |Added `elasticloadbalancing:SetRulePriorities`, `ec2:DescribeIpamPools` permissions in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to set priorities of the specified listiner rules for ALB and describe ipam pools respectively
 |June 15, 2026
@@ -496,6 +500,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Added permission to <<security-iam-awsmanpol-AmazonEKSComputePolicy>>.
 |Added resource permissions to include the `ec2:DescribeCapacityReservations` action. This allows Amazon EKS Auto Mode to launch instances from Interruptible Capacity Reservations in your account.
 |May 18, 2026
+
+|Introduced <<security-iam-awsmanpol-AmazonEKSBlockStoragePolicyV2>>.
+|{aws} introduced the `AmazonEKSBlockStoragePolicyV2`.
+|May 12, 2026
 
 |Added permissions to <<security-iam-awsmanpol-amazonebscsidriverservicerolepolicy,AmazonEBSCSIDriverPolicy>>.
 |Added new API action `ec2:DescribeInstanceTypes` to enable the EBS CSI Driver to dynamically retrieve volume limit/card information at runtime.
@@ -646,7 +654,7 @@ Added the ability for the EBS CSI Driver to enable Fast Snapshot Restore (FSR) o
 |Added `ec2:DescribeInstanceTopology` permission to allow Amazon EKS to attach topology information to the node as labels.
 |November 1, 2024
 
-|Introduced <<security-iam-awsmanpol-AmazonEKSBlockStoragePolicy>>.
+|Introduced link:aws-managed-policy/latest/reference/AmazonEKSBlockStoragePolicy.html[AmazonEKSBlockStoragePolicy,type="documentation"].
 |{aws} introduced the `AmazonEKSBlockStoragePolicy`.
 |October 30, 2024
 

@@ -26,12 +26,12 @@ Before you start, make sure you have performed the following tasks:
 [#vpc-endpoint-considerations]
 == Considerations
 
-* *Support and Limitations*: Amazon EKS interface endpoints enable secure access to all Amazon EKS API actions from your VPC but come with specific limitations: they do not support access to Kubernetes APIs, as these have a separate private endpoint, you cannot configure Amazon EKS to be accessible only through the interface endpoint.
+* *Support and Limitations*: Amazon EKS interface endpoints enable secure access to all Amazon EKS API actions from your VPC but come with specific limitations: they do not support access to Kubernetes APIs, as these have a separate private endpoint, you cannot configure Amazon EKS to be accessible only through the interface endpoint. The cluster OIDC discovery and JWKS endpoint used by IAM roles for service accounts (IRSA) is also served from a separate interface endpoint with its own service name and access-control behavior; see <<oidc-vpc-interface-endpoints>>.
 * *Pricing*: Using interface endpoints for Amazon EKS incurs standard {aws} PrivateLink charges: hourly charges for each endpoint provisioned in each Availability Zone, data processing charges for traffic through the endpoint. To learn more, see link:https://aws.amazon.com/privatelink/pricing/[{aws} PrivateLink pricing].
 * *Security and Access Control*: We recommend enhancing security and controlling access with these additional configurations—use VPC endpoint policies to control access to Amazon EKS through the interface endpoint, associate security groups with endpoint network interfaces to manage traffic, use VPC flow logs to capture and monitor IP traffic to and from the interface endpoints, with logs publishable to Amazon CloudWatch or Amazon S3. To learn more, see link:https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-access.html[Control access to VPC endpoints using endpoint policies] and link:https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html[Logging IP traffic using VPC Flow Logs].
 * *Connectivity Options*: Interface endpoints offer flexible connectivity options using *on-premises access* (connect your on-premises data center to a VPC with the interface endpoint using {aws} Direct Connect or {aws} Site-to-Site VPN) or via *inter-VPC connectivity* (use {aws} Transit Gateway or VPC peering to connect other VPCs to the VPC with the interface endpoint, keeping traffic within the {aws} network).
 * *IP Version Support*: Endpoints created before August 2024 support only IPv4 using eks.region.amazonaws.com. New endpoints created after August 2024 support dual-stack IPv4 and IPv6 (e.g., eks.region.amazonaws.com, eks.region.api.aws).
-* *Regional Availability*: {aws} PrivateLink for the EKS API is not available in Asia Pacific (Malaysia) (ap-southeast-5), Asia Pacific (Thailand) (ap-southeast-7), Mexico (Central) (mx-central-1), and Asia Pacific (Taipei) (ap-east-2) regions. {aws} PrivateLink support for eks-auth (EKS Pod Identity) is available in the Asia Pacific (Malaysia) (ap-southeast-5) region.
+* *Regional Availability*: {aws} PrivateLink for the EKS API is not available in Asia Pacific (Malaysia) (ap-southeast-5), Asia Pacific (Thailand) (ap-southeast-7), Mexico (Central) (mx-central-1), and Asia Pacific (Taipei) (ap-east-2) regions. {aws} PrivateLink support for eks-auth (EKS Pod Identity) is available in the Asia Pacific (Malaysia) (ap-southeast-5) region. {aws} PrivateLink for the cluster OIDC endpoint (`com.amazonaws.region-code.oidc-eks`) is available in most {aws} Regions.
 
 
 [#vpc-endpoint-create]
@@ -49,6 +49,12 @@ Create an interface endpoint for Amazon EKS using the following service names:
 === EKS Auth API (EKS Pod Identity)
 
 * com.amazonaws.region-code.eks-auth
+
+=== EKS cluster OIDC endpoint (IRSA discovery / JWKS)
+
+* com.amazonaws.region-code.oidc-eks
+
+This endpoint has access-control behavior that differs from the EKS API endpoints. For more information, see <<oidc-vpc-interface-endpoints>>.
 
 [#vpc-endpoint-private-dns]
 == Private DNS feature for Amazon EKS interface endpoints
@@ -79,4 +85,33 @@ Once configured, the private DNS feature can be integrated into your workflows, 
 * *Application Compatibility*: Your existing applications that call EKS APIs require no changes to leverage this feature.
 * *{aws} CLI with Dual-Stack*: To use the dual-stack endpoints with the {aws} CLI, see the link:https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html[Dual-stack and FIPS endpoints] configuration in the _{aws} SDKs and Tools Reference Guide_.
 * *Automatic Routing*: Any call to the Amazon EKS default service endpoint is automatically directed through the interface endpoint, ensuring private and secure connectivity.
+
+[#oidc-vpc-interface-endpoints]
+== Access the cluster OIDC endpoint using {aws} PrivateLink
+
+Each Amazon EKS cluster publishes a public OpenID Connect (OIDC) discovery document and JSON Web Key Set (JWKS) at its OIDC issuer URL. IAM roles for service accounts (IRSA) uses this endpoint to publish the cluster's public signing keys. Tools that set up IRSA or validate tokens directly retrieve keys from this endpoint.
+
+You can use {aws} PrivateLink to reach this OIDC endpoint privately from your VPC, without internet egress. This is useful for private or no-egress VPCs where in-VPC tooling needs to reach the OIDC endpoint, for example, creating the cluster's IAM OIDC identity provider (`eksctl`, Terraform, or the {aws} CLI), or running your own token validators inside the VPC. Previously, reaching this endpoint required internet access or DNS workarounds (see link:https://github.com/aws/containers-roadmap/issues/2038[containers-roadmap#2038] on GitHub).
+
+Create an interface endpoint for the cluster OIDC endpoint using the following service name:
+
+* `com.amazonaws.region-code.oidc-eks`
+
+[#oidc-vpc-endpoint-considerations]
+=== Considerations
+
+* *This endpoint does not support VPC endpoint policies.* The OIDC discovery and JWKS documents are served anonymously. This is required by the OpenID Connect specification and is how IRSA works: validators fetch public keys without presenting credentials. Because requests carry no IAM principal or action, a VPC endpoint policy has nothing to evaluate against. This endpoint accepts only the default full-access policy. Control who can reach the endpoint with the security groups on the endpoint network interfaces and with subnet routing.
+
+* *Private connectivity is not an authorization boundary.* Reaching the OIDC endpoint over {aws} PrivateLink keeps this traffic on the {aws} network — it does not, by itself, control who can assume an IAM role. The data served is public key material. The trust policy of the assumed role enforces IRSA authorization, not the network path used to reach the OIDC endpoint. This enforcement happens when a workload calls `sts:AssumeRoleWithWebIdentity`. Control which workloads can assume a role with the `aud` and `sub` conditions in the role's trust policy; see <<associate-service-account-role,Assign IAM roles to Kubernetes service accounts>>.
+
+* *{aws} STS validates tokens on its own path.* This endpoint does not affect how {aws} STS validates IRSA tokens. When a workload calls `AssumeRoleWithWebIdentity`, STS fetches the cluster's JWKS from within {aws}, not through your VPC or this endpoint. Creating this endpoint, or overriding OIDC DNS in your VPC, does not change token validation. To also keep the workload's `AssumeRoleWithWebIdentity` call private, create an {aws} STS interface endpoint and configure the regional STS endpoint separately; see link:eks/latest/userguide/configure-sts-endpoint.html[Configure the {aws} Security Token Service endpoint for a service account,type="documentation"].
+
+* *Pricing:* Standard {aws} PrivateLink charges apply. See link:https://aws.amazon.com/privatelink/pricing/[{aws} PrivateLink pricing].
+
+[#oidc-vpc-endpoint-private-dns]
+=== Private DNS and dual-stack names
+
+Each cluster has one OIDC issuer hostname, determined by the cluster's IP family. IPv4 clusters, which are the default, use `oidc.eks.region-code.amazonaws.com`. IPv6 clusters use the dual-stack hostname `oidc-eks.region-code.api.aws`, which resolves to both IPv4 and IPv6 addresses. In the {aws} China Regions, the dual-stack hostname is `oidc-eks.region-code.api.amazonwebservices.com.cn`.
+
+The interface endpoint registers both hostnames. With private DNS enabled (the default), each hostname resolves to your interface endpoint. Your cluster's issuer URL therefore resolves to the endpoint whether the cluster uses the `oidc.eks.region-code.amazonaws.com` hostname or the dual-stack hostname. A client that follows a token's issuer URL to fetch the discovery document and JWKS reaches the endpoint privately in either case.
 

@@ -82,6 +82,14 @@ a|
 
 
 a|
+*Multi cluster target groups*
+
+- Understand how the load balancer controller manages target group membership
+- Enable MultiCluster support to share a target group across multiple Kubernetes clusters
+- Support arbitrary targets from other sources in a shared target group
+|<<auto-multi-cluster-target-groups>>
+
+a|
 *Storage Class settings*
 
 - Define EBS volume types (gp3, io1, io2, etc.)
@@ -131,6 +139,10 @@ include::auto-static-capacity.adoc[leveloffset=+1]
 include::auto-configure-alb.adoc[leveloffset=+1]
 
 include::auto-configure-nlb.adoc[leveloffset=+1]
+
+include::auto-multi-cluster-target-groups.adoc[leveloffset=+1]
+
+include::auto-multi-cluster-target-groups-example.adoc[leveloffset=+1]
 
 include::create-storage-class.adoc[leveloffset=+1]
 

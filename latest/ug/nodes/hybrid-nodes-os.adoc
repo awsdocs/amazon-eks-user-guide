@@ -14,6 +14,19 @@ Bottlerocket, Amazon Linux 2023 (AL2023), Ubuntu, and RHEL are validated on an o
 
 You are responsible for operating system provisioning and management. When you are testing hybrid nodes for the first time, it is easiest to run the Amazon EKS Hybrid Nodes CLI (`nodeadm`) on an already provisioned host. For production deployments, we recommend that you include `nodeadm` in your operating system images with it configured to run as a systemd service to automatically join hosts to Amazon EKS clusters at host startup. If you are using Bottlerocket as your node operating system on vSphere, you do not need to use `nodeadm` as Bottlerocket already contains the dependencies required for hybrid nodes and will automatically connect to the cluster you configure upon host startup.
 
+.Required nodeadm version for SSM credential provider
+[IMPORTANT]
+====
+If you use {aws} Systems Manager (SSM) as your credential provider for hybrid nodes, you must use `nodeadm` version `1.0.19` or later for new installations and upgrades. Earlier versions of `nodeadm` contain an outdated SSM signing key and fail during `nodeadm install` and `nodeadm upgrade` with the following signature verification error:
+
+[source,bash,subs="verbatim,attributes"]
+----
+"msg":"Command failed","error":"failed to install ssm installer: validating ssm-setup-cli signature: Signature Verification Error: No matching signature"
+----
+
+To resolve this error, <<hybrid-nodes-nodeadm-download, download the latest version>> of `nodeadm` before running `nodeadm install` or `nodeadm upgrade`.
+====
+
 == Version compatibility
 
 The table below represents the operating system versions that are compatible and validated to use as the node operating system for hybrid nodes. If you are using other operating system variants or versions that are not included in this table, then the compatibility of hybrid nodes with your operating system variant or version is not covered by {aws} Support. Hybrid nodes are agnostic to the underlying infrastructure and support x86 and ARM architectures. 

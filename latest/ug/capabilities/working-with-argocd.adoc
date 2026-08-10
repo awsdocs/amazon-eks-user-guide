@@ -31,6 +31,8 @@ The following topics guide you through common Argo CD tasks:
 
 *<<argocd-projects>>* - Organize applications and enforce security boundaries using Projects for multi-tenant environments.
 
+*<<argocd-configure-settings>>* - Configure Argo CD behavior using the `argocd-cm` ConfigMap, including custom health checks for Custom Resources.
+
 *<<argocd-create-application>>* - Create Applications that deploy from Git repositories with automated or manual sync policies.
 
 *<<argocd-applicationsets>>* - Use ApplicationSets to deploy applications across multiple environments or clusters using templates and generators.
@@ -61,6 +63,8 @@ include::argocd-configure-repositories.adoc[leveloffset=+1]
 include::argocd-register-clusters.adoc[leveloffset=+1]
 
 include::argocd-projects.adoc[leveloffset=+1]
+
+include::argocd-configure-settings.adoc[leveloffset=+1]
 
 include::argocd-create-application.adoc[leveloffset=+1]
 
