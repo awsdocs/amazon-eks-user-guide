@@ -238,6 +238,23 @@ You can see the subnets in the `192.168.1.0` CIDR block that you created are in 
 ----
 kubectl set env daemonset aws-node -n kube-system AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true
 ----
++
+[NOTE]
+.Managing the VPC CNI plugin as an Amazon EKS add-on
+====
+This command applies only when you manage the Amazon VPC CNI plugin as a self-managed add-on. If you manage it as an Amazon EKS add-on, don't set this environment variable with `kubectl set env`. Amazon EKS add-ons reconcile the `aws-node` DaemonSet to the configuration stored for the add-on. Amazon EKS can revert a value set directly with `kubectl` the next time it creates, updates, or edits the add-on. To persist the setting so that it survives add-on updates, use the add-on configuration instead:
+
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks update-addon \
+    --cluster-name my-custom-networking-cluster \
+    --addon-name vpc-cni \
+    --resolve-conflicts OVERWRITE \
+    --configuration-values '{"env":{"AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG":"true"}}'
+----
+
+To view the configuration keys supported by your add-on version, run `aws eks describe-addon-configuration --addon-name vpc-cni --addon-version <version>`. For more information about updating Amazon EKS add-ons, see <<updating-an-add-on>>.
+====
 . Retrieve the ID of your <<sec-group-reqs,cluster security group>> and store it in a variable for use in the next step. Amazon EKS automatically creates this security group when you create your cluster.
 +
 [source,bash,subs="verbatim,attributes"]
@@ -340,6 +357,12 @@ If output is returned, the annotation exists. If no output is returned, then the
 ----
 kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=topology.kubernetes.io/zone
 ----
++
+[NOTE]
+.Managing the VPC CNI plugin as an Amazon EKS add-on
+====
+If you manage the Amazon VPC CNI plugin as an Amazon EKS add-on, use the add-on's `--configuration-values` to set `ENI_CONFIG_LABEL_DEF` and `AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG`. Don't use `kubectl set env` for these settings. Using the add-on configuration ensures the settings persist across add-on updates. For example: `--configuration-values '{"env":{"AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG":"true","ENI_CONFIG_LABEL_DEF":"topology.kubernetes.io/zone"}}'`.
+====
 
 
 [#custom-networking-deploy-nodes]
