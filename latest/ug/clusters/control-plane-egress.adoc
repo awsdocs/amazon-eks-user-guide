@@ -200,7 +200,7 @@ For example, the following SCP denies cluster creation and configuration updates
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",
+  "Version": "2012-10-17", {tcx5-2025-waiver}
   "Statement": [
     {
       "Sid": "RequireCustomerRoutedControlPlane",

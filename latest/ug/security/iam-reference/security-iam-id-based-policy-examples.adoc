@@ -116,7 +116,7 @@ To allow users to cancel in-progress rollback operations, grant the `eks:CancelU
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",
+  "Version": "2012-10-17", {tcx5-2025-waiver}
   "Statement": [{
     "Effect": "Allow",
     "Action": "eks:CancelUpdate",
@@ -130,7 +130,7 @@ To allow users to cancel in-progress rollback operations, grant the `eks:CancelU
 [source,json,subs="verbatim,attributes"]
 ----
 {
-  "Version": "2012-10-17",
+  "Version": "2012-10-17", {tcx5-2025-waiver}
   "Statement": [{
     "Effect": "Allow",
     "Action": "eks:CancelUpdate",
