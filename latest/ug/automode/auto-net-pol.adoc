@@ -128,7 +128,7 @@ spec:
     - action: Allow
       to:
       - networks:
-        - 10.100.0.0/16  # <1>
+        - 10.100.0.10/32  # <1>
       ports:
       - protocol: UDP
         port: 53
@@ -136,7 +136,7 @@ spec:
         port: 53
       name: allow-dns
 ----
-<1> Replace with your cluster's service IPv4 CIDR range. You can find this value by running `aws eks describe-cluster --name my-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text`.
+<1> Replace with your cluster's CoreDNS service ClusterIP. You can find this value by running `kubectl get svc kube-dns -n kube-system -o jsonpath='{.spec.clusterIP}'`. Using the specific CoreDNS IP (`/32`) rather than the entire service CIDR limits port 53 access to only the DNS service.
 
 IPv6::
 +
@@ -156,7 +156,7 @@ spec:
     - action: Allow
       to:
       - networks:
-        - fd00:100::/108  # <1>
+        - fd00:100::a/128  # <1>
       ports:
       - protocol: UDP
         port: 53
@@ -164,7 +164,7 @@ spec:
         port: 53
       name: allow-dns
 ----
-<1> Replace with your cluster's service IPv6 CIDR range. You can find this value by running `aws eks describe-cluster --name my-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv6Cidr" --output text`.
+<1> Replace with your cluster's CoreDNS service IPv6 ClusterIP. You can find this value by running `kubectl get svc kube-dns -n kube-system -o jsonpath='{.spec.clusterIP}'`. Using the specific CoreDNS IP (`/128`) rather than the entire service CIDR limits port 53 access to only the DNS service.
 ====
 
 [IMPORTANT]
