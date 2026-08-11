@@ -290,12 +290,14 @@ You can configure disruption for node pools to:
 - Identify when instances are underutilized, and consolidate workloads.
 - Create a node pool disruption budget to rate limit node terminations due to drift, emptiness, and consolidation. 
 
-By default, EKS Auto Mode:
+By default, Amazon EKS Auto Mode:
 
 - Consolidates underutilized instances. 
-- Terminates instances after 336 hours. 
+- Terminates instances after 14 days. 
 - Sets a single disruption budget of 10% of nodes. 
 - Allows Nodes to be replaced due to drift when a new Auto Mode AMI is released, which occurs roughly once per week.
+
+For more information about node lifetime management in Amazon EKS Auto Mode, including the 21-day maximum, see <<auto-cost-control>> and <<auto-security>>.
 
 == Termination Grace Period
 
