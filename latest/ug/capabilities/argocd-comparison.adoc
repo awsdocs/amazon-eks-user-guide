@@ -51,7 +51,7 @@ The managed capability has specific requirements for CLI usage and AppProject co
 * Notifications controller
 * Custom SSO providers (only {aws} Identity Center is supported, including third-party federated identity through {aws} Identity Center)
 * UI extensions and custom banners
-* Direct access to `argocd-params` and most configuration ConfigMaps (a subset of `argocd-cm` fields is supported—see <<argocd-configure-settings>>)
+* Direct access to `argocd-params` and most configuration ConfigMaps (a subset of `argocd-cm` fields is supported. See <<argocd-configure-settings>>)
 * Modifying the sync timeout (fixed at 120 seconds)
 
 *Compatibility*: Applications and ApplicationSets work identically to upstream Argo CD with no changes to your manifests. The capability uses the same Kubernetes APIs and CRDs, so tools like `kubectl` work the same way. The capability fully supports Applications and ApplicationSets, GitOps workflows with automatic sync, multi-cluster deployments, sync policies (automated, prune, self-heal), sync waves and hooks, health assessment for standard Kubernetes resources, rollback capabilities, Git repository sources (HTTPS and SSH), Helm, Kustomize, and plain YAML manifests, GitHub app credentials, projects for multi-tenancy, and resource exclusions and inclusions.

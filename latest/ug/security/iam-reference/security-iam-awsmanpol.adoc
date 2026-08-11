@@ -429,7 +429,7 @@ To view the latest version of the JSON policy document, see link:aws-managed-pol
 == {aws} managed policy: AmazonS3FilesCSIDriverPolicy
 :info_titleabbrev: AmazonS3FilesCSIDriverPolicy
 
-The `AmazonS3FilesCSIDriverPolicy` policy allows the Amazon S3 Files Container Storage Interface (CSI) to create and delete Amazon S3 Files access points on your behalf. It also grants the Amazon S3 Files CSI driver permissions to list your Amazon S3 Files access points and file systems.
+The `AmazonS3FilesCSIDriverPolicy` policy allows the Amazon EFS Container Storage Interface (CSI) to create and delete Amazon S3 Files access points on your behalf. It also grants the Amazon EFS CSI driver permissions to list your Amazon S3 Files access points and file systems.
 
 To view the latest version of the JSON policy document, see link:aws-managed-policy/latest/reference/AmazonS3FilesCSIDriverPolicy.html#AmazonS3FilesCSIDriverPolicy-json[AmazonS3FilesCSIDriverPolicy,type="documentation"] in the {aws} Managed Policy Reference Guide.
 
