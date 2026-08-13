@@ -160,7 +160,7 @@ Verify the selector's `namespaceSelector` matches your resource's namespace labe
 
 The Capability Role needs `sts:AssumeRole` and `sts:TagSession` permissions for the target account role:
 
-[source,json,subs="verbatim,attributes"]
+[source,json,subs="verbatim,attributes,quotes"]
 ----
 {
   "Version": "2012-10-17",{tcx5-waiver}
