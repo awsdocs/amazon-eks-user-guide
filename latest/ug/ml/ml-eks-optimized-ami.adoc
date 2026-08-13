@@ -62,6 +62,7 @@ In addition to the standard EKS AMI components, the EKS-optimized AL2023 NVIDIA 
 * NVIDIA persistenced
 * NVIDIA IMEX driver
 * NVIDIA NVLink Subnet Manager
+* NVIDIA GDRCopy driver
 * EFA minimal (kernel module and rdma-core)
 
 For details on the NVIDIA CUDA user mode driver and the CUDA runtime/libraries used within application containers, see the https://docs.nvidia.com/deploy/cuda-compatibility/why-cuda-compatibility.html#why-cuda-compatibility[NVIDIA documentation]. The CUDA version shown from `nvidia-smi` is the version of the NVIDIA CUDA user mode driver installed on the host, which must be compatible with the CUDA runtime/libraries used in application containers.
