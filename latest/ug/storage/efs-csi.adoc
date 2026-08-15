@@ -199,6 +199,7 @@ aws iam attach-role-policy \
 
 . Run the following command to create the Pod Identity association. Replace `<111122223333>` with your account ID.
 +
+[source,bash,subs="verbatim,attributes"]
 ----
 aws eks create-pod-identity-association --cluster-name $cluster_name --role-arn {arn-aws}iam::<111122223333>:role/$role_name --namespace kube-system --service-account efs-csi-controller-sa
 ----
