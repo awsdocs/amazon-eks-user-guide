@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn how to delete Amazon EKS clusters, including managed and self-managed node groups, Fargate profiles, related services, and {aws} CloudFormation stacks using eksctl, {aws-management-console}, or {aws} CLI for cost optimization and resource cleanup.
+Learn how to delete Amazon EKS clusters, including managed and self-managed node groups, Fargate profiles, capabilities, related services, and {aws} CloudFormation stacks using eksctl, {aws-management-console}, or {aws} CLI for cost optimization and resource cleanup.
 --
 
 When you're done using an Amazon EKS cluster, you should delete the resources associated with it so that you don't incur any unnecessary costs.
@@ -22,6 +22,7 @@ You can delete a cluster with `eksctl`, the {aws-management-console}, or the {aw
 * Amazon Managed Service for Prometheus resources are outside of the cluster lifecycle and need to be maintained independent of the cluster. When you delete your cluster, make sure to also delete any applicable scrapers to stop applicable costs. For more information, see link:prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-list-delete[Find and delete scrapers,type="documentation"] in the _Amazon Managed Service for Prometheus User Guide_.
 * To remove a connected cluster, see <<deregister-connected-cluster>>
 * Before you can delete a cluster, make sure deletion protection is disabled for your cluster.
+* If your cluster has any EKS Capabilities (ACK, Argo CD, or kro), you must delete them before you can delete the cluster. For more information, see <<working-with-capabilities,Delete a capability>>.
 
 === Considerations for EKS Auto Mode
 
@@ -95,7 +96,7 @@ Output:
 
 
 == Delete cluster ({aws} console)
-. Go through the <<prerequisite-steps, prerequisite steps>>. After doing so, delete all node groups and Fargate profiles.
+. Go through the <<prerequisite-steps, prerequisite steps>>. After doing so, delete all node groups, Fargate profiles, and capabilities.
 +
 .. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 .. In the left navigation pane, choose Amazon EKS *Clusters*, and then in the tabbed list of clusters, choose the name of the cluster that you want to delete.
@@ -103,6 +104,7 @@ Output:
 +
 NOTE: The node groups listed are <<managed-node-groups,managed node groups>> only.
 .. Choose a *Fargate Profile* to delete, select *Delete*, enter the name of the profile, and then choose *Delete*. Delete all Fargate profiles in the cluster.
+.. Choose the *Capabilities* tab and choose a capability to delete. Choose *Delete capability*, enter the name of the capability, and then choose *Delete*. Delete all capabilities in the cluster. For more information, see <<working-with-capabilities,Delete a capability>>.
 . Delete all link:eks/latest/userguide/worker[self-managed node {aws} CloudFormation stacks,type="documentation"].
 +
 .. Open the link:cloudformation/[{aws} CloudFormation console,type="console"].
@@ -122,7 +124,7 @@ NOTE: The node groups listed are <<managed-node-groups,managed node groups>> onl
 
 == Delete cluster ({aws} CLI)
 
-. Go through the <<prerequisite-steps, prerequisite steps>>. After doing so, delete all node groups and Fargate profiles.
+. Go through the <<prerequisite-steps, prerequisite steps>>. After doing so, delete all node groups, Fargate profiles, and capabilities.
 +
 .. List the node groups in your cluster with the following command.
 +
@@ -149,6 +151,18 @@ aws eks list-fargate-profiles --cluster-name my-cluster
 [source,bash,subs="verbatim,attributes"]
 ----
 aws eks delete-fargate-profile --fargate-profile-name my-fargate-profile --cluster-name my-cluster
+----
+.. List the capabilities on your cluster with the following command.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks list-capabilities --cluster-name my-cluster
+----
+.. Delete each capability with the following command. Delete all capabilities in the cluster. For more information, see <<working-with-capabilities,Delete a capability>>.
++
+[source,bash,subs="verbatim,attributes"]
+----
+aws eks delete-capability --cluster-name my-cluster --capability-name my-capability-name
 ----
 . Delete all link:eks/latest/userguide/worker[self-managed node {aws} CloudFormation stacks,type="documentation"].
 +
