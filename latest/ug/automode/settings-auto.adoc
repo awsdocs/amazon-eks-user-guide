@@ -90,6 +90,14 @@ a|
 |<<auto-multi-cluster-target-groups>>
 
 a|
+*Extending RBAC for managed controllers*
+
+- Understand how EKS Auto Mode managed controllers authenticate to your cluster
+- Grant additional Kubernetes RBAC to the managed controllers via the `eks:managed` group
+- Scope the grant with `Role` / `RoleBinding` and `resourceNames` for least privilege
+|<<auto-managed-rbac>>
+
+a|
 *Storage Class settings*
 
 - Define EBS volume types (gp3, io1, io2, etc.)
@@ -143,6 +151,10 @@ include::auto-configure-nlb.adoc[leveloffset=+1]
 include::auto-multi-cluster-target-groups.adoc[leveloffset=+1]
 
 include::auto-multi-cluster-target-groups-example.adoc[leveloffset=+1]
+
+include::auto-managed-rbac.adoc[leveloffset=+1]
+
+include::auto-managed-rbac-example.adoc[leveloffset=+1]
 
 include::create-storage-class.adoc[leveloffset=+1]
 
