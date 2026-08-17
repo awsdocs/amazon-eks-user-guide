@@ -229,6 +229,7 @@ Not all capability properties can be updated after creation.
 Refer to the capability-specific documentation for details on what can be modified.
 ====
 
+[#capabilities-delete]
 == Delete a capability
 
 When you no longer need a capability on your cluster, you can delete the capability resource.
