@@ -149,7 +149,7 @@ These safeguards ensure that EKS cluster availability is preserved throughout th
 |The rotation process has started. {aws} is distributing the successor CA to managed components.
 
 |Distribution complete
-|Days after append
+|Shortly after append (varies by cluster)
 |{aws} has completed its side. You can now update the worker nodes that you manage and external clients.
 
 |Activation warning
@@ -238,9 +238,9 @@ You can perform CA rotation using the {aws} CLI or the Amazon EKS console. Ensur
 
 The following walkthrough covers the end-to-end CA rotation process using the {aws} CLI and EKS APIs.
 
-==== Step 1: Check your current CA
+==== Step 1: Check your active CA
 
-View the certificate authority currently active on your EKS cluster.
+View the active certificate authority on your EKS cluster.
 
 [source,bash]
 ----
@@ -371,7 +371,7 @@ image::images/ca-rotation-cluster-dashboard.png[The Amazon EKS console cluster C
 
 == Updating your Kubernetes clients
 
-IMPORTANT: During the dual trust period, your cluster's trust bundle contains two CA certificates. The combined size of two base64-encoded CAs is approximately 2.8KB (or approximately 1.9KB with gzip compression). For worker nodes where custom user data is provided in EC2 launch templates, verify that your total user data size does not exceed the https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html[EC2 user data limit of 16KB]. If your existing user data is close to this limit, consider compressing your user data content using gzip to reduce size.
+IMPORTANT: During the dual trust period, your cluster's trust bundle contains two CA certificates. The combined size of two base64-encoded CAs is approximately 2.8 KB (or approximately 1.9 KB with gzip compression). For worker nodes where custom user data is provided in EC2 launch templates, verify that your total user data size does not exceed the https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html[EC2 user data limit of 16KB]. If your existing user data is close to this limit, consider compressing your user data content using gzip to reduce size.
 
 After the successor CA has been appended and {aws} has completed distribution to managed components in your EKS cluster (`distributionStatus: COMPLETE`), you need to update your own components to trust the successor CA. A "client" in this context is any system that connects to your EKS cluster's API server. This includes your local kubectl configuration, CI/CD pipelines, monitoring tools, automation scripts, and your worker nodes.
 
@@ -502,7 +502,7 @@ After updating a client, confirm it can still communicate with the API server:
 kubectl get nodes
 ----
 
-If the command succeeds, your kubeconfig trusts the current CA data. After activation of the successor CA, run the same command to confirm continued connectivity.
+If the command succeeds, your kubeconfig trusts the active CA data. After activation of the successor CA, run the same command to confirm continued connectivity.
 
 
 == Infrastructure as code
@@ -566,7 +566,7 @@ Important: The CA rotation CloudFormation integration follows a different patter
 
 === Managed node groups and IaC
 
-Performing a node group version update to refresh nodes with the updated CA trust configuration is an operational action. New nodes automatically bootstrap with the current CA trust data from the cluster. If your IaC templates do not hardcode CA data in launch templates or user data, no template changes are required.
+Performing a node group version update to refresh nodes with the updated CA trust configuration is an operational action. New nodes automatically bootstrap with the active CA trust data from the cluster. If your IaC templates do not hardcode CA data in launch templates or user data, no template changes are required.
 
 
 == CA rollback
@@ -683,7 +683,7 @@ CA rotation is available in all {aws} commercial Regions where Amazon EKS is sup
 
 *Maximum two CAs*
 
-An EKS cluster can have at most two CAs at any time: the current active CA and one successor. You cannot append a second successor CA until the previous rotation is complete.
+An EKS cluster can have at most two CAs at any time: the active CA and one successor. You cannot append a second successor CA until the previous rotation is complete.
 
 *No certificate revocation*
 
@@ -695,7 +695,7 @@ If {aws} automatically appended a successor CA, you cannot delete it. This safeg
 
 *CA validity period*
 
-The validity period of your EKS cluster's CA depends on when the CA was created. CAs created with clusters before a certain date have 10-year validity periods. CAs created through the rotation process have 5-year validity periods. Check your CA's expiration using `describe-certificate-authority`.
+The original CA created with your cluster has a 10-year validity period. Successor CAs created through the rotation process have 5-year validity periods. All future CAs for your cluster will follow the 5-year validity period. Check your CA's expiration using `describe-certificate-authority`.
 
 *EC2 user data size during dual trust*
 
@@ -714,7 +714,7 @@ Using your own {aws} Private CA to back your EKS cluster's certificates is not c
 
 === How do I get started with CA rotation?
 
-To get started, run `aws eks list-certificate-authorities --cluster-name my-cluster` to view your current CA and its expiration. If you are ready to begin rotation, run `aws eks create-certificate-authority --cluster-name my-cluster` to append a successor CA. The full step-by-step process is covered in the Getting Started section. You can also perform CA rotation through the Amazon EKS console.
+To get started, run `aws eks list-certificate-authorities --cluster-name my-cluster` to view your active CA and its expiration. If you are ready to begin rotation, run `aws eks create-certificate-authority --cluster-name my-cluster` to append a successor CA. The full step-by-step process is covered in the Getting Started section. You can also perform CA rotation through the Amazon EKS console.
 
 === Is there any cost associated with CA rotation?
 
@@ -762,6 +762,10 @@ aws eks describe-certificate-authority --cluster-name my-cluster --certificate-a
 ----
 
 You can find your CA's ID by running `aws eks list-certificate-authorities --cluster-name my-cluster`.
+
+=== What is the validity period of my cluster's CA?
+
+The original CA created with your cluster has a 10-year validity period. Successor CAs created through the rotation process have 5-year validity periods. All future CAs for your cluster will follow the 5-year validity period. You can check your CA's expiration using `describe-certificate-authority`.
 
 === Can I initiate a CA rotation myself before {aws} does it automatically?
 
