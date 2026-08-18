@@ -20,13 +20,13 @@ The APIs, console experience, notifications, and step-by-step guidance in the se
 
 == How CA rotation works
 
-CA rotation in Amazon EKS is a multi-stage process. {aws} has automatic safeguards in place to preserve EKS cluster availability throughout the entire rotation lifecycle regardless of whether you act or not. A successful rotation, where all your components maintain connectivity, requires the steps described in the following sections.
+CA rotation in Amazon EKS is a multi-stage process. We have automatic safeguards in place to preserve EKS cluster availability throughout the entire rotation lifecycle regardless of whether you act or not. A successful rotation, where all your components maintain connectivity, requires the steps described in the following sections.
 
 === Stage 1: Append a successor CA
 
 A successor CA is appended to the EKS cluster. From this point, the EKS cluster trusts both the outgoing CA and the successor CA simultaneously. Certificates continue to be issued by the outgoing CA. No disruption occurs.
 
-You can append a successor CA yourself at any time using the {aws} CLI, EKS API, Console, or infrastructure as code (IaC) such as CloudFormation, as long as your cluster is in an active state. If you do not, we will automatically append one on your behalf.
+You can append a successor CA yourself at any time using the {aws} CLI, EKS API, Console, or infrastructure as code (IaC) such as {aws} CloudFormation, as long as your cluster is in an active state. If you do not, we will automatically append one on your behalf.
 
 The successor CA cannot be activated until {aws} completes distribution to {aws} managed components in EKS (Stage 2). This is the right time to start identifying the worker nodes and external clients that need to be updated. Identifying all systems that connect to your EKS cluster's API server can take time, particularly in environments with multiple teams, CI/CD pipelines, and monitoring tools. Starting this process early gives you the most flexibility to coordinate updates on your own timeline.
 
@@ -371,7 +371,7 @@ image::images/ca-rotation-cluster-dashboard.png[The Amazon EKS console cluster C
 
 == Updating your Kubernetes clients
 
-IMPORTANT: During the dual trust period, your cluster's trust bundle contains two CA certificates. The combined size of two base64-encoded CAs is approximately 2.8 KB (or approximately 1.9 KB with gzip compression). For worker nodes where custom user data is provided in EC2 launch templates, verify that your total user data size does not exceed the https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html[EC2 user data limit of 16KB]. If your existing user data is close to this limit, consider compressing your user data content using gzip to reduce size.
+IMPORTANT: During the dual trust period, your cluster's trust bundle contains two CA certificates. The combined size of two base64-encoded CAs is approximately 2.8 KB (or approximately 1.9 KB with gzip compression). For worker nodes where custom user data is provided in EC2 launch templates, verify that your total user data size does not exceed the link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html["EC2 user data limit of 16KB",type="documentation"]. If your existing user data is close to this limit, consider compressing your user data content using gzip to reduce size.
 
 After the successor CA has been appended and {aws} has completed distribution to managed components in your EKS cluster (`distributionStatus: COMPLETE`), you need to update your own components to trust the successor CA. A "client" in this context is any system that connects to your EKS cluster's API server. This includes your local kubectl configuration, CI/CD pipelines, monitoring tools, automation scripts, and your worker nodes.
 
@@ -677,35 +677,35 @@ IMPORTANT: Force deleting pods terminates workloads ungracefully. Data loss is p
 
 == Considerations and limitations
 
-*Regional availability*
+==== Regional availability
 
 CA rotation is available in all {aws} commercial Regions where Amazon EKS is supported.
 
-*Maximum two CAs*
+==== Maximum two CAs
 
 An EKS cluster can have at most two CAs at any time: the active CA and one successor. You cannot append a second successor CA until the previous rotation is complete.
 
-*No certificate revocation*
+==== No certificate revocation
 
 CA rotation does not support revoking individual certificates. This is consistent with upstream Kubernetes, which does not implement certificate revocation (CRL or OCSP). Rotation replaces the entire CA, which naturally invalidates all certificates signed by the outgoing CA after it is removed from the trust bundle.
 
-*{aws}-appended CAs cannot be deleted*
+==== {aws}-appended CAs cannot be deleted
 
 If {aws} automatically appended a successor CA, you cannot delete it. This safeguard ensures the rotation process cannot be interrupted by accidental deletion. Customer-appended CAs can be deleted as long as they are not the active signing CA.
 
-*CA validity period*
+==== CA validity period
 
 The original CA created with your cluster has a 10-year validity period. Successor CAs created through the rotation process have 5-year validity periods. All future CAs for your cluster will follow the 5-year validity period. Check your CA's expiration using `describe-certificate-authority`.
 
-*EC2 user data size during dual trust*
+==== EC2 user data size during dual trust
 
-During the dual trust period, your cluster's trust bundle increases in size due to containing two CA certificates (approximately 2.8KB combined, or approximately 1.9KB with gzip compression). For worker nodes where custom user data is provided in EC2 launch templates, verify that your total user data size does not exceed the https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html[EC2 user data limit of 16KB]. If your existing user data is close to this limit, the addition of a second CA might cause launch template creation to fail and prevent new nodes from being provisioned. Consider compressing your user data content using gzip to reduce size.
+During the dual trust period, your cluster's trust bundle increases in size due to containing two CA certificates (approximately 2.8 KB combined, or approximately 1.9 KB with gzip compression). For worker nodes where custom user data is provided in EC2 launch templates, verify that your total user data size does not exceed the link:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html["EC2 user data limit of 16KB",type="documentation"]. If your existing user data is close to this limit, the addition of a second CA might cause launch template creation to fail and prevent new nodes from being provisioned. Consider compressing your user data content using gzip to reduce size.
 
-*Version upgrades during CA rotation*
+==== Version upgrades during CA rotation
 
 EKS cluster version upgrades and CA rotation are independent operations. However, you cannot perform both simultaneously. If a CA rotation operation is in progress, a version upgrade will be rejected until the CA operation completes, and vice versa.
 
-*Bring Your Own CA (BYOCA)*
+==== Bring Your Own CA (BYOCA)
 
 Using your own {aws} Private CA to back your EKS cluster's certificates is not currently supported.
 
