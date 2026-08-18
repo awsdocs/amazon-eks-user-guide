@@ -38,7 +38,7 @@ After we have completed CA distribution to managed components, you are responsib
 
 === Stage 3: Activate the successor CA
 
-After {aws} has completed distribution of the successor CA to all {aws} managed components in EKS, the successor CA can be activated. We recommend activating the successor CA on your own timeline. Give yourself enough time to discover and update the worker nodes you manage and external clients to trust the successor CA. After activation of the successor CA, the EKS cluster issues certificates signed by the successor CA. The outgoing CA remains trusted but is no longer used for signing. A rollback window is available for a limited period after activation, allowing you to revert to the outgoing CA if needed. Rollback is covered in detail in a later section.
+After we have completed distribution of the successor CA to all {aws} managed components in EKS, the successor CA can be activated. We recommend activating the successor CA on your own timeline. Give yourself enough time to discover and update the worker nodes you manage and external clients to trust the successor CA. After activation of the successor CA, the EKS cluster issues certificates signed by the successor CA. The outgoing CA remains trusted but is no longer used for signing. A rollback window is available for a limited period after activation, allowing you to revert to the outgoing CA if needed. Rollback is covered in detail in a later section.
 
 You can activate the successor CA yourself when you are confident the worker nodes that you manage and clients have been updated. If you do not, we will activate the successor CA automatically as the expiration deadline approaches.
 
@@ -87,7 +87,7 @@ In the context of CA rotation, this means:
 * Updating your worker nodes (managed node groups, Karpenter-controlled nodes, self-managed nodes, hybrid nodes) to trust the successor CA
 * Activating the successor CA when you are confident your components have been updated
 
-{aws} cannot perform these actions on your behalf. External clients exist outside the {aws} operational boundary. Worker nodes that are not managed by EKS Auto Mode or Fargate have their CA trust configuration set at launch time or through bootstrap processes that only you control. This is consistent with how TLS trust works: the client holds its own trust store, and only the client's administrator can update it.
+We cannot perform these actions on your behalf. External clients exist outside the {aws} operational boundary. Worker nodes that are not managed by EKS Auto Mode or Fargate have their CA trust configuration set at launch time or through bootstrap processes that only you control. This is consistent with how TLS trust works: the client holds its own trust store, and only the client's administrator can update it.
 
 The sections that follow expand on each side: what {aws} does for you, and what you need to do along with step-by-step guidance on how to do it.
 
@@ -104,23 +104,23 @@ If you do not append a successor CA on your own timeline, we will automatically 
 
 === Control plane updates
 
-{aws} automatically updates the EKS cluster control plane to trust the successor CA. After activation of the successor CA, the control plane issues certificates signed by the successor CA. No action is required from you for the control plane.
+We automatically update the EKS cluster control plane to trust the successor CA. After activation of the successor CA, the control plane issues certificates signed by the successor CA. No action is required from you for the control plane.
 
 === EKS Auto Mode and Fargate updates
 
-{aws} automatically updates EKS Auto Mode nodes and Fargate pods to trust the successor CA. These components are fully managed by {aws} and require no action from you during CA rotation.
+We automatically update EKS Auto Mode nodes and Fargate pods to trust the successor CA. These components are fully managed by us and require no action from you during CA rotation.
 
 === EKS Capabilities updates
 
-{aws} automatically updates EKS Capabilities ({aws} Controllers for Kubernetes (ACK), Argo CD, and kro (Kube Resource Orchestrator)) to trust the successor CA. These managed resources communicate with your cluster's API server and are updated as part of the CA distribution process. No action is required from you for the managed resources in EKS Capabilities. For more information, see link:capabilities/capabilities.html["EKS Capabilities",type="documentation"].
+We automatically update EKS Capabilities ({aws} Controllers for Kubernetes (ACK), Argo CD, and kro (Kube Resource Orchestrator)) to trust the successor CA. These managed resources communicate with your cluster's API server and are updated as part of the CA distribution process. No action is required from you for the managed resources in EKS Capabilities. For more information, see link:capabilities/capabilities.html["EKS Capabilities",type="documentation"].
 
 === Distribution status tracking
 
-As {aws} updates managed components in your EKS cluster, you can monitor progress through the CA's distribution status. This tells you whether {aws} has completed its side of the rotation. The successor CA cannot be activated until distribution is complete.
+As we update managed components in your EKS cluster, you can monitor progress through the CA's distribution status. This tells you whether we have completed our side of the rotation. The successor CA cannot be activated until distribution is complete.
 
 === Built-in safeguards
 
-{aws} has built-in safeguards to protect your EKS cluster during rotation:
+We have built-in safeguards to protect your EKS cluster during rotation:
 
 * The successor CA cannot be activated until distribution to all {aws} managed components in EKS is complete
 * An {aws}-appended successor CA cannot be deleted while it is the only successor on the cluster. This safeguard ensures your cluster always has a valid CA path to prevent expiry. After a successor CA has been activated, the outgoing CA can be deleted.
@@ -131,7 +131,7 @@ These safeguards ensure that EKS cluster availability is preserved throughout th
 
 === Notifications
 
-{aws} notifies you at each stage of the CA rotation lifecycle. Notifications are delivered through {aws} Health, Cluster Insights, and email. Each notification tells you what happened, what action (if any) is required from you, and where your EKS cluster is in the rotation timeline.
+We notify you at each stage of the CA rotation lifecycle. Notifications are delivered through {aws} Health, Cluster Insights, and email. Each notification tells you what happened, what action (if any) is required from you, and where your EKS cluster is in the rotation timeline.
 
 [%header,cols="3"]
 |===
@@ -722,7 +722,7 @@ No. CA rotation is available at no additional cost for all EKS clusters.
 
 === What happens if I don't rotate my CA before it expires?
 
-{aws} has automatic safeguards that prevent your EKS cluster from reaching CA expiration without a valid CA in place. If you do not initiate CA rotation yourself, we will automatically append and activate a successor CA before expiration, ensuring your cluster remains available.
+We have automatic safeguards that prevent your EKS cluster from reaching CA expiration without a valid CA in place. If you do not initiate CA rotation yourself, we will automatically append and activate a successor CA before expiration, ensuring your cluster remains available.
 
 However, a successful rotation also requires you to update the worker nodes that you manage (non-EKS Auto Mode, non-Fargate) and external clients to trust the successor CA. If these components are not updated before the successor CA is activated, they will lose connectivity to the API server.
 
