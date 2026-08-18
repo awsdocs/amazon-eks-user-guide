@@ -364,9 +364,12 @@ The following image shows the rotation progress view in the Amazon EKS console. 
 
 image::images/ca-rotation-console-rotation-progress.png[The Amazon EKS console showing the rotation progress view with each step of the CA rotation lifecycle and its completion status]
 
+////
+// EKS Cluster CA Dashboard — commented out for launch. Fast-follow. Uncomment when dashboard is ready.
 In addition to the per-cluster rotation progress view, the Amazon EKS console provides a cluster CA dashboard for monitoring rotation across your entire fleet. From a single view, you can see all clusters across regions and accounts, their rotation status, and which clusters have CAs approaching expiration. The dashboard also surfaces upcoming automated rotation events so you can plan ahead.
 
 image::images/ca-rotation-cluster-dashboard.png[The Amazon EKS console cluster CA dashboard showing fleet-level rotation status, clusters approaching expiration, and upcoming automated rotation events]
+////
 
 
 == Updating your Kubernetes clients
@@ -781,11 +784,7 @@ It is safe to activate the successor CA when all the worker nodes that you manag
 
 === How do I monitor CA rotation progress across multiple clusters?
 
-You can monitor CA rotation progress across your fleet using the {aws} CLI, EKS API, Console, or infrastructure as code (IaC) such as CloudFormation.
-
-The EKS cluster CA dashboard in the console provides a single-pane view of CA rotation status across all your clusters, regions, and accounts. The dashboard shows which clusters have active rotations, which CAs are approaching expiration, and categorizes upcoming automated events (auto-append, auto-activate with rollback, auto-activate without rollback). For each cluster, you can see the CA expiration date, current rotation status, next scheduled event, next system action, rollback availability, and what user action is required. You can filter clusters by rotation status to focus on those that need attention.
-
-Programmatically, use `aws eks list-certificate-authorities` for each cluster. The following fields provide situational awareness for fleet-level monitoring:
+You can accomplish this programmatically using the {aws} CLI or EKS API. Use `aws eks list-certificate-authorities` for each cluster. The following fields provide situational awareness for fleet-level monitoring:
 
 * `signingStatus`: indicates whether a CA is actively signing certificates (`NOT_USED`, `ACTIVATING`, `IN_USE`)
 * `distributionStatus`: indicates whether {aws} has completed distributing the CA to managed components (`IN_PROGRESS`, `COMPLETE`, `FAILED`, `DELETING`)
@@ -793,7 +792,25 @@ Programmatically, use `aws eks list-certificate-authorities` for each cluster. T
 * `createdBy` / `activatedBy`: distinguishes between customer-initiated and {aws}-initiated operations (`CUSTOMER`, `EKS`)
 * `scheduledEvents.firstAutoActivation` / `scheduledEvents.finalAutoActivation`: shows upcoming {aws} auto-activation dates
 
-You can script these calls across your fleet to identify which clusters have a successor CA appended, which are awaiting distribution, which are approaching auto-activation deadlines, and which have completed rotation.
+The following example script checks CA rotation status across a list of clusters:
+
+[source,bash]
+----
+#!/bin/bash
+CLUSTERS=("cluster-1" "cluster-2" "cluster-3")
+REGION="us-west-2"
+
+for CLUSTER in "${CLUSTERS[@]}"; do
+  echo "--- $CLUSTER ---"
+  aws eks list-certificate-authorities \
+    --cluster-name "$CLUSTER" \
+    --region "$REGION" \
+    --query 'certificateAuthorities[].{Id:id,Signing:signingStatus,Distribution:distributionStatus,Expiry:validity.notAfter}' \
+    --output table
+done
+----
+
+You can extend this to cover multiple regions and accounts, and filter for clusters that have a successor CA appended, are awaiting your action, or are approaching auto-activation deadlines.
 
 Notifications are also delivered per-cluster through {aws} Health and email at each stage of the rotation lifecycle.
 
