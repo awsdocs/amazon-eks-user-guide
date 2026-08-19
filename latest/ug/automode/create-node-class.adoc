@@ -293,6 +293,8 @@ spec:
 
 * *Kubelet settings* — For information about overriding kubelet settings such as Pod density, eviction thresholds, and log rotation, see <<kubelet-config>>.
 
+* *Kernel sysctls* – For information about configuring kernel sysctls on nodes, see <<sysctls>>.
+
 
 [#pod-subnet-selector]
 == Separate subnets and security groups for Pods
@@ -616,3 +618,49 @@ Consider the following when configuring kubelet settings on a NodeClass:
 * *Soft eviction thresholds*: A soft threshold must be less aggressive than the hard threshold for the same signal, meaning it triggers earlier. If you set soft thresholds, you must also set `softGracePeriod` for each signal. A soft threshold and hard threshold can use different units, such as a percentage and an absolute quantity. In that case, Amazon EKS resolves both values for each instance type. Amazon EKS then marks instance types that violate the comparison as incompatible with the `NodeClass`.
 * *`singleProcessOOMKill` version requirement*: This setting requires Kubernetes version 1.32 or later. On earlier versions, Amazon EKS emits a warning event on the `NodeClass` and the setting has no effect.
 * *`allowedUnsafeSysctls` restrictions*: You can specify up to 64 entries, and each entry must match one of the allowed patterns: `kernel.shm*`, `kernel.msg*`, `kernel.sem`, `fs.mqueue.*`, or `net.*`. Allowing an unsafe sysctl on the node only permits Pods to request it. Each Pod must still list the sysctl in its `securityContext.sysctls`. For more information, see https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/[Using sysctls in a Kubernetes Cluster] in the Kubernetes documentation.
+
+[#sysctls]
+== Configure kernel sysctls on nodes
+
+Use the `advancedCompute.kernel.sysctl` field to set Linux kernel sysctls on nodes in the `NodeClass`. Sysctls tune runtime kernel behavior for workloads that need higher networking limits, different memory-management policies, or specific TCP settings. Property names on the `sysctl` field exactly match the underlying kernel sysctl name (for example, `vm.swappiness` and `net.core.somaxconn`). Amazon EKS applies sysctl values at node boot. If you change a sysctl on an existing NodeClass, Amazon EKS begins replacing nodes for the new values to take effect.
+
+[#sysctls-example]
+=== Example configuration
+
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: tuned-compute
+spec:
+  role: MyNodeRole
+
+  subnetSelectorTerms:
+    - tags:
+        Name: "private-subnet"
+
+  securityGroupSelectorTerms:
+    - tags:
+        Name: "eks-cluster-sg"
+
+  advancedCompute:
+    kernel:
+      sysctl:
+        vm.swappiness: 30
+        net.core.somaxconn: 4096
+        net.ipv4.tcp_congestion_control: "cubic"
+        vm.dirty_background_ratio: 10
+        vm.dirty_ratio: 20
+----
+
+[#sysctls-considerations]
+=== Sysctls considerations
+
+Consider the following when configuring kernel sysctls on a NodeClass:
+
+* *Supported sysctls* – Only the sysctls exposed as fields on `advancedCompute.kernel.sysctl` are supported. Each field enforces a documented minimum and maximum, and NodeClass admission rejects values outside that range.
+* *Applied at boot* – Sysctls are written to Bottlerocket's `[settings.kernel.sysctl]` at node boot. Runtime changes to `spec.advancedCompute.kernel.sysctl` mark existing nodes as drifted; the new values take effect only on replacement nodes.
+* *`vm.dirty_background_ratio` and `vm.dirty_ratio`* – These two fields must both be set or both be omitted, and `vm.dirty_background_ratio` must be strictly less than `vm.dirty_ratio`. NodeClass admission rejects configurations that violate either rule.
+* *`net.ipv4.neigh.default.gc_thresh1`, `gc_thresh2`, and `gc_thresh3`* – The three ARP-cache thresholds must all be set together or all omitted, and their values must satisfy `gc_thresh1 < gc_thresh2 < gc_thresh3`. NodeClass admission rejects configurations that violate either rule.
+* *`net.ipv4.tcp_congestion_control`* – Only `cubic` and `reno` are accepted.
