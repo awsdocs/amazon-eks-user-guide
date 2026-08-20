@@ -14,8 +14,10 @@ Amazon EKS supports using OpenID Connect (OIDC) identity providers as a method t
 
 
 
-* You can associate up to 10 OIDC identity providers with a single Amazon EKS cluster running Kubernetes version 1.32 or later. The combined size of all OIDC provider configurations must be less than 12 KB. On clusters running versions earlier than 1.32, you can associate only one OIDC identity provider.
-* Associating more than one OIDC identity provider requires an Amazon EKS cluster running Kubernetes version 1.32 or later.
+* The number of OIDC identity providers you can associate with a cluster depends on the cluster's Kubernetes version:
++
+** On clusters running Kubernetes version 1.32 or later, you can associate up to 10 OIDC identity providers. The combined size of all OIDC provider configurations must be less than 12 KB.
+** On clusters running a version earlier than 1.32, you can associate only one OIDC identity provider.
 * The issuer URL (`issuerUrl`) must be unique across all OIDC identity providers associated with the cluster. You can't associate the same provider more than once, even if the client ID (audience) is different.
 * Kubernetes doesn't provide an OIDC identity provider. You can use an existing public OIDC identity provider, or you can run your own identity provider. For a list of certified providers, see https://openid.net/certification/[OpenID Certification] on the OpenID site.
 * The issuer URL of the OIDC identity provider must be publicly accessible, so that Amazon EKS can discover the signing keys. Amazon EKS doesn't support OIDC identity providers with self-signed certificates.
