@@ -46,8 +46,6 @@ The URL of the OIDC identity provider that allows the API server to discover pub
 *Client ID (also known as _audience_)*::
 The ID for the client application that makes authentication requests to the OIDC identity provider.
 
-On Amazon EKS clusters running Kubernetes version 1.32 or later, you can associate additional OIDC identity providers with your cluster. To associate multiple providers, associate them one at a time. Call the association one time for each provider, and wait for each cluster update to complete before you start the next one.
-
 [NOTE]
 ====
 Associating or disassociating an OIDC identity provider is a cluster update. The cluster enters the `UPDATING` state, and the change can take several minutes to be fully applied to the cluster's API servers. You can track the progress of the update with the link:eks/latest/APIReference/API_DescribeUpdate.html[DescribeUpdate,type="documentation"] operation.
