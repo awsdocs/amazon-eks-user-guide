@@ -363,7 +363,19 @@ spec:
 
 The `ipv4PrefixSize` field enables advanced networking configurations by allocating only secondary IP addresses to nodes. This feature doesn't allocate prefixes (/28) to nodes and maintains only one secondary IP as MinimalIPTarget. 
 
-`advancedNetworking.ipv4PrefixSize` accepts two values: `Auto` (default; prefix delegation; higher pod-creation velocity; reserves 16 IPs per node) and `"32"` (secondary IP mode; 1 IP per pod; adds per-pod `AssignPrivateIpAddresses` calls; pods-per-node capped by the instance type's ENI IP-limit).
+`advancedNetworking.ipv4PrefixSize` accepts two values: `Auto` (default; prefix delegation; higher pod-creation velocity; reserves a minimum of 16 IPs per node) and `"32"` (secondary IP mode; 1 IP per pod; adds per-pod `AssignPrivateIpAddresses` calls; pods-per-node capped by the instance type's ENI IP-limit).
+
+In `Auto` mode, EKS Auto Mode allocates a `/28` prefix (16 IPs) to each node up front and adds another `/28` when pod demand exceeds the current block's capacity, so 16 is a per-node minimum rather than a cap. The following examples compare IP allocation between the two modes.
+
+*Example A — 1 pod on the node:*
+
+* Secondary IP mode: 1 pod IP + 1 node IP = 2 IPs in use.
+* Prefix mode: 1 node IP + 16 IPs from the first `/28` prefix (of which 1 is used by the pod, 15 are held for future pods) = 17 IPs allocated, 2 in use.
+
+*Example B — 18 pods on the node:*
+
+* Secondary IP mode: 18 pod IPs + 1 node IP = 19 IPs in use.
+* Prefix mode: 1 node IP + 2 × `/28` prefixes (32 IPs total, first `/28` full at 16 pods, second `/28` holds pods 17-18 with 14 held for future pods) = 33 IPs allocated, 19 in use.
 
 To switch to secondary IP mode (1 IP per pod, no prefix reservation) for a pod-sparse workload, create a custom `NodeClass` with `advancedNetworking.ipv4PrefixSize: "32"` and point a custom `NodePool` at it. The built-in `general-purpose` and `system` node pools use the automatically provisioned `default` NodeClass; overriding `ipv4PrefixSize` requires a custom NodeClass paired with a custom NodePool.
 
@@ -385,30 +397,9 @@ metadata:
   name: advanced-networking
 spec:
   role: MyNodeRole
-  
+
   advancedNetworking:
     ipv4PrefixSize: "32"
-----
-
-The following `NodeClass` is a fuller example for a pod-sparse workload, including subnet and security group selectors:
-
-[source,yaml]
-----
-apiVersion: eks.amazonaws.com/v1
-kind: NodeClass
-metadata:
-  name: sparse
-spec:
-  role: MyNodeRole
-  subnetSelectorTerms:
-    - tags:
-        Name: "private-subnet"
-        kubernetes.io/role/internal-elb: "1"
-  securityGroupSelectorTerms:
-    - tags:
-        Name: "eks-cluster-sg"
-  advancedNetworking:
-    ipv4PrefixSize: "32"    # secondary IP mode; the only other valid value is "Auto"
 ----
 
 === Considerations for secondary IP mode
