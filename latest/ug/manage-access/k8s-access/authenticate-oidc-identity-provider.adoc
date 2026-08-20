@@ -48,7 +48,7 @@ On Amazon EKS clusters running Kubernetes version 1.32 or later, you can associa
 
 [NOTE]
 ====
-Associating or disassociating an OIDC identity provider is a cluster update. The cluster enters the `UPDATING` state, and it can take approximately 15–20 minutes for the change to be fully applied to the cluster's API servers.
+Associating or disassociating an OIDC identity provider is a cluster update. The cluster enters the `UPDATING` state, and the change can take several minutes to be fully applied to the cluster's API servers. You can track the progress of the update with the link:eks/latest/APIReference/API_DescribeUpdate.html[DescribeUpdate,type="documentation"] operation.
 ====
 
 You can associate an identity provider using `eksctl` or the {aws-management-console}.
