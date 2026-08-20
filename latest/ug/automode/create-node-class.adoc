@@ -365,7 +365,9 @@ The `ipv4PrefixSize` field enables advanced networking configurations by allocat
 
 `advancedNetworking.ipv4PrefixSize` accepts two values: `Auto` (default; prefix delegation; higher pod-creation velocity; reserves a minimum of 16 IPs per node) and `"32"` (secondary IP mode; 1 IP per pod; adds per-pod `AssignPrivateIpAddresses` calls; pods-per-node capped by the instance type's ENI IP-limit).
 
-In `Auto` mode, EKS Auto Mode allocates a `/28` prefix (16 IPs) to each node up front and adds another `/28` when pod demand exceeds the current block's capacity, so 16 is a per-node minimum rather than a cap. The following examples compare IP allocation between the two modes.
+In `Auto` mode, EKS Auto Mode allocates a `/28` prefix (16 IPs) to each node up front and adds another `/28` when pod demand exceeds the current block's capacity, so 16 is a per-node minimum rather than a cap.
+
+Use the following numbers for planning; real clusters vary. When the pod subnet becomes fragmented and no contiguous `/28` is free, `Auto` mode falls back to per-IP allocation on that node. Per-node IP counts then sit below the 16-per-prefix pattern shown below.
 
 *Example A — 1 pod on the node:*
 
