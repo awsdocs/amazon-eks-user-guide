@@ -14,7 +14,9 @@ Amazon EKS supports using OpenID Connect (OIDC) identity providers as a method t
 
 
 
-* You can associate one OIDC identity provider to your cluster.
+* You can associate up to 10 OIDC identity providers with a single Amazon EKS cluster running Kubernetes version 1.32 or later. The combined size of all OIDC provider configurations must be less than 12 KB. On clusters running versions earlier than 1.32, you can associate only one OIDC identity provider.
+* Associating more than one OIDC identity provider requires an Amazon EKS cluster running Kubernetes version 1.32 or later.
+* The issuer URL (`issuerUrl`) must be unique across all OIDC identity providers associated with the cluster. You can't associate the same provider more than once, even if the client ID (audience) is different.
 * Kubernetes doesn't provide an OIDC identity provider. You can use an existing public OIDC identity provider, or you can run your own identity provider. For a list of certified providers, see https://openid.net/certification/[OpenID Certification] on the OpenID site.
 * The issuer URL of the OIDC identity provider must be publicly accessible, so that Amazon EKS can discover the signing keys. Amazon EKS doesn't support OIDC identity providers with self-signed certificates.
 * You can't disable IAM authentication to your cluster, because it's still required for joining nodes to a cluster.
@@ -36,11 +38,18 @@ Before you can associate an OIDC identity provider with your cluster, you need t
 
 
 *Issuer URL*::
-The URL of the OIDC identity provider that allows the API server to discover public signing keys for verifying tokens. The URL must begin with `https://` and should correspond to the `iss` claim in the provider's OIDC ID tokens. In accordance with the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a host name, like `https://server.example.org` or `https://example.com`. This URL should point to the level below `.well-known/openid-configuration` and must be publicly accessible over the internet.
+The URL of the OIDC identity provider that allows the API server to discover public signing keys for verifying tokens. The URL must begin with `https://` and should correspond to the `iss` claim in the provider's OIDC ID tokens. In accordance with the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a host name, like `https://server.example.org` or `https://example.com`. This URL should point to the level below `.well-known/openid-configuration` and must be publicly accessible over the internet. The issuer URL must be unique across all OIDC identity providers associated with the cluster.
 
 
 *Client ID (also known as _audience_)*::
 The ID for the client application that makes authentication requests to the OIDC identity provider.
+
+On Amazon EKS clusters running Kubernetes version 1.32 or later, you can associate additional OIDC identity providers with your cluster. To associate multiple providers, associate them one at a time. Call the association one time for each provider, and wait for each cluster update to complete before you start the next one.
+
+[NOTE]
+====
+Associating or disassociating an OIDC identity provider is a cluster update. The cluster enters the `UPDATING` state, and it can take approximately 15–20 minutes for the change to be fully applied to the cluster's API servers.
+====
 
 You can associate an identity provider using `eksctl` or the {aws-management-console}.
 
