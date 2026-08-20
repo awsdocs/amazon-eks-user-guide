@@ -100,16 +100,16 @@ EKS Auto Mode supports the following instance types:
 
 [%header,cols="1,4"]
 |===
-|Family |Instance Types
+|Family|Instance Types
 
 |Compute Optimized +(C)+
-|c8id, c8i, c8i-flex, c8gd, c8gn, c8g, c8a, c8gb, c7a, c7g, c7gn, c7gd, c7i, c7i-flex, c6a, c6g, c6i, c6gn, c6id, c6in, c6gd, c5, c5a, c5d, c5ad, c5n, c4
+|c8a, c8g, c8gb, c8gd, c8gn, c8i, c8i-flex, c8id, c7a, c7g, c7gd, c7gn, c7i, c7i-flex, c6a, c6g, c6gd, c6gn, c6i, c6id, c6in, c5, c5a, c5ad, c5d, c5n, c4
 
 |General Purpose (M)
-|m8id, m8i, m8i-flex, m8a, m8azn, m8gn, m8gb, m8gd, m8g, m7i, m7a, m7g, m7gd, m7i-flex, m6a, m6i, m6in, m6g, m6idn, m6id, m6gd, m5, m5a, m5ad, m5n, m5dn, m5d, m5zn, m4
+|m9gd, m8a, m8azn, m8g, m8gb, m8gd, m8gn, m8i, m8i-flex, m8id, m7a, m7g, m7gd, m7i, m7i-flex, m6a, m6g, m6gd, m6i, m6id, m6idn, m6in, m5, m5a, m5ad, m5d, m5dn, m5n, m5zn, m4
 
 |Memory Optimized +(R)+
-|r8id, r8i, r8i-flex, r8gn, r8gb, r8gd, r8g, r8a, r7a, r7iz, r7gd, r7i, r7g, r6a, r6i, r6id, r6in, r6idn, r6g, r6gd, r5, r5n, r5a, r5dn, r5b, r5ad, r5d, r4
+|r8a, r8g, r8gb, r8gd, r8gn, r8i, r8i-flex, r8id, r7a, r7g, r7gd, r7i, r7iz, r6a, r6g, r6gd, r6i, r6id, r6idn, r6in, r5, r5a, r5ad, r5b, r5d, r5dn, r5n, r4
 
 |Burstable (T)
 |t4g, t3, t3a, t2
@@ -118,13 +118,13 @@ EKS Auto Mode supports the following instance types:
 |z1d, x8aedz, x8g, x8i, x2gd
 
 |Storage Optimized (I/D)
-|i8ge, i7i, i8g, i7ie, i4g, i4i, i3, i3en, is4gen, d3, d3en, im4gn
+|i8g, i8ge, i7i, i7ie, i4g, is4gen, im4gn, i4i, i3, i3en, d3, d3en
 
-|Accelerated Computing (P/G/Inf/Trn)
-|p6-b200, p6-b300, p5, p5e, p5en, p4d, p4de, p3, p3dn, g7e, g6, gr6, g6e, g5g, g5, g4dn, g4ad, inf2, inf1, trn1, trn1n, trn2
+|Accelerated Computing (Trn/P/Inf/G)
+|trn2, trn1, trn1n, p6-b200, p6-b300, p5, p5e, p5en, p4d, p4de, p3, p3dn, inf2, inf1, g7e, g6, gr6, g6e, g5, g5g, g4ad, g4dn
 
-|High Performance Computing (HPC/X2)
-|hpc8a, x2iezn, x2iedn, x2idn
+|High Performance Computing (X2/HPC)
+|x2idn, x2iedn, x2iezn, hpc8a
 |===
 
 Additionally, EKS Auto Mode will only create EC2 instances that meet the following requirements:
