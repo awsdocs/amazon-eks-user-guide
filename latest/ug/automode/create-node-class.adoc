@@ -383,11 +383,8 @@ To switch to secondary IP mode (1 IP per pod, no prefix reservation) for a pod-s
 
 === Use cases
 
-Use `ipv4PrefixSize` when you need to:
-
-* *Reduced IP utilization*: Only one IP address will be warmed up in every node.
-* *Lower pod churning rate*: Pod creation velocity is not a major concern.
-* *No prefix fragmentation*: Prefix-caused fragmentation is a major concern or blocker to use Auto Mode.
+* Better subnet IP address utilization
+* No prefix fragmentation
 
 === Example configuration
 
