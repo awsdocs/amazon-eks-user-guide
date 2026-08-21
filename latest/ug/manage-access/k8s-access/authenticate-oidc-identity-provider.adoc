@@ -108,6 +108,15 @@ eksctl associate identityprovider -f associate-identity-provider.yaml
 .. To use `kubectl` to work with your cluster and OIDC identity provider, see https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-kubectl[Using kubectl] in the Kubernetes documentation.
 
 
+[#oidc-identity-provider-security]
+== Security best practices
+
+*Use username and group prefixes*: Set a username prefix (`usernamePrefix`) and a groups prefix (`groupsPrefix`) for each OIDC identity provider to reduce the chance that identities from different providers overlap. If you don't use prefixes, use username and groups claims that are unique per provider. Either approach makes sure that two providers can't produce the same Kubernetes username or group name.
+
+*Validate token claims*: Use required claims (`requiredClaims`) to specify the key-value pairs that must be present in the ID token, so that your cluster accepts only the tokens that you authorize.
+
+*Limit the claims in each token*: Configure your identity provider to issue tokens with only the claims that your cluster needs. Limiting the claims reduces the information that's exposed if a token is compromised.
+
 [#oidc-identity-provider-iam-policy]
 == Example IAM policy
 
