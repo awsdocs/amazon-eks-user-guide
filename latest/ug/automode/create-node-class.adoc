@@ -369,13 +369,11 @@ In `Auto` mode, EKS Auto Mode allocates a `/28` prefix (16 IPs) to each node up 
 
 Use the following numbers for planning; real clusters vary. When the pod subnet becomes fragmented and no contiguous `/28` is free, `Auto` mode falls back to per-IP allocation on that node. Per-node IP counts then sit below the 16-per-prefix pattern shown below.
 
-*Example A — 1 pod on the node:*
-
+.Example A — 1 pod on the node
 * Secondary IP mode: 1 pod IP + 1 node IP = 2 IPs in use.
 * Prefix mode: 1 node IP + 16 IPs from the first `/28` prefix (of which 1 is used by the pod, 15 are held for future pods) = 17 IPs allocated, 2 in use.
 
-*Example B — 18 pods on the node:*
-
+.Example B — 18 pods on the node
 * Secondary IP mode: 18 pod IPs + 1 node IP = 19 IPs in use.
 * Prefix mode: 1 node IP + 2 × `/28` prefixes (32 IPs total, first `/28` full at 16 pods, second `/28` holds pods 17-18 with 14 held for future pods) = 33 IPs allocated, 19 in use.
 
