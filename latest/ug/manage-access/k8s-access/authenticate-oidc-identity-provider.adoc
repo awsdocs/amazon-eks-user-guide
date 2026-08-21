@@ -14,17 +14,17 @@ Amazon EKS supports using OpenID Connect (OIDC) identity providers as a method t
 
 
 
-* The number of OIDC identity providers you can associate with a cluster depends on the cluster's Kubernetes version:
-+
-** On clusters running Kubernetes version 1.32 or later, you can associate up to 10 OIDC identity providers. The combined size of all OIDC provider configurations must be less than 12 KB.
-** On clusters running a version earlier than 1.32, you can associate only one OIDC identity provider.
 * Kubernetes doesn't provide an OIDC identity provider. You can use an existing public OIDC identity provider, or you can run your own identity provider. For a list of certified providers, see https://openid.net/certification/[OpenID Certification] on the OpenID site.
 * The issuer URL of the OIDC identity provider must be publicly accessible, so that Amazon EKS can discover the signing keys. Amazon EKS doesn't support OIDC identity providers with self-signed certificates.
-* The issuer URL (`issuerUrl`) must be unique across all OIDC identity providers associated with the cluster. You can't associate the same provider more than once.
 * You can't disable IAM authentication to your cluster, because it's still required for joining nodes to a cluster.
 * An Amazon EKS cluster must still be created by an {aws} link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"], rather than an OIDC identity provider user. This is because the cluster creator interacts with the Amazon EKS APIs, rather than the Kubernetes APIs.
 * OIDC identity provider-authenticated users are listed in the cluster's audit log if CloudWatch logs are turned on for the control plane. For more information, see <<enabling-control-plane-log-export>>.
 * You can't sign in to the {aws-management-console} with an account from an OIDC provider. You can only <<view-kubernetes-resources>> by signing into the {aws-management-console} with an {aws} Identity and Access Management account.
+
+The number of OIDC identity providers you can associate with a cluster depends on the cluster's Kubernetes version. On clusters running Kubernetes version 1.32 or later, you can associate up to 10 OIDC identity providers. The combined size of all OIDC provider configurations must be less than 12 KB. On clusters running a version earlier than 1.32, you can associate only one OIDC identity provider.
+
+* The issuer URL (`issuerUrl`) and name (`name`) must be unique across all OIDC identity providers associated with the cluster. You can't associate the same provider more than once.
+* Associating an OIDC identity provider is a cluster update. The cluster enters the `UPDATING` state, and the change can take several minutes to be fully applied to the cluster's API servers. You can track the progress of the update with the link:eks/latest/APIReference/API_DescribeUpdate.html[DescribeUpdate,type="documentation"] operation.
 
 [NOTE]
 ====
@@ -45,11 +45,6 @@ The URL of the OIDC identity provider that allows the API server to discover pub
 
 *Client ID (also known as _audience_)*::
 The ID for the client application that makes authentication requests to the OIDC identity provider.
-
-[NOTE]
-====
-Associating or disassociating an OIDC identity provider is a cluster update. The cluster enters the `UPDATING` state, and the change can take several minutes to be fully applied to the cluster's API servers. You can track the progress of the update with the link:eks/latest/APIReference/API_DescribeUpdate.html[DescribeUpdate,type="documentation"] operation.
-====
 
 You can associate an identity provider using `eksctl` or the {aws-management-console}.
 
