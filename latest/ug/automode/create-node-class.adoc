@@ -11,7 +11,7 @@ When you need to customize how EKS Auto Mode provisions and configures EC2 insta
 
 == Considerations for pod-sparse or high-scale workloads
 
-EKS Auto Mode uses prefix delegation (`/28` prefixes) by default, which reserves 16 pod IPs per node whether the node runs 1 pod or 16. For pod-sparse workloads (a few pods per node, common in ML or GPU workloads, or anti-affinity-heavy workloads) targeting more than a few hundred nodes per Availability Zone, the default can exhaust `/20` pod subnets before the fleet reaches target size.
+EKS Auto Mode uses prefix delegation (`/28` prefixes) by default. Each node reserves 16 pod IPs, which is efficient for pod-dense workloads that fill those slots. For pod-sparse workloads (a few pods per node, common in ML or GPU workloads, or anti-affinity-heavy workloads) targeting more than a few hundred nodes per Availability Zone, secondary IP mode (`"32"`) is a more optimized configuration. It allocates one IP per pod rather than reserving 16 per node, which extends the effective capacity of `/20` pod subnets.
 
 For more information, see <<secondary-IP-mode>>. To keep pods in a separate subnet from nodes (independent of allocation mode), see <<pod-subnet-selector>>.
 
