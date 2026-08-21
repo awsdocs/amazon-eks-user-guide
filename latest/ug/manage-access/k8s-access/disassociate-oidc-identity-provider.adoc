@@ -7,5 +7,7 @@ include::../../attributes.txt[]
 
 If you disassociate an OIDC identity provider from your cluster, users included in the provider can no longer access the cluster. However, you can still access the cluster with link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principals,type="documentation"].
 
+If your cluster has multiple OIDC identity providers associated, you must disassociate them one at a time. Wait for each cluster update to complete before you disassociate the next provider.
+
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the *OIDC Identity Providers* section, select *Disassociate*, enter the identity provider name, and then select `Disassociate`.
