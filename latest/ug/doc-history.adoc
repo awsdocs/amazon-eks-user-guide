@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-08-24"]
+=== Deterministic Argo CD capability endpoint
+[.update-ulink]
+link:eks/latest/userguide/working-with-argocd.html#argocd-endpoint-url[type="documentation"]
+
+Documented the format of the EKS Capability for Argo CD endpoint. The endpoint hostname is deterministic, so you can construct it from your capability name, cluster name, {aws} account ID, and {aws} Region, or retrieve it from the `serverUrl` field of `describe-capability`.
+
 [.update,date="2026-07-28"]
 === {aws} PrivateLink for the cluster OIDC endpoint
 [.update-ulink]
