@@ -44,6 +44,11 @@ Access entries are created for the cluster where the capability is created.
 For Argo CD deployments to remote clusters, you must create access entries on those clusters with appropriate permissions for the Argo CD capability to deploy and manage applications.
 ====
 
+[NOTE]
+====
+When you delete a capability, Amazon EKS does not automatically delete the access entry that was created for the capability's IAM role on your cluster.
+====
+
 The access entry includes:
 
 * The IAM role ARN as the principal
