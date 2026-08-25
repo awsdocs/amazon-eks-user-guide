@@ -56,8 +56,8 @@ For a detailed list of node health issues detected by the EKS node monitoring ag
 
 |StorageReady
 |StorageReady indicates whether the node's storage subsystem is functioning correctly (disks, filesystems, I/O).
-|30m
-|Replace
+|N/A
+|None
 
 |Ready
 |Ready is the standard Kubernetes condition indicating the node is healthy and ready to accept pods.
