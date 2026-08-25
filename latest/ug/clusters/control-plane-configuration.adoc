@@ -42,6 +42,12 @@ Amazon EKS supports the following parameters. Each parameter belongs to a contro
 | `15s` (seconds)
 | Yes
 
+| kube-controller-manager
+| `podGcControllerConfig.terminatedPodGcThreshold`
+| `10000` to `12500`
+| `12500`
+| Yes
+
 | kube-apiserver
 | `eventTtl`
 | `10m` to `60m`
@@ -141,6 +147,34 @@ kubectl get hpa --all-namespaces --no-headers | wc -l
 
 * *The sync period applies to every HPA object in the cluster.* You can't set different sync periods for different objects or namespaces.
 
+=== Controller manager: Terminated pod garbage collection threshold
+
+The controller manager runs the terminated pod garbage collector (the pod GC controller), which deletes terminated pods (pods in the `Succeeded` or `Failed` phase) once the number of terminated pods in the cluster exceeds a threshold. The `terminatedPodGcThreshold` parameter sets that threshold.
+
+[cols="2,2,1,1",options="header"]
+|===
+| Field | Description | Supported values | Default
+
+| `podGcControllerConfig.terminatedPodGcThreshold`
+| The number of terminated pods that can exist before the terminated pod garbage collector starts deleting terminated pods.
+| `10000` to `12500`
+| `12500`
+|===
+
+The garbage collector runs on a fixed 20-second cycle. When you lower the threshold, the collector starts force-deleting the oldest terminated pods on the next cycle until the count reaches the new threshold.
+
+To configure this parameter, your cluster must be on Amazon EKS Provisioned Control Plane. Lowering the threshold increases the garbage collection work the controller performs against the cluster database (etcd), because each pass becomes eligible to query, process, and delete more terminated pods. Provisioned Control Plane clusters pre-allocate control plane capacity that is always ready for demanding workloads, so they are sized to absorb that additional load. For more information, see <<eks-provisioned-control-plane>>.
+
+==== Considerations for the terminated pod garbage collection threshold
+
+* *Lowering the threshold deletes excess terminated pods immediately.* If you lower the threshold (for example, from `12500` to `10000`), the garbage collection controller starts force-deleting the oldest terminated pods on its next cycle until the count reaches the new threshold. The reduction is not gradual.
+
+* *The threshold applies to all terminated pods regardless of owner.* It affects pods in the `Succeeded` or `Failed` phase whether they are owned by a Job, CronJob, or Deployment, or are standalone. In practice, Job and CronJob pods are the most common contributors to the terminated pod count.
+
+* *Lowering the threshold reduces the debugging window.* Completed and failed pods disappear from `kubectl get pods` and `kubectl logs` sooner. Automation that inspects exit codes or logs of finished Job pods has a smaller window to operate.
+
+* *The threshold is a global cluster setting.* You can't configure it per namespace or per Job. To control the lifecycle of an individual Job's pods, use `ttlSecondsAfterFinished` on that Job.
+
 === API server: event retention
 
 The API server is the front end for the Kubernetes control plane. It serves the Kubernetes API and persists cluster state to the cluster database (etcd). Kubernetes records events to describe what is happening in your cluster, such as pod scheduling decisions, image pulls, health check failures, and scaling actions.
@@ -226,9 +260,9 @@ Review the following before you configure advanced control plane parameters.
 
 * *Cluster-wide scope* – Control plane parameters apply to the whole cluster and to all workloads running on it. You can't scope them to individual namespaces or workloads. Test parameter changes in a non-production cluster before you apply them to production.
 
-* *Provisioned Control Plane required for HPA sync period* – The `horizontalPodAutoscalerSyncPeriod` parameter is only available on clusters using Amazon EKS Provisioned Control Plane. Amazon EKS restricts parameters that materially increase control plane resource consumption to clusters with pre-allocated control plane capacity. Setting this parameter on a cluster in Standard control plane mode fails. To use it, first move your cluster to a Provisioned Control Plane scaling tier. For more information, see <<eks-provisioned-control-plane>>.
+* *Provisioned Control Plane required for Horizontal Pod Autoscaler sync period and terminated pod garbage collection threshold* – The `horizontalPodAutoscalerSyncPeriod` and `terminatedPodGcThreshold` parameters are only available on clusters using Amazon EKS Provisioned Control Plane. Amazon EKS restricts parameters that materially increase control plane resource consumption to clusters with pre-allocated control plane capacity. Setting either parameter on a cluster in Standard control plane mode fails. To use them, first move your cluster to a Provisioned Control Plane scaling tier. For more information, see <<eks-provisioned-control-plane>>.
 
-* *Exit restriction for HPA sync period* – If `horizontalPodAutoscalerSyncPeriod` is set to a value other than the default, you can't move your cluster's control plane from Provisioned mode back to Standard mode. To return to Standard mode, first set this parameter back to the default of `15s`, then change the control plane scaling tier to `standard`.
+* *Exit restriction for Horizontal Pod Autoscaler sync period and terminated pod garbage collection threshold* – If `horizontalPodAutoscalerSyncPeriod` or `terminatedPodGcThreshold` is set to a value other than the default, you can't move your cluster's control plane from Provisioned mode back to Standard mode. To return to Standard mode, first set both parameters back to their defaults (`15s` and `12500`), then change the control plane scaling tier to `standard`.
 
 * *Returning to default values* – Amazon EKS doesn't provide a dedicated reset operation, and omitting a field from an update leaves its current value in place rather than clearing it. To return a parameter to its default, set it explicitly to the default value. Retrieve the default value with `DescribeClusterVersions` for the Kubernetes version your cluster runs. For more information, see <<control-plane-configuration-getting-started>>.
 
