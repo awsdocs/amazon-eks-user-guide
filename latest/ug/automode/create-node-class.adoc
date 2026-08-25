@@ -503,7 +503,10 @@ spec:
 [#hugepages]
 == Configure hugepages on nodes
 
-Use the `advancedCompute.hugepages` field to pre-allocate hugepages on nodes in the `NodeClass`. Hugepages improve memory-access performance for latency-sensitive workloads such as high-performance computing (HPC), databases, and network-intensive applications. To consume hugepages, configure your Pods to explicitly request hugepage resources. For more information, see https://kubernetes.io/docs/tasks/manage-hugepages/scheduling-hugepages/[Manage HugePages] in the Kubernetes documentation.
+With the `advancedCompute.hugepages` field, you can configure hugepages on nodes in the `NodeClass`. Hugepages improve memory-access performance for latency-sensitive workloads such as high-performance computing (HPC), databases, and network-intensive applications. You can use two independent hugepages configurations separately or together:
+
+* *Static hugepages* – Use the `pages` field to pre-allocate a fixed number of `2Mi` or `1Gi` hugepages on each node, or a mix of both sizes. Static hugepages are a schedulable node resource. To consume them, configure your Pods to explicitly request hugepage resources such as `hugepages-2Mi` or `hugepages-1Gi`. For more information, see https://kubernetes.io/docs/tasks/manage-hugepages/scheduling-hugepages/[Manage HugePages] in the Kubernetes documentation.
+* *Transparent hugepages (THP)* – Use the `transparent` field to configure the kernel's THP policy. THP is a kernel-wide policy rather than an allocatable resource. It does not affect scheduling or node capacity, and Pods do not request it. For more information, see https://docs.kernel.org/admin-guide/mm/transhuge.html[Transparent Hugepage Support] in the Linux kernel documentation.
 
 [#hugepages-example]
 === Example configuration
@@ -527,18 +530,36 @@ spec:
 
   advancedCompute:
     hugepages:
+      # Static hugepage reservations: up to one entry for each size
       pages:
         - size: "2Mi"
           count: 512
+        - size: "1Gi"
+          count: 2
+      # Transparent hugepages (THP) kernel policy
+      transparent:
+        enabled: always  # or madvise, never
+        defrag: defer    # or always, defer+madvise, madvise, never
 ----
+
+[#hugepages-transparent]
+=== Transparent hugepage settings
+
+Both `transparent` settings are optional. If you omit a setting, the node uses the kernel default (`madvise`).
+
+* *`enabled`* – Use `enabled` to control the THP allocation policy. Set this to `always` to apply THP system-wide. Set it to `madvise` to apply THP only to memory regions that opt in with `madvise(MADV_HUGEPAGE)`. Set it to `never` to disable THP.
+* *`defrag`* – Use `defrag` to control how aggressively the kernel compacts memory to satisfy a THP allocation. Valid values are `always`, `defer`, `defer+madvise`, `madvise`, and `never`.
+
+To disable THP, such as for database workloads that recommend turning it off, set `enabled: never`. When `enabled` is `never`, leave `defrag` unset or set it to `never`; NodeClass validation rejects any other combination.
 
 [#hugepages-considerations]
 === Hugepages considerations
 
 Consider the following when configuring hugepages on a NodeClass:
 
-* *Memory reservation*: Hugepages count against the instance's total memory. Amazon EKS marks instance types as incompatible with the NodeClass when the hugepages reservation would exceed 80% of total memory.
-* *EFA mutual exclusion*: EFA and hugepages cannot coexist on the same NodeClass. If you set `interfaceType: efa-only`, NodeClass validation fails. Amazon EKS does not provision Pods that request `vpc.amazonaws.com/efa` from a hugepages NodeClass. Use a separate NodeClass for EFA workloads.
+* *Static hugepage sizes* – Use the `pages` field to specify up to one entry for each hugepage size (`2Mi` and `1Gi`). You can reserve both sizes on the same nodes.
+* *Memory reservation* – Static hugepages count against the instance's total memory. Amazon EKS marks instance types as incompatible with the NodeClass when the combined hugepages reservation across all page sizes would exceed 80% of total memory.
+* *EFA mutual exclusion* – Elastic Fabric Adapter (EFA) and static hugepages cannot coexist on the same NodeClass. If you set `interfaceType: efa-only` together with `pages`, NodeClass validation fails. Amazon EKS does not provision Pods that request `vpc.amazonaws.com/efa` from a NodeClass with static hugepages. Use a separate NodeClass for EFA workloads. Transparent hugepages do not conflict with EFA; you can configure `transparent` on a NodeClass that uses EFA interfaces.
 
 [#kubelet-config]
 == Configure kubelet settings on nodes
