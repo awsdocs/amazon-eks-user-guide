@@ -149,7 +149,7 @@ kubectl get hpa --all-namespaces --no-headers | wc -l
 
 === Controller manager: Terminated pod garbage collection threshold
 
-The controller manager runs the terminated pod garbage collector (the pod GC controller), which deletes terminated pods (pods in the `Succeeded` or `Failed` phase) once the number of terminated pods in the cluster exceeds a threshold. The `terminatedPodGcThreshold` parameter sets that threshold.
+The controller manager runs the terminated pod garbage collector (the pod GC controller). This controller deletes terminated pods—pods in the `Succeeded` or `Failed` phase—after the number of terminated pods in the cluster exceeds a threshold. The `terminatedPodGcThreshold` parameter sets that threshold.
 
 [cols="2,2,1,1",options="header"]
 |===
@@ -163,11 +163,11 @@ The controller manager runs the terminated pod garbage collector (the pod GC con
 
 The garbage collector runs on a fixed 20-second cycle. When you lower the threshold, the collector starts force-deleting the oldest terminated pods on the next cycle until the count reaches the new threshold.
 
-To configure this parameter, your cluster must be on Amazon EKS Provisioned Control Plane. Lowering the threshold increases the garbage collection work the controller performs against the cluster database (etcd), because each pass becomes eligible to query, process, and delete more terminated pods. Provisioned Control Plane clusters pre-allocate control plane capacity that is always ready for demanding workloads, so they are sized to absorb that additional load. For more information, see <<eks-provisioned-control-plane>>.
+To configure this parameter, your cluster must be on Amazon EKS Provisioned Control Plane. Lowering the threshold increases the garbage collection work the controller performs against the cluster database (etcd). Each collection pass becomes eligible to query, process, and delete more terminated pods. Provisioned Control Plane clusters pre-allocate control plane capacity that is always ready for demanding workloads, so they can absorb that additional load. For more information, see <<eks-provisioned-control-plane>>.
 
 ==== Considerations for the terminated pod garbage collection threshold
 
-* *Lowering the threshold deletes excess terminated pods immediately.* If you lower the threshold (for example, from `12500` to `10000`), the garbage collection controller starts force-deleting the oldest terminated pods on its next cycle until the count reaches the new threshold. The reduction is not gradual.
+* *Lowering the threshold deletes excess terminated pods immediately.* If you lower the threshold (for example, from `12500` to `10000`), the garbage collection controller starts force-deleting the oldest terminated pods on its next cycle. The controller continues until the terminated pod count reaches the new threshold. The reduction is not gradual.
 
 * *The threshold applies to all terminated pods regardless of owner.* It affects pods in the `Succeeded` or `Failed` phase whether they are owned by a Job, CronJob, or Deployment, or are standalone. In practice, Job and CronJob pods are the most common contributors to the terminated pod count.
 
