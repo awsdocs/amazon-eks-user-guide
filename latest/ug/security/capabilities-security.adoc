@@ -79,6 +79,13 @@ Grants namespace-level permissions for Argo CD to deploy and manage applications
 
 See <<access-policy-permissions>> for more detailed information.
 
+[NOTE]
+====
+When you delete a capability, Amazon EKS retains the access entry that it created for the capability's IAM role.
+This preserves any permissions that you added to the access entry. If you no longer need the access entry, delete it manually.
+For more information, see <<deleting-access-entries>>.
+====
+
 [#additional-kubernetes-permissions]
 == Additional Kubernetes permissions
 
