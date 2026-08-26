@@ -124,7 +124,7 @@ _System-mediated_ time-slicing is when the driver shares a GPU across independen
 
 [IMPORTANT]
 ====
-Time-slicing through the DRA driver requires the `TimeSlicingSettings` feature gate, which is an alpha feature disabled by default. If you request the `TimeSlicing` sharing strategy without enabling this feature gate, the driver fails to prepare the device and the Pod stays in `ContainerCreating` with a `FailedPrepareDynamicResources` event that reports `error validating GPU config: unknown GPU sharing strategy: TimeSlicing`. Enable the feature gate only if you accept the risks of using an alpha capability.
+Time-slicing through the DRA driver requires the `TimeSlicingSettings` feature gate, which is an alpha feature disabled by default. If you request the `TimeSlicing` sharing strategy without enabling this feature gate, the driver fails to prepare the device and the Pod stays in `ContainerCreating` with a `FailedPrepareDynamicResources` event that reports `error validating GPU config: unknown GPU sharing strategy: TimeSlicing`. Turn on the feature gate only if you accept the risks of using an alpha capability.
 ====
 
 === Prerequisites
