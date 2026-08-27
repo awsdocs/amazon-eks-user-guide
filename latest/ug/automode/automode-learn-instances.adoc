@@ -103,7 +103,7 @@ EKS Auto Mode supports the following instance types:
 |Family|Instance Types
 
 |Compute Optimized +(C)+
-|c9g, c8a, c8g, c8gb, c8gd, c8gn, c8i, c8i-flex, c8ib, c8id, c7a, c7g, c7gd, c7gn, c7i, c7i-flex, c6a, c6g, c6gd, c6gn, c6i, c6id, c6in, c5, c5a, c5ad, c5d, c5n, c4
+|c9g, c9gd, c8a, c8g, c8gb, c8gd, c8gn, c8i, c8i-flex, c8ib, c8id, c7a, c7g, c7gd, c7gn, c7i, c7i-flex, c6a, c6g, c6gd, c6gn, c6i, c6id, c6in, c5, c5a, c5ad, c5d, c5n, c4
 
 |General Purpose (M)
 |m9gd, m8a, m8azn, m8g, m8gb, m8gd, m8gn, m8i, m8i-flex, m8id, m7a, m7g, m7gd, m7i, m7i-flex, m6a, m6g, m6gd, m6i, m6id, m6idn, m6in, m5, m5a, m5ad, m5d, m5dn, m5n, m5zn, m4
