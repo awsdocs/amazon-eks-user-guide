@@ -45,6 +45,13 @@ When you create a cluster, Amazon EKS creates a security group that's named `eks
 |Self (for EFA traffic)
 |===
 
+[NOTE]
+====
+
+For new clusters created with Amazon EKS version `1.34` or later, Amazon EKS adds a description to the inbound rule of the default cluster security group. Clusters created before version `1.34`, and existing clusters upgraded to version `1.34` or later, don't have this inbound rule description.
+
+====
+
 The default security group includes an outbound rule that allows Elastic Fabric Adapter (EFA) traffic with the destination of the same security group. This enables EFA traffic within the cluster, which is beneficial for AI/ML and High Performance Computing (HPC) workloads. For more information, see link:AWSEC2/latest/UserGuide/efa.html[Elastic Fabric Adapter for AI/ML and HPC workloads on Amazon EC2,type="documentation"] in the _Amazon Elastic Compute Cloud User Guide_.
 
 [IMPORTANT]
