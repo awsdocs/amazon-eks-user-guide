@@ -13,7 +13,7 @@ Configure supported Argo CD settings and resource namespaces for the managed cap
 The EKS Capability for Argo CD provides a fully managed Argo CD experience.
 Upstream Argo CD offers many optional settings and features, and the capability supports a subset of them.
 For general settings, use the `argocd-cm` ConfigMap.
-For additional Application and ApplicationSet source namespaces, use the `argocd-cmd-params-cm` ConfigMap.
+Use the `argocd-cmd-params-cm` ConfigMap to turn on the source hydrator with `hydrator.enabled` and configure additional Application and ApplicationSet source namespaces.
 The capability reads supported fields from these ConfigMaps in your cluster and applies them to the managed Argo CD instance.
 
 == Prerequisites
@@ -65,8 +65,8 @@ Do not put secrets, credentials, or other sensitive information in the `argocd-c
 
 You configure Argo CD by creating an `argocd-cm` ConfigMap in your own cluster.
 The capability applies the supported settings from your ConfigMap to the managed Argo CD instance.
-It applies only supported settings, and ignores any other field or feature that you set.
-Any setting that isn't listed in <<argocd-supported-settings>> is unsupported and has no effect.
+It applies only supported `argocd-cm` settings, and ignores any other field or feature that you set.
+Any `argocd-cm` setting that isn't listed in <<argocd-supported-settings>> is unsupported and has no effect.
 
 The capability validates the values that you set.
 If a value is invalid or malformed, the capability ignores that value and keeps running with its default configuration for that setting.

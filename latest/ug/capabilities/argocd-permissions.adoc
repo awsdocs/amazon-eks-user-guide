@@ -463,6 +463,8 @@ To use {aws} services directly in Application resources (without creating Reposi
 
 *CodeCommit repositories*:
 
+In the following policy, replace `region`, `account-id`, and `repository-name` with your values.
+
 [source,json,subs="verbatim,attributes"]
 ----
 {
@@ -478,6 +480,28 @@ To use {aws} services directly in Application resources (without creating Reposi
   ]
 }
 ----
+
+If you use the source hydrator to push rendered manifests to an {aws} CodeCommit repository, also allow `codecommit:GitPush`.
+In the following policy, replace `region`, `account-id`, and `repository-name` with your values.
+
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "Version": "2012-10-17",{tcx5-waiver}
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "codecommit:GitPull",
+        "codecommit:GitPush"
+      ],
+      "Resource": "arn:aws:codecommit:region:account-id:repository-name"
+    }
+  ]
+}
+----
+
+For instructions on using the source hydrator, see <<argocd-source-hydrator,Push hydrated manifests with the source hydrator>>.
 
 *CodeConnections (GitHub, GitLab, Bitbucket)*:
 

@@ -27,6 +27,8 @@ The EKS Capability for Argo CD is based on upstream Argo CD but differs in how i
 
 *Direct {aws} service integration*: The capability provides direct integration with {aws} services through the Capability Role's IAM permissions. You can reference CodeCommit repositories, ECR Helm charts, and CodeConnections directly in Application resources without creating Repository configurations. This simplifies authentication and eliminates the need to manage separate credentials for {aws} services. See <<argocd-configure-repositories>> for details.
 
+*Source hydrator*: Upstream Argo CD disables the source hydrator by default. To use it with the capability, add `hydrator.enabled: "true"` to `argocd-cmd-params-cm`, and then configure `spec.sourceHydrator` in your Application. The source hydrator renders manifests (for example, from Helm charts or Kustomize overlays) and pushes the rendered output to Git before syncing to the cluster. For instructions on using the source hydrator, see <<argocd-source-hydrator,Push hydrated manifests with the source hydrator>>.
+
 *Namespace support*: You specify a primary Argo CD namespace when you create the capability.
 AppProject resources, Argo CD configuration, and repository and cluster credentials remain in this namespace.
 You can configure additional namespaces for Application and ApplicationSet resources by using the `argocd-cmd-params-cm` ConfigMap.
@@ -54,7 +56,7 @@ The managed capability has specific requirements for CLI usage, AppProject confi
 * Notifications controller
 * Custom SSO providers (only {aws} Identity Center is supported, including third-party federated identity through {aws} Identity Center)
 * UI extensions and custom banners
-* Argo CD configuration ConfigMaps and keys other than the supported `argocd-cm` fields and the `application.namespaces` and `applicationsetcontroller.namespaces` keys in `argocd-cmd-params-cm`. See <<argocd-configure-settings>>.
+* Argo CD configuration ConfigMaps and keys other than the supported `argocd-cm` fields and the `hydrator.enabled`, `application.namespaces`, and `applicationsetcontroller.namespaces` keys in `argocd-cmd-params-cm`. See <<argocd-configure-settings>>.
 * Modifying the sync timeout (fixed at 120 seconds)
 
 *Compatibility*: The capability uses the same Kubernetes APIs and CRDs as upstream Argo CD, so existing Application and ApplicationSet manifests generally require no changes. Tools like `kubectl` work the same way. Except for the limitations described in this topic, the capability supports Applications and ApplicationSets, GitOps workflows with automatic sync, multi-cluster deployments, sync policies (automated, prune, self-heal), sync waves and hooks, health assessment for standard Kubernetes resources, rollback capabilities, Git repository sources (HTTPS and SSH), Helm, Kustomize, and plain YAML manifests, GitHub app credentials, projects for multi-tenancy, and resource exclusions and inclusions.

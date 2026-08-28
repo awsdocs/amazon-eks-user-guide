@@ -27,6 +27,13 @@ link:eks/latest/userguide/working-with-argocd.html#argocd-endpoint-prefix[type="
 You can now specify an endpoint prefix when you create an EKS Capability for Argo CD. The prefix sets the beginning of the Argo CD endpoint hostname.
 
 [.update,date="2026-10-06"]
+=== Argo CD source hydrator
+[.update-ulink]
+link:eks/latest/userguide/argocd-create-application.html#argocd-source-hydrator[type="documentation"]
+
+Added documentation for using the Argo CD source hydrator to render manifests and store the rendered output in Git before syncing. The guidance covers the required `hydrator.enabled: "true"` setting, `spec.sourceHydrator`, repository write credentials, and `codecommit:GitPush` for {aws} CodeCommit.
+
+[.update,date="2026-10-06"]
 === Argo CD Applications and ApplicationSets in additional namespaces
 [.update-ulink]
 link:eks/latest/userguide/argocd-configure-settings.html#argocd-configure-resource-namespaces[type="documentation"]
