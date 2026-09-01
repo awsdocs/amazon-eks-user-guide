@@ -362,7 +362,8 @@ To resolve this:
 * Make sure the controller that owns the blocking finalizer is healthy and running.
 * If the owning controller is healthy but the finalizer is not being processed, remove the blocking finalizer from the stuck resource.
 
-Using the finalizer list that the previous command printed, set the list to the finalizers you want to keep and leave out only the blocking one:
+Using the finalizer list that the previous command printed, set the list to the finalizers you want to keep and leave out only the blocking one.
+Replace `finalizer-a` and `finalizer-b` with those names:
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
@@ -370,7 +371,6 @@ kubectl patch [.replaceable]`resource-kind` [.replaceable]`resource-name` -n [.r
   --type merge -p '{"metadata":{"finalizers":["finalizer-a","finalizer-b"]}}'
 ----
 
-Replace `finalizer-a` and `finalizer-b` with the finalizer names you want to keep.
 If the blocking finalizer is the only one on the resource, pass an empty list: `--type merge -p '{"metadata":{"finalizers":[]}}'`.
 
 [WARNING]
