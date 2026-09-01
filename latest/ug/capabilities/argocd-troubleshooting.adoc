@@ -361,21 +361,23 @@ To resolve this:
 
 * Make sure the controller that owns the blocking finalizer is healthy and running.
 * If the owning controller is healthy but the finalizer is not being processed, remove the blocking finalizer from the stuck resource.
-Use the finalizer list that the previous command printed, and set it to the finalizers that you want to keep, leaving out only the blocking one:
+
+Use the finalizer list that the previous command printed.
+Set it to the finalizers you want to keep, leaving out only the blocking one.
+Replace [.replaceable]`finalizers-to-keep` with a comma-separated list of quoted finalizer names:
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl patch [.replaceable]`resource-kind` [.replaceable]`resource-name` -n [.replaceable]`my-namespace` \
-  --type merge -p '{"metadata":{"finalizers":["finalizer-to-keep"]}}'
+  --type merge -p '{"metadata":{"finalizers":[[.replaceable]``finalizers-to-keep``]}}'
 ----
 
-Replace `finalizer-to-keep` with the finalizers you want to remain, as a comma-separated list of quoted names.
 If the blocking finalizer is the only one on the resource, pass an empty list: `--type merge -p '{"metadata":{"finalizers":[]}}'`.
 
 [WARNING]
 ====
 Set the finalizer list explicitly rather than removing an entry by position.
-A resource can carry finalizers from more than one controller, and they are not in a guaranteed order, so removing the first entry can delete the wrong finalizer—leaving the blocking one in place and the resource still stuck.
+A resource can carry finalizers from more than one controller, and they are not in a guaranteed order. Removing the first entry can delete the wrong finalizer. This leaves the blocking one in place and the resource still stuck.
 
 Removing a finalizer also skips whatever cleanup the owning controller would have performed, which can leave {aws} resources behind with no record of them in your cluster.
 Only do this after you have confirmed the owning controller cannot process the finalizer.
