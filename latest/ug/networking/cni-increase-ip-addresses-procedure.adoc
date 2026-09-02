@@ -110,7 +110,7 @@ eksctl create nodegroup --cluster my-cluster --managed=false --max-pods-per-node
 **** *Without a launch template or with a launch template without an AMI ID specified* – Complete the procedure in <<create-managed-node-group,Create a managed node group for your cluster>>. Managed node groups automatically calculate the Amazon EKS recommended `max-pods` value for you.
 **** *With a launch template with a specified AMI ID* – In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then <<launch-templates,deploy the node group using a launch template>> and provide the following user data in the launch template. This user data passes a `NodeConfig` object to be read by the `nodeadm` tool on the node. For more information about `nodeadm`, see https://awslabs.github.io/amazon-eks-ami/nodeadm[the nodeadm documentation].
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="//"
@@ -126,7 +126,7 @@ spec:
    apiServerEndpoint: [.replaceable]`my-cluster`
    certificateAuthority: [.replaceable]`LS0t...`
    cidr: [.replaceable]`10.100.0.0/16`
-   name: [.replaceable]`my-cluster
+   name: [.replaceable]`my-cluster`
  kubelet:
    config:
      maxPods: [.replaceable]`110`

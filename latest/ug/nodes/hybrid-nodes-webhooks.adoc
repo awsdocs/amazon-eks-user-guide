@@ -130,7 +130,7 @@ kubectl patch svc kube-dns -n kube-system --type=merge -p '{
 kubectl get endpointslice -A | grep "kube-dns"
 ----
 +
-[source,bash,subs="verbatim,attributes"]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl get endpointslice [.replaceable]`kube-dns-<id>`  -n kube-system -o yaml
 ----
