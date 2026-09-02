@@ -106,7 +106,7 @@ Compare this version with the minimum EKS Add-on version in the previous section
 }
 ----
 +
-The following example shows autoscaling is enabled and all of the optional keys have values. We recommend that the minimum number of CoreDNS pods is always greater than 2 to provide resilience for the DNS service in the cluster.
+The following example shows autoscaling enabled with minimum and maximum replica values. We recommend that the minimum number of CoreDNS pods is always greater than 2 to provide resilience for the DNS service in the cluster.
 +
 [source,json,subs="verbatim,attributes"]
 ----
@@ -216,7 +216,7 @@ undo     -- Undo a previous rollout
 If the rollout takes too long, Amazon EKS will undo the rollout, and a message with the type of *Addon Update* and a status of *Failed* will be added to the *Update history* of the add-on. To investigate any issues, start from the history of the rollout, and run `kubectl logs` on a CoreDNS pod to see the logs of CoreDNS.
 . (Optional) You can provide minimum and maximum values that autoscaling can scale the number of CoreDNS pods to.
 +
-The following example shows autoscaling is enabled and all of the optional keys have values. We recommend that the minimum number of CoreDNS pods is always greater than 2 to provide resilience for the DNS service in the cluster.
+The following example shows autoscaling enabled with minimum and maximum replica values. We recommend that the minimum number of CoreDNS pods is always greater than 2 to provide resilience for the DNS service in the cluster.
 +
 [source,shell,subs="verbatim,attributes"]
 ----
