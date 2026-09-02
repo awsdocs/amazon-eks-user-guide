@@ -37,7 +37,7 @@ For Amazon EKS to scale your CoreDNS deployment, you must meet the following pre
 
 
 [#coredns-autoscaling-coredns-version]
-=== Minimum EKS Add-on version for advanced scaling parameters
+== Minimum EKS Add-on version for advanced scaling parameters
 
 The following table lists the minimum CoreDNS Add-on version required for each Kubernetes version to use the `nodesPerReplica` and `cpuCoresPerReplica` scaling parameters.
 
