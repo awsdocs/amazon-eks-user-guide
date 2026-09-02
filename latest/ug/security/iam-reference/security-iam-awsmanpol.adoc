@@ -224,7 +224,7 @@ The key permissions granted by this policy are:
 
 * **`kms`**: Allows reading a key from {aws} KMS, which is required for the Kubernetes control plane to support encryption of Kubernetes secrets stored in etcd.
 
-* **`wafv2`** and **`shield`**: Allows associating and disassociating Web ACLs and creating/deleting {aws} Shield protections for the Elastic Load Balancers.
+* **`wafv2`** and **`shield`**: Allows listing, associating, and disassociating Web ACLs and creating/deleting {aws} Shield protections for the Elastic Load Balancers.
 
 * **`cognito-idp`**, **`acm`**, and **`elasticloadbalancing`**: Grants permissions to describe user pool clients, list and describe certificates, and describe target groups, which are required for the Kubernetes control plane to manage the Elastic Load Balancers.
 
@@ -484,6 +484,14 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Change
 |Description
 |Date
+
+|Updated permissions to <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>.
+|Added `gateway.eks.amazonaws.com.alb/stack`, `gateway.eks.amazonaws.com.alb/resource`, `gateway.eks.amazonaws.com.nlb/stack`, and `gateway.eks.amazonaws.com.nlb/resource` tag keys to the resource-tagging allowlist in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to manage {aws} resources for Kubernetes Gateway API (ALB and NLB) workloads.
+|September 2, 2026
+
+|Added permission to <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>.
+|Added `wafv2:ListWebACLs` permission in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to list {aws} WAF Web ACLs when reconciling Application Load Balancer associations.
+|September 2, 2026
 
 |Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
 |Added `AmazonEKSPodIdentityPolicy` to the list of access policies that the service-linked role can associate and dissociate from cluster access entries. With this addition, Amazon EKS can manage pod identity credentials for workloads running on EKS clusters.
