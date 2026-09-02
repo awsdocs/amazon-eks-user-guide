@@ -131,7 +131,7 @@ aws eks create-capability \
     "argoCd": {
       "awsIdc": {
         "idcInstanceArn": "'$IDC_INSTANCE_ARN'",
-        "idcRegion": "'[.replaceable]`idc-region-code`'"
+        "idcRegion": "'idc-region-code'"
       },
       "rbacRoleMappings": [{
         "role": "ADMIN",
@@ -158,14 +158,14 @@ aws eks create-capability \
   --delete-propagation-policy RETAIN \
   --network-configuration '{
     "elasticNetworkInterfaces": {
-      "vpcEndpointId": "'[.replaceable]`vpce-xxxxxxxx`'"
+      "vpcEndpointId": "'vpce-xxxxxxxx'"
     }
   }' \
   --configuration '{
     "argoCd": {
       "awsIdc": {
         "idcInstanceArn": "'$IDC_INSTANCE_ARN'",
-        "idcRegion": "'[.replaceable]`idc-region-code`'"
+        "idcRegion": "'idc-region-code'"
       },
       "rbacRoleMappings": [{
         "role": "ADMIN",
