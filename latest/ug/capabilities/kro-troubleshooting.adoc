@@ -97,16 +97,16 @@ If custom resource instances exist but the underlying Kubernetes resources (Depl
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
 # Describe the instance (replace with your custom resource kind and name)
-kubectl describe [.replaceable]`custom-kind` [.replaceable]`my-instance`
+kubectl describe [.replaceable]`custom-kind my-instance`
 
 # View instance events
 kubectl get events --field-selector involvedObject.name=[.replaceable]`my-instance`
 
 # Check instance status conditions
-kubectl get [.replaceable]`custom-kind` [.replaceable]`my-instance` -o jsonpath='{.status.conditions}'
+kubectl get [.replaceable]`custom-kind my-instance` -o jsonpath='{.status.conditions}'
 
 # Check instance state
-kubectl get [.replaceable]`custom-kind` [.replaceable]`my-instance` -o jsonpath='{.status.state}'
+kubectl get [.replaceable]`custom-kind my-instance` -o jsonpath='{.status.state}'
 ----
 
 Instances have a `state` field showing high-level status:
@@ -208,7 +208,7 @@ This shows the computed order based on CEL expression references between resourc
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
 # View instance status to see which resources are ready
-kubectl get [.replaceable]`custom-kind` [.replaceable]`my-instance` -o jsonpath='{.status}'
+kubectl get [.replaceable]`custom-kind my-instance` -o jsonpath='{.status}'
 
 # Check specific resource status
 kubectl get deployment [.replaceable]`my-deployment` -o jsonpath='{.status.conditions}'
@@ -248,7 +248,7 @@ If instances fail to create due to schema validation errors, verify the instance
 kubectl apply -f instance.yaml
 
 # View existing instance validation status
-kubectl describe [.replaceable]`custom-kind` [.replaceable]`my-instance` | grep -A 5 "Validation"
+kubectl describe [.replaceable]`custom-kind my-instance` | grep -A 5 "Validation"
 ----
 
 *Common validation issues*:

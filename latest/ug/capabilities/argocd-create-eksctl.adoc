@@ -84,16 +84,16 @@ This is recommended for environments with strict network security requirements.
 === Create a VPC endpoint for EKS Capabilities
 
 Create an interface VPC endpoint for the EKS Capabilities service in your VPC.
-Replace [.replaceable]`vpc-id`, [.replaceable]`subnet-id-1`, [.replaceable]`subnet-id-2`, [.replaceable]`sg-id`, and [.replaceable]`region-code` with your own values:
+Replace [.replaceable]`vpc-id`, [.replaceable]`subnet-id-1 subnet-id-2`, [.replaceable]`sg-id`, and [.replaceable]`region-code` with your own values:
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
 aws ec2 create-vpc-endpoint \
   --vpc-endpoint-type Interface \
   --service-name com.amazonaws.[.replaceable]`region-code`.eks-capabilities \
-  --vpc-id [.replaceable]`vpc-xxxxxxxx` \
-  --subnet-ids [.replaceable]`subnet-xxxxxxxx` [.replaceable]`subnet-yyyyyyyy` \
-  --security-group-ids [.replaceable]`sg-xxxxxxxx` \
+  --vpc-id [.replaceable]`vpc-id` \
+  --subnet-ids [.replaceable]`subnet-id-1 subnet-id-2` \
+  --security-group-ids [.replaceable]`sg-id` \
   --region [.replaceable]`region-code`
 ----
 
