@@ -153,18 +153,6 @@ NOTE: EKS Auto Mode uses different labels than Karpenter. Labels related to EC2 
 |131072
 |Number of mebibytes of memory on the instance
 
-|eks.amazonaws.com/instance-numa-nodes
-|2
-|Number of NUMA nodes on the instance. Present only on supported instance types.
-
-|eks.amazonaws.com/instance-min-cpus-per-numa
-|16
-|Number of CPUs on the smallest NUMA node of the instance. Present only on supported instance types.
-
-|eks.amazonaws.com/instance-min-memory-per-numa
-|65536
-|Number of mebibytes of memory on the smallest NUMA node of the instance. Present only on supported instance types.
-
 |eks.amazonaws.com/instance-ebs-bandwidth
 |9500
 |Number of link:AWSEC2/latest/UserGuide/ebs-optimized.html#ebs-optimization-performance[maximum megabits,type="documentation"] of EBS available on the instance
