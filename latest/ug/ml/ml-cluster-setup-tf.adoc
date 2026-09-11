@@ -843,7 +843,7 @@ This drops `reserved` from the NodePool capacity-type requirements and destroys 
 
 [IMPORTANT]
 =====
-Cancelling a reservation does not terminate instances already running on it. Those instances keep running at standard On-Demand rates until they are terminated. Delete the GPU workloads first, as shown above, so the reserved node drains before the reservation is released.
+Cancelling a reservation does not terminate instances already running on it. Those instances keep running at standard On-Demand rates until they are terminated. Delete the GPU workloads first, as shown previously, so the reserved node drains before the reservation is released.
 =====
 ====
 
@@ -873,7 +873,7 @@ The model weights S3 bucket is created with `force_destroy = true`, so `terrafor
 
 [NOTE]
 =====
-The repository also ships a `scripts/cleanup.sh` helper that runs the drain and destroy steps above and then sweeps any orphaned EBS volumes tagged with the cluster name. Run it from inside the `terraform/<mode>/` directory you applied from, and pass `--auto-approve` to skip the Terraform confirmation prompt.
+The repository also ships a `scripts/cleanup.sh` helper that runs the preceding drain and destroy steps and then sweeps any orphaned EBS volumes tagged with the cluster name. Run it from inside the `terraform/<mode>/` directory you applied from, and pass `--auto-approve` to skip the Terraform confirmation prompt.
 =====
 ====
 
