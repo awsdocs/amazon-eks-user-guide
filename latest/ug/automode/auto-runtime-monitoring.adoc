@@ -10,13 +10,13 @@ include::../attributes.txt[]
 Collect logs and metrics from the components that run on EKS Auto Mode nodes.
 --
 
-EKS Auto Mode provides a streamlined experience to run Kubernetes on {aws} through automatic node provisioning with {aws}-managed AMIs and Karpenter, along with a set of controllers that run in the control plane outside of your view. To close the observability gap this can create, EKS delivers <<auto-managed-component-logs,{aws}-managed component logs>> for the control plane controllers. In addition, because the EKS Auto Mode runtime components are installed in the AMI and run on your nodes, you can configure your own log and metrics collectors to gather their logs and metrics.
+Amazon EKS Auto Mode provides a streamlined experience for running Kubernetes on {aws}. It automatically provisions nodes by using {aws}-managed AMIs and Karpenter. EKS Auto Mode also runs a set of controllers in the control plane that aren't visible to you. To close the observability gap this can create, EKS delivers <<auto-managed-component-logs,{aws}-managed component logs>> for the control plane controllers. In addition, because the EKS Auto Mode runtime components are installed in the AMI and run on your nodes, you can configure your own log and metrics collectors to gather their logs and metrics.
 
-This topic describes how to collect logs and metrics from the components that run on EKS Auto Mode nodes. For logs from the {aws}-managed controllers that run in the control plane, see <<auto-managed-component-logs>>.
+This topic describes how to collect logs and metrics from the components that run on EKS Auto Mode nodes. For information about logs from the {aws}-managed controllers that run in the control plane, see <<auto-managed-component-logs>>.
 
 == Runtime component logs
 
-EKS Auto Mode removes the need for you to run critical add-ons such as CoreDNS, `kube-proxy`, and the Amazon VPC CNI, because they are baked into the EKS Auto Mode AMIs and run as `systemd` services on your nodes. To collect logs from these components, we recommend that you use https://fluentbit.io/[Fluent Bit] through the link:AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html[Amazon CloudWatch Observability add-on,type="documentation"], or the log aggregator of your choice.
+EKS Auto Mode removes the need for you to run critical add-ons such as CoreDNS, `kube-proxy`, and the Amazon VPC CNI. These add-ons are baked into the EKS Auto Mode AMIs and run as `systemd` services on your nodes. To collect logs from these components, use https://fluentbit.io/[Fluent Bit] through the link:AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html[Amazon CloudWatch Observability add-on,type="documentation"], or the log aggregator of your choice.
 
 Fluent Bit is configured with a `ConfigMap`. Within the configuration, you specify the `systemd` services you want to monitor by using `Systemd_Filter` entries in a `systemd` input. The following snippet illustrates the concept.
 
@@ -38,7 +38,7 @@ Fluent Bit is configured with a `ConfigMap`. Within the configuration, you speci
       Read_From_Tail      ${READ_FROM_TAIL}
 ----
 
-You can also collect file-based logs written by the VPC CNI components under `/var/log/aws-routed-eni/` (for example, `ipamd`, `network-policy-agent`, `plugin`, and `ebpf-sdk` logs) by adding a `tail` input to the configuration.
+You can also collect file-based logs written by the VPC CNI components under `/var/log/aws-routed-eni/`. These include `ipamd`, `network-policy-agent`, `plugin`, and `ebpf-sdk` logs. To collect them, add a `tail` input to the configuration.
 
 [NOTE]
 ====
@@ -49,31 +49,16 @@ The preceding example is shortened for clarity. For a complete `ConfigMap` that 
 
 Metric collection in EKS Auto Mode is similar to metric collection in self-managed EKS on Amazon EC2 nodes. The components that run on your nodes expose Prometheus metrics endpoints that you can collect with the scraper of your choice.
 
-[%header,cols="2"]
-|===
-|Component
-|Metrics endpoint (port/path)
+The following list shows the metrics endpoint (port and path) for each component.
 
-|CoreDNS
-|`9153/metrics`
+CoreDNS:: `9153/metrics`
+`kube-proxy`:: `10249/metrics`
+IPAM daemon (`ipamd`):: `61678/metrics`
+Network Policy Agent:: `8900/metrics`
+Node Monitoring Agent:: `8801/metrics`
+Pod Identity Agent:: `2705/metrics`
 
-|`kube-proxy`
-|`10249/metrics`
-
-|IPAM daemon (`ipamd`)
-|`61678/metrics`
-
-|Network Policy Agent
-|`8900/metrics`
-
-|Node Monitoring Agent
-|`8801/metrics`
-
-|Pod Identity Agent
-|`2705/metrics`
-|===
-
-=== Query a metrics endpoint
+=== Querying a metrics endpoint
 
 You can query an endpoint directly from a node to confirm that metrics are being served. The following example uses `curl` to read the CoreDNS metrics endpoint.
 
