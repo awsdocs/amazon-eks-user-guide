@@ -59,6 +59,71 @@ If you are using GPU sharing features such as multi-instance GPUs (MIG) or time-
 
 |===
 
+[#eks-nvidia-gpu-labels]
+== NVIDIA GPU node labels
+
+NVIDIA GPU nodes carry a set of `nvidia.com/*` Kubernetes node labels that describe the GPU hardware and how it is configured. Different components apply different labels. A label is present only when the component that writes it runs on the node. Understanding which component applies each label helps you write reliable node selectors and interpret what a node reports.
+
+A node that runs only the NVIDIA device plugin, without GPU Feature Discovery, has no `nvidia.com/*` labels. If you are using the EKS AL2023 or Bottlerocket NVIDIA AMIs, the `nvidia.com/gpu.present` label is automatically applied.
+
+The labels are informational and are used for node targeting. To run a workload on a GPU, request the GPU _resource_ (for example, `nvidia.com/gpu` or `nvidia.com/mig-1g.10gb`) in the Pod spec. Use the labels in a `nodeSelector` or node affinity to constrain _which_ GPU nodes a workload lands on.
+
+=== GPU Feature Discovery (GFD)
+
+GPU Feature Discovery (GFD) is a component of the NVIDIA device plugin project (the `gpu-feature-discovery` deployment) that runs either standalone or as part of the NVIDIA GPU Operator. It depends on link:https://github.com/kubernetes-sigs/node-feature-discovery[Node Feature Discovery (NFD)] on the GitHub website, and it writes all of the descriptive `nvidia.com/*` _feature_ labels, including the following.
+
+[cols="1,1", options="header"]
+|===
+| Label | Description
+
+| `nvidia.com/gpu.product`
+| GPU model, for example, `NVIDIA-A100-SXM4-40GB`. With single-strategy MIG, GFD appends the active MIG profile as a `-MIG-<profile>` suffix, for example, `NVIDIA-A100-SXM4-40GB-MIG-1g.5gb`.
+
+| `nvidia.com/gpu.count`
+| Number of schedulable GPU devices that the device plugin advertises. With single-strategy MIG this is the number of MIG instances, not the number of physical GPUs.
+
+| `nvidia.com/gpu.memory`
+| GPU memory per device, in MiB.
+
+| `nvidia.com/gpu.family`, `nvidia.com/gpu.compute.major`, `nvidia.com/gpu.compute.minor`
+| GPU architecture family (such as `ampere`, `hopper`, or `blackwell`) and CUDA compute capability.
+
+| `nvidia.com/mig.capable`
+| `true` if the GPU hardware supports MIG. This reflects hardware capability only, not whether MIG is enabled.
+
+| `nvidia.com/mig.strategy`
+| The device plugin MIG strategy in effect, `single` or `mixed`. See <<eks-mig-strategies,MIG strategies>>.
+
+| `nvidia.com/gpu.sharing-strategy`
+| The GPU sharing strategy, `none`, `time-slicing`, or `mps`.
+
+| `nvidia.com/mig-<profile>.*`
+| With mixed-strategy MIG, per-profile labels such as `nvidia.com/mig-1g.10gb.count` and `nvidia.com/mig-1g.10gb.product` for each MIG profile present on the node.
+
+| `nvidia.com/cuda.driver-version.*`, `nvidia.com/cuda.runtime-version.*`
+| Installed NVIDIA driver and CUDA runtime versions.
+|===
+
+=== MIG Manager (NVIDIA GPU Operator only)
+
+The MIG Manager is an operand of the NVIDIA GPU Operator. It applies the following labels and is not present unless you install the GPU Operator.
+
+[cols="1,1", options="header"]
+|===
+| Label | Description
+
+| `nvidia.com/mig.config`
+| The MIG layout that the MIG Manager is _requested_ to apply, for example, `all-disabled` or a named profile such as `all-1g.5gb`. You set this label to select or change a layout; the MIG Manager watches for changes and partitions the GPUs to match, rebooting the node when required.
+
+| `nvidia.com/mig.config.state`
+| The reconciliation state of the requested layout, such as `success`, `pending`, or `failed`.
+|===
+
+[IMPORTANT]
+====
+`nvidia.com/mig.config` reflects the layout the MIG Manager was last _asked_ to apply, not a live readback of the GPU. The MIG Manager reconciles only when this label changes. So, if MIG mode is enabled or partitioned outside the MIG Manager (for example, with `nvidia-smi`), the GPUs can be actively partitioned while the label still reads `all-disabled`. Treat the resources advertised in the node's `Allocatable` (and `nvidia-smi` on the host) as the source of truth for what is schedulable, and use the `nvidia.com/mig.config` label only to _drive_ the MIG Manager.
+====
+
 [#eks-nvidia-dra-driver]
 == Install the NVIDIA DRA driver
 
