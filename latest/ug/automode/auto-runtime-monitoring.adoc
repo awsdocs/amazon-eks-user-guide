@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#auto-runtime-monitoring]
 = Monitor the EKS Auto Mode runtime
-:info_titleabbrev: Runtime monitoring
+:info_titleabbrev: EKS Auto Runtime Monitoring
 
 [abstract]
 --
