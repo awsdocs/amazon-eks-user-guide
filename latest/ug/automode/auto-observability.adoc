@@ -16,3 +16,5 @@ Use this chapter to learn about observability options for Amazon EKS Auto Mode c
 [[Topic List]]
 
 include::auto-managed-component-logs.adoc[leveloffset=+1]
+
+include::auto-runtime-monitoring.adoc[leveloffset=+1]
