@@ -128,6 +128,8 @@ The response includes:
 * *status*: Current capability state (`CREATING`, `ACTIVE`, `UPDATING`, `DELETING`, `CREATE_FAILED`, `UPDATE_FAILED`)
 * *health*: Health information including any issues detected by the capability
 
+To review capability health across all of your clusters, see <<cluster-dashboard>>.
+
 == Common capability statuses
 
 *CREATING*: Capability is being set up.

@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 == What is the Amazon EKS Dashboard?
 
-image::images/eks-dashboard.png[screenshot of account level cluster metrics]
+image::images/eks-dashboard.png[Aggregated data about your clusters, node groups, add-ons, and capabilities across accounts and Regions.]
 
 The Amazon EKS Dashboard provides consolidated visibility into your Kubernetes clusters across multiple {aws} Regions and {aws} Accounts. With this dashboard, you can:
 
@@ -108,6 +108,10 @@ You can configure the view of the dashboard, and filter resources.
 ** Number of installations per add-on.
 ** Add-ons with health issues.
 ** Version distribution per add-on.
+* *Capabilities*: Review the capabilities enabled across your EKS Clusters and their status.
+** Distribution of capabilities by type.
+** Capabilities with health issues.
+** Breakdown of health issues by code.
 
 === Available views
 
