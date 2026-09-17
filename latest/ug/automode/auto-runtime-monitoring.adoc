@@ -45,22 +45,57 @@ You can also collect file-based logs written by the VPC CNI components under `/v
 The preceding example is shortened for clarity. For a complete `ConfigMap` that collects application, runtime, and host logs and ships them to CloudWatch Logs, see the Container Insights Fluent Bit configuration in the Amazon CloudWatch documentation.
 ====
 
+For point-in-time log collection from a single node, you can use a `NodeDiagnostic` resource to gather a log bundle instead of streaming logs continuously. For more information, see <<auto-get-logs>>. The Node Monitoring Agent also runs on every EKS Auto Mode node. It reports node health and surfaces issues as node conditions and events. For more information, see <<auto-troubleshoot>>.
+
 == Runtime component metrics
 
 Metric collection in EKS Auto Mode is similar to metric collection in self-managed EKS on Amazon EC2 nodes. The components that run on your nodes expose Prometheus metrics endpoints that you can collect with the scraper of your choice.
 
-The following list shows the metrics endpoint (port and path) for each component.
+[NOTE]
+====
+This list covers the metrics that are most useful to monitor today. EKS is expanding the metrics that runtime components expose, so the available metrics might change over time.
+====
 
-CoreDNS:: `9153/metrics`
-`kube-proxy`:: `10249/metrics`
-IPAM daemon (`ipamd`):: `61678/metrics`
-Network Policy Agent:: `8900/metrics`
-Node Monitoring Agent:: `8801/metrics`
-Pod Identity Agent:: `2705/metrics`
+The following table shows the metrics endpoint (port and path) for each component.
+
+[%header,cols="2"]
+|===
+|Component
+|Metrics endpoint (port/path)
+
+|CoreDNS
+|`9153/metrics`
+
+|`kube-proxy`
+|`10249/metrics`
+
+|IPAM daemon (`ipamd`)
+|`61678/metrics`
+
+|Network Policy Agent
+|`8900/metrics`
+
+|Node Monitoring Agent
+|`8801/metrics`
+
+|Pod Identity Agent
+|`2705/metrics`
+|===
+
+=== Access a node to run diagnostic commands
+
+EKS Auto Mode nodes are secured and don't allow direct SSH or SSM access. To run commands such as `curl` or `netstat` on a node, open an interactive shell in a debug container that runs on the node. The following command starts a debug container, where `node-name` is the name of the node.
+
+[source,cli]
+----
+kubectl debug node/node-name -it --profile=sysadmin --image=public.ecr.aws/amazonlinux/amazonlinux:2023
+----
+
+Run the commands in the following section from the shell that this command opens. For more information about debugging nodes, see <<auto-troubleshoot>>.
 
 === Querying a metrics endpoint
 
-You can query an endpoint directly from a node to confirm that metrics are being served. The following example uses `curl` to read the CoreDNS metrics endpoint.
+You can query an endpoint from a node to confirm that metrics are being served. The following example uses `curl` to read the CoreDNS metrics endpoint.
 
 [source,bash]
 ----
@@ -102,6 +137,14 @@ tcp        0      0 127.0.0.1:10256         0.0.0.0:*               LISTEN      
 tcp        0      0 127.0.0.1:10249         0.0.0.0:*               LISTEN      1697/kube-proxy
 tcp        0      0 127.0.0.1:10248         0.0.0.0:*               LISTEN      1770/kubelet
 ----
+
+=== Elastic Fabric Adapter and node-level network metrics
+
+For clusters that use Elastic Fabric Adapter (EFA) for high-performance networking, you can monitor EFA and node-level network performance through the following sources:
+
+* *Container Insights* – Collects and surfaces node and Pod metrics for your cluster. For more information, see the Container Insights link in the following section.
+* *Network Flow Monitor* – Scrapes network performance metrics for Pods and worker nodes from the Network Flow Monitor agent that runs in your cluster. For more information, see <<network-observability>>.
+* *Node-level counters* – EFA and network device counters that are exposed on the node, which you can scrape with your metrics collector.
 
 == Related resources
 
