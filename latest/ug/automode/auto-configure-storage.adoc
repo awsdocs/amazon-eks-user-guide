@@ -1,0 +1,18 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-configure-storage]
+= Configure storage
+:info_titleabbrev: Storage
+
+[abstract]
+--
+Configure storage classes and volumes for EKS Auto Mode.
+--
+
+Configure how Amazon EKS Auto Mode provisions storage for your workloads. Use the following topics to define storage classes and volume settings.
+
+[.topiclist]
+[[Topic List]]
+
+include::create-storage-class.adoc[leveloffset=+1]

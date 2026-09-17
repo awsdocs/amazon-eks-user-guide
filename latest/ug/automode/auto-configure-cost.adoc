@@ -1,0 +1,18 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-configure-cost]
+= Optimize cost for EKS Auto Mode
+:info_titleabbrev: Cost optimization
+
+[abstract]
+--
+Optimize compute cost for EKS Auto Mode.
+--
+
+Optimize the compute cost of your Amazon EKS Auto Mode clusters. Use the following topics to understand consolidation and to apply cost-control patterns.
+
+[.topiclist]
+[[Topic List]]
+
+include::auto-cost-control.adoc[leveloffset=+1]

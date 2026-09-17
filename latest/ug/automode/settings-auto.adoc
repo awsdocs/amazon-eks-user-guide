@@ -138,50 +138,16 @@ a|
 
 
 
-include::create-node-class.adoc[leveloffset=+1]
+include::auto-configure-compute.adoc[leveloffset=+1]
 
-include::create-node-pool.adoc[leveloffset=+1]
+include::auto-configure-networking.adoc[leveloffset=+1]
 
-include::auto-static-capacity.adoc[leveloffset=+1]
+include::auto-configure-storage.adoc[leveloffset=+1]
 
-include::auto-configure-alb.adoc[leveloffset=+1]
+include::auto-configure-security.adoc[leveloffset=+1]
 
-include::auto-configure-nlb.adoc[leveloffset=+1]
+include::auto-configure-scheduling.adoc[leveloffset=+1]
 
-include::auto-multi-cluster-target-groups.adoc[leveloffset=+1]
+include::auto-configure-cost.adoc[leveloffset=+1]
 
-include::auto-multi-cluster-target-groups-example.adoc[leveloffset=+1]
-
-include::auto-managed-rbac.adoc[leveloffset=+1]
-
-include::auto-managed-rbac-example.adoc[leveloffset=+1]
-
-include::create-storage-class.adoc[leveloffset=+1]
-
-include::auto-disable.adoc[leveloffset=+1]
-
-include::auto-upgrade.adoc[leveloffset=+1]
-
-include::set-builtin-node-pools.adoc[leveloffset=+1]
-
-include::associate-workload.adoc[leveloffset=+1]
-
-include::critical-workload.adoc[leveloffset=+1]
-
-include::auto-net-pol.adoc[leveloffset=+1]
-
-include::tag-subnets-auto.adoc[leveloffset=+1]
-
-include::auto-cis.adoc[leveloffset=+1]
-
-include::auto-kms.adoc[leveloffset=+1]
-
-include::auto-controls.adoc[leveloffset=+1]
-
-include::auto-odcr.adoc[leveloffset=+1]
-
-include::auto-local-zone.adoc[leveloffset=+1]
-
-include::auto-advanced-security.adoc[leveloffset=+1]
-
-include::auto-cost-control.adoc[leveloffset=+1]
+include::auto-configure-lifecycle.adoc[leveloffset=+1]

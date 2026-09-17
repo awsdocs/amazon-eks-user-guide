@@ -1,0 +1,30 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-configure-compute]
+= Configure compute and scaling
+:info_titleabbrev: Compute and scaling
+
+[abstract]
+--
+Configure nodes, node pools, and capacity for EKS Auto Mode.
+--
+
+Configure how Amazon EKS Auto Mode provisions and scales compute for your workloads. Use the following topics to customize node classes, node pools, capacity, and related compute controls.
+
+[.topiclist]
+[[Topic List]]
+
+include::create-node-class.adoc[leveloffset=+1]
+
+include::create-node-pool.adoc[leveloffset=+1]
+
+include::auto-static-capacity.adoc[leveloffset=+1]
+
+include::set-builtin-node-pools.adoc[leveloffset=+1]
+
+include::auto-odcr.adoc[leveloffset=+1]
+
+include::auto-local-zone.adoc[leveloffset=+1]
+
+include::auto-controls.adoc[leveloffset=+1]

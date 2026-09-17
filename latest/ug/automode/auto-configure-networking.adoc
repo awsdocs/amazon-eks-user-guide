@@ -1,0 +1,28 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-configure-networking]
+= Configure networking and load balancing
+:info_titleabbrev: Networking and load balancing
+
+[abstract]
+--
+Configure load balancing, network policies, and subnets for EKS Auto Mode.
+--
+
+Configure the networking and load balancing behavior of your Amazon EKS Auto Mode clusters. Use the following topics to set up Application and Network Load Balancers, target groups, network policies, and subnet tagging.
+
+[.topiclist]
+[[Topic List]]
+
+include::auto-configure-alb.adoc[leveloffset=+1]
+
+include::auto-configure-nlb.adoc[leveloffset=+1]
+
+include::auto-multi-cluster-target-groups.adoc[leveloffset=+1]
+
+include::auto-multi-cluster-target-groups-example.adoc[leveloffset=+1]
+
+include::auto-net-pol.adoc[leveloffset=+1]
+
+include::tag-subnets-auto.adoc[leveloffset=+1]

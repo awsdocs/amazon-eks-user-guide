@@ -1,0 +1,20 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-configure-scheduling]
+= Schedule workloads on EKS Auto Mode
+:info_titleabbrev: Scheduling workloads
+
+[abstract]
+--
+Control how workloads are scheduled onto EKS Auto Mode nodes.
+--
+
+Control how your workloads are scheduled onto Amazon EKS Auto Mode nodes. Use the following topics to direct deployments to EKS Auto Mode and to run critical add-ons.
+
+[.topiclist]
+[[Topic List]]
+
+include::associate-workload.adoc[leveloffset=+1]
+
+include::critical-workload.adoc[leveloffset=+1]

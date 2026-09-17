@@ -1,0 +1,20 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-configure-lifecycle]
+= Manage upgrades and lifecycle
+:info_titleabbrev: Upgrades and lifecycle
+
+[abstract]
+--
+Manage upgrades and the lifecycle of EKS Auto Mode.
+--
+
+Manage the ongoing lifecycle of your Amazon EKS Auto Mode clusters. Use the following topics to update the Kubernetes version and to disable EKS Auto Mode.
+
+[.topiclist]
+[[Topic List]]
+
+include::auto-upgrade.adoc[leveloffset=+1]
+
+include::auto-disable.adoc[leveloffset=+1]
