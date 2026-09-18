@@ -71,6 +71,23 @@ This is recommended for environments with strict network security requirements.
 When private endpoint is enabled, the Argo CD UI and API are only accessible through the VPC endpoint. Users must be connected to the VPC (or a peered network) to access the Argo CD interface.
 ====
 
+. *(Optional) Specify an endpoint prefix*:
++
+By default, Amazon EKS generates the Argo CD endpoint hostname for you.
+To choose how the hostname starts, specify an endpoint prefix.
++
+.. Expand *Additional configuration and defaults*.
+.. For *Argo CD endpoint prefix - _optional_*, enter a prefix.
+The prefix must be 1 to 50 characters and must start and end with a letter or a number.
+Valid characters are lowercase letters, numbers, and hyphens (`-`).
+The prefix must be unique within your {aws} account and {aws} Region.
++
+[NOTE]
+====
+You can't change the endpoint prefix after you create the capability.
+For more information, see <<argocd-endpoint-prefix>>.
+====
+
 . Choose *Create*.
 
 The capability creation process begins.

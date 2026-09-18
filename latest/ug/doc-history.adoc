@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-10-09"]
+=== Custom endpoint prefix for the EKS Capability for Argo CD
+[.update-ulink]
+link:eks/latest/userguide/working-with-argocd.html#argocd-endpoint-prefix[type="documentation"]
+
+You can now specify an endpoint prefix when you create an EKS Capability for Argo CD. The prefix sets the beginning of the Argo CD endpoint hostname.
+
 [.update,date="2026-10-01"]
 === Kubernetes version `1.37`
 [.update-ulink]
