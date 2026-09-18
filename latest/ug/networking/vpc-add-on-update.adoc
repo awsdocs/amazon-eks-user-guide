@@ -82,3 +82,11 @@ When upgrading the VPC CNI from a version older than v1.13.2, you must replace a
 Version v1.13.2 was a significant release that https://github.com/aws/amazon-vpc-cni-k8s/pull/2402[introduced iptables-wrapper], which automatically detects the appropriate iptables backend (iptables-legacy or iptables-nft) for inserting chains and rules. This change aligned with the upstream Kubernetes decision to move away from the legacy backend due to performance limitations.
 
 Replacing nodes following an upgrade from a version older than v1.13.2 of the VPC CNI is required because introducing rules into both the iptables-legacy and iptables-nft backends can lead to unexpected behavior for traffic originating from non-primary ENIs.
+
+== Update considerations
+
+Some VPC CNI versions ship a new version of the Network Policy Agent (NPA) that changes the agent's eBPF `events` binary. When the `events` binary changes across an upgrade, the agent reloads the `events` probe and does not recover the previously installed global eBPF maps (such as the Conntrack map). Instead, the default global maps are reinstalled. As a result, connection tracking state (conntrack entries) established before the upgrade is not carried over, and in-flight connections that relied on that state may be reset and need to re-establish.
+
+This is expected behavior for upgrades where the `events` binary is changed. Plan these upgrades during a maintenance window if resetting in-flight connections would be disruptive to your workloads.
+
+To find which releases change the `events` binary, see the release notes on the https://github.com/aws/aws-network-policy-agent/releases[Network Policy Agent releases] page on GitHub. When upgrading across a release that changes the `events` binary, expect the connection-tracking impact described above.
