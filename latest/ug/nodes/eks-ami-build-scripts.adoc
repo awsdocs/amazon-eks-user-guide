@@ -83,22 +83,23 @@ make k8s=1.36 os_distro=al2023 \
   enable_efa=true
 ----
 
-*EKS NVIDIA AL2023 AMI with NVIDIA driver version 595*
+*EKS NVIDIA AL2023 AMI with custom driver versions*
 
-[IMPORTANT]
-====
-The G7 EC2 instance type requires NVIDIA driver version 595 or later. The EKS-optimized accelerated AMIs currently include NVIDIA driver version 580, which does not support G7 instances. You must build a custom AMI with NVIDIA driver version 595 to use G7 instances with Amazon EKS.
-
-If you are using Karpenter for node provisioning and auto-scaling, it is recommended to exclude the `g7` instance family from your NodePools that use automatic AMI selection. See link:https://karpenter.sh/docs/concepts/nodeclasses/#specamiselectorterms[`amiSelectorTerms`] in the Karpenter documentation for how to configure your Karpenter NodeClass to use your custom AMI for `g7` instances.
-====
+The EKS-optimized AL2023 NVIDIA AMI bundles two NVIDIA driver versions in a single image. Each node automatically selects the appropriate driver for its GPU at boot. As of EKS AL2023 AMI version link:https://github.com/awslabs/amazon-eks-ami/releases/tag/v20260917[v20260917], the LTS (long-term support) version is 580, and the production branch version is 595, which together support all EC2 GPU instance types. To override the default versions, set `nvidia_driver_lts_version` and `nvidia_driver_pb_version` together.
 
 [source,bash]
 ----
 make k8s=1.36 os_distro=al2023 \
   enable_accelerator=nvidia \
-  nvidia_driver_major_version=595 \
+  nvidia_driver_lts_version=580 \
+  nvidia_driver_pb_version=610 \
   enable_efa=true
 ----
+
+[NOTE]
+====
+The EKS AL2023 AMI's NVIDIA driver selection logic runs at runtime, but it is activated early if the AMI is built on an accelerated EC2 instance. As a result, if you build a custom AMI on an accelerated EC2 instance that defaults to NVIDIA driver 580 (such as `g6` or `g7e`), you can't deploy that custom AMI on an accelerated EC2 instance that requires a later NVIDIA driver version (such as `g7`, which requires driver 595). To avoid this, build custom AMIs on non-accelerated EC2 instances (such as `m6`) and then deploy them on _any_ accelerated EC2 instance. This approach preserves the EKS AL2023 AMI's NVIDIA driver selection logic.
+====
 
 *STIG-Compliant Neuron AL2023 AMI:*
 

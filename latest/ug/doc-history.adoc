@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-09-15"]
+=== EKS-optimized AL2023 NVIDIA AMI includes two NVIDIA driver versions
+[.update-ulink]
+link:eks/latest/userguide/ml-eks-optimized-ami.html[type="documentation"]
+
+The EKS-optimized AL2023 NVIDIA AMI now bundles two NVIDIA driver versions in a single AMI. Each node automatically selects the appropriate driver for its GPU at boot, enabling support for the `g7` instance type without building a custom AMI.
+
 [.update,date="2026-09-02"]
 === {aws} managed policy updates
 [.update-ulink]

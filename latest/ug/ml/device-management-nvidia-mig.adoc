@@ -104,7 +104,7 @@ MIG is not available on the `g5`, `g6`, or `g6e` families. For `p6e-gb200` Ultra
 
 [NOTE]
 ====
-The `g7` instance type requires NVIDIA driver version 595 or later. The EKS-optimized accelerated AMIs currently include NVIDIA driver version 580, so to use MIG on `g7` you must build a custom AMI with driver version 595. For more information, see <<eks-ami-build-scripts>>.
+The `g7` instance type requires NVIDIA driver version 595 or later. The EKS-optimized AL2023 NVIDIA AMI includes a driver version that supports `g7`, which each node selects automatically at boot. For more information, see <<eks-amis-nvidia,EKS-optimized NVIDIA AMIs>>.
 ====
 
 MIG instances are described by profiles that use the naming pattern `<slices>g.<memory>gb`, where `<slices>` is the number of compute slices and `<memory>` is the memory of the instance in gigabytes. For example, the `3g.40gb` profile provides three of the seven compute slices and 40 GB of memory. The profiles that each GPU supports are fixed by the hardware. For the complete list, see the link:https://docs.nvidia.com/datacenter/tesla/mig-user-guide/[NVIDIA Multi-Instance GPU User Guide] on the NVIDIA website.

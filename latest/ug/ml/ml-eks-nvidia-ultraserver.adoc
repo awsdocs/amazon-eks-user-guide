@@ -36,7 +36,7 @@ The following components are recommended for running workloads on EKS with the P
 |Stack | Component
 
 .8+| EKS-optimized accelerated AMI
-| Kernel 6.12
+| Kernel 6.12 or 6.18
 | NVIDIA GPU driver
 | NVIDIA CUDA user mode driver
 | NVIDIA container toolkit
