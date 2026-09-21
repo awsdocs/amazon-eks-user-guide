@@ -31,7 +31,7 @@ The following tables describe node health issues that can be detected by the nod
 [#node-health-AcceleratedHardware]
 == AcceleratedHardware node health issues
 
-The monitoring condition is `AcceleratedHardwareReady` for issues in the following table that have a severity of “Condition”. The events and conditions in the following table are for NVIDIA and Neuron related node health issues.
+The monitoring condition is `AcceleratedHardwareReady` for issues in the following table that have a severity of "Condition". The events and conditions in the following table are for NVIDIA and Neuron related node health issues. The Reboot repair action only applies to EKS Managed Node Groups. When using EKS Auto Mode or Karpenter, the only repair action is Replace.
 
 [%header,cols="4"]
 |===
@@ -148,7 +148,7 @@ The node monitoring agent detects NVIDIA XID errors from GPU kernel logs. XID er
 
 For more information on XID errors, see link:https://docs.nvidia.com/deploy/xid-errors/index.html#topic_5_1[Xid Errors] in the _NVIDIA GPU Deployment and Management Documentation_. For more information on the individual XID messages, see link:https://docs.nvidia.com/deploy/gpu-debug-guidelines/index.html#understanding-xid-messages[Understanding Xid Messages] in the _NVIDIA GPU Deployment and Management Documentation_.
 
-The following table lists the well-known XID codes, their meanings, and the default node repair action if enabled.
+The following table lists the well-known XID codes, their meanings, and the default node repair action if enabled. The Reboot repair action only applies to EKS Managed Node Groups. When using EKS Auto Mode or Karpenter, the only repair action is Replace.
 
 [%header,cols="1,4,1"]
 |===
@@ -260,7 +260,7 @@ kubectl get events | grep -i "NvidiaXID"
 [#node-health-ContainerRuntime]
 == ContainerRuntime node health issues
 
-The monitoring condition is `ContainerRuntimeReady` for issues in the following table that have a severity of “Condition”.
+The monitoring condition is `ContainerRuntimeReady` for issues in the following table that have a severity of "Condition".
 
 [%header,cols="4"]
 |===
@@ -315,7 +315,7 @@ The monitoring condition is `ContainerRuntimeReady` for issues in the following 
 [#node-health-Kernel]
 == Kernel node health issues
 
-The monitoring condition is `KernelReady` for issues in the following table that have a severity of “Condition”.
+The monitoring condition is `KernelReady` for issues in the following table that have a severity of "Condition".
 
 [%header,cols="4"]
 |===
@@ -385,7 +385,7 @@ The monitoring condition is `KernelReady` for issues in the following table that
 [#node-health-Networking]
 == Networking node health issues
 
-The monitoring condition is `NetworkingReady` for issues in the following table that have a severity of “Condition”.
+The monitoring condition is `NetworkingReady` for issues in the following table that have a severity of "Condition".
 
 [%header,cols="4"]
 |===
@@ -510,7 +510,7 @@ The monitoring condition is `NetworkingReady` for issues in the following table 
 [#node-health-Storage]
 == Storage node health issues
 
-The monitoring condition is `StorageReady` for issues in the following table that have a severity of “Condition”.
+The monitoring condition is `StorageReady` for issues in the following table that have a severity of "Condition".
 
 [%header,cols="4"]
 |===
