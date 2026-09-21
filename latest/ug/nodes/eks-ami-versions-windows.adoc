@@ -54,6 +54,12 @@ Kubernetes version 1.36::
 |csi-proxy version
 |Release notes
 
+|`1.36-2026.09.14`
+|`1.36.3`
+|`2.2.3`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
+
 |`1.36-2026.08.15`
 |`1.36.2`
 |`2.2.3`
@@ -89,6 +95,12 @@ Kubernetes version 1.35::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.35-2026.09.14`
+|`1.35.7`
+|`2.1.7`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.35-2026.08.15`
 |`1.35.6`
@@ -155,6 +167,12 @@ Kubernetes version 1.36::
 |csi-proxy version
 |Release notes
 
+|`1.36-2026.09.14`
+|`1.36.3`
+|`2.2.3`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
+
 |`1.36-2026.08.15`
 |`1.36.2`
 |`2.2.3`
@@ -190,6 +208,12 @@ Kubernetes version 1.35::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.35-2026.09.14`
+|`1.35.7`
+|`2.1.7`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.35-2026.08.15`
 |`1.35.6`
@@ -256,6 +280,12 @@ Kubernetes version 1.36::
 |csi-proxy version
 |Release notes
 
+|`1.36-2026.09.14`
+|`1.36.3`
+|`2.2.3`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
+
 |`1.36-2026.08.15`
 |`1.36.2`
 |`2.2.3`
@@ -291,6 +321,12 @@ Kubernetes version 1.35::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.35-2026.09.14`
+|`1.35.7`
+|`2.1.7`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.35-2026.08.15`
 |`1.35.6`
@@ -345,6 +381,12 @@ Kubernetes version 1.34::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.34-2026.09.14`
+|`1.34.10`
+|`2.1.7`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.34-2026.08.15`
 |`1.34.9`
@@ -423,6 +465,12 @@ Kubernetes version 1.33::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.33-2026.09.14`
+|`1.33.13`
+|`1.7.30`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.33-2026.08.15`
 |`1.33.13`
@@ -525,6 +573,12 @@ Kubernetes version 1.32::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.32-2026.09.14`
+|`1.32.13`
+|`1.7.30`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.32-2026.08.15`
 |`1.32.13`
@@ -651,6 +705,12 @@ Kubernetes version 1.31::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.31-2026.09.14`
+|`1.31.14`
+|`1.7.30`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.31-2026.08.15`
 |`1.31.14`
@@ -1363,6 +1423,12 @@ Kubernetes version 1.36::
 |csi-proxy version
 |Release notes
 
+|`1.36-2026.09.14`
+|`1.36.3`
+|`2.2.3`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
+
 |`1.36-2026.08.15`
 |`1.36.2`
 |`2.2.3`
@@ -1398,6 +1464,12 @@ Kubernetes version 1.35::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.35-2026.09.14`
+|`1.35.7`
+|`2.1.7`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.35-2026.08.15`
 |`1.35.6`
@@ -1452,6 +1524,12 @@ Kubernetes version 1.34::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.34-2026.09.14`
+|`1.34.10`
+|`2.1.7`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.34-2026.08.15`
 |`1.34.9`
@@ -1530,6 +1608,12 @@ Kubernetes version 1.33::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.33-2026.09.14`
+|`1.33.13`
+|`1.7.30`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.33-2026.08.15`
 |`1.33.13`
@@ -1632,6 +1716,12 @@ Kubernetes version 1.32::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.32-2026.09.14`
+|`1.32.13`
+|`1.7.30`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.32-2026.08.15`
 |`1.32.13`
@@ -1759,6 +1849,12 @@ Kubernetes version 1.31::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.31-2026.09.14`
+|`1.31.14`
+|`1.7.30`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.31-2026.08.15`
 |`1.31.14`
@@ -2476,6 +2572,12 @@ Kubernetes version 1.36::
 |csi-proxy version
 |Release notes
 
+|`1.36-2026.09.14`
+|`1.36.3`
+|`2.2.3`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
+
 |`1.36-2026.08.15`
 |`1.36.2`
 |`2.2.3`
@@ -2511,6 +2613,12 @@ Kubernetes version 1.35::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.35-2026.09.14`
+|`1.35.7`
+|`2.1.7`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.35-2026.08.15`
 |`1.35.6`
@@ -2565,6 +2673,12 @@ Kubernetes version 1.34::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.34-2026.09.14`
+|`1.34.10`
+|`2.1.7`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.34-2026.08.15`
 |`1.34.9`
@@ -2643,6 +2757,12 @@ Kubernetes version 1.33::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.33-2026.09.14`
+|`1.33.13`
+|`1.7.30`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.33-2026.08.15`
 |`1.33.13`
@@ -2745,6 +2865,12 @@ Kubernetes version 1.32::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.32-2026.09.14`
+|`1.32.13`
+|`1.7.30`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.32-2026.08.15`
 |`1.32.13`
@@ -2871,6 +2997,12 @@ Kubernetes version 1.31::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.31-2026.09.14`
+|`1.31.14`
+|`1.7.30`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.31-2026.08.15`
 |`1.31.14`
@@ -3587,6 +3719,12 @@ Kubernetes version 1.36::
 |csi-proxy version
 |Release notes
 
+|`1.36-2026.09.14`
+|`1.36.3`
+|`2.2.3`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
+
 |`1.36-2026.08.15`
 |`1.36.2`
 |`2.2.3`
@@ -3622,6 +3760,12 @@ Kubernetes version 1.35::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.35-2026.09.14`
+|`1.35.7`
+|`2.1.7`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.35-2026.08.15`
 |`1.35.6`
@@ -3676,6 +3820,12 @@ Kubernetes version 1.34::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.34-2026.09.14`
+|`1.34.10`
+|`2.1.7`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.34-2026.08.15`
 |`1.34.9`
@@ -3754,6 +3904,12 @@ Kubernetes version 1.33::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.33-2026.09.14`
+|`1.33.13`
+|`1.7.30`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.33-2026.08.15`
 |`1.33.13`
@@ -3856,6 +4012,12 @@ Kubernetes version 1.32::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.32-2026.09.14`
+|`1.32.13`
+|`1.7.30`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.32-2026.08.15`
 |`1.32.13`
@@ -3983,6 +4145,12 @@ Kubernetes version 1.31::
 |containerd version
 |csi-proxy version
 |Release notes
+
+|`1.31-2026.09.14`
+|`1.31.14`
+|`1.7.30`
+|`1.2.1`
+|Includes patch for CVE-2026-76654
 
 |`1.31-2026.08.15`
 |`1.31.14`
