@@ -108,6 +108,7 @@ The script includes the following command-line parameters:
 * `-DNSClusterIP` – Overrides the IP address to use for DNS queries within the cluster (optional). Defaults to `10.100.0.10` or `172.20.0.10` based on the IP address of the primary interface.
 * `-ServiceCIDR` – Overrides the Kubernetes service IP address range from which cluster services are addressed. Defaults to `172.20.0.0/16` or `10.100.0.0/16` based on the IP address of the primary interface.
 * `-ExcludedSnatCIDRs` – A list of `IPv4` CIDRs to exclude from Source Network Address Translation (SNAT). This means that the pod private IP which is VPC addressable wouldn't be translated to the IP address of the instance ENI's primary `IPv4` address for outbound traffic. By default, the `IPv4` CIDR of the VPC for the Amazon EKS Windows node is added. Specifying CIDRs to this parameter also additionally excludes the specified CIDRs. For more information, see <<external-snat>>.
+* `-EnableCimFS` – (Optional) Turns on the Composite Image File System (CimFS) `containerd` snapshotter. This is an opt-in feature that is only available on Amazon EKS-optimized Windows Server 2025 AMIs for Kubernetes version `1.35` and later. For more information, see <<windows-cimfs-snapshotter>>.
 
 In addition to the command line parameters, you can also specify some environment variable parameters. When specifying a command line parameter, it takes precedence over the respective environment variable. The environment variable(s) should be defined as machine (or system) scoped as the bootstrap script will only read machine-scoped variables.
 
@@ -115,6 +116,7 @@ The script takes into account the following environment variables:
 
 * `SERVICE_IPV4_CIDR` – Refer to the `ServiceCIDR` command line parameter for the definition. 
 * `EXCLUDED_SNAT_CIDRS` – Should be a comma separated string. Refer to the `ExcludedSnatCIDRs` command line parameter for the definition.
+* `EKS_ENABLE_CIMFS` – Set to `true` or `1` to turn on the CimFS `containerd` snapshotter. Refer to the `-EnableCimFS` command line parameter for the definition.
 
 
 [#ad-and-gmsa-support]
@@ -136,6 +138,40 @@ The following cached container images are for the `containerd` runtime:
 * `amazonaws.com/eks/pause-windows`
 * `mcr.microsoft.com/windows/nanoserver`
 * `mcr.microsoft.com/windows/servercore`
+
+[#windows-cimfs-snapshotter]
+== CimFS snapshotter
+
+The Amazon EKS-optimized Windows Server 2025 AMIs include support for the https://learn.microsoft.com/en-us/windows/win32/fileio/composite-image-file-system[Composite Image File System (CimFS)] `containerd` snapshotter, as described on the Microsoft Learn website. CimFS stores container image layers as `.cim` archives, which can reduce cold image pull times for large Windows container images.
+
+CimFS is an opt-in feature. It is available only on Amazon EKS-optimized Windows Server 2025 AMIs (Core and Full) for Kubernetes version `1.35` and later. CimFS is turned off by default.
+
+[NOTE]
+.Windows Server version requirement
+====
+
+CimFS is supported only on Windows Server 2025 (build 26100) and later. Turning it on has no effect on earlier Windows Server versions because the CimFS `containerd` configuration is not present in those AMIs.
+
+====
+
+The AMI ships a pre-built CimFS `containerd` configuration (`config-cimfs.toml`) alongside the default configuration. When you turn on CimFS, the bootstrap script swaps in the CimFS configuration, restarts `containerd`, and re-caches the pause and base container images with the CimFS snapshotter.
+
+To turn on CimFS for a node, use either of the following methods (see <<bootstrap-script-configuration-parameters>>):
+
+* Pass the `-EnableCimFS` switch to the `Start-EKSBootstrap.ps1` bootstrap script.
+* Set the `EKS_ENABLE_CIMFS` machine-scoped environment variable to `true` or `1` before the bootstrap script runs.
+
+The following example shows how to turn on CimFS from the launch template user data:
+
+[source,powershell]
+----
+<powershell>
+[string]$EKSBootstrapScriptFile = "$env:ProgramFiles\Amazon\EKS\Start-EKSBootstrap.ps1"
+& $EKSBootstrapScriptFile -EKSClusterName "my-cluster" -EnableCimFS 3>&1 4>&1 5>&1 6>&1
+</powershell>
+----
+
+The stream redirection (`3>&1 4>&1 5>&1 6>&1`) lets you see the bootstrap script's warning, verbose, debug, and information output in the instance's user data log for troubleshooting.
 
 [#windows-more-information]
 == More information

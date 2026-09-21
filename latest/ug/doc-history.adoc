@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-09-21"]
+=== CimFS snapshotter support on EKS-optimized Windows Server 2025 AMIs
+[.update-ulink]
+link:eks/latest/userguide/eks-optimized-windows-ami.html#windows-cimfs-snapshotter[type="documentation"]
+
+The Amazon EKS-optimized Windows Server 2025 AMIs now support the opt-in Composite Image File System (CimFS) `containerd` snapshotter. This feature can reduce cold image pull times for large Windows container images. CimFS is available for Kubernetes version `1.35` and later and is turned off by default.
+
 [.update,date="2026-09-15"]
 === EKS-optimized AL2023 NVIDIA AMI includes two NVIDIA driver versions
 [.update-ulink]
