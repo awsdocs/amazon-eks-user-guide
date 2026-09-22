@@ -570,6 +570,7 @@ The following kubelet settings are available:
 
 * `maxPods`: The maximum number of Pods that can run on a node.
 * `podPidsLimit`: The maximum number of process IDs (PIDs) per Pod.
+* `idsPerPod`: The number of UIDs and GIDs the kubelet allocates to each Pod's user namespace.
 * `singleProcessOOMKill`: Whether the kubelet OOM kills processes in a container individually instead of as a group.
 * `eviction`: Hard and soft eviction thresholds for resource-pressure signals.
 * `logging`: Container log rotation size and file count.
@@ -601,6 +602,9 @@ spec:
       maxPods: 60
       # -1 disables the limit, or specify 100 or greater
       podPidsLimit: 4096
+      # Multiple of 65536, range: 65536-4294967295. Requires
+      # advancedCompute.kernel.sysctl.user.max_user_namespaces > 0.
+      idsPerPod: 65536
       singleProcessOOMKill: false
       eviction:
         # Valid signals: memory.available, nodefs.available, nodefs.inodesFree,
@@ -636,6 +640,7 @@ Consider the following when configuring kubelet settings on a NodeClass:
 * *Node replacement*: Changing kubelet settings on an existing `NodeClass` marks the nodes that use it as drifted. Amazon EKS replaces those nodes with new nodes that use the updated configuration. Amazon EKS does not apply kubelet settings to running nodes in place.
 * *`maxPods` clamping*: The value you set is an upper bound, not a guarantee. At runtime, Amazon EKS applies the lowest of three values. These are your `maxPods` value, the IP addresses available for the instance type, and the Auto Mode limit of 110 Pods per node. For more information, see <<choosing-instance-type>>.
 * *`podPidsLimit` values*: Specify `-1` to disable the limit, or a value of `100` or greater. `NodeClass` validation rejects values between `0` and `99`.
+* *`idsPerPod` requirements*: The value must be a multiple of `65536` between `65536` and `4294967295`. Setting `idsPerPod` requires `advancedCompute.kernel.sysctl.user.max_user_namespaces` to be set to a positive value on the same `NodeClass`; `NodeClass` admission rejects configurations that set `idsPerPod` without also setting `user.max_user_namespaces` to a value greater than `0`. For more information about `user.max_user_namespaces`, see <<sysctls-supported>>.
 * *Soft eviction thresholds*: A soft threshold must be less aggressive than the hard threshold for the same signal, meaning it triggers earlier. If you set soft thresholds, you must also set `softGracePeriod` for each signal. A soft threshold and hard threshold can use different units, such as a percentage and an absolute quantity. In that case, Amazon EKS resolves both values for each instance type. Amazon EKS then marks instance types that violate the comparison as incompatible with the `NodeClass`.
 * *`singleProcessOOMKill` version requirement*: This setting requires Kubernetes version 1.32 or later. On earlier versions, Amazon EKS emits a warning event on the `NodeClass` and the setting has no effect.
 * *`allowedUnsafeSysctls` restrictions*: You can specify up to 64 entries, and each entry must match one of the allowed patterns: `kernel.shm*`, `kernel.msg*`, `kernel.sem`, `fs.mqueue.*`, or `net.*`. Allowing an unsafe sysctl on the node only permits Pods to request it. Each Pod must still list the sysctl in its `securityContext.sysctls`. For more information, see https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/[Using sysctls in a Kubernetes Cluster] in the Kubernetes documentation.
@@ -751,6 +756,10 @@ Amazon EKS supports only the sysctls in the following table. Each numeric sysctl
 |`net.ipv4.tcp_tw_reuse`
 |Enable reuse of TIME-WAIT sockets for new connections when it is safe from a protocol viewpoint. `0` disables, `1` enables globally, `2` enables for loopback only.
 |`0`–`2`
+
+|`user.max_user_namespaces`
+|The maximum number of user namespaces creatable by a user. A value of `0` disables user namespaces.
+|`0`–`2147483647`
 
 |`vm.dirty_background_ratio`
 |Percent of available memory at which kernel flusher threads begin writing dirty pages back to disk.
