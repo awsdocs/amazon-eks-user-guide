@@ -26,6 +26,13 @@ link:eks/latest/userguide/kubernetes-versions-standard.html#kubernetes-1-37[type
 
 Added Kubernetes version `1.37` to Amazon EKS.
 
+[.update,date="2026-10-01"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added the `eks:CreateCertificateAuthority`, `eks:ActivateCertificateAuthority`, `eks:DeleteCertificateAuthority`, and `ec2:RebootInstances` permissions to `AmazonEKSServiceRolePolicy`. These permissions allow Amazon EKS to rotate cluster certificate authorities and reboot Amazon EC2 instances managed by EKS Auto Mode.
+
 [.update,date="2026-09-21"]
 === CimFS snapshotter support on EKS-optimized Windows Server 2025 AMIs
 [.update-ulink]

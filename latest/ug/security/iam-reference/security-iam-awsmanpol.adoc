@@ -285,12 +285,12 @@ This policy allows the service-linked role to call {aws} services on your behalf
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks.
 
 * *`ec2`* – Create and describe Elastic Network Interfaces, Amazon EC2 instances and their statuses, the cluster security group, and VPC that are required to create a cluster. For more information, see <<sec-group-reqs>>. Read information about security groups. Update tags on security groups. Read information about On-Demand Capacity Reservations. Read information about Placement Groups. Read VPC configuration including route tables and network ACLs to detect configuration issues as part of cluster insights.
-* *`ec2` Auto Mode* – Terminate EC2 instances created by EKS Auto Mode. For more information, see <<automode>>. 
+* *`ec2` Auto Mode* – Terminate or reboot Amazon EC2 instances managed by EKS Auto Mode. For more information, see <<automode>>.
 * *`iam`* – List all of the managed policies that are attached to an IAM role. This is required so that Amazon EKS can list and validate all managed policies and permissions required to create a cluster.
 * *Associate a VPC with a hosted zone* – This is required by Amazon EKS to enable private endpoint networking for your Kubernetes cluster API server.
 * *Log event* – This is required so that Amazon EKS can ship Kubernetes control plane logs to CloudWatch.
 * *Put metric* – This is required so that Amazon EKS can ship Kubernetes control plane logs to CloudWatch.
-* *`eks`* - Manage cluster access entries and policies, allowing fine-grained control over who can access EKS resources and what actions they can perform. This includes associating standard access policies for compute, networking, load balancing, and storage operations.
+* *`eks`* - Create, activate, and delete certificate authorities for EKS clusters. Manage cluster access entries and policies, allowing fine-grained control over who can access EKS resources and what actions they can perform. This includes associating standard access policies for compute, networking, load balancing, and storage operations.
 * *`elasticloadbalancing`* - Create, manage, and delete load balancers and their components (listeners, target groups, certificates) that are associated with EKS clusters. View load balancer attributes and health status.
 * *`events`* - Create and manage EventBridge rules for monitoring EC2 and {aws} Health events related to EKS clusters, enabling automated responses to infrastructure changes and health alerts.
 * *`iam`* - Manage EC2 instance profiles with the "eks" prefix, including listing, creation, deletion, and role association, which is necessary for EKS node management. Allows describing any instance profile to enable users to define custom instance profiles for their worker nodes to use.
@@ -484,6 +484,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Change
 |Description
 |Date
+
+|Added permissions to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
+|Added the `eks:CreateCertificateAuthority`, `eks:ActivateCertificateAuthority`, `eks:DeleteCertificateAuthority`, and `ec2:RebootInstances` permissions. These permissions allow Amazon EKS to rotate cluster certificate authorities and reboot Amazon EC2 instances managed by EKS Auto Mode.
+|October 1, 2026
 
 |Updated permissions to <<security-iam-awsmanpol-AmazonEKSLoadBalancingPolicy>>.
 |Added `gateway.eks.amazonaws.com.alb/stack`, `gateway.eks.amazonaws.com.alb/resource`, `gateway.eks.amazonaws.com.nlb/stack`, and `gateway.eks.amazonaws.com.nlb/resource` tag keys to the resource-tagging allowlist in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to manage {aws} resources for Kubernetes Gateway API (ALB and NLB) workloads.
