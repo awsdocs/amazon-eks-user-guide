@@ -119,7 +119,7 @@ aws eks describe-cluster \
 
 . Open the Amazon EKS console at link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose the name of the cluster to display your cluster information.
-. Choose the *Networking* tab and choose *Manage*.
+. Choose the *Configuration* tab, then in the *Networking* section choose *Manage*.
 . In the dropdown, choose *Remote networks*.
 . *Choose Configure remote networks to enable hybrid nodes* and specify your on-premises node and pod CIDRs for hybrid nodes.
 . Choose *Save changes* to finish. Wait for the cluster status to return to *Active*.
@@ -175,7 +175,7 @@ Omitting these fields from the update request retains their existing configurati
 
 . Open the Amazon EKS console at link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose the name of the cluster to display your cluster information.
-. Choose the *Networking* tab and choose *Manage*.
+. Choose the *Configuration* tab, then in the *Networking* section choose *Manage*.
 . In the dropdown, choose *Remote networks*.
 . Update the CIDRs under `Remote node networks` and `Remote pod networks - Optional` as needed.
 . Choose *Save changes* and wait for the cluster status to return to *Active*.
@@ -230,7 +230,7 @@ aws eks describe-cluster \
 
 . Open the Amazon EKS console at link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose the name of the cluster to display your cluster information.
-. Choose the *Networking* tab and choose *Manage*.
+. Choose the *Configuration* tab, then in the *Networking* section choose *Manage*.
 . In the dropdown, choose *Remote networks*.
 . Choose *Configure remote networks to enable hybrid nodes* and remove all the CIDRs under `Remote node networks` and `Remote pod networks - Optional`.
 . Choose *Save changes* to finish. Wait for the cluster status to return to *Active*.

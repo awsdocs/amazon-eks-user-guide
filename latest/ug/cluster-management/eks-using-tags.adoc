@@ -55,7 +55,7 @@ You can tag these resources using the following:
 
 
 
-* If you're using the Amazon EKS console, you can apply tags to new or existing resources at any time. You can do this by using the *Tags* tab on the relevant resource page. For more information, see <<tag-resources-console>>.
+* If you're using the Amazon EKS console, you can apply tags to new or existing resources at any time. You can do this by using the *Tags* section of the *Configuration* tab on the relevant resource page. For more information, see <<tag-resources-console>>.
 * If you're using `eksctl`, you can apply tags to resources when they're created using the `--tags` option.
 * If you're using the {aws} CLI, the Amazon EKS API, or an {aws} SDK, you can apply tags to new resources using the `tags` parameter on the relevant API action. You can apply tags to existing resources using the `TagResource` API action. For more information, see link:eks/latest/APIReference/API_TagResource.html[TagResource,type="documentation"].
 
@@ -100,7 +100,7 @@ If you just enabled reporting, data for the current month is available for viewi
 
 Using the Amazon EKS console, you can manage the tags that are associated with new or existing clusters and managed node groups.
 
-When you select a resource-specific page in the Amazon EKS console, the page displays a list of those resources. For example, if you select *Clusters* from the left navigation pane, the console displays a list of Amazon EKS clusters. When you select a resource from one of these lists (for example, a specific cluster) that supports tags, you can view and manage its tags on the *Tags* tab.
+When you select a resource-specific page in the Amazon EKS console, the page displays a list of those resources. For example, if you select *Clusters* from the left navigation pane, the console displays a list of Amazon EKS clusters. When you select a resource from one of these lists (for example, a specific cluster) that supports tags, you can view and manage its tags on the *Tags* section of the *Configuration* tab.
 
 You can also use *Tag Editor* in the {aws-management-console}, which provides a unified way to manage your tags. For more information, see link:ARG/latest/userguide/tag-editor.html[Tagging your {aws} resources with Tag Editor,type="documentation"] in the _{aws} Tag Editor User Guide_.
 
@@ -118,7 +118,7 @@ You can add or delete the tags that are associated with your clusters directly f
 . On the navigation bar, select the {aws} Region to use.
 . In the left navigation pane, choose *Clusters*.
 . Choose a specific cluster.
-. Choose the *Tags* tab, and then choose *Manage tags*.
+. Choose the *Configuration* tab, then in the *Tags* section choose *Manage tags*.
 . On the *Manage tags* page, add or delete your tags as necessary.
 +
 ** To add a tag, choose *Add tag*. Then specify the key and value for each tag.

@@ -91,7 +91,7 @@ eksctl utils enable-secrets-encryption -f kms-cluster.yaml --encrypt-existing-se
 .. This procedure only applies to EKS clusters running Kubernetes version 1.27 or lower. For more information, see <<envelope-encryption>>.
 .. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 .. Choose the cluster that you want to add KMS encryption to.
-.. Choose the *Overview* tab (this is selected by default).
+.. Choose the *Configuration* tab (this is selected by default).
 .. Scroll down to the *Secrets encryption* section and choose *Enable*.
 .. Select a key from the dropdown list and choose the *Enable* button. If no keys are listed, you must create one first. For more information, see link:kms/latest/developerguide/create-keys.html[Creating keys,type="documentation"]
 .. Choose the *Confirm* button to use the chosen key.

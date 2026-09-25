@@ -121,7 +121,7 @@ Run the following to create an IAM role with {aws-management-console}.
 ... Choose *Next*.
 .. If using IAM roles for service accounts:
 ... In the *Trusted entity type* section, choose *Web identity*.
-... For *Identity provider*, choose the *OpenID Connect provider URL* for your cluster (as shown under *Overview* in Amazon EKS).
+... For *Identity provider*, choose the *OpenID Connect provider URL* for your cluster (as shown in the *Cluster info* panel in Amazon EKS).
 ... For *Audience*, choose `sts.amazonaws.com`.
 ... Choose *Next*.
 . On the *Add permissions* page, do the following:
@@ -136,7 +136,7 @@ Run the following to create an IAM role with {aws-management-console}.
 .. If using EKS Pod Identities:
 ... Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 ... In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the EKS Pod Identity association for.
-... Choose the *Access* tab.
+... In the left navigation pane, choose *Access*, then choose the *Pod Identity* tab.
 ... In *Pod Identity associations*, choose *Create*.
 ... Choose the *IAM role* dropdown and select your newly created role.
 ... Choose the *Kubernetes namespace* field and input `kube-system`.

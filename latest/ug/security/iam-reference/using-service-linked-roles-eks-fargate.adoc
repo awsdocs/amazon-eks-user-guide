@@ -76,8 +76,8 @@ If the Amazon EKS service is using the role when you try to delete the resources
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the left navigation pane, choose *Clusters*.
 . On the *Clusters* page, select your cluster.
-. Select the *Compute* tab.
-. If there are any Fargate profiles in the *Fargate profiles* section, select each one individually, and then choose *Delete*.
+. In the left navigation pane, choose *Compute*, then choose the *Fargate profiles* tab.
+. If there are any Fargate profiles listed, select each one individually, and then choose *Delete*.
 . Type the name of the profile in the deletion confirmation window, and then choose *Delete*.
 . Repeat this procedure for any other Fargate profiles in the cluster and for any other clusters in your account.
 

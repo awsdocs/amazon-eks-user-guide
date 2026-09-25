@@ -31,8 +31,7 @@ You can view capability health and status issues in the EKS console or using the
 
 . Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters.
 . Select your cluster name.
-. Choose the *Observability* tab.
-. Choose *Monitor cluster*.
+. In the left navigation pane, choose *Cluster monitoring*.
 . Choose the *Capabilities* tab to view health and status for all capabilities.
 
 *{aws} CLI*:

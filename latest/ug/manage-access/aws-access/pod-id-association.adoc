@@ -28,7 +28,7 @@ To create an EKS Pod Identity association, there is only a single step; you crea
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the EKS Pod Identity Agent add-on for.
-. Choose the *Access* tab.
+. In the left navigation pane, choose *Access*, then choose the *Pod Identity* tab.
 . In the *Pod Identity associations*, choose *Create*.
 . For the *IAM role*, select the IAM role with the permissions that you want the workload to have.
 +

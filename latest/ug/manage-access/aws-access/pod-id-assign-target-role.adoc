@@ -69,7 +69,7 @@ In this step, you will update the permission policy of the link:eks/latest/userg
 
 1. Open the https://console.aws.amazon.com/eks/home#/clusters[Amazon EKS console].
 2. In the left navigation pane, select *Clusters*, and then select the name of your EKS cluster.
-3. Choose the *Access* tab.
+3. In the left navigation pane, choose *Access*, then choose the *Pod Identity* tab.
 4. Under *Pod Identity associations*, select your link:eks/latest/userguide/pod-id-role.html["EKS Pod Identity role",type="documentation"].
 5. Choose *Permissions*, *Add permissions*, then *Create inline policy*.
 6. Choose *JSON*.
@@ -86,7 +86,7 @@ In this step, you will create an association between the Target IAM role and the
 
 1. Open the https://console.aws.amazon.com/eks/home#/clusters[Amazon EKS console].
 2. In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to add the association to.
-3. Choose the *Access* tab.
+3. In the left navigation pane, choose *Access*, then choose the *Pod Identity* tab.
 4. In the *Pod Identity associations*, choose *Create*.
 5. Choose the link:eks/latest/userguide/pod-id-role.html["EKS Pod Identity role",type="documentation"] in *IAM role* for your workloads to assume.
 6. Choose the Target IAM role in *Target IAM role* that will be assumed by the link:eks/latest/userguide/pod-id-role.html["EKS Pod Identity role",type="documentation"].

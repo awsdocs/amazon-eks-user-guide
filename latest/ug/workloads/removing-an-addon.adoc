@@ -84,7 +84,7 @@ For more information about removing add-ons, see https://eksctl.io/usage/addons/
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the left navigation pane, choose *Clusters*.
 . Choose the name of the cluster that you want to remove the Amazon EKS add-on for.
-. Choose the *Add-ons* tab.
+. In the left navigation pane, choose *Add-ons*.
 . Choose the add-on that you want to remove.
 . Choose *Remove*.
 . In the *Remove: [.replaceable]`name of addon`* confirmation dialog box, do the following:

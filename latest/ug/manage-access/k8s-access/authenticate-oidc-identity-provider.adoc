@@ -91,7 +91,7 @@ eksctl associate identityprovider -f associate-identity-provider.yaml
 [#identity-associate-console]
 === Associate an identity provider using the {aws} Console 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
-. Select your cluster, and then select the *Access* tab.
+. Select your cluster, then choose *Access* in the left navigation pane, and choose the *OIDC* tab.
 . In the *OIDC Identity Providers* section, select *Associate Identity Provider*.
 . On the *Associate OIDC Identity Provider* page, enter or select the following options, and then select *Associate*.
 +

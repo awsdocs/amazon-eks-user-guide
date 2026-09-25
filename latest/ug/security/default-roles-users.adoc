@@ -27,7 +27,7 @@ The link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,typ
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the *Clusters* list, choose the cluster that contains the identities that you want to view.
-. Choose the *Resources* tab.
+. In the left navigation pane, choose *Resources*.
 . Under *Resource types*, choose *Authorization*.
 . Choose *ClusterRoles*, *ClusterRoleBindings*, *Roles*, or *RoleBindings*. All resources prefaced with *eks* are created by Amazon EKS. Additional Amazon EKS created identity resources are:
 +

@@ -121,7 +121,7 @@ aws iam attach-role-policy \
 . On the *Select trusted entity* page, do the following:
 +
 .. In the *Trusted entity type* section, choose *Web identity*.
-.. For *Identity provider*, choose the *OpenID Connect provider URL* for your cluster (as shown under *Overview* in Amazon EKS).
+.. For *Identity provider*, choose the *OpenID Connect provider URL* for your cluster (as shown in the *Cluster info* panel in Amazon EKS).
 .. For *Audience*, choose `sts.amazonaws.com`.
 .. Choose *Next*.
 . On the *Add permissions* page, do the following:

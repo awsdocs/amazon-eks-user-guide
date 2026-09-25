@@ -43,7 +43,7 @@ Access the Argo CD UI through the EKS console:
 
 . Open the Amazon EKS console
 . Select your cluster
-. Choose the *Capabilities* tab
+. In the left navigation pane, choose *Capabilities*
 . Choose *Argo CD*
 . Choose *Open Argo CD UI*
 

@@ -64,8 +64,8 @@ When the shift expires or is cancelled, the networking configurations and comput
 
 . Find the name and region of the EKS cluster you want to register with ARC.
 . Navigate to the link:eks[EKS console,type="console"] in that region, and select your cluster. 
-. On the *Cluster info* page, select the *Overview* tab. 
-. Under the *Zonal shift* heading, select the *Manage* button. 
+. On the cluster page, choose the *Configuration* tab.
+. In the *Cluster configuration* section, choose the *Manage* dropdown, then choose *Zonal shift*.
 . Select *enable* or *disable* for _EKS zonal shift_.
 
 Now your EKS cluster is registered with ARC. 

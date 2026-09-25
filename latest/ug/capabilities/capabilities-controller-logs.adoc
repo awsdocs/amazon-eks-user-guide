@@ -53,7 +53,7 @@ Each capability controller can be configured as an individual CloudWatch Vended 
 
 . Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters.
 . Select your cluster name.
-. Choose the *Capabilities* tab, then select your capability.
+. In the left navigation pane, choose *Capabilities*, then select your capability.
 . In the *Log delivery* section, choose *Add*.
 . Select the log type for your capability and choose a destination.
 . Choose *Add* to create the delivery.

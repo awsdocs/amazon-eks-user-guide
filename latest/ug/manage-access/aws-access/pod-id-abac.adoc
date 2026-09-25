@@ -43,7 +43,7 @@ Session tags are automatically enabled with EKS Pod Identity--no action is requi
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to modify.
-. Choose the *Access* tab.
+. In the left navigation pane, choose *Access*, then choose the *Pod Identity* tab.
 . In the *Pod Identity associations*, choose the association ID you would like to modify in *Association ID*, then choose *Edit*.
 . Under *Session tags*, choose *Disable session tags*.
 . Choose *Save changes*.

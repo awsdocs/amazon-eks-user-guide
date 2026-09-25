@@ -36,8 +36,8 @@ You can view capability status and health in the EKS console or using the {aws} 
 
 . Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters.
 . Select your cluster name.
-. Choose the *Capabilities* tab to view status for all capabilities.
-. For detailed health information, choose the *Observability* tab, then *Monitor cluster*, then the *Capabilities* tab.
+. In the left navigation pane, choose *Capabilities* to view status for all capabilities.
+. For detailed health information, choose *Cluster monitoring* in the left navigation pane, then the *Capabilities* tab.
 
 *{aws} CLI*:
 
@@ -103,7 +103,7 @@ You can list all capability resources on a cluster.
 
 . Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters.
 . Select your cluster name to open the cluster detail page.
-. Choose the *Capabilities* tab.
+. In the left navigation pane, choose *Capabilities*.
 . View capability resources under *Managed capabilities*.
 
 === {aws} CLI
@@ -159,7 +159,7 @@ Get detailed information about a specific capability, including its configuratio
 
 . Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters.
 . Select your cluster name to open the cluster detail page.
-. Choose the *Capabilities* tab.
+. In the left navigation pane, choose *Capabilities*.
 . Choose the capability you want to view from *Managed capabilities*.
 . View the capability details, including status, configuration, and creation time.
 
@@ -254,7 +254,7 @@ You may optionally choose to retain {aws} resources associated with ACK Kubernet
 
 . Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters.
 . Select your cluster name to open the cluster detail page.
-. Choose the *Capabilities* tab.
+. In the left navigation pane, choose *Capabilities*.
 . Select the capability you want to delete from the list of *Managed capabilities*.
 . Choose *Delete capability*.
 . In the confirmation dialog, type the name of the capability to confirm deletion.

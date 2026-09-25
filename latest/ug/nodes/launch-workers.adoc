@@ -114,12 +114,12 @@ The following steps show one operation to retrieve the applicable group.
 +
 .. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 .. Choose the name of the cluster.
-.. Choose the *Networking* tab.
+.. Choose the *Configuration* tab, then locate the *Networking* section.
 .. Use the *Additional security groups* value as a reference when selecting from the *ClusterControlPlaneSecurityGroup* dropdown list.
-** *ApiServerEndpoint*: Enter the API Server Endpoint for your EKS Cluster. This can be found in the Details section of the EKS Cluster Console
-** *CertificateAuthorityData*: Enter the base64 encoded Certificate Authority data which can also be found in the EKS Cluster Console's Details section.
-** *ServiceCidr*: Enter the CIDR range used for allocating IP addresses to Kubernetes services within the cluster. This is found within the networking tab of the EKS Cluster Console.
-** *AuthenticationMode*: Select the Authentication Mode in use in the EKS Cluster by reviewing the access tab within the EKS Cluster Console.
+** *ApiServerEndpoint*: Enter the API Server Endpoint for your EKS Cluster. This can be found in the *Cluster info* panel of the EKS Cluster Console
+** *CertificateAuthorityData*: Enter the base64 encoded Certificate Authority data which can also be found in the EKS Cluster Console's *Cluster info* panel.
+** *ServiceCidr*: Enter the CIDR range used for allocating IP addresses to Kubernetes services within the cluster. This is found in the *Networking* section of the *Configuration* tab of the EKS Cluster Console.
+** *AuthenticationMode*: Select the Authentication Mode in use in the EKS Cluster by reviewing the *Access* page (in the left navigation pane) within the EKS Cluster Console.
 ** *NodeGroupName*: Enter a name for your node group. This name can be used later to identify the Auto Scaling node group that's created for your nodes. The node group name can't be longer than 63 characters. It must start with a letter or digit, but can also include hyphens and underscores for the remaining characters.
 ** *NodeAutoScalingGroupMinSize*: Enter the minimum number of nodes that your node Auto Scaling group can scale in to.
 ** *NodeAutoScalingGroupDesiredCapacity*: Enter the desired number of nodes to scale to when your stack is created.
@@ -135,7 +135,7 @@ NOTE: The Amazon EKS node AMIs are based on Amazon Linux. You can track security
 ** *NodeVolumeType*: Specify a root volume type for your nodes.
 ** *KeyName*: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch. If you don't already have an Amazon EC2 key pair, you can create one in the {aws-management-console}. For more information, see link:AWSEC2/latest/UserGuide/ec2-key-pairs.html[Amazon EC2 key pairs,type="documentation"] in the _Amazon EC2 User Guide_.
 ** *VpcId*: Enter the ID for the <<creating-a-vpc,VPC>> that you created.
-** *Subnets*: Choose the subnets that you created for your VPC. If you created your VPC using the steps that are described in <<creating-a-vpc,Create an Amazon VPC for your Amazon EKS cluster>>, specify only the private subnets within the VPC for your nodes to launch into. You can see which subnets are private by opening each subnet link from the *Networking* tab of your cluster.
+** *Subnets*: Choose the subnets that you created for your VPC. If you created your VPC using the steps that are described in <<creating-a-vpc,Create an Amazon VPC for your Amazon EKS cluster>>, specify only the private subnets within the VPC for your nodes to launch into. You can see which subnets are private by opening each subnet link from the *Networking* section of the *Configuration* tab of your cluster.
 +
 [IMPORTANT]
 ==== 

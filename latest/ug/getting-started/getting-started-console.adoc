@@ -217,7 +217,7 @@ aws iam attach-role-policy \
 .. Choose the name of the cluster that you created in <<eks-create-cluster,Step 1: Create your Amazon EKS cluster>>, such as [.replaceable]`my-cluster`.
 .. On the *[.replaceable]`my-cluster`* page, do the following:
 +
-.. Choose the *Compute* tab.
+.. In the left navigation pane, choose *Compute*, then choose the *Node groups* tab.
 .. Choose *Add Node Group*.
 . On the *Configure Node Group* page, do the following:
 +
@@ -236,12 +236,12 @@ aws iam attach-role-policy \
 You can view your nodes and Kubernetes workloads.
 
 . In the left navigation pane, choose *Clusters*. In the list of *Clusters*, choose the name of the cluster that you created, such as [.replaceable]`my-cluster`.
-. On the *[.replaceable]`my-cluster`* page, choose the following:
 +
-.. *Compute*
- tab – You see the list of *Nodes* that were deployed for the cluster. You can choose the name of a node to see more information about it.
-.. *Resources* tab
- – You see all of the Kubernetes resources that are deployed by default to an Amazon EKS cluster. Select any resource type in the console to learn more about it.
+NOTE: The cluster page includes a *Cluster resources* panel that shows at-a-glance counts for your cluster. Each count links to the corresponding standalone page in the left navigation pane — for example, *Nodes*, *Node groups*, and *Fargate profiles* open the *Compute* page; *Add-ons* opens the *Add-ons* page; access entries, Pod Identities, and OIDC providers open the *Access* page; and *Capabilities* opens the *Capabilities* page.
+. In the left navigation pane, choose the following:
++
+.. *Compute* – On the *Nodes* tab, you see the list of *Nodes* that were deployed for the cluster. You can choose the name of a node to see more information about it.
+.. *Resources* – You see all of the Kubernetes resources that are deployed by default to an Amazon EKS cluster. Select any resource type in the console to learn more about it. You can also open the *Resources* page from the *Cluster resources* panel on the cluster page.
 
 
 [#gs-console-clean-up]
@@ -253,7 +253,7 @@ After you've finished with the cluster and nodes that you created for this tutor
 +
 .. Open the Amazon EKS console at link:eks/home#/clusters[https://console.aws.amazon.com/eks/home#/clusters,type="console"].
 .. In the left navigation pane, choose *Clusters*. In the list of clusters, choose [.replaceable]`my-cluster`.
-.. Choose the *Compute* tab.
+.. In the left navigation pane, choose *Compute*, then choose the *Node groups* tab.
 .. If you created a node group, choose the [.replaceable]`my-nodegroup` node group and then choose *Delete*. Enter [.replaceable]`my-nodegroup`, and then choose *Delete*.
 .. Don't continue until the node group profiles are deleted.
 . Delete the cluster.

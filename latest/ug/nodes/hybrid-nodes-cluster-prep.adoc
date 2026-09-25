@@ -38,7 +38,7 @@ aws eks create-access-entry --cluster-name CLUSTER_NAME \
 
 . Choose the name of your hybrid nodes-enabled cluster.
 
-. Choose the *Access* tab.
+. In the left navigation pane, choose *Access*, then choose the *Access entries* tab.
 
 . Choose *Create access entry*.
 

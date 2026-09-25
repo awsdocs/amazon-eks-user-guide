@@ -116,7 +116,7 @@ You can use `ipFamily=ipv6` for IPv6 clusters. When using IPv6 with `CUSTOMER_RO
 +
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose *Add cluster*, and then choose *Create*.
-. On the *Networking* page, for *Control plane egress*, select *Customer routed*.
+. On the *Configuration* tab, in the *Networking* section, for *Control plane egress*, select *Customer routed*.
 . Complete the remaining cluster configuration and choose *Create*.
 
 ====

@@ -232,7 +232,7 @@ Network policy logs require an additional 1 vCPU for the `aws-network-policy-age
 
 .. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 .. In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
-.. Choose the *Add-ons* tab.
+.. In the left navigation pane, choose *Add-ons*.
 .. Select the box in the top right of the add-on box and then choose *Edit*.
 .. On the *Configure [.replaceable]`Amazon VPC CNI`* page:
 +
@@ -337,7 +337,7 @@ include::iam_snippet:ced6be33-8b93-4011-b4bd-bc98c987cca5[]
 
 .. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 .. In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
-.. Choose the *Add-ons* tab.
+.. In the left navigation pane, choose *Add-ons*.
 .. Select the box in the top right of the add-on box and then choose *Edit*.
 .. On the *Configure [.replaceable]`Amazon VPC CNI`* page:
 +

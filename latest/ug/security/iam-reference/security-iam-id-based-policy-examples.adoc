@@ -41,7 +41,7 @@ To ensure that your IAM principals can still use the Amazon EKS console, create 
 [IMPORTANT]
 ====
 
-The following example policy allows a principal to view information on the *Configuration* tab in the console. To view information on the *Overview* and *Resources* tabs in the {aws-management-console}, the principal also needs Kubernetes permissions. For more information, see <<view-kubernetes-resources-permissions>>.
+The following example policy allows a principal to view information on the *Configuration* tab in the console. To view information on the *Resources* page in the {aws-management-console}, the principal also needs Kubernetes permissions. For more information, see <<view-kubernetes-resources-permissions>>.
 
 ====
 

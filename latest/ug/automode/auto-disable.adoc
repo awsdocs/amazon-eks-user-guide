@@ -19,9 +19,9 @@ Steps below describe how to remove a leaked Security Group if that should happen
 
 == Disable EKS Auto Mode ({aws} Console)
 
-. Open your cluster overview page in the {aws-management-console}. 
-. Under *EKS Auto Mode* select *Manage*
-. Toggle *EKS Auto Mode* to `off`. 
+. Open your cluster page in the {aws-management-console}.
+. Choose the *Configuration* tab, then in the *Cluster configuration* section choose the *Manage* dropdown and choose *Manage EKS Auto Mode*.
+. Toggle *EKS Auto Mode* to `off`.
 
 If any managed Security Group is not deleted at the end of this process, you can delete it manually using the instructions in link:vpc/latest/userguide/deleting-security-groups.html[Delete a security group,type="documentation"].
 

@@ -11,7 +11,7 @@ include::../../attributes.txt[]
 +
 .. Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 .. In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the add-on for.
-.. Choose the *Add-ons* tab.
+.. In the left navigation pane, choose *Add-ons*.
 .. Select the box in the top right of the EKS Pod Identity Agent add-on box and then choose *Edit*.
 .. On the *Configure EKS Pod Identity Agent* page:
 +

@@ -18,7 +18,7 @@ Create an Argo CD capability on your Amazon EKS cluster using the {aws} Manageme
 
 . Select your cluster name to open the cluster detail page.
 
-. Choose the *Capabilities* tab.
+. In the left navigation pane, choose *Capabilities*.
 
 . In the left navigation, choose *Argo CD*.
 
@@ -77,7 +77,7 @@ The capability creation process begins.
 
 == Verify the capability is active
 
-. On the *Capabilities* tab, view the Argo CD capability status.
+. On the *Capabilities* page, view the Argo CD capability status.
 
 . Wait for the status to change from `CREATING` to `ACTIVE`.
 

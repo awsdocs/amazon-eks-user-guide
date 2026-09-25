@@ -103,8 +103,7 @@ All EKS Capabilities provide health information through the EKS console and the 
 
 . Open the Amazon EKS console at https://console.aws.amazon.com/eks/home#/clusters.
 . Select your cluster name.
-. Choose the *Observability* tab.
-. Choose *Monitor cluster*.
+. In the left navigation pane, choose *Cluster monitoring*.
 . Choose the *Capabilities* tab to view health and status for all capabilities.
 
 The Capabilities tab shows:
@@ -273,7 +272,7 @@ For detailed troubleshooting guidance specific to each capability type:
 
 If a capability remains in `CREATING` state for longer than expected:
 
-. Check the capability health for specific issues in the console (*Observability* > *Monitor cluster* > *Capabilities* tab) or using the {aws} CLI:
+. Check the capability health for specific issues in the console (*Cluster monitoring* > *Capabilities* tab) or using the {aws} CLI:
 +
 [source,bash,subs="verbatim,attributes,quotes"]
 ----

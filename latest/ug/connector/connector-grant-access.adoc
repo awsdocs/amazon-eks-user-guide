@@ -67,4 +67,4 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/eks-connector/manifests/ek
 kubectl apply -f eks-connector-console-dashboard-full-access-group.yaml
 ----
 
-To view Kubernetes resources in your connected cluster, see <<view-kubernetes-resources>>. Data for some resource types on the *Resources* tab isn't available for connected clusters.
+To view Kubernetes resources in your connected cluster, see <<view-kubernetes-resources>>. Data for some resource types on the *Resources* page isn't available for connected clusters.

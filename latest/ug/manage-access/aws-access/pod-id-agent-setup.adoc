@@ -56,7 +56,7 @@ Note that you can change the image location and provide `imagePullSecrets` for E
 === Setup agent with {aws} console
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the EKS Pod Identity Agent add-on for.
-. Choose the *Add-ons* tab.
+. In the left navigation pane, choose *Add-ons*.
 . Choose *Get more add-ons*.
 . Select the box in the top right of the add-on box for EKS Pod Identity Agent and then choose *Next*.
 . On the *Configure selected add-ons settings* page, select any version in the *Version* dropdown list.

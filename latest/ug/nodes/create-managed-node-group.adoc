@@ -153,7 +153,7 @@ eksctl create nodegroup --config-file eks-nodegroup.yaml
 . Wait for your cluster status to show as `ACTIVE`. You can't create a managed node group for a cluster that isn't already `ACTIVE`.
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose the name of the cluster that you want to create a managed node group in.
-. Select the *Compute* tab.
+. In the left navigation pane, choose *Compute*, then choose the *Node groups* tab.
 . Choose *Add node group*.
 . On the *Configure node group* page, fill out the parameters accordingly, and then choose *Next*.
 +

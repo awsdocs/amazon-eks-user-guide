@@ -24,8 +24,8 @@ In the previous example message, the user does not have permissions to call the 
 For more general information about IAM, see link:IAM/latest/UserGuide/access_controlling.html[Controlling access using policies,type="documentation"] in the _IAM User Guide_.
 
 [#security-iam-troubleshoot-cannot-view-nodes-or-workloads]
-== Can't see *Nodes* on the *Compute* tab or anything on the *Resources* tab and you receive an error in the {aws-management-console}
-:info_titleabbrev: Can't see anything on Nodes or Compute tabs in console
+== Can't see *Nodes* on the *Compute* page or anything on the *Resources* page and you receive an error in the {aws-management-console}
+:info_titleabbrev: Can't see anything on Compute or Resources pages in console
 
 You may see a console error message that says `Your current user or role does not have access to Kubernetes objects on this EKS cluster`. Make sure that the link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] user that you're using the {aws-management-console} with has the necessary permissions. For more information, see <<view-kubernetes-resources-permissions>>.
 

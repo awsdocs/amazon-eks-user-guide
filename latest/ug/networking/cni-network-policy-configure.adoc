@@ -95,7 +95,7 @@ Use the following procedure to enable the network policy parameter for the add-o
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
-. Choose the *Add-ons* tab.
+. In the left navigation pane, choose *Add-ons*.
 . Select the box in the top right of the add-on box and then choose *Edit*.
 . On the *Configure `Amazon VPC CNI`* page:
 +
@@ -170,7 +170,7 @@ To configure this using the {aws} Management Console, follow the below steps:
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the left navigation pane, select *Clusters*, and then select the name of the cluster that you want to configure the Amazon VPC CNI add-on for.
-. Choose the *Add-ons* tab.
+. In the left navigation pane, choose *Add-ons*.
 . Select the box in the top right of the add-on box and then choose *Edit*.
 . On the *Configure `Amazon VPC CNI`* page:
 +

@@ -127,7 +127,7 @@ For more information about available options see https://eksctl.io/usage/addons/
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . In the left navigation pane, choose *Clusters*.
 . Choose the name of the cluster that you want to create the add-on for.
-. Choose the *Add-ons* tab.
+. In the left navigation pane, choose *Add-ons*.
 . Choose *Get more add-ons*.
 . On the *Select add-ons* page, choose the add-ons that you want to add to your cluster. You can add as many *Amazon EKS add-ons* and *{aws} Marketplace add-ons* as you require.
 +
@@ -160,7 +160,7 @@ Retaining the default role name enables EKS to pre-select the role for add-ons i
 .. Choose the *Subscribe* button in the lower right corner for the add-on. You're taken to the page for the add-on in the {aws} Marketplace. Read the information about the add-on such as its *Product Overview* and *Pricing Information*.
 .. Select the *Continue to Subscribe* button on the top right of the add-on page.
 .. Read through the *Terms and Conditions*. If you agree to them, choose *Accept Terms*. It may take several minutes to process the subscription. While the subscription is processing, the *Return to Amazon EKS Console* button is grayed out.  
-.. Once the subscription has finished processing, the *Return to Amazon EKS Console* button is no longer grayed out. Choose the button to go back to the Amazon EKS console *Add-ons* tab for your cluster.
+.. Once the subscription has finished processing, the *Return to Amazon EKS Console* button is no longer grayed out. Choose the button to go back to the Amazon EKS console *Add-ons* page for your cluster.
 .. For the add-on that you subscribed to, choose *Remove and reinstall* and then choose *Reinstall add-on*. Installation of the add-on can take several minutes. When Installation is complete, you can configure the add-on.
 
 

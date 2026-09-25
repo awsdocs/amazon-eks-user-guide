@@ -59,7 +59,7 @@ To use a self-managed KMS key to encrypt EBS volumes automated by EKS Auto Mode,
 ** Use the sample IAM policy below to create the policy. Insert the ARN of the new self-managed KMS key. For more information, see 
 link:IAM/latest/UserGuide/access_policies_job-functions_create-policies.html["Creating roles and attaching policies (console)",type="documentation"] in the {aws} IAM User Guide. 
 . Attach the policy to the EKS Cluster Role.
-** Use the {aws} console to find the ARN of the EKS Cluster Role. The role information is visible in the *Overview* section. For more information, see <<cluster-iam-role>>. 
+** Use the {aws} console to find the ARN of the EKS Cluster Role. The role information is visible in the *Cluster info* panel. For more information, see <<cluster-iam-role>>. 
 . Update the `StorageClass` to reference the KMS Key ID at the `parameters.kmsKeyId` field.
 
 === Sample self-managed KMS IAM Policy
@@ -313,7 +313,7 @@ For more information, see:
 === To install snapshot controller in system node pool
 
 . Open your EKS cluster in the {aws} console
-. From the *Add-ons* tab, select *Get more add-ons*
+. In the left navigation pane, choose *Add-ons*, then select *Get more add-ons*
 . Select the *CSI Snapshot Controller* and then *Next*
 . On the *Configure selected add-ons settings* page, select *Optional configuration settings* to view the *Add-on configuration schema*
 .. Insert the following yaml to associate the snapshot controller with the `system` node pool. The snapshot controller includes a toleration for the `CriticalAddonsOnly` taint. 

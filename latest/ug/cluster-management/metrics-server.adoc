@@ -30,7 +30,7 @@ The metrics are meant for point-in-time analysis and aren't an accurate source f
 === Deploy with {aws} console
 
 . Open your EKS cluster in the {aws} console
-. From the "Add-ons" tab, select *Get More Add-ons*.
+. In the left navigation pane, choose *Add-ons*, then select *Get More Add-ons*.
 . From the "Community add-ons" section, select *Metrics Server* and then *Next*
 . EKS determines the appropriate version of the add-on for your cluster. You can change the version using the *Version* dropdown menu. 
 . Select *Next* and then *Create* to install the add-on. 

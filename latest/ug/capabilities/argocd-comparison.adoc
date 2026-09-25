@@ -19,7 +19,7 @@ This topic focuses on Argo CD-specific differences, including authentication, mu
 
 The EKS Capability for Argo CD is based on upstream Argo CD but differs in how it's accessed, configured, and integrated with {aws} services.
 
-*RBAC and authentication*: The capability comes with three RBAC roles (admin, editor, viewer) and uses {aws} Identity Center for authentication instead of Argo CD's built-in authentication. Configure role mappings through the capability's `rbacRoleMapping` parameter to map Identity Center groups to Argo CD roles, not through Argo CD's `argocd-rbac-cm` ConfigMap. The Argo CD UI is hosted with its own direct URL (find it in the EKS console under your cluster's Capabilities tab), and API access uses {aws} authentication and authorization through IAM.
+*RBAC and authentication*: The capability comes with three RBAC roles (admin, editor, viewer) and uses {aws} Identity Center for authentication instead of Argo CD's built-in authentication. Configure role mappings through the capability's `rbacRoleMapping` parameter to map Identity Center groups to Argo CD roles, not through Argo CD's `argocd-rbac-cm` ConfigMap. The Argo CD UI is hosted with its own direct URL (find it in the EKS console under your cluster's Capabilities page), and API access uses {aws} authentication and authorization through IAM.
 
 *Cluster configuration*: The capability does not automatically configure local cluster or hub-and-spoke topologies. You configure your deployment target clusters and EKS access entries. The capability supports only Amazon EKS clusters as deployment targets using EKS cluster ARNs (not Kubernetes API server URLs). The capability does not automatically add the local cluster (`kubernetes.default.svc`) as a deployment target—to deploy to the same cluster where the capability is created, explicitly register that cluster using its ARN.
 
@@ -70,7 +70,7 @@ Install the Argo CD CLI following the https://argo-cd.readthedocs.io/en/stable/c
 
 Configure the CLI using environment variables:
 
-. Get the Argo CD server URL from the EKS console (under your cluster's *Capabilities* tab), or using the {aws} CLI.
+. Get the Argo CD server URL from the EKS console (under your cluster's *Capabilities* page), or using the {aws} CLI.
 The `https://` prefix must be removed:
 +
 [source,bash,subs="verbatim,attributes,quotes"]

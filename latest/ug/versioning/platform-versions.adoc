@@ -1058,8 +1058,7 @@ The following admission controllers are enabled for all `1.31` platform versions
 . Open the Amazon EKS console.
 . In the navigation pane, choose *Clusters*.  
 . In the list of clusters, choose the *Cluster Name* to check the platform version of.
-. Choose the *Overview* tab.  
-. The *Platform Version* is available in the *Details* section.
+. The *Platform Version* is available in the *Cluster info* panel.
 
 [#get-platform-version-cli]
 === Get current platform version ({aws} CLI)

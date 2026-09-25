@@ -35,7 +35,7 @@ You can associate an access policy to an access entry using the {aws-management-
 == {aws-management-console}
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose the name of the cluster that has an access entry that you want to associate an access policy to.
-. Choose the *Access* tab.
+. In the left navigation pane, choose *Access*, then choose the *Access entries* tab.
 . If the type of the access entry is *Standard*, you can associate or disassociate Amazon EKS *access policies*. If the type of your access entry is anything other than *Standard*, then this option isn't available.
 . Choose *Associate access policy*.
 . For *Policy name*, select the policy with the permissions you want the IAM principal to have. To view the permissions included in each policy, see <<access-policy-permissions>>.

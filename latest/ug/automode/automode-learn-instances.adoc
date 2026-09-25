@@ -84,7 +84,7 @@ You can change visibility settings at any time through the Amazon EC2 console or
 ====
 Even when managed resources are hidden from EC2 console views and list APIs, you can still view {am} instances through:
 
-* The Amazon EKS console, under your cluster's **Compute** tab.
+* The Amazon EKS console, on your cluster's **Compute** page (**Nodes** tab).
 * Kubernetes APIs (for example, `kubectl get nodes`).
 * Direct EC2 API queries by instance ID (for example, `describe-instances --instance-ids i-0123456789abcdef0`).
 * The `DescribeInstances` API with the `include-managed-resources` parameter.

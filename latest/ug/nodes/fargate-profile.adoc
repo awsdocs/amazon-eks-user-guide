@@ -116,7 +116,7 @@ You can use certain wildcards for `my-kubernetes-namespace` and `key=value` labe
 
 . Open the link:eks/home#/clusters[Amazon EKS console,type="console"].
 . Choose the cluster to create a Fargate profile for.
-. Choose the *Compute* tab.
+. In the left navigation pane, choose *Compute*, then choose the *Fargate profiles* tab.
 . Under *Fargate profiles*, choose *Add Fargate profile*.
 . On the *Configure Fargate profile* page, do the following:
 +
