@@ -190,16 +190,29 @@ Use IAM condition keys to further restrict access:
 
 For additional IAM configuration information, see the considerations section for each capability.
 
-=== Namespace isolation for Argo CD secrets
+=== Namespace isolation for Argo CD resources and secrets
 
-The managed Argo CD capability has access to all Kubernetes secrets within its configured namespace (default: `argocd`).
+The namespace-scoped `AmazonEKSArgoCDPolicy` applies only to the primary Argo CD namespace, which defaults to `argocd`.
+It grants the capability full access to Secrets and AppProjects, and read access to ConfigMaps in that namespace.
+
+The cluster-scoped `AmazonEKSArgoCDClusterPolicy` grants access to Applications, ApplicationSets, and their status and finalizers across the cluster.
+It also grants access to read, create, and patch Kubernetes Events.
+Argo CD reconciles these resources only in the primary namespace and the additional namespaces that you enable.
+The default policies don't grant access to Secrets, ConfigMaps, or AppProjects in additional namespaces.
+For the complete policy permissions, see <<access-policy-permissions>>.
+
 To maintain optimal security posture, follow these namespace isolation practices:
 
-* Keep only Argo CD-relevant secrets within the Argo CD namespace
-* Avoid storing unrelated application secrets in the same namespace as Argo CD
+* Keep only Argo CD-relevant secrets within the primary Argo CD namespace
+* Avoid storing unrelated application secrets in the primary Argo CD namespace
 * Use separate namespaces for application secrets that are not required for Argo CD operations
 
-This isolation ensures that Argo CD's secret access is limited to only the credentials it needs for Git repository authentication and other Argo CD-specific operations.
+[IMPORTANT]
+====
+Anyone with Kubernetes permission to create an Application in an enabled namespace can deploy content from the source repositories to the destination clusters and namespaces that the referenced AppProject permits, subject to its resource restrictions.
+Restrict who can create Applications and ApplicationSets by using Kubernetes RBAC, and use narrowly scoped AppProjects for each team or trust boundary.
+For more information, see <<argocd-projects>> and <<argocd-configure-resource-namespaces>>.
+====
 
 === Kubernetes RBAC
 

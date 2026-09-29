@@ -26,6 +26,13 @@ link:eks/latest/userguide/working-with-argocd.html#argocd-endpoint-prefix[type="
 
 You can now specify an endpoint prefix when you create an EKS Capability for Argo CD. The prefix sets the beginning of the Argo CD endpoint hostname.
 
+[.update,date="2026-10-06"]
+=== Argo CD Applications and ApplicationSets in additional namespaces
+[.update-ulink]
+link:eks/latest/userguide/argocd-configure-settings.html#argocd-configure-resource-namespaces[type="documentation"]
+
+The EKS Capability for Argo CD can now manage `Application` and `ApplicationSet` resources in additional namespaces. This allows teams to keep their GitOps resources in separate namespaces and use Argo CD role-based access control for isolation.
+
 [.update,date="2026-10-01"]
 === Kubernetes version `1.37`
 [.update-ulink]
@@ -39,6 +46,13 @@ Added Kubernetes version `1.37` to Amazon EKS.
 link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 
 Added the `eks:CreateCertificateAuthority`, `eks:ActivateCertificateAuthority`, `eks:DeleteCertificateAuthority`, and `ec2:RebootInstances` permissions to `AmazonEKSServiceRolePolicy`. These permissions allow Amazon EKS to rotate cluster certificate authorities and reboot Amazon EC2 instances managed by EKS Auto Mode.
+
+[.update,date="2026-09-24"]
+=== Amazon EKS access policy updates
+[.update-ulink]
+link:eks/latest/userguide/access-policy-permissions.html[type="documentation"]
+
+Moved the `events`, `applications`, and `applicationsets` permissions from `AmazonEKSArgoCDPolicy` to `AmazonEKSArgoCDClusterPolicy` so that these permissions are cluster-scoped. The update applied automatically to existing Argo CD capabilities; no action was required.
 
 [.update,date="2026-09-21"]
 === CimFS snapshotter support on EKS-optimized Windows Server 2025 AMIs

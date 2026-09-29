@@ -64,6 +64,46 @@ View the Application status:
 kubectl get application guestbook -n argocd
 ----
 
+== Create an Application in an additional namespace
+
+You can create Applications outside the primary Argo CD namespace.
+Before you create the Application, complete the following configuration:
+
+* Add the namespace to `application.namespaces` in the `argocd-cmd-params-cm` ConfigMap. For instructions on configuring resource namespaces, see <<argocd-configure-resource-namespaces>>.
+* Add the namespace to `spec.sourceNamespaces` in the `AppProject` that the Application uses. Create the `AppProject` in the primary Argo CD namespace. For instructions on configuring the AppProject, see <<argocd-projects>>.
+
+The following example creates an Application in the `team-a-gitops` namespace that uses the `team-a` project:
+
+[source,yaml]
+----
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook
+  namespace: team-a-gitops
+spec:
+  project: team-a
+  source:
+    repoURL: https://github.com/argoproj/argocd-example-apps
+    targetRevision: HEAD
+    path: guestbook
+  destination:
+    name: in-cluster
+    namespace: guestbook
+----
+
+Apply and view the Application in its source namespace:
+
+[source,bash]
+----
+kubectl apply -f application.yaml
+kubectl get application guestbook -n team-a-gitops
+----
+
+When you use the Argo CD CLI or UI, identify an Application in an additional namespace as `<namespace>/<application-name>`.
+For example, use `argocd app get team-a-gitops/guestbook`.
+The namespace that contains the Application is independent of `spec.destination.namespace`, which specifies where Argo CD deploys the workload.
+
 == Source configuration
 
 *Git repository*:
@@ -419,12 +459,13 @@ Using the Argo CD CLI:
 
 [source,bash]
 ----
-argocd app rollback argocd/my-app <revision-id>
+argocd app rollback my-app <revision-id>
 ----
 
 [NOTE]
 ====
-When using the Argo CD CLI with the managed capability, specify applications with the namespace prefix: `namespace/appname`.
+For an Application in the primary Argo CD namespace, the namespace prefix is optional.
+For an Application in an additional namespace, use `<namespace>/<application-name>`.
 ====
 
 For more information, see link:https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd_app_rollback/[argocd app rollback^] in the Argo CD documentation.

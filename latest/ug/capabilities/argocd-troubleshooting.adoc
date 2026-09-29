@@ -80,6 +80,84 @@ kubectl describe application [.replaceable]`my-app` -n argocd
 kubectl get application [.replaceable]`my-app` -n argocd -o jsonpath='{.status.health}'
 ----
 
+[#argocd-troubleshooting-additional-namespace]
+== Application or ApplicationSet in an additional namespace isn't reconciled
+
+If an Application or ApplicationSet in an additional namespace isn't reconciled, check the namespace configuration and AppProject authorization.
+
+Use the following checklist:
+
+* *Check the namespace ConfigMap*: Confirm that `argocd-cmd-params-cm` exists in the primary Argo CD namespace and contains the additional namespace.
+For an Application, check `application.namespaces`.
+For an ApplicationSet, check both `application.namespaces` and `applicationsetcontroller.namespaces`.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get configmap argocd-cmd-params-cm \
+  -n [.replaceable]`primary-namespace` -o yaml
+----
+
+* *Validate the entry*: Namespace entries can contain lowercase letters, numbers, hyphens, and asterisks, and can be up to 63 characters long.
+An entry can't start or end with a hyphen.
+The capability ignores invalid and duplicate entries and the primary namespace.
+You can't use `default`, `kube-node-lease`, `kube-public`, or `kube-system` as resource namespaces.
+Regular expressions aren't supported.
+For all configuration rules, see <<argocd-configure-resource-namespaces>>.
+
+* *Check the AppProject*: Confirm that the referenced AppProject is in the primary Argo CD namespace and that its `spec.sourceNamespaces` includes the additional namespace or a matching pattern.
+
+* *Wait for the configuration to apply*: Allow up to 10 minutes after changing `argocd-cmd-params-cm`.
+
+* *Check reconciliation*: Query each resource by its namespace-qualified name.
+For an Application, also check whether `status.reconciledAt` is populated.
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get application [.replaceable]`application-name` \
+  -n [.replaceable]`additional-namespace` \
+  -o jsonpath='{.status.reconciledAt}'
+
+argocd app get \
+  [.replaceable]`additional-namespace`/[.replaceable]`application-name`
+
+argocd appset get \
+  [.replaceable]`additional-namespace`/[.replaceable]`applicationset-name`
+----
++
+A successful Argo CD command confirms that Argo CD can access the resource in the additional namespace.
+The Application command can return a permission error for multiple reasons, including a missing Application or insufficient Argo CD role-based access control (RBAC) permissions, so use the resource status or controller logs to identify the cause.
+If the ApplicationSet command returns `namespace '<namespace>' is not permitted`, the namespace isn't effective.
+
+* *Check controller logs*: If you deliver controller logs to CloudWatch Logs, query the corresponding log type.
+For an Application, query `EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS` by its name and source namespace.
++
+[source,sql]
+----
+fields @timestamp, message, error
+| filter application = "application-name"
+| filter `app-namespace` = "additional-namespace"
+| sort @timestamp desc
+| limit 100
+----
++
+For an ApplicationSet, query `EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS`.
++
+[source,sql]
+----
+fields @timestamp, message, error
+| filter applicationSet = "applicationset-name"
+| filter `appSet-namespace` = "additional-namespace"
+| sort @timestamp desc
+| limit 100
+----
++
+A matching log record confirms that the corresponding controller is processing the resource in that namespace.
+The absence of matching records doesn't prove that the namespace is unavailable; verify that log delivery is enabled for the corresponding log type and that the query covers activity after the configuration change.
+For log delivery instructions, see <<capabilities-controller-logs>>.
+
+If these checks don't explain the issue, open an {aws} Support case.
+Include the `argocd-cmd-params-cm` data, AppProject `sourceNamespaces`, resource namespace and status, and the time of the latest configuration change.
+
 == Applications stuck in "Progressing" state
 
 If an application shows `Progressing` but never reaches `Healthy`, check the application's resource status and events.

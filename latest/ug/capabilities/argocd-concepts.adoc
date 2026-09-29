@@ -109,7 +109,9 @@ You can also view the application using the Argo CD CLI or the Argo CD UI (acces
 
 [NOTE]
 ====
-When using the Argo CD CLI with the managed capability, specify applications with the namespace prefix: `argocd app get argocd/guestbook`.
+For an Application in the primary Argo CD namespace, the namespace prefix is optional.
+For example, `argocd app get guestbook` and `argocd app get argocd/guestbook` refer to the same Application.
+For an Application in an additional namespace, use `<namespace>/<application-name>`.
 ====
 
 [NOTE]

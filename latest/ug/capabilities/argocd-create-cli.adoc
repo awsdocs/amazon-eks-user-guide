@@ -98,6 +98,8 @@ Wait until the state shows `available` before proceeding.
 == Step 2: Create the Argo CD capability
 
 Create the Argo CD capability resource on your cluster.
+The following examples set the primary Argo CD namespace to `argocd`.
+For information about the primary namespace and additional resource namespaces, see <<argocd-configure-resource-namespaces>>.
 
 First, set environment variables for your Identity Center configuration:
 
@@ -129,6 +131,7 @@ aws eks create-capability \
   --delete-propagation-policy RETAIN \
   --configuration '{
     "argoCd": {
+      "namespace": "argocd",
       "awsIdc": {
         "idcInstanceArn": "'$IDC_INSTANCE_ARN'",
         "idcRegion": "'idc-region-code'"
@@ -165,6 +168,7 @@ aws eks create-capability \
   }' \
   --configuration '{
     "argoCd": {
+      "namespace": "argocd",
       "awsIdc": {
         "idcInstanceArn": "'$IDC_INSTANCE_ARN'",
         "idcRegion": "'idc-region-code'"
