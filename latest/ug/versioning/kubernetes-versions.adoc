@@ -34,6 +34,7 @@ video::_dJdAZ_J_jw[youtube,align = center,height = 405,fileref = https://www.you
 
 The following Kubernetes versions are currently available in Amazon EKS standard support:
 
+* `1.37`
 * `1.36`
 * `1.35`
 * `1.34`
@@ -80,6 +81,12 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/vers
 |Amazon EKS release
 |End of standard support
 |End of extended support
+
+|`1.37`
+|August 26, 2026
+|October 1, 2026
+|December 1, 2027
+|December 1, 2028
 
 |`1.36`
 |April 22, 2026

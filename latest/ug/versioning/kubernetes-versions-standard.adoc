@@ -18,6 +18,33 @@ https://aws-experience.com/emea/smb/events/series/get-hands-on-with-amazon-eks?t
 This topic gives important changes to be aware of for each Kubernetes version in standard support. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster.
 
 
+[#kubernetes-1-37]
+== Kubernetes 1.37
+
+Kubernetes `1.37` is now available in Amazon EKS. For more information about Kubernetes `1.37`, see the https://kubernetes.io/blog/2026/08/26/kubernetes-v1-37-release/[official release announcement].
+
+[IMPORTANT]
+====
+* SELinux Mount Labeling Enabled by Default (GA): In Kubernetes 1.37, the `SELinuxMount` feature is enabled by default. When a Pod sets `seLinuxOptions` and its volume's CSI driver sets `seLinuxMount: true`, the kubelet mounts the volume with `mount -o context=<label>` instead of relabeling every file. A mount can carry only one SELinux label, so a Pod stays in `ContainerCreating` if another Pod on the same node already uses the same volume with a different SELinux label, a different `seLinuxChangePolicy`, or a different privilege level. Nodes without SELinux enabled aren't affected.
+** Action required: Before upgrading, run `kubectl get csidriver -o custom-columns=NAME:.metadata.name,SELINUXMOUNT:.spec.seLinuxMount` to find drivers with `seLinuxMount: true`. For volumes from those drivers, find Pods that set `seLinuxOptions` and share a volume. Pods that share a volume must use the same `seLinuxOptions.level` and `seLinuxChangePolicy`. If a privileged Pod and an unprivileged Pod share a volume, set `spec.securityContext.seLinuxChangePolicy: Recursive` on the unprivileged Pod. `Recursive` keeps the previous relabeling behavior; apply it to all Pods that share the volume. For more information, see https://kubernetes.io/blog/2026/04/22/breaking-changes-in-selinux-volume-labeling/[SELinux Volume Label Changes goes GA (and likely implications in v1.37)] and https://kep.k8s.io/1710[KEP-1710].
+* EKS Auto Mode Consolidation Default: Starting with Kubernetes 1.37, new EKS Auto Mode NodePools that don't specify `consolidationPolicy` default to `Balanced` instead of `WhenEmptyOrUnderutilized`. `Balanced` typically results in fewer Pod evictions at roughly the same cost. The built-in `general-purpose` and `system` NodePools also use `Balanced`, and you can't change this setting on them. For details, see <<auto-change,the EKS Auto Mode release notes>>.
+** Action required: To keep a specific consolidation behavior, set `consolidationPolicy` explicitly on your own NodePools. If a workload needs the previous behavior, target a <<associate-workload,NodePool>> that sets `consolidationPolicy: WhenEmptyOrUnderutilized`.
+====
+
+* *Dynamic Resource Allocation (DRA) Device Taints and Tolerations (Stable):* DRA drivers and cluster administrators can taint devices, such as GPUs, so the scheduler doesn't allocate them to Pods that don't tolerate the taint. Using DRA on EKS requires installing a DRA driver, which EKS doesn't install. The NVIDIA DRA driver is supported with Karpenter static capacity, EKS managed node groups, and self-managed nodes. It isn't supported with EKS Auto Mode. With EKS Auto Mode, or Karpenter dynamic capacity provisioning, use the NVIDIA device plugin.
+** When you create a `DeviceTaintRule`, always set `spec.deviceSelector`. To target all devices, use `deviceSelector: {}`. For more information, see <<device-management-nvidia-dra-device-plugin,Use the NVIDIA DRA driver or device plugin on Amazon EKS>>.
+* *Horizontal Pod Autoscaler Configurable Tolerance (Stable):* You can set a tolerance per HPA, separately for scale up and scale down, instead of relying only on the cluster-wide default of 10%.
+* *Horizontal Pod Autoscaler Scale to Zero (Beta):* The `HPAScaleToZero` feature gate is enabled by default in Kubernetes 1.37. An HPA that scales on Object or External metrics can set `minReplicas: 0` to scale to zero Pods when idle and back up when demand returns. Object and External metrics require a metrics adapter, which EKS doesn't install.
+* *Kubelet Configuration Changes:* The kubelet no longer starts if a deprecated cAdvisor flag is set (except `--housekeeping-interval`), drops the `container_cpu_load_average_10s`, `container_cpu_load_d_average_10s`, and `container_tasks_state` metrics, and treats `eventRecordQPS: 0` as no limit. Previously `eventRecordQPS: 0` applied a limit of 5 events per second. EKS-optimized AMIs don't set the deprecated cAdvisor flags or `eventRecordQPS`, so their kubelet startup and rate limit are unchanged. The removed metrics affect anyone who scrapes them, on any AMI.
+** Action required: If you use custom AMIs or extra kubelet arguments, remove the deprecated cAdvisor flags, and if you set `eventRecordQPS: 0`, change it to `5` to keep the previous rate limit. Update any dashboards or alerts that use the removed metrics. For more information, see the https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/[kubelet configuration (v1beta1) reference].
+* *Kubelet Logs Its Configuration at Startup:* The kubelet now logs its full effective configuration at startup. Make sure only trusted users can read node logs. For more information, see https://github.com/kubernetes/kubernetes/pull/139837[kubernetes/kubernetes#139837].
+* *NVIDIA Driver 595 for Amazon EC2 G7 Instances:* G7 instances require NVIDIA driver 595. The EKS-optimized Amazon Linux 2023 NVIDIA AMIs include driver 595 on all supported versions; the Bottlerocket NVIDIA AMIs include it on Kubernetes 1.37 and later.
+
+For the complete Kubernetes `1.37` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.37.md
+
+
+
+
 [#kubernetes-1-36]
 == Kubernetes 1.36
 
@@ -27,8 +54,8 @@ Kubernetes `1.36` is now available in Amazon EKS. For more information about Kub
 ====
 * gitRepo Volume Removal: The `gitRepo` volume type is permanently disabled in Kubernetes 1.36 and cannot be re-enabled. The Kubernetes API still accepts Pods with `gitRepo` volumes, but the kubelet will refuse to run them and return an error.
 ** Action required: Migrate to https://kubernetes.io/docs/concepts/workloads/pods/init-containers/[init containers] or https://github.com/kubernetes/git-sync[git-sync] sidecar containers before upgrading to 1.36. For more information, see https://github.com/kubernetes/enhancements/issues/5040[KEP-5040].
-* SELinux Volume Labeling Changes (GA): Faster SELinux volume labeling now defaults to all volumes in Kubernetes 1.36, using `mount -o context` instead of recursive file relabeling. Sharing a volume between privileged and unprivileged Pods on the same node may cause issues. Future Kubernetes releases may introduce additional breaking changes related to this feature.
-** Action required: Customers running SELinux-enforcing systems should audit clusters and ensure the `seLinuxChangePolicy` field and SELinux volume labels are correctly set on Pods before upgrading. For more information, see https://kubernetes.io/blog/2026/04/22/breaking-changes-in-selinux-volume-labeling/[SELinux Volume Label Changes goes GA (and likely implications in v1.37)].
+* SELinux Volume Labeling Changes (GA): In Kubernetes 1.36, faster SELinux volume labeling defaults to all volumes, using `mount -o context` instead of recursive file relabeling. Sharing a volume on the same node between privileged and unprivileged Pods, or between Pods with different SELinux labels, may cause issues. The related `SELinuxMount` behavior that can hold a Pod in `ContainerCreating` is enabled by default in Kubernetes 1.37, not 1.36. Review the Kubernetes 1.37 section before upgrading.
+** Action required: Before upgrading, audit clusters that run SELinux-enabled nodes and make sure the `seLinuxChangePolicy` field and SELinux volume labels are set correctly on Pods that share a volume. For more information, see https://kubernetes.io/blog/2026/04/22/breaking-changes-in-selinux-volume-labeling/[SELinux Volume Label Changes goes GA (and likely implications in v1.37)].
 * Strict IP/CIDR Validation Enabled by Default: The `StrictIPCIDRValidation` feature gate is now enabled by default for built-in API kinds. API fields no longer accept IP or CIDR values with extraneous leading zeros (e.g., `010.000.000.005` instead of `10.0.0.5`) or CIDR values with ambiguous semantics (e.g., `192.168.0.5/24` instead of `192.168.0.0/24`). Existing stored objects are preserved via validation ratcheting, but new creates and updates will be rejected. This does not apply to custom resource kinds.
 ** Action required: Review manifests, Helm charts, and automation for IP addresses containing leading zeros or non-canonical CIDR notation. Update them to use canonical formats before upgrading. For more information, see https://github.com/kubernetes/enhancements/issues/4858[KEP-4858].
 ====
@@ -69,7 +96,7 @@ Kubernetes `1.35` is now available in Amazon EKS. For more information about Kub
 * *StatefulSet MaxUnavailable (Beta):* This feature enables parallel Pod updates by setting `maxUnavailable` (e.g., 3 or 10%), allowing stateful applications like database clusters to update up to 60% faster than sequential one-at-a-time updates, significantly reducing maintenance windows.
 * *Windows Server 2025 Support:* EKS 1.35 adds support for https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-windows-ami.html[Windows Server 2025].
 * *Kubelet Flag Removal:* The `--pod-infra-container-image` flag has been removed from kubelet. Custom AMI users must remove this flag from kubelet configuration before upgrading to 1.35.
-* *Deprecation Notice - IPVS Mode:* IPVS mode in kube-proxy is deprecated and will be removed in Kubernetes 1.36.
+* *Deprecation Notice - IPVS Mode:* IPVS mode in kube-proxy is deprecated. It will be disabled by default in Kubernetes 1.40 and removed in Kubernetes 1.43. Migrate to nftables mode. For more information, see https://docs.aws.amazon.com/eks/latest/best-practices/nftables.html[Running kube-proxy in nftables Mode].
 
 For the complete Kubernetes `1.35` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.35.md
 

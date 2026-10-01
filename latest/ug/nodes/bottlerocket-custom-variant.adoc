@@ -21,7 +21,7 @@ Because https://github.com/bottlerocket-os/bottlerocket[Bottlerocket] on the Git
 
 [IMPORTANT]
 ====
-The `g7` instance type requires NVIDIA driver version 595 or later. The EKS Bottlerocket NVIDIA AMIs currently include NVIDIA driver version 580, which does not support `g7` instances.
+The `g7` instance type requires NVIDIA driver version 595 or later, supported on the EKS Bottlerocket NVIDIA 1.37 AMI. The EKS Bottlerocket NVIDIA AMIs 1.36 and older currently include NVIDIA driver version 580, which does not support `g7` instances.
 
 See the https://github.com/bottlerocket-os/bottlerocket[Bottlerocket repository] on the GitHub website for instructions on building a variant with NVIDIA driver version 595. This topic walks through the complete process starting at <<bottlerocket-custom-variant-step1,Step 1>>.
 ====
