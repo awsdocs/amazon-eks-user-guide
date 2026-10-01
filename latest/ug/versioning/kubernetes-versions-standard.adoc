@@ -96,7 +96,7 @@ Kubernetes `1.35` is now available in Amazon EKS. For more information about Kub
 * *StatefulSet MaxUnavailable (Beta):* This feature enables parallel Pod updates by setting `maxUnavailable` (e.g., 3 or 10%), allowing stateful applications like database clusters to update up to 60% faster than sequential one-at-a-time updates, significantly reducing maintenance windows.
 * *Windows Server 2025 Support:* EKS 1.35 adds support for https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-windows-ami.html[Windows Server 2025].
 * *Kubelet Flag Removal:* The `--pod-infra-container-image` flag has been removed from kubelet. Custom AMI users must remove this flag from kubelet configuration before upgrading to 1.35.
-* *Deprecation Notice - IPVS Mode:* IPVS mode in kube-proxy is deprecated. It will be disabled by default in Kubernetes 1.40 and removed in Kubernetes 1.43. Migrate to nftables mode. For more information, see https://docs.aws.amazon.com/eks/latest/best-practices/nftables.html[Running kube-proxy in nftables Mode].
+* *Deprecation Notice - IPVS Mode:* IPVS mode in kube-proxy is deprecated and will be removed in a future Kubernetes release. Migrate to nftables mode. For more information, see https://docs.aws.amazon.com/eks/latest/best-practices/nftables.html[Running kube-proxy in nftables Mode].
 
 For the complete Kubernetes `1.35` changelog, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.35.md
 
