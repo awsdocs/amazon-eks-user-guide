@@ -1,0 +1,85 @@
+include::../attributes.txt[]
+
+[.topic]
+[#sandboxing-ami-create-update]
+= Create and update a Nitro Sandbox AMI
+:info_titleabbrev: Create and update
+
+[abstract]
+--
+Build a custom AMI from the Nitro Sandbox bundle that {aws} shares through Amazon S3, or use a supported AMI, and update it when {aws} releases a new bundle.
+--
+
+EKS Auto Mode includes Nitro Sandbox support with no additional configuration. If you run managed node groups or self-managed nodes outside of Auto Mode, you need a compatible AMI. You have two options:
+
+* *Use a supported AMI.* Nitro Sandbox supports Amazon Linux.
+* *Build your own AMI* from the Nitro Sandbox bundle that {aws} provides through Amazon S3.
+
+The bundle delivers patches as binaries in S3 that you use to build the AMI. Each sandbox node runs two kernels: a *host kernel* that you build from a patch series in the bundle, and a pre-compiled *guest kernel* that boots inside every sandbox pod's microVM. You never build or modify the guest kernel.
+
+[NOTE]
+====
+Before you start, confirm you have an EKS cluster, a build instance with Nitro Enclaves enabled and Secure Boot disabled, and permissions to create AMIs, launch templates, and managed node groups. Each bundle ships OS-specific build guides and helper scripts for the supported operating systems.
+====
+
+[#sandboxing-ami-build]
+== Build a custom AMI
+
+The build follows the same four steps on each supported operating system. OS-specific differences are called out in the build guide included with the bundle.
+
+[%header,cols="1,2,3"]
+|===
+|Step |Command |What it does
+
+|1
+|`scripts/verify-archives.sh`
+|Unpack both S3 archives and validate every shipped checksum.
+
+|2
+|`scripts/build-kernel-<os>.sh <patch-dir>`
+|Build the host kernel with the patch series, install it, and reboot into it.
+
+|3
+|`scripts/install-runtime.sh <bundle-dir>`
+|Install the runtime binaries, stage the guest image, and write the shim config.
+
+|4
+|By hand (per the OS guide)
+|Wire the containerd runtime handlers and the kubelet endpoint, then bake the AMI and join the cluster.
+|===
+
+After building, apply a `RuntimeClass` named `isolated-sandbox` once per cluster, with a scheduling `nodeSelector` that matches the node labels set at join time. Pods that set `runtimeClassName: isolated-sandbox` then schedule onto those nodes. For the full procedure, see the build guide in the bundle.
+
+[#sandboxing-ami-update]
+== Update an AMI
+
+When {aws} releases a new bundle through S3, rebuild your AMI. Each bundle is versioned by date and revision; a later date or higher revision replaces the previous one. The release notes list which components changed and whether a kernel rebuild is required.
+
+[%header,cols="2,3,2,1"]
+|===
+|Category |What changed |Steps to repeat |Reboot
+
+|Runtime update
+|New binaries or guest image, same kernel patches
+|Steps 1 and 3
+|No
+
+|Kernel update
+|New or updated patch series
+|Steps 1, 2, and 3
+|Yes
+
+|Full bundle update
+|Both kernel patches and runtime
+|All four steps
+|Yes
+|===
+
+Launch a fresh build instance from your current sandbox AMI so the update applies only the changed components, then repeat the steps for the update category and bake a new AMI. Update your launch template to the new AMI and roll out the managed node group one node at a time.
+
+[IMPORTANT]
+====
+When the guest image changes, PCR0 changes, and existing Cedar policies for confidential pods no longer match. Before rolling out, regenerate the Cedar policies with the new bundle's `eks-nitro-sandbox-genpolicy` and update any KMS key policy conditions that reference the old PCR0 value. Nodes on the old AMI keep serving existing confidential workloads until you drain them. For more information, see <<sandboxing-confidential-setup>>.
+====
+
+Tag each AMI with the bundle identifier (for example, `nitro-sandbox-ga-20260929-r2`) so you can track which bundle version each node group runs.

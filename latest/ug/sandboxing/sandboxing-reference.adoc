@@ -1,0 +1,24 @@
+include::../attributes.txt[]
+
+[.topic]
+[#sandboxing-reference]
+= Sandboxes reference
+:info_titleabbrev: Reference
+
+[abstract]
+--
+Reference material for Nitro Sandboxes: the security model and parent instance trust assumptions, the Cedar policy schema, limitations, and required IAM permissions.
+--
+
+Reference material for understanding the Nitro Sandbox trust boundary, the Cedar policy schema, feature limitations, and the IAM permissions that specific features require.
+
+[.topiclist]
+[[Topic List]]
+
+include::sandboxing-security-model.adoc[leveloffset=+1]
+
+include::sandboxing-cedar-schema.adoc[leveloffset=+1]
+
+include::sandboxing-limitations.adoc[leveloffset=+1]
+
+include::sandboxing-iam.adoc[leveloffset=+1]

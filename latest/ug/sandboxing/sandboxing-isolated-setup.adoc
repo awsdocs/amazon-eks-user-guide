@@ -1,0 +1,120 @@
+include::../attributes.txt[]
+
+[.topic]
+[#sandboxing-isolated-setup]
+= Run a pod in isolated mode
+:info_titleabbrev: Isolated pod setup
+
+[abstract]
+--
+Set up an isolated pod on an Amazon EKS cluster by setting the isolated-sandbox runtime class in your pod spec.
+--
+
+Isolated mode protects the node and other pods from a compromised container. The parent instance is trusted.
+
+[#sandboxing-isolated-prerequisites]
+== Prerequisites
+
+* An Amazon EKS cluster running in EKS Auto Mode. Isolated and confidential pods are available on EKS Auto Mode clusters without additional configuration.
+* For self-managed or managed node groups outside of Auto Mode, build a compatible AMI using the Nitro Sandboxes binaries provided by {aws}. See the AMI build guide.
+
+[#sandboxing-isolated-run]
+== Run a pod in isolated mode
+
+Set `runtimeClassName: isolated-sandbox` in your pod spec:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app
+spec:
+  runtimeClassName: isolated-sandbox
+  containers:
+  - name: main
+    image: public.ecr.aws/amazonlinux/amazonlinux:2023
+    command: ["sleep", "3600"]
+    resources:
+      limits:
+        cpu: "1"
+        memory: 512Mi
+----
+
+Apply the manifest:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f manifest.yaml
+----
+
+Verify the pod is running:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pod my-app
+----
+
+The pod runs inside a Nitro Sandbox. From the workload's perspective, the environment looks like a normal Linux container. No changes to your application code are required.
+
+[#sandboxing-isolated-pod-start]
+== What happens when a pod starts
+
+. A dedicated Nitro Sandbox is created for the pod.
+. The container images are loaded into the sandbox.
+. The Cedar policy attached to the pod is evaluated (if present).
+. Containers start inside the sandbox.
+
+Each pod gets its own Nitro Sandbox. Multiple containers within the same pod share a single sandbox.
+
+[#sandboxing-isolated-controllers]
+== Run pods created by a workload controller
+
+Deployments, StatefulSets, DaemonSets, ReplicaSets, Jobs, and CronJobs create pods from a pod template. Put `runtimeClassName` and every `sandbox.amazonaws.com/` annotation in the pod template, not on the controller object itself:
+
+* `spec.template.spec.runtimeClassName`
+* `spec.template.metadata.annotations`
+
+[IMPORTANT]
+====
+An annotation on the controller's own metadata is accepted and then ignored. Kubernetes does not copy it into the pods, so policy, network, and throttle annotations placed there have no effect.
+====
+
+Example Deployment:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+      annotations:
+        sandbox.amazonaws.com/policy: "<base64 policy>"
+    spec:
+      runtimeClassName: isolated-sandbox
+      containers:
+      - name: main
+        image: public.ecr.aws/amazonlinux/amazonlinux:2023
+        command: ["sleep", "3600"]
+        resources:
+          limits:
+            cpu: "1"
+            memory: 512Mi
+----
+
+Verify that the created pods carry the runtime class:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get pods -l app=my-app \
+  -o custom-columns='NAME:.metadata.name,RUNTIME:.spec.runtimeClassName'
+----

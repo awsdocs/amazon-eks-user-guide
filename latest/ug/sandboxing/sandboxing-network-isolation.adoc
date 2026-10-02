@@ -1,0 +1,36 @@
+include::../attributes.txt[]
+
+[.topic]
+[#sandboxing-network-isolation]
+= Network isolation
+:info_titleabbrev: Network isolation
+
+[abstract]
+--
+Remove all network access from a Nitro Sandbox to run untrusted or generated code that must not communicate over the network.
+--
+
+Set `sandbox.amazonaws.com/network-isolated: "true"` on a pod to remove all network access from the Nitro Sandbox. The sandbox boots with no network interface, no DNS, no NTP, no IMDS, and no Pod Identity credentials. Isolation applies in both directions: the pod cannot reach the network, and no traffic from the network reaches the workload.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+metadata:
+  annotations:
+    sandbox.amazonaws.com/network-isolated: "true"
+spec:
+  runtimeClassName: isolated-sandbox
+----
+
+[#sandboxing-network-isolation-behavior]
+== Behavior with network isolation
+
+* There is no path from the pod network namespace into the Nitro Sandbox, so `kubectl port-forward` does not work.
+* Kubelet HTTP or TCP probes cannot succeed. Use exec probes instead.
+* Services that select the pod cannot reach the workload. Connections are refused rather than silently dropped, because the pod IP is still configured in the pod network namespace.
+* Logs, `exec`, `stdin`, and stats continue to work over the vsock channel.
+* Encrypted images are not available because they require Pod Identity credentials for {aws} KMS access.
+
+[NOTE]
+====
+The vsock device used for shim-to-agent communication is accessible to all processes inside the guest, including container workloads. A container process can call `bind()` on AF_VSOCK ports. The shim does not connect to guest-bound ports, but any process on the parent instance with access to the Firecracker vsock Unix domain socket can. This creates a potential data channel that bypasses the absence of a network device.
+====

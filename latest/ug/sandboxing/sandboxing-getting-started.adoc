@@ -1,0 +1,22 @@
+include::../attributes.txt[]
+
+[.topic]
+[#sandboxing-getting-started]
+= Get started with sandboxes
+:info_titleabbrev: Getting started
+
+[abstract]
+--
+Set up isolated and confidential pods and control the host resources each Nitro Sandbox can consume.
+--
+
+Get started by running your first isolated pod, then move to confidential pods when you need to protect workload data from the node. Use resource isolation to cap the host resources a single sandbox consumes.
+
+[.topiclist]
+[[Topic List]]
+
+include::sandboxing-isolated-setup.adoc[leveloffset=+1]
+
+include::sandboxing-confidential-setup.adoc[leveloffset=+1]
+
+include::sandboxing-resource-isolation.adoc[leveloffset=+1]

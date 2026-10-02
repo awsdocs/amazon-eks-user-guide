@@ -1,0 +1,150 @@
+include::../attributes.txt[]
+
+[.topic]
+[#sandboxing-cedar-schema]
+= Cedar policy schema reference
+:info_titleabbrev: Cedar policy schema
+
+[abstract]
+--
+Reference for the fixed Cedar schema that the Nitro Sandbox agent and eks-nitro-sandbox-genpolicy evaluate every gated operation against.
+--
+
+The agent inside a Nitro Sandbox evaluates every gated operation against a Cedar policy that targets a fixed schema. `eks-nitro-sandbox-genpolicy` and the agent both embed this schema. A policy that references an unknown entity, action, or context field is rejected at generation time and at agent load time.
+
+[#sandboxing-cedar-entities]
+== Entity types
+
+[%header,cols="1,3"]
+|===
+|Entity type |Description
+
+|`Workload::Sandbox`
+|The Nitro Sandbox running a pod. Every gated operation names the sandbox as its principal.
+
+|`Workload::Container`
+|A container inside a sandbox. Container entities carry the container name as their entity ID. Actions that target a single container name a container as their resource.
+
+|`Workload::EphemeralLayer`
+|An enumerated entity that names the overlay-encryption mode: `none` (unencrypted, isolated mode), `integrity-disk` (encrypted with tags on disk), or `integrity-memory` (encrypted with tags in guest memory, prevents rollback).
+|===
+
+[#sandboxing-cedar-actions]
+== Action categories
+
+[%header,cols="1,3"]
+|===
+|Category |Description
+
+|Admission
+|The `CreateContainer` action carries the full container OCI spec in its context. Confidential policies use this context to pin every admission-time field: image digest, args, environment variables, mounts, capabilities, security context, and other fields.
+
+|Runtime
+|Every other action gates a per-RPC operation for the lifetime of the sandbox. Examples include `Exec`, `ReadLogs`, `WriteFile`, `SetupSandbox`, and `PrepareImage`. Runtime action contexts are narrower than the admission context.
+|===
+
+[#sandboxing-cedar-listing]
+== Cedar schema listing
+
+`eks-nitro-sandbox-genpolicy` and the agent both embed the schema below. Both reject any policy that fails to validate against it.
+
+[source,none,subs="verbatim",role="nocopy"]
+----
+namespace Workload {
+    entity Sandbox;
+    entity Container in [Sandbox];
+    entity EphemeralLayer enum ["none", "integrity-disk", "integrity-memory"];
+}
+
+namespace Agent {
+    // Admission: full OCI spec for container creation
+    action CreateContainer appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Container],
+        context: {
+            image_ref: String,
+            working_dir: String,
+            run_as_user: Long,
+            run_as_group: Long,
+            additional_gids: Set<Long>,
+            read_only_rootfs: Bool,
+            capabilities_effective: Set<String>,
+            capabilities_bounding: Set<String>,
+            capabilities_ambient: Set<String>,
+            capabilities_inheritable: Set<String>,
+            capabilities_permitted: Set<String>,
+            mounts: Set<{ destination: String, source: String,
+                          mount_type: String, options: Set<String> }>,
+            env: Set<{ name: String, value: String }>,
+            env_names: Set<String>,
+            hostname: String,
+            no_new_privileges: Bool,
+            masked_paths: Set<String>,
+            readonly_paths: Set<String>,
+            sysctls: Set<{ name: String, value: String }>,
+            image_signers: Set<String>,
+        },
+    };
+
+    action ReadLogs appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Container], context: {} };
+    action WriteStdin appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Container], context: {} };
+    action ReadTerminationLog appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Container], context: {} };
+    action WriteFile appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox], context: { path: String } };
+    action Exec appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Container],
+        context: { command_hash: String, user_uid: Long,
+                   user_gid: Long, additional_gids: Set<Long> } };
+    action Stats appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Container], context: {} };
+    action RemoveContainer appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Container], context: {} };
+    action SetupSandbox appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: { sysctls: Set<{ name: String, value: String }>,
+                   fsgroup: Long, host_entries: Set<{ ip: String,
+                   hostnames: Set<String> }>, deny_all_egress: Bool,
+                   hostname: String, ephemeral_layer: Workload::EphemeralLayer,
+                   attested_clock: Bool, volume_paths: Set<String> } };
+    action WatchOomEvents appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox], context: {} };
+    action MountHostImage appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox], context: {} };
+    action DebugExec appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox], context: { command: String } };
+    action StreamAgentLogs appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox], context: {} };
+    action DeliverCredentials appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox], context: {} };
+    action DeliverNtp appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox], context: {} };
+    action StreamEfsCerts appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox], context: {} };
+    action SetupVolume appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: { mount_path: String, read_only: Bool, kind: String,
+                   device_path: String, fs_type: String,
+                   file_system_id: String, access_point_id: String,
+                   iam: Bool } };
+    action PrepareImage appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: { image_ref: String, image_signers: Set<String> } };
+    action InitGuestMetadata appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: { listen_address: String } };
+    action UpdateGuestMetadata appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: { listen_address: String } };
+    action GetSandboxMetrics appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox], context: {} };
+    action GetBootTimings appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox], context: {} };
+    action CreateTask appliesTo { principal: [Workload::Sandbox],
+        resource: [Workload::Container],
+        context: { binary_logger_path: String,
+                   binary_logger_args: Set<String> } };
+}
+----

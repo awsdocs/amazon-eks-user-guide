@@ -1,0 +1,66 @@
+include::../attributes.txt[]
+
+[.topic]
+[#sandboxing-limitations]
+= Limitations
+:info_titleabbrev: Limitations
+
+[abstract]
+--
+Review the Kubernetes features that behave differently when a pod runs inside a Nitro Sandbox, and the recommended workarounds.
+--
+
+Running a pod inside a Nitro Sandbox changes the behavior of some Kubernetes features compared to running directly on the node's shared kernel. Pods that do not use the affected features are unaffected.
+
+[%header,cols="2,3,3"]
+|===
+|Limitation |Description |Workaround
+
+|User namespaces (`hostUsers: false`)
+|Not supported on `isolated-sandbox` nodes. kubelet does not start these pods because the `isolated-sandbox` runtime does not advertise user namespace support.
+|Remove `hostUsers: false` from the pod spec. The Nitro Sandbox already provides a hardware-level boundary that makes user namespaces less necessary.
+
+|Host network (`hostNetwork: true`)
+|Pods that set `hostNetwork: true` fail to start. The Nitro Sandbox has its own isolated network stack and cannot share the parent instance's network namespace.
+|Remove `hostNetwork: true` from the pod spec.
+
+|Host PID and IPC (`hostPID: true`, `hostIPC: true`)
+|These settings start but scope to the sandbox's namespaces rather than the parent instance's. A container with `hostPID: true` sees only processes inside its own sandbox.
+|Design workloads that do not require observing processes on the parent instance.
+
+|Shared EBS volumes
+|A single EBS volume cannot be shared by more than one pod. Each pod runs in its own Nitro Sandbox and a block device can only be attached to one sandbox at a time.
+|Use `ReadWriteOncePod` access mode. Use Amazon EFS for shared storage across pods.
+
+|EBS volume expansion while running
+|Increasing storage on a PVC while a pod is running is not supported. The pod continues to see the original capacity.
+|Scale the workload down, expand the volume, and scale back up.
+
+|In-place resource resize
+|In-place CPU and memory resize (Kubernetes 1.27+) is not supported. The Nitro Sandbox's CPU and memory are allocated at boot and cannot be changed.
+|Delete and recreate the pod with new resource requests.
+
+|IMDS paths
+|Only `placement/region`, `placement/availability-zone`, `placement/availability-zone-id`, `services/domain`, and `services/partition` are available. All other IMDS paths return 404.
+|Use EKS Pod Identity for {aws} credentials. IAM credentials are not available through IMDS.
+
+|Per-pod outbound connection limit
+|Default: 4096 simultaneous outbound connections per IP family. Adjust with the `sandbox.amazonaws.com/conntrack-limit` annotation (range: 64–65536).
+|Adjust the annotation or add connection pooling, lower idle timeouts, or shard the workload.
+
+|Per-pod DNS query rate limit
+|Default: 100 queries per second. Maximum: 512. Set to `"disabled"` for no limit. `"0"` fails the pod.
+|Adjust `sandbox.amazonaws.com/dns-packets-per-second` or add a DNS cache sidecar.
+
+|Partially encrypted images
+|Images that mix encrypted and plaintext layers are not supported. The image pull fails.
+|Re-encrypt the image ensuring all layers are encrypted.
+
+|Pod density
+|Up to 5 times the instance vCPU count in total vCPU allocation across all sandboxes on a node. On a 4-vCPU instance: 20 sandboxes x 1 vCPU, 10 sandboxes x 2 vCPUs, or 5 sandboxes x 4 vCPUs (or a mix).
+|Right-size vCPU and memory requests. Memory limits are typically the binding constraint before vCPU oversubscription.
+
+|EFS cross-account mounts that use CSI volumeAttributes
+|Cross-account EFS mounts that rely on the EFS CSI driver resolving mount target IPs in the remote account by using `volumeAttributes` do not work. The Nitro Sandbox does not read `volumeAttributes` from the driver.
+|Use efs-utils DNS mode (`crossaccount: "true"`) with a standard cross-account Route 53 private hosted zone.
+|===

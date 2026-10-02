@@ -1,0 +1,79 @@
+include::../attributes.txt[]
+
+[.topic]
+[#sandboxing-iam]
+= IAM permissions for Nitro Sandboxes
+:info_titleabbrev: IAM permissions
+
+[abstract]
+--
+Reference for the IAM permissions required by specific Nitro Sandboxes features: encrypted images, image signature verification, and KMS attestation conditions.
+--
+
+The following IAM permissions are required for specific Nitro Sandboxes features.
+
+[#sandboxing-iam-encrypted-images]
+== Encrypted container images
+
+The pod's IAM role (through EKS Pod Identity or IRSA) must have `kms:Decrypt` permission on the KMS key used to encrypt the image layers:
+
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "kms:Decrypt",
+      "Resource": "{arn-aws}kms:region-code:111122223333:key/mrk-example"
+    }
+  ]
+}
+----
+
+[#sandboxing-iam-signature]
+== Image signature verification
+
+For image signature verification, the pod's IAM role must have the following {aws} Signer permissions:
+
+[%header,cols="2,3"]
+|===
+|Action |Purpose
+
+|`signer:GetRevocationStatus`
+|Check whether an individual signing job or certificate has been revoked.
+
+|`signer:GetSigningProfile`
+|Check whether the signing profile has been revoked with `RevokeSigningProfile`. Signatures produced by a revoked profile are rejected. Canceled profiles are treated as trusted because `CancelSigningProfile` is administrative retirement, not trust withdrawal.
+|===
+
+[NOTE]
+====
+Both actions are required. If either call fails, or returns a permission error, signature verification fails closed and the agent denies container creation. Signature verification also requires network access from the Nitro Sandbox to the {aws} Signer endpoint. Pods with `sandbox.amazonaws.com/network-isolated` set to `"true"` cannot use image signature verification.
+====
+
+[#sandboxing-iam-kms-attestation]
+== KMS attestation conditions
+
+To release KMS-protected secrets only to attested sandboxes, add `kms:RecipientAttestation:PCR<PCR_ID>` conditions to your KMS key policy. For example, to require PCR17 (the Cedar policy hash) to match a specific value:
+
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "Effect": "Allow",
+  "Principal": {
+    "AWS": "{arn-aws}iam::111122223333:role/my-workload-role"
+  },
+  "Action": "kms:Decrypt",
+  "Resource": "*",
+  "Condition": {
+    "StringEqualsIgnoreCase": {
+      "kms:RecipientAttestation:PCR17": "<PCR17-value-from-genpolicy>"
+    }
+  }
+}
+----
+
+The `eks-nitro-sandbox-genpolicy` command prints the predicted PCR17 value when it generates a policy. Use this value to configure your KMS key policy before deploying, without needing a running sandbox.
+
+For more information, see the {aws} KMS documentation on recipient attestation conditions and the Nitro Sandbox security model in <<sandboxing-security-model>>.

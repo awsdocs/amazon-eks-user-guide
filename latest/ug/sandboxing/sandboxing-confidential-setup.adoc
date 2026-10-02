@@ -1,0 +1,212 @@
+include::../attributes.txt[]
+
+[.topic]
+[#sandboxing-confidential-setup]
+= Run a pod in confidential mode
+:info_titleabbrev: Confidential pod setup
+
+[abstract]
+--
+Generate a Cedar policy, attach it to your pod, and deploy a confidential pod that protects workload data from the node operator or a compromised parent instance.
+--
+
+Confidential mode requires a Cedar policy. The policy pins every container admission field and controls which operations the parent instance can perform. Isolated mode does not require a Cedar policy — without one, the sandbox applies a permissive built-in default that allows all containers and operations.
+
+[#sandboxing-confidential-generate]
+== Step 1: Generate a Cedar policy
+
+Use `eks-nitro-sandbox-genpolicy` to generate a policy from your Kubernetes manifest:
+
+[source,bash,subs="verbatim,attributes"]
+----
+eks-nitro-sandbox-genpolicy --profile confidential manifest.yaml
+----
+
+The command prints a base64-encoded policy to stdout and prints the predicted PCR17 value. Use the PCR17 value to configure KMS attestation conditions before deploying, without needing a running sandbox.
+
+[#sandboxing-confidential-attach]
+== Step 2: Attach the policy to your pod
+
+Attach the output as the `sandbox.amazonaws.com/policy` annotation:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app
+  annotations:
+    sandbox.amazonaws.com/policy: "<base64 policy>"
+spec:
+  runtimeClassName: confidential-sandbox
+  containers:
+  - name: main
+    image: public.ecr.aws/amazonlinux/amazonlinux:2023
+    command: ["sleep", "3600"]
+    resources:
+      limits:
+        cpu: "1"
+        memory: 512Mi
+----
+
+[#sandboxing-confidential-deploy]
+== Step 3: Deploy
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl apply -f manifest.yaml
+----
+
+[#sandboxing-cedar-profiles]
+== Cedar policy profiles
+
+A profile controls what the generated policy permits and denies. The following built-in profiles are available:
+
+[%header,cols="2,2,2"]
+|===
+|Aspect |isolated |confidential
+
+|Trust boundary
+|Host (parent instance trusted)
+|Guest (parent instance untrusted)
+
+|Container admission pinning
+|No
+|Yes — image digests, args, env vars, mounts, capabilities, security settings
+
+|Exec
+|Allowed
+|Denied
+
+|Logs
+|Allowed
+|Allowed
+
+|Stdin
+|Allowed
+|Denied
+
+|IMDS
+|Allowed
+|Allowed
+
+|Pod Identity
+|Allowed
+|Allowed
+
+|Overlay encryption
+|No
+|Yes
+|===
+
+[#sandboxing-customize-policy]
+== Customizing the generated policy
+
+CLI flags override profile defaults:
+
+[%header,cols="2,3"]
+|===
+|Flag |Effect
+
+|`--deny-exec`
+|Deny all exec commands
+
+|`--allow-exec-all-for-container <name>`
+|Allow exec for a specific container (use with `--deny-exec`)
+
+|`--allow-exec-command-for-container <name>=<cmd>`
+|Allow only specific exec commands for a container
+
+|`--deny-logs`
+|Deny all log reads
+
+|`--allow-logs-container <name>`
+|Allow logs for a specific container (use with `--deny-logs`)
+
+|`--with-sa-token`
+|Force inclusion of the Kubernetes service account token
+
+|`--with-pod-identity`
+|Include Pod Identity volumes injected by the EKS webhook
+
+|`--with-irsa`
+|Include the IRSA web identity token volume (required in both modes)
+
+|`--allow-additional-env`
+|Tolerate extra environment variables injected by kubelet at runtime
+
+|`--require-any-signer <ARN>`
+|Require at least one signing profile ARN (OR logic)
+
+|`--require-all-signers <ARN>`
+|Require all signing profile ARNs (AND logic, may be repeated)
+|===
+
+[#sandboxing-hardening-hints]
+== Hardening hints
+
+`eks-nitro-sandbox-genpolicy` writes HARDEN comments into the generated policy where a pod spec change would enable tighter pinning:
+
+[%header,cols="2,3"]
+|===
+|Pod spec change |What the policy can then pin
+
+|`securityContext.readOnlyRootFilesystem: true`
+|A read-only root filesystem
+
+|`securityContext.allowPrivilegeEscalation: false`
+|`no_new_privileges` in the OCI spec
+
+|`securityContext.runAsNonRoot: true`
+|A non-root user
+
+|`securityContext.capabilities.drop: ["ALL"]`
+|An empty capability set
+
+|`securityContext.supplementalGroupsPolicy: Strict`
+|An exact supplementary group set
+
+|`hostPID: false`, `hostIPC: false`
+|PID and IPC namespace isolation
+|===
+
+[#sandboxing-custom-profiles]
+== Custom profiles
+
+For use cases that don't fit a built-in profile, create a custom profile YAML file:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+# my-profile.yaml
+admission:
+  pin_image: true
+  pin_capabilities: true
+  pin_security: true
+runtime:
+  exec: allow
+  logs: allow
+  stdin: deny
+  imds: allow
+  deliver_pod_identity_credentials: allow
+----
+
+Pass the file path to `--profile`:
+
+[source,bash,subs="verbatim,attributes"]
+----
+eks-nitro-sandbox-genpolicy --profile ./my-profile.yaml manifest.yaml
+----
+
+Omitted fields use defaults: admission fields default to `false`, runtime actions default to `allow`.
+
+[#sandboxing-kms-attestation]
+== Configure KMS key policies for attestation
+
+In confidential mode, configure {aws} KMS key policies with `kms:RecipientAttestation:PCR<PCR_ID>` conditions to gate decryption on specific PCR values. PCR0 measures the system image; PCR17 measures the Cedar policy hash. A modified policy produces a different PCR17 value, so KMS refuses to release keys gated on the original value.
+
+[IMPORTANT]
+====
+Without `kms:RecipientAttestation:PCR<PCR_ID>` conditions on your KMS key policies, the attestation measurement is recorded but never verified.
+
+Confidential mode provides process isolation from the parent instance, but does not protect secrets unless those secrets are released only after attestation verification by KMS or an equivalent external service.
+====
