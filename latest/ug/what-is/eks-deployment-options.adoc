@@ -54,6 +54,13 @@ a|* Amazon EKS Managed Node Groups (Local Zones only)
 
 |===
 
+[#deployment-pod-isolation]
+=== Hardware-enforced pod isolation with Amazon EKS
+
+When you run Amazon EKS in the cloud, you can run selected pods inside hardware-isolated virtual machines with Nitro Sandboxes. Nitro Sandboxes works on top of either EKS Auto Mode or self-managed compute. EKS Auto Mode includes Nitro Sandbox support with no additional configuration. For managed node groups or self-managed nodes, you build a compatible AMI.
+
+Nitro Sandboxes is available in {aws} Regions. It is not available in the {aws} GovCloud (US) Regions or the {aws} China Regions. For more information, see <<sandboxing>>.
+
 [#dc-or-edge-deployment-options]
 == Amazon EKS in your data center or edge environments
 

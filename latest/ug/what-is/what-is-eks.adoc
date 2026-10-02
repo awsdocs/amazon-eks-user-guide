@@ -84,6 +84,9 @@ The shared responsibility model is employed as it relates to <<security,Security
 For more information, see <<security-best-practices,Security best practices>>, <<infrastructure-security,Infrastructure security>>,
 and <<security-k8s,Kubernetes security>>.
 
+*Hardware-enforced pod isolation*::
+With Nitro Sandboxes, you can run isolated and confidential pods. Each pod runs inside its own hardware-isolated virtual machine on the {aws} Nitro System, instead of sharing the node's Linux kernel. This provides a hardware trust boundary around each pod for multi-tenant isolation, untrusted code execution, and regulated workloads. For more information, see <<sandboxing>>.
+
 *Monitoring tools*::
 Use the <<observability-dashboard,observability dashboard>> to monitor Amazon EKS clusters.
 Monitoring tools include <<prometheus,Prometheus>>, <<cloudwatch,CloudWatch>>, <<logging-using-cloudtrail,CloudTrail>>,
