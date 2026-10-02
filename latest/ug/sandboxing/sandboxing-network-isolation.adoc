@@ -30,8 +30,8 @@ spec:
 * Logs, `exec`, `stdin`, and stats continue to work over the vsock channel.
 * Encrypted images are not available because they require Pod Identity credentials for {aws} KMS access.
 
-.vsock channel is accessible inside the guest
 [NOTE]
+.vsock channel is accessible inside the guest
 ====
 The vsock device used for shim-to-agent communication is accessible to all processes inside the guest, including container workloads. A container process can call `bind()` on AF_VSOCK ports. The shim does not connect to guest-bound ports, but any process on the parent instance with access to the Firecracker vsock Unix domain socket can. This creates a potential data channel that bypasses the absence of a network device.
 ====

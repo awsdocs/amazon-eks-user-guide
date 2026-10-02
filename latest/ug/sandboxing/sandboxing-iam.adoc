@@ -47,8 +47,8 @@ For image signature verification, the pod's IAM role must have the following {aw
 |Check whether the signing profile has been revoked with `RevokeSigningProfile`. Signatures produced by a revoked profile are rejected. Canceled profiles are treated as trusted because `CancelSigningProfile` is administrative retirement, not trust withdrawal.
 |===
 
-.Both Signer actions are required
 [NOTE]
+.Both Signer actions are required
 ====
 Both actions are required. If either call fails, or returns a permission error, signature verification fails closed and the agent denies container creation. Signature verification also requires network access from the Nitro Sandbox to the {aws} Signer endpoint. Pods with `sandbox.amazonaws.com/network-isolated` set to `"true"` cannot use image signature verification.
 ====

@@ -37,8 +37,8 @@ EBS volumes are attached to the Nitro Sandbox as raw block devices. Both volume 
 
 Use `accessModes: [ReadWriteOncePod]` for EBS volumes with Nitro Sandboxes. A single EBS volume cannot be shared between multiple pods: each pod runs in its own Nitro Sandbox and a block device can only be attached to one sandbox at a time.
 
-.EBS volume expansion not supported
 [NOTE]
+.EBS volume expansion not supported
 ====
 Expanding an EBS volume while a pod is running is not supported. Scale the workload down, expand the volume, and scale the workload back up so the Nitro Sandbox attaches the volume at its new size.
 ====
@@ -55,8 +55,8 @@ IAM requirements depend on the mount type:
 * EFS access-point mounts without the `iam` mount option: No IAM credentials required. The guest authenticates to EFS using the filesystem ID and access point ID in its client certificate.
 * EFS mounts with the `iam` mount option: The runtime authenticates with a SigV4 signature using {aws} credentials resolved from the EFS CSI Node DaemonSet's service account through EKS Pod Identity.
 
-.EFS not available with network isolation
 [NOTE]
+.EFS not available with network isolation
 ====
 EFS volumes are not available when `sandbox.amazonaws.com/network-isolated` is set to `"true"` because the Nitro Sandbox has no network access.
 ====
@@ -66,8 +66,8 @@ EFS volumes are not available when `sandbox.amazonaws.com/network-isolated` is s
 
 CSI drivers that populate a host tmpfs (rather than attaching a block device) work with Nitro Sandboxes. The contents are delivered into the sandbox and refreshed automatically when the driver rotates them on the host. The Secrets Store CSI Driver is one example.
 
-.Tmpfs volumes visible to the parent instance
 [NOTE]
+.Tmpfs volumes visible to the parent instance
 ====
 Tmpfs-backed CSI volumes are visible to the parent instance. The CSI driver fetches the content on the host and the runtime mirrors it into the sandbox. If your threat model requires that secrets remain inaccessible to the parent instance, store them encrypted in {aws} Secrets Manager and decrypt inside your application using a KMS key gated by `kms:RecipientAttestation:PCR<PCR_ID>` conditions.
 ====

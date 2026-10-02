@@ -53,8 +53,8 @@ Verification establishes two things: that the files were published by {aws} (aut
 . Verify the signature over `SHA256SUM` with the public key.
 . Check the archive, and then each extracted binary, against the signed manifest.
 
-.Check the key fingerprint
 [IMPORTANT]
+.Check the key fingerprint
 ====
 The key fingerprint check is the step the whole chain depends on. If the fingerprint does not match the value published in this guide, stop and do not use the download.
 ====

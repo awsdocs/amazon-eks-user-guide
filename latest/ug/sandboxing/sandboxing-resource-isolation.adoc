@@ -87,8 +87,8 @@ metadata:
     sandbox.amazonaws.com/egress-packets-per-second: "15000"
 ----
 
-.Annotations are read once
 [NOTE]
+.Annotations are read once
 ====
 Annotations are read once when the pod is created. Changing an annotation on a running pod has no effect. Delete and recreate the pod for the new value to take effect.
 ====

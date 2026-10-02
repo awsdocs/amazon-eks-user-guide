@@ -84,8 +84,8 @@ Or open an interactive shell:
 sudo containerd-shim-nitro-sandbox-v2 debug <sandbox-id>
 ----
 
-.Root privileges required
 [NOTE]
+.Root privileges required
 ====
 Both `list` and `debug` require root because they access the containerd socket and the Firecracker vsock path under `/var/lib/nitro-sandbox/`.
 ====

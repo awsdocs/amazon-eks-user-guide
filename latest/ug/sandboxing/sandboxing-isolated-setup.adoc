@@ -75,8 +75,8 @@ Deployments, StatefulSets, DaemonSets, ReplicaSets, Jobs, and CronJobs create po
 * `spec.template.spec.runtimeClassName`
 * `spec.template.metadata.annotations`
 
-.Set annotations on the pod template
 [IMPORTANT]
+.Set annotations on the pod template
 ====
 An annotation on the controller's own metadata is accepted and then ignored. Kubernetes does not copy it into the pods, so policy, network, and throttle annotations placed there have no effect.
 ====

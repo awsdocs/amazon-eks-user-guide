@@ -206,8 +206,8 @@ Omitted fields use defaults: admission fields default to `false`, runtime action
 
 In confidential mode, configure {aws} KMS key policies with `kms:RecipientAttestation:PCR<PCR_ID>` conditions to gate decryption on specific PCR values. PCR0 measures the system image; PCR17 measures the Cedar policy hash. A modified policy produces a different PCR17 value, so KMS refuses to release keys gated on the original value.
 
-.Verify attestation before releasing secrets
 [IMPORTANT]
+.Verify attestation before releasing secrets
 ====
 Without `kms:RecipientAttestation:PCR<PCR_ID>` conditions on your KMS key policies, the attestation measurement is recorded but never verified.
 
