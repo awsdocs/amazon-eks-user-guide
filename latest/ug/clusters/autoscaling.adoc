@@ -38,3 +38,13 @@ Karpenter is open-source software which {aws} customers are responsible for inst
 
 *Cluster Autoscaler*::
 The Kubernetes Cluster Autoscaler automatically adjusts the number of nodes in your cluster when pods fail or are rescheduled onto other nodes. The Cluster Autoscaler uses Auto Scaling groups. For more information, see https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler on {aws}].
+
+== Autoscaling with Nitro Sandboxes
+
+When you run isolated or confidential pods with Nitro Sandboxes, provisioning works with both EKS Auto Mode and Karpenter. A pod requests Nitro Sandbox slots (the `eks.amazonaws.com/nitro-sandbox` resource), and the autoscaler provisions a Nitro Enclaves-enabled node of a supported instance type. Keep the following in mind when you size and scale sandbox capacity:
+
+* *Sandbox density.* Each node provides a limited number of Nitro Sandbox slots. The slot count is the lesser of the node's maximum pods and five slots per vCPU.
+* *Memory overhead.* The Nitro Sandbox daemon reserves about 20 percent of the node's memory, so allocatable memory on a sandbox node is lower than on a standard node of the same instance type.
+* *Instance types.* The autoscaler selects from instance types that support Nitro Enclaves.
+
+For more information, see <<sandboxing>>.

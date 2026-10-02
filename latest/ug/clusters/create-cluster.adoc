@@ -29,6 +29,12 @@ This topic provides an overview of the available options and describes what to c
 * Version `2.12.3` or later or version `1.27.160` or later of the {aws} Command Line Interface ({aws} CLI) installed and configured on your device or {aws} CloudShell. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`. Package managers such as `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the {aws} CLI. To install the latest version, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"] and link:cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config[Quick configuration with aws configure,type="documentation"] in the _{aws} Command Line Interface User Guide_. The {aws} CLI version that is installed in {aws} CloudShell might also be several versions behind the latest version. To update it, see link:cloudshell/latest/userguide/vm-specs.html#install-cli-software[Installing {aws} CLI to your home directory,type="documentation"] in the _{aws} CloudShell User Guide_.
 * An link:IAM/latest/UserGuide/id_roles.html#iam-term-principal[IAM principal,type="documentation"] with permissions to `create` and `describe` an Amazon EKS cluster. For more information, see <<policy-create-local-cluster>> and <<policy-example2>>.
 
+[NOTE]
+.Requirements for Nitro Sandboxes
+====
+To run isolated and confidential pods with Nitro Sandboxes on the cluster, use Kubernetes version 1.36 or later, and plan to run them on instance types that support Nitro Enclaves. For more information, see <<sandboxing>>.
+====
+
 == Step 1: Create cluster IAM role
 
 . If you already have a cluster IAM role, or you're going to create your cluster with `eksctl`, then you can skip this step. By default, `eksctl` creates a role for you.

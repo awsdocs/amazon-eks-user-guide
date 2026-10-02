@@ -24,6 +24,12 @@ Extended support is enabled by default. To disable, see link:eks/latest/userguid
 
 We recommend that you create your cluster with the latest available Kubernetes version supported by Amazon EKS. If your application requires a specific version of Kubernetes, you can select older versions. You can create new Amazon EKS clusters on any version offered in standard or extended support.
 
+[NOTE]
+.Nitro Sandboxes version support
+====
+Nitro Sandboxes requires Kubernetes version 1.36 or later. It is supported on the two latest versions. For more information, see <<sandboxing>>.
+====
+
 
 
 video::_dJdAZ_J_jw[youtube,align = center,height = 405,fileref = https://www.youtube.com/embed/_dJdAZ_J_jw,width = 720]
