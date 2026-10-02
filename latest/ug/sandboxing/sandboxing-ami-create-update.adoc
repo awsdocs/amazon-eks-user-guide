@@ -27,6 +27,9 @@ Before you start, confirm you have an EKS cluster, a build instance with Nitro E
 
 The build follows the same four steps on each supported operating system. OS-specific differences are called out in the build guide included with the bundle.
 
+Download the bundle from the Amazon S3 bucket where {aws} hosts the Nitro Sandbox binaries: *[PLACEHOLDER: Nitro Sandbox bundle S3 link]*.
+// TODO: Replace the placeholder above with the final link to the S3 bucket that hosts the AMI-building binaries before publishing.
+
 [%header,cols="1,2,3"]
 |===
 |Step |Command |What it does
