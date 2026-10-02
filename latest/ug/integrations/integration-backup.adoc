@@ -19,6 +19,11 @@ To get started via the EKS console, {aws} Backup console, or CLI, ensure that yo
     * link:aws-backup/latest/devguide/security-iam-awsmanpol.html#AWSBackupServiceRolePolicyForS3Backup[AWSBackupServiceRolePolicyForS3Backup,type="documentation"]
     * Prerequisites for link:aws-backup/latest/devguide/s3-backups.html#s3-backup-prerequisites[S3 Backups,type="documentation"]
 
+[NOTE]
+====
+If role manager is enabled in your account, Amazon EKS attaches the role for you, and the role selections described here (for example *IAM role*) and the *Create recommended role* buttons are replaced by a *Customize* option. To use a different role, choose *Customize*. For more information, see link:IAM/latest/UserGuide/id_roles_create.html[IAM role creation,type="documentation"] in the _IAM User Guide_.
+====
+
 Ensure your EKS Clusters have the following settings: 
 
     * EKS Cluster link:eks/latest/userguide/setting-up-access-entries.html[authorization mode,type="documentation"] set to API or API_AND_CONFIG_MAP for {aws} Backup to create link:eks/latest/userguide/access-entries.html[Access Entries,type="documentation"] to access the EKS cluster. 
