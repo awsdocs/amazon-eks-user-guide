@@ -12,6 +12,8 @@ Download the signed Nitro Sandbox runtime binaries and verify that what you down
 
 If you build your own node images instead of using the AMIs that {aws} manages, you install the Nitro Sandbox runtime binaries yourself. {aws} publishes them as a signed release for each supported architecture (`x86_64` and `aarch64`). You do not need an {aws} account to download or verify a release.
 
+This topic covers the runtime binaries release. The host-kernel patch series that you also need to build an AMI ships separately with the build materials. For the full build procedure, see <<sandboxing-ami-create-update>>.
+
 [#sandboxing-release-contents]
 == What a release contains
 

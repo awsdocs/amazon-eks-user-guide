@@ -51,7 +51,7 @@ An unrecognized value is logged and replaced with the built-in default. The one 
 
 |`sandbox.amazonaws.com/overlay-disk-bandwidth`
 |`400M`
-|Overlay (ephemeral scratch) disk throughput in bits per second (equivalent to 50 MiB/s).
+|Overlay (ephemeral scratch) disk throughput in bits per second (equivalent to 50 MB/s).
 
 |`sandbox.amazonaws.com/overlay-disk-iops`
 |`1500`
@@ -67,7 +67,7 @@ An unrecognized value is logged and replaced with the built-in default. The one 
 
 |`sandbox.amazonaws.com/log-bandwidth`
 |`2M`
-|Container log streaming throughput in bits per second (2 Mbit/s, equivalent to 256 KiB/s).
+|Container log streaming throughput in bits per second (2 Mbit/s, equivalent to 250 KB/s).
 |===
 
 [#sandboxing-raise-bandwidth]

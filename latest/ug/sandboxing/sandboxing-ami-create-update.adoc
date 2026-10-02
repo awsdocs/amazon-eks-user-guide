@@ -15,7 +15,7 @@ EKS Auto Mode includes Nitro Sandbox support with no additional configuration. I
 * *Use a supported AMI.* Nitro Sandbox supports Amazon Linux.
 * *Build your own AMI* from the Nitro Sandbox binaries that {aws} publishes as a signed release.
 
-The release delivers the runtime binaries and a host-kernel patch series that you use to build the AMI. Each sandbox node runs two kernels: a *host kernel* that you build from the patch series, and a pre-compiled *guest kernel* that boots inside every sandbox pod's microVM. You never build or modify the guest kernel. For how to download and verify the binaries, see <<sandboxing-download-binaries>>.
+The release delivers the runtime binaries and a host-kernel patch series that you use to build the AMI. Each sandbox node runs two kernels: a *host kernel* that you build from the patch series, and a pre-compiled *guest kernel* that boots inside every sandbox pod's microVM. You never build or modify the guest kernel. For how to download and verify the runtime binaries, see <<sandboxing-download-binaries>>.
 
 [NOTE]
 ====
@@ -33,7 +33,7 @@ The build follows the same four steps on each supported operating system. OS-spe
 
 |1
 |`scripts/verify-archives.sh`
-|Unpack both release archives and validate every shipped checksum.
+|Unpack the runtime binaries archive and the host-kernel patch series archive, and validate every shipped checksum.
 
 |2
 |`scripts/build-kernel-<os>.sh <patch-dir>`

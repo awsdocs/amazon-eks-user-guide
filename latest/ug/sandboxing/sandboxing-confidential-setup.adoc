@@ -27,7 +27,7 @@ The command prints a base64-encoded policy to stdout and prints the predicted PC
 [#sandboxing-confidential-attach]
 == Step 2: Attach the policy to your pod
 
-Attach the output as the `sandbox.amazonaws.com/policy` annotation:
+Add the generated policy to `manifest.yaml` as the `sandbox.amazonaws.com/policy` annotation. Replace `<base64 policy>` with the base64-encoded policy from Step 1. The following example shows the annotation on a pod that uses the `confidential-sandbox` runtime class:
 
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -51,6 +51,8 @@ spec:
 
 [#sandboxing-confidential-deploy]
 == Step 3: Deploy
+
+Apply the manifest that now carries the policy annotation:
 
 [source,bash,subs="verbatim,attributes"]
 ----
