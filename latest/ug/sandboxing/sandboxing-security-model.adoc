@@ -19,6 +19,7 @@ Isolated and confidential pods treat the Nitro Sandbox as the security boundary.
 
 The pod spec and the Cedar policy generated from it are trusted inputs. This includes the container image references, command and args, environment variables, volumes and mounts, `securityContext`, and resource requests and limits.
 
+.Restrict pod spec authorship
 [IMPORTANT]
 ====
 Restrict who can create or modify pods that use the `isolated-sandbox` runtime class with Kubernetes RBAC and admission control. An actor who can author a pod spec chooses the image, the mounts, and (in isolated mode) the container admission fields. Treat pod spec submission as a privileged operation.
@@ -35,6 +36,7 @@ Confidential mode protects the workload's data from the parent instance. It does
 * Sending secrets to an attacker-controlled endpoint over the network. TLS hides the traffic from the parent instance, but the destination receives the plaintext.
 * Loading and executing untrusted code at runtime (for example, `curl | sh`, a plugin downloaded on start, or a user-supplied script) that then exfiltrates data.
 
+.Audit responsibility
 [IMPORTANT]
 ====
 When you use confidential mode to protect sensitive data, you are responsible for auditing the container images, application code, and any runtime-loaded extensions that will handle that data.
@@ -47,6 +49,7 @@ The Cedar policy is authored by the cluster operator and delivered to the sandbo
 
 When you configure a KMS key policy with `kms:RecipientAttestation:PCR<PCR_ID>` conditions on PCR values, KMS validates the attestation document attached to each Decrypt request and releases the data key only if the measurements match. A modified policy produces a different PCR17 value, so KMS refuses to decrypt.
 
+.Configure attestation conditions
 [IMPORTANT]
 ====
 Always configure `kms:RecipientAttestation:PCR<PCR_ID>` conditions on any KMS key that protects confidential workload data. This is the mechanism that enforces the integrity of the Cedar policy and system image against modification. Attestation without a verifier is a measurement without enforcement.

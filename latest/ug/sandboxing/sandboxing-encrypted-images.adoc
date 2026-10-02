@@ -12,6 +12,7 @@ Encrypt container image layers following the OCI image encryption specification 
 
 Container image layers are visible to the parent instance unless encrypted. Encrypted images follow the OCI image encryption specification. Only layers are encrypted. The manifest and image config remain in plaintext so that registries and container runtimes can inspect them. When a pod uses an encrypted image, the parent instance transfers the encrypted layer blobs into the Nitro Sandbox. The sandbox unwraps the symmetric key by using {aws} KMS and decrypts each layer before unpacking it.
 
+.Encrypt every layer
 [IMPORTANT]
 ====
 Every layer of the image must be encrypted. Isolated and confidential pods do not support an image that mixes encrypted and plaintext layers. The image pull fails with an error naming the unencrypted layers, and `eks-nitro-sandbox-genpolicy` fails to generate a policy for such an image. Encrypt the whole image as described in this section.
@@ -54,6 +55,7 @@ OCICRYPT_KEYPROVIDER_CONFIG=/etc/ocicrypt.json \
     docker://registry.example.com/myimage:encrypted
 ----
 
+.Use a full KMS key ARN
 [IMPORTANT]
 ====
 `--encryption-key provider:awskms:...` must be given a full KMS key ARN (`{arn-aws}kms:<region>:<account>:key/<id>`). Bare key IDs and aliases are rejected because the recorded ARN must unambiguously identify the key. `nitro-sandbox-keyprovider` uses the region from the ARN for the KMS Encrypt call and writes the full ARN into the encrypted image so the guest can pick the correct regional endpoint.
@@ -74,7 +76,8 @@ eks-nitro-sandbox-genpolicy manifest.yaml
 [#sandboxing-encrypted-uid-gid]
 == uid/gid resolution limitation
 
-[WARNING]
+.USER directive must resolve to a numeric uid/gid
+[IMPORTANT]
 ====
 Using a non-numeric USER directive (for example, `USER appuser`) in an encrypted image causes policy generation to fail unless the pod spec sets `securityContext.runAsUser` and `runAsGroup`.
 ====

@@ -15,10 +15,10 @@ Throttle annotations cap the host resources a single sandbox can consume. When a
 [#sandboxing-throttle-format]
 == Value format
 
-All throttle annotation values are decimal integers with an optional suffix, wrapped in a YAML string (annotations are always strings in Kubernetes). Bandwidth values are in bits per second.
+All throttle annotation values are decimal integers with an optional suffix, wrapped in a YAML string (annotations are always strings in Kubernetes). Bandwidth values are in bps.
 
-* SI (powers of 1000): `k`, `M`, `G`, `T`. For example, `100M` is 100,000,000 bits/s.
-* IEC (powers of 1024): `Ki`, `Mi`, `Gi`, `Ti`. For example, `1Gi` is 1,073,741,824 bits/s.
+* SI (powers of 1000): `k`, `M`, `G`, `T`. For example, `100M` is 100 Mbps.
+* IEC (powers of 1024): `Ki`, `Mi`, `Gi`, `Ti`. For example, `1Gi` is approximately 1 Gbps.
 
 An unrecognized value is logged and replaced with the built-in default. The one exception is `dns-packets-per-second`: a value of `0` fails the pod.
 
@@ -31,11 +31,11 @@ An unrecognized value is logged and replaced with the built-in default. The one 
 
 |`sandbox.amazonaws.com/ingress-bandwidth`
 |`100M`
-|Inbound network bandwidth in bits per second (100 Mbit/s).
+|Inbound network bandwidth (100 Mbps).
 
 |`sandbox.amazonaws.com/egress-bandwidth`
 |`100M`
-|Outbound network bandwidth in bits per second (100 Mbit/s).
+|Outbound network bandwidth (100 Mbps).
 
 |`sandbox.amazonaws.com/ingress-packets-per-second`
 |`1500`
@@ -51,7 +51,7 @@ An unrecognized value is logged and replaced with the built-in default. The one 
 
 |`sandbox.amazonaws.com/overlay-disk-bandwidth`
 |`400M`
-|Overlay (ephemeral scratch) disk throughput in bits per second (equivalent to 50 MB/s).
+|Overlay (ephemeral scratch) disk throughput (equivalent to 50 MBps).
 
 |`sandbox.amazonaws.com/overlay-disk-iops`
 |`1500`
@@ -67,15 +67,15 @@ An unrecognized value is logged and replaced with the built-in default. The one 
 
 |`sandbox.amazonaws.com/log-bandwidth`
 |`2M`
-|Container log streaming throughput in bits per second (2 Mbit/s, equivalent to 250 KB/s).
+|Container log streaming throughput (2 Mbps, equivalent to 250 KBps).
 |===
 
 [#sandboxing-raise-bandwidth]
 == Raising network bandwidth
 
-Bandwidth and packet rate are enforced by independent token buckets. You must raise both to see higher throughput. EKS nodes typically use a 9001-byte MTU (VPC jumbo frames). At the default packet rate of 1500 packets/second, the maximum throughput is approximately 102 Mbit/s.
+Bandwidth and packet rate are enforced by independent token buckets. You must raise both to see higher throughput. EKS nodes typically use a 9001-byte MTU (VPC jumbo frames). At the default packet rate of 1500 packets/second, the maximum throughput is approximately 102 Mbps.
 
-To raise the effective network cap to about 1 Gbit/s:
+To raise the effective network cap to about 1 Gbps:
 
 [source,yaml,subs="verbatim,attributes"]
 ----
@@ -87,6 +87,7 @@ metadata:
     sandbox.amazonaws.com/egress-packets-per-second: "15000"
 ----
 
+.Annotations are read once
 [NOTE]
 ====
 Annotations are read once when the pod is created. Changing an annotation on a running pod has no effect. Delete and recreate the pod for the new value to take effect.

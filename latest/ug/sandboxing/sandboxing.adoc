@@ -47,6 +47,7 @@ Container images can be signed with {aws} Signer. The Nitro Sandbox verifies Not
 *Attestation*::
 Attestation lets you prove that a Nitro Sandbox is running exactly the code and policy you expect before releasing secrets to it. The Nitro Sandbox exposes a TPM whose platform configuration registers (PCRs) measure the system image and the workload policy. You write KMS key policies with `kms:RecipientAttestation:PCR<PCR_ID>` conditions that gate decryption on specific PCR values. When the sandbox calls `kms:Decrypt`, KMS validates the attestation document and releases the key only if the measurements match.
 +
+.Verify attestation before releasing secrets
 [IMPORTANT]
 ====
 Without a KMS key policy (or equivalent external verifier) that checks PCR values, the attestation measurement is recorded but never verified, and the confidentiality guarantees of confidential mode are incomplete. Always configure `kms:RecipientAttestation:PCR<PCR_ID>` conditions on any KMS key that protects confidential data.
