@@ -36,7 +36,7 @@ When kubelet schedules a pod that uses the `isolated-sandbox` or `confidential-s
 Each pod runs in its own Nitro Sandbox. The {aws} Nitro hypervisor enforces memory and CPU isolation between sandboxes on the same parent instance. A compromised container cannot access memory or storage belonging to another pod, and the parent instance cannot observe the CPU or memory state of the sandbox.
 
 *Policy enforcement*::
-Every pod has a Cedar policy that controls container admission, `exec` access, log streaming, and other runtime operations. The Nitro Sandbox enforces the policy from inside the guest. The pod policy is measured into an attestation register, so a compromised parent instance cannot silently substitute a different policy without changing the attestation.
+Every pod has a Cedar policy that controls container admission, `exec` access, log streaming, and other runtime operations. The Nitro Sandbox enforces the policy from inside the guest, so it applies even when the parent instance is untrusted. The pod policy is measured into an attestation register, so a compromised parent instance cannot silently substitute a different policy without changing the attestation.
 
 *Encrypted container images*::
 Container image layers can be encrypted following the OCI image encryption specification. Encrypted layers are decrypted inside the Nitro Sandbox using {aws} KMS. The parent instance transfers the encrypted blobs but never accesses the plaintext image contents. See <<sandboxing-encrypted-images>>.
@@ -85,10 +85,12 @@ Pods can mount Amazon EFS volumes through the EFS CSI driver (`efs.csi.aws.com`)
 == Modes
 
 *Isolated mode*::
-The parent instance is trusted and the guest is untrusted. The goal is to protect the node and other pods from a compromised workload. The parent instance retains full observability and control: `exec`, `stdin`, logs, stats, and process listing are all permitted. The policy does not pin container admission fields, so any valid container spec is accepted. The overlay filesystem is unencrypted to allow faster pod startup. IMDS, NTP, and Pod Identity credentials are allowed so workloads that depend on placement metadata or {aws} credentials work without policy customization.
+The parent instance is trusted and the guest is untrusted. The goal is to protect the node and other pods from a compromised workload. The parent instance retains full observability and control: `exec`, `stdin`, logs, stats, and process listing are all permitted. The policy does not pin container admission fields, so any valid container spec is accepted. The overlay filesystem is unencrypted to allow faster pod startup. The service account token is not replicated into the sandbox. IMDS, NTP, and Pod Identity credentials are allowed so workloads that depend on placement metadata or {aws} credentials work without policy customization.
 
 *Confidential mode*::
 The parent instance is untrusted and the guest is the trust boundary. The goal is to protect the workload's data from the node operator or a compromised parent instance. The policy pins every admission field (image digests, args, environment variables, mounts, capabilities, and security settings). `Exec`, `stdin`, stats, and process listing are denied so the parent instance cannot introspect the guest. IMDS and the service account token are allowed because the guest needs {aws} credentials and region metadata to call {aws} KMS for encrypted images.
+
+The runtime class is the authoritative selector: the system derives the isolation mode from `runtimeClassName` and ignores any mode annotation the pod spec sets. You can also create custom profiles that mix and match settings from these modes. For more information, see <<sandboxing-confidential-setup>>.
 
 [#sandboxing-network-isolated-overview]
 == Removing network access

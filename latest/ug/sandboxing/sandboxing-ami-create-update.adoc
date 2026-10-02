@@ -7,28 +7,25 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Build a custom AMI from the Nitro Sandbox bundle that {aws} shares through Amazon S3, or use a supported AMI, and update it when {aws} releases a new bundle.
+Build a custom AMI from the Nitro Sandbox binaries that {aws} publishes as a signed release, or use a supported AMI, and update it when {aws} publishes a new release.
 --
 
 EKS Auto Mode includes Nitro Sandbox support with no additional configuration. If you run managed node groups or self-managed nodes outside of Auto Mode, you need a compatible AMI. You have two options:
 
 * *Use a supported AMI.* Nitro Sandbox supports Amazon Linux.
-* *Build your own AMI* from the Nitro Sandbox bundle that {aws} provides through Amazon S3.
+* *Build your own AMI* from the Nitro Sandbox binaries that {aws} publishes as a signed release.
 
-The bundle delivers patches as binaries in S3 that you use to build the AMI. Each sandbox node runs two kernels: a *host kernel* that you build from a patch series in the bundle, and a pre-compiled *guest kernel* that boots inside every sandbox pod's microVM. You never build or modify the guest kernel.
+The release delivers the runtime binaries and a host-kernel patch series that you use to build the AMI. Each sandbox node runs two kernels: a *host kernel* that you build from the patch series, and a pre-compiled *guest kernel* that boots inside every sandbox pod's microVM. You never build or modify the guest kernel. For how to download and verify the binaries, see <<sandboxing-download-binaries>>.
 
 [NOTE]
 ====
-Before you start, confirm you have an EKS cluster, a build instance with Nitro Enclaves enabled and Secure Boot disabled, and permissions to create AMIs, launch templates, and managed node groups. Each bundle ships OS-specific build guides and helper scripts for the supported operating systems.
+Before you start, confirm you have an EKS cluster, a build instance with Nitro Enclaves enabled and Secure Boot disabled, and permissions to create AMIs, launch templates, and managed node groups. Each release ships OS-specific build guides and helper scripts for the supported operating systems.
 ====
 
 [#sandboxing-ami-build]
 == Build a custom AMI
 
-The build follows the same four steps on each supported operating system. OS-specific differences are called out in the build guide included with the bundle.
-
-Download the bundle from the Amazon S3 bucket where {aws} hosts the Nitro Sandbox binaries: *[PLACEHOLDER: Nitro Sandbox bundle S3 link]*.
-// TODO: Replace the placeholder above with the final link to the S3 bucket that hosts the AMI-building binaries before publishing.
+The build follows the same four steps on each supported operating system. OS-specific differences are called out in the build guide included with the release.
 
 [%header,cols="1,2,3"]
 |===
@@ -36,7 +33,7 @@ Download the bundle from the Amazon S3 bucket where {aws} hosts the Nitro Sandbo
 
 |1
 |`scripts/verify-archives.sh`
-|Unpack both S3 archives and validate every shipped checksum.
+|Unpack both release archives and validate every shipped checksum.
 
 |2
 |`scripts/build-kernel-<os>.sh <patch-dir>`
@@ -56,7 +53,7 @@ After building, apply a `RuntimeClass` named `isolated-sandbox` once per cluster
 [#sandboxing-ami-update]
 == Update an AMI
 
-When {aws} releases a new bundle through S3, rebuild your AMI. Each bundle is versioned by date and revision; a later date or higher revision replaces the previous one. The release notes list which components changed and whether a kernel rebuild is required.
+When {aws} publishes a new release, rebuild your AMI. Each release is versioned, and a newer version replaces the previous one. The release notes list which components changed and whether a kernel rebuild is required.
 
 [%header,cols="2,3,2,1"]
 |===

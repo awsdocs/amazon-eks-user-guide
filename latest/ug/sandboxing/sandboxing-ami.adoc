@@ -19,4 +19,6 @@ You can also encrypt the container images that run inside a sandbox so that the 
 
 include::sandboxing-ami-create-update.adoc[leveloffset=+1]
 
+include::sandboxing-download-binaries.adoc[leveloffset=+1]
+
 include::sandboxing-encrypted-images.adoc[leveloffset=+1]

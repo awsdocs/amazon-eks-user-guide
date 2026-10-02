@@ -1,0 +1,59 @@
+include::../attributes.txt[]
+
+[.topic]
+[#sandboxing-download-binaries]
+= Download and verify the runtime binaries
+:info_titleabbrev: Download and verify
+
+[abstract]
+--
+Download the signed Nitro Sandbox runtime binaries and verify that what you downloaded is what {aws} published.
+--
+
+If you build your own node images instead of using the AMIs that {aws} manages, you install the Nitro Sandbox runtime binaries yourself. {aws} publishes them as a signed release for each supported architecture (`x86_64` and `aarch64`). You do not need an {aws} account to download or verify a release.
+
+[#sandboxing-release-contents]
+== What a release contains
+
+Each release is published under a versioned path. A release contains the following four files:
+
+[%header,cols="2,3"]
+|===
+|File |Contents
+
+|`nitro-sandboxes-runtime.tar.gz`
+|The runtime binaries, `LICENSE`, and `ATTRIBUTION`, plus a checksum manifest covering those members. The archive extracts flat, with no directories.
+
+|`ATTRIBUTION`
+|Third-party license notices. Identical to the copy inside the archive.
+
+|`SHA256SUM`
+|SHA-256 hashes of the archive and of each binary. This is the file that {aws} signs.
+
+|`SHA256SUM.sig`
+|The detached signature over `SHA256SUM`.
+|===
+
+Pin your image build to a specific version. Published files are never changed or removed, so a URL that works once keeps returning the same bytes.
+
+[#sandboxing-download-location]
+== Download a release
+
+Download the binaries from the location where {aws} hosts them: *[PLACEHOLDER: runtime binaries download link]*.
+// TODO: Replace the placeholder above with the final download domain (and signing key path) before publishing.
+
+[#sandboxing-verify-binaries]
+== Verify a release
+
+Verification establishes two things: that the files were published by {aws} (authenticity), and that the files are byte-for-byte what was published (integrity). The procedure uses `openssl` and standard shell tools (`curl`, `sha256sum`, `tar`, and `grep`), and consists of the following steps:
+
+. Download the signing public key and check its fingerprint against the value in this guide. This fingerprint is the trust anchor: the key and the release come from the same host, but the fingerprint is published separately, so a matching fingerprint confirms the key is from {aws}.
+. Verify the signature over `SHA256SUM` with the public key.
+. Check the archive, and then each extracted binary, against the signed manifest.
+
+[IMPORTANT]
+====
+The key fingerprint check is the step the whole chain depends on. If the fingerprint does not match the value published in this guide, stop and do not use the download.
+====
+
+Because the manifest lists every binary individually, you can verify a single binary on its own without the archive.
