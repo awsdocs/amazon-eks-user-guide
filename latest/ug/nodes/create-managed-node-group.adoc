@@ -159,6 +159,11 @@ eksctl create nodegroup --config-file eks-nodegroup.yaml
 +
 ** *Name* – Enter a unique name for your managed node group. The node group name can't be longer than 63 characters. It must start with a letter or digit, but can also include hyphens and underscores for the remaining characters.
 ** *Node IAM role* – Choose the node instance role to use with your node group. For more information, see <<create-node-role>>.
++
+[NOTE]
+====
+If role manager is enabled in your account, Amazon EKS attaches the role for you, and the role selections described here (for example *Node IAM role*) and the *Create recommended role* buttons are replaced by a *Customize* option. To use a different role, choose *Customize*. For more information, see link:IAM/latest/UserGuide/id_roles_create.html[IAM role creation,type="documentation"] in the _IAM User Guide_.
+====
 
 +
 [IMPORTANT]

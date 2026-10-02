@@ -136,6 +136,11 @@ Kubernetes assigns `IPv4` addresses to Pods and services, by default. Before dec
 +
 ** *Name* – A name for your cluster. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the {aws} Region and {aws} account that you're creating the cluster in.
 ** *Cluster IAM role* – Choose the Amazon EKS cluster IAM role that you created to allow the Kubernetes control plane to manage {aws} resources on your behalf.
++
+[NOTE]
+====
+If role manager is enabled in your account, Amazon EKS attaches the role for you, and the role selections described here (for example *Cluster IAM role*) and the *Create recommended role* buttons are replaced by a *Customize* option. To use a different role, choose *Customize*. For more information, see link:IAM/latest/UserGuide/id_roles_create.html[IAM role creation,type="documentation"] in the _IAM User Guide_.
+====
 ** *Kubernetes version* – The version of Kubernetes to use for your cluster. We recommend selecting the latest version, unless you need an earlier version.
 ** *Support type* -- The Kubernetes version policy you would like to set for your cluster. If you want your cluster to only run on a standard support version, you can choose *Standard support*. If you want your cluster to enter extended support at the end of standard support for a version, you can choose *Extended support*. If you select a Kubernetes version that is currently in extended support, you can not select standard support as an option.
 ** *Secrets encryption* – (Optional) Choose to enable secrets encryption of Kubernetes secrets using a KMS key. You can also enable this after you create your cluster. Before you enable this capability, make sure that you're familiar with the information in <<enable-kms>>.

@@ -88,6 +88,11 @@ You use the `aws-region`, `activationId`, and `activationCode` values in the nex
 *** *Name* – A unique name for your cluster.
 *** *Provider* – Choose to display the dropdown list of Kubernetes cluster providers. If you don't know the specific provider, select *Other*.
 *** *EKS Connector role* – Select the role to use for connecting the cluster.  
++
+[NOTE]
+====
+If role manager is enabled in your account, Amazon EKS attaches the role for you, and the role selections described here (for example *EKS Connector role*) and the *Create recommended role* buttons are replaced by a *Customize* option. To use a different role, choose *Customize*. For more information, see link:IAM/latest/UserGuide/id_roles_create.html[IAM role creation,type="documentation"] in the _IAM User Guide_.
+====
 . Select *Register cluster*.
 . The Cluster overview page displays. If you want to use the Helm chart, copy the `helm install` command and continue to the next step. If you want to use the YAML manifest, choose *Download YAML file* to download the manifest file to your local drive.  
 +

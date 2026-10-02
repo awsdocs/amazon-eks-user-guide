@@ -122,6 +122,11 @@ You can use certain wildcards for `my-kubernetes-namespace` and `key=value` labe
 +
 .. For *Name*, enter a unique name for your Fargate profile, such as `my-profile`.
 .. For *Pod execution role*, choose the Pod execution role to use with your Fargate profile. Only the IAM roles with the `eks-fargate-pods.amazonaws.com` service principal are shown. If you don't see any roles listed, you must create one. For more information, see <<pod-execution-role>>.
++
+[NOTE]
+====
+If role manager is enabled in your account, Amazon EKS attaches the role for you, and the role selections described here (for example *Pod execution role*) and the *Create recommended role* buttons are replaced by a *Customize* option. To use a different role, choose *Customize*. For more information, see link:IAM/latest/UserGuide/id_roles_create.html[IAM role creation,type="documentation"] in the _IAM User Guide_.
+====
 .. Modify the selected *Subnets* as needed.
 +
 NOTE: Only private subnets are supported for Pods that are running on Fargate.
