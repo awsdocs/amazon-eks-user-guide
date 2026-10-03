@@ -32,7 +32,7 @@ This topic provides an overview of the available options and describes what to c
 [NOTE]
 .Requirements for Nitro Sandboxes
 ====
-To run isolated and confidential pods with Nitro Sandboxes on the cluster, use Kubernetes version 1.36 or later, and plan to run them on instance types that support Nitro Enclaves. For more information, see <<sandboxing>>.
+To run isolated and confidential pods with Nitro Sandboxes on the cluster, use a supported Kubernetes version (1.36 or later, limited to the two latest versions), and plan to run them on instance types that support Nitro Enclaves. For more information, see <<sandboxing>>.
 ====
 
 == Step 1: Create cluster IAM role
