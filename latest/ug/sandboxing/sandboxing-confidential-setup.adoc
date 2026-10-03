@@ -142,6 +142,21 @@ CLI flags override profile defaults:
 
 |`--require-all-signers <ARN>`
 |Require all signing profile ARNs (AND logic, may be repeated)
+
+|`--skip-image-ref-container <name>`
+|Drop the image digest pin for a container and trust the signature instead (requires a signer flag)
+
+|`--image-architecture <amd64\|arm64>`
+|Pin a single architecture of a multi-architecture image, so only nodes of that architecture can run it
+
+|`--skip-image-fetch`
+|Skip all registry access for an offline run; leaves image-derived fields (args, working directory, user) unpinned
+
+|`--disable-layer-pull`
+|Fetch the image config but skip pulling layers; leaves a non-numeric (named) user unpinned
+
+|`--allow-unpinned-identity`
+|Generate a policy even when the user and group cannot be resolved to numeric IDs
 |===
 
 [#sandboxing-hardening-hints]
@@ -200,6 +215,56 @@ eks-nitro-sandbox-genpolicy --profile ./my-profile.yaml manifest.yaml
 ----
 
 Omitted fields use defaults: admission fields default to `false`, runtime actions default to `allow`.
+
+[#sandboxing-image-signature-verification]
+== Image signature verification
+
+By default, a confidential policy pins each container image by its digest, so only that exact image can start. A digest pin is exact but brittle: every time you rebuild the image, its digest changes, so you must regenerate the policy and update the `PCR17` condition on your KMS key policy.
+
+As an alternative, you can require that an image carries a trusted {aws} Signer signature. The agent verifies the Notation signature inside the Nitro Sandbox before a container starts. If verification fails or the image is unsigned, the agent denies container creation. Because trust comes from the signature rather than a fixed digest, you can drop the digest pin and let the image evolve.
+
+Generate the policy with one or more signer flags. Use `--require-any-signer` when a signature from any one of several profiles is sufficient (OR logic), or `--require-all-signers` when the image must be signed by every listed profile (AND logic). Give each flag a profile-level {aws} Signer signing profile ARN:
+
+[source,bash,subs="verbatim,attributes"]
+----
+eks-nitro-sandbox-genpolicy --profile confidential \
+  --require-any-signer {arn-aws}signer:region-code:111122223333:/signing-profiles/my-profile \
+  manifest.yaml
+----
+
+To let the image evolve without regenerating the policy, also pass `--skip-image-ref-container` to drop the digest pin for that container and rely on the signature alone:
+
+[source,bash,subs="verbatim,attributes"]
+----
+eks-nitro-sandbox-genpolicy --profile confidential \
+  --require-any-signer {arn-aws}signer:region-code:111122223333:/signing-profiles/my-profile \
+  --skip-image-ref-container my-container-name \
+  manifest.yaml
+----
+
+[#sandboxing-signer-iam]
+=== Required IAM permissions
+
+For image signature verification, the pod's IAM role (through EKS Pod Identity or IRSA) must have the following {aws} Signer permissions:
+
+[%header,cols="2,3"]
+|===
+|Action |Purpose
+
+|`signer:GetRevocationStatus`
+|Check whether an individual signing job or certificate has been revoked.
+
+|`signer:GetSigningProfile`
+|Check whether the signing profile has been revoked. Signatures from a revoked profile are rejected.
+|===
+
+Both actions are required. If either call fails or returns a permission error, signature verification fails closed and the agent denies container creation.
+
+[NOTE]
+.Network isolation and signature verification
+====
+Signature verification requires network access from the Nitro Sandbox to the {aws} Signer endpoint. Pods that set `sandbox.amazonaws.com/network-isolated` to `"true"` cannot use image signature verification, because Pod Identity credentials and the Signer endpoint are both unreachable. For more information, see <<sandboxing-network-isolation>>.
+====
 
 [#sandboxing-kms-attestation]
 == Configure KMS key policies for attestation

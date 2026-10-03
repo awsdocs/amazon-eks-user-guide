@@ -121,3 +121,13 @@ kubectl apply -f manifest.yaml
 ----
 
 The Nitro Sandbox calls `kms:Decrypt` through EKS Pod Identity to unwrap the layer encryption key, then decrypts and unpacks each layer inside the sandbox.
+
+[#sandboxing-encrypted-image-identity]
+== Image identity in operator tooling
+
+For an encrypted image, the digest that `kubectl` and `crictl` report is a synthetic value derived by the runtime, not the digest published by the registry. The runtime decrypts and unpacks the layers inside the sandbox rather than on the parent instance, so it gives the image a distinct identity to keep the placeholder state it leaves on the parent instance from colliding with that of an ordinary image.
+
+As a result, the following operator-visible fields are synthetic for an encrypted image. They do not match the digest returned by `aws ecr describe-images`, `skopeo inspect`, or your image signer:
+
+* `.status.containerStatuses[].imageID` on the pod
+* the `Id` and `RepoDigests` fields returned by `crictl inspecti` and `crictl images --digests`
