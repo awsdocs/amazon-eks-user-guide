@@ -270,7 +270,7 @@ The following table lists the fields that you can set in an `IngressClassParams`
 |`instance`
 
 |`tags`
-|Custom tags for {aws} resources
+|Custom tags for {aws} resources. Not applied to the shared backend security group.
 |`Environment: prod, Team: platform`
 
 |`loadBalancerAttributes`
@@ -297,6 +297,7 @@ The following table lists the fields that you can set in an `IngressClassParams`
 * You cannot use Annotations on an IngressClass to configure load balancers with EKS Auto Mode. IngressClass configuration should be done through IngressClassParams. However, you can use annotations on individual Ingress resources to configure load balancer behavior (such as `alb.ingress.kubernetes.io/security-group-prefix-lists` or `alb.ingress.kubernetes.io/conditions.*`).
 * To set link:elasticloadbalancing/latest/APIReference/API_ListenerAttribute.html["ListenerAttribute",type="documentation"] values for all Ingresses in an IngressClass, use the `listeners` field in IngressClassParams. For more information, see <<ingress-reference>>.
 * You must update the Cluster IAM Role to enable tag propagation from Kubernetes to {aws} Load Balancer resources. For more information, see <<tag-prop>>.
+* EKS Auto Mode doesn't apply `tags` from IngressClassParams to the backend security group that all load balancers in the cluster share. To tag this security group, add the tags separately.
 * For information about associating resources with either EKS Auto Mode or the self-managed {aws} Load Balancer Controller, see <<migration-reference>>.
 * For information about fixing issues with load balancers, see <<auto-troubleshoot>>. 
 * For more considerations about using the load balancing capability of EKS Auto Mode, see <<auto-lb-consider>>. 

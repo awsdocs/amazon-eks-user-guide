@@ -108,7 +108,7 @@ All of the following annotations need to be prefixed with `service.beta.kubernet
 |`10.0.0.0/24, 192.168.1.0/24`
 
 |`aws-load-balancer-additional-resource-tags`
-|Additional {aws} tags to apply to the load balancer and related resources.
+|Additional {aws} tags to apply to the load balancer and related resources. Not applied to the shared backend security group.
 |`Environment=prod,Team=platform`
 
 |`aws-load-balancer-ip-address-type`
@@ -124,6 +124,7 @@ All of the following annotations need to be prefixed with `service.beta.kubernet
 == Considerations
 
 * You must update the Cluster IAM Role to enable tag propagation from Kubernetes to {aws} Load Balancer resources. For more information, see <<tag-prop>>.
+* EKS Auto Mode doesn't apply tags from the `aws-load-balancer-additional-resource-tags` annotation to the backend security group that all load balancers in the cluster share. To tag this security group, add the tags separately.
 * For information about associating resources with either EKS Auto Mode or the self-managed {aws} Load Balancer Controller, see <<migration-reference>>.
 * For information about fixing issues with load balancers, see <<auto-troubleshoot>>. 
 * For more considerations about using the load balancing capability of EKS Auto Mode, see <<auto-lb-consider>>. 
