@@ -12,11 +12,22 @@ Set up an isolated pod on an Amazon EKS cluster by setting the isolated-sandbox 
 
 Isolated mode protects the node and other pods from a compromised container. The parent instance is trusted.
 
+[#sandboxing-isolated-choose-path]
+== Choose your setup path
+
+You run isolated and confidential pods on EKS in one of two ways. Both run the pod in a Nitro Sandbox and both use the same `runtimeClassName` in the pod spec. They differ only in how the nodes are prepared.
+
+EKS Auto Mode (recommended)::
+Auto Mode includes Nitro Sandbox support with no additional setup. You do not build or manage an AMI. Set `runtimeClassName: isolated-sandbox` (or `confidential-sandbox`) on the pod, and Auto Mode provisions a compatible node and runs the pod in a sandbox. This is the simplest path, and the rest of this topic uses it.
+
+Managed or self-managed node groups::
+If you run your own node groups outside of Auto Mode, build a custom AMI that includes the Nitro Sandbox runtime, and use instance types that support Nitro Enclaves. Join those nodes to the cluster, then set the same `runtimeClassName` on the pod. For the build steps, see <<sandboxing-ami-create-update>>.
+
 [#sandboxing-isolated-prerequisites]
 == Prerequisites
 
-* An Amazon EKS cluster running in EKS Auto Mode. Isolated and confidential pods are available on EKS Auto Mode clusters without additional configuration.
-* For self-managed or managed node groups outside of Auto Mode, build a compatible AMI using the Nitro Sandboxes binaries provided by {aws}. See the AMI build guide.
+* An Amazon EKS cluster. For the simplest experience, use EKS Auto Mode, which runs isolated and confidential pods without additional configuration.
+* For managed or self-managed node groups outside of Auto Mode, a custom AMI built with the Nitro Sandbox runtime, on instance types that support Nitro Enclaves. See <<sandboxing-ami-create-update>>.
 
 [#sandboxing-isolated-run]
 == Run a pod in isolated mode
