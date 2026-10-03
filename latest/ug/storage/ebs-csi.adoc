@@ -18,6 +18,12 @@ The Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) dr
 
 The https://github.com/kubernetes-sigs/aws-ebs-csi-driver/[Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver] manages the lifecycle of Amazon EBS volumes as storage for the Kubernetes Volumes that you create. The Amazon EBS CSI driver makes Amazon EBS volumes for these types of Kubernetes volumes: generic https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/[ephemeral volumes] and https://kubernetes.io/docs/concepts/storage/persistent-volumes/[persistent volumes].
 
+[NOTE]
+.Amazon EBS with Nitro Sandboxes
+====
+Isolated and confidential pods that run in Nitro Sandboxes can use Amazon EBS volumes through the Amazon EBS CSI driver. For storage behavior specific to Nitro Sandboxes, see <<sandboxing-storage>>.
+====
+
 [#ebs-csi-considerations]
 == Considerations
 

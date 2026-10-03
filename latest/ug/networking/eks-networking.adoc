@@ -11,6 +11,12 @@ Learn how to configure networking for your Amazon EKS cluster using a VPC, subne
 
 Your Amazon EKS cluster is created in a VPC. Pod networking is provided by the Amazon VPC Container Network Interface (CNI) plugin for nodes that run on {aws} infrastructure. If you are running nodes on your own infrastructure, see <<hybrid-nodes-cni>>. This chapter includes the following topics for learning more about networking for your cluster.
 
+[NOTE]
+.Networking with Nitro Sandboxes
+====
+For isolated and confidential pods that run in Nitro Sandboxes, the Amazon VPC CNI plugin is validated at launch. Alternate CNI plugins and service meshes are not validated for Nitro Sandboxes at launch. For more information, see <<sandboxing>>.
+====
+
 [.topiclist]
 [[Topic List]]
 

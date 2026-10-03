@@ -18,6 +18,12 @@ You can update specific Amazon EKS managed configuration fields for Amazon EKS a
 
 You can use Amazon EKS add-ons with any Amazon EKS node type. For more information, see <<eks-compute>>.
 
+[NOTE]
+.Add-on support for Nitro Sandboxes
+====
+Core add-ons, including the Amazon VPC CNI plugin, CoreDNS, `kube-proxy`, the Amazon EBS and Amazon EFS CSI drivers, and the Amazon EKS Pod Identity Agent, work with isolated and confidential pods that run in Nitro Sandboxes. The Amazon GuardDuty agent and the Amazon CloudWatch Observability agent cannot monitor activity inside sandboxed pods. For more information, see <<sandboxing>> and <<sandboxing-observability>>.
+====
+
 You can add, update, or delete Amazon EKS add-ons using the Amazon EKS API, {aws-management-console}, {aws} CLI, and `eksctl`. You can also create Amazon EKS add-ons using link:AWSCloudFormation/latest/UserGuide/aws-resource-eks-addon.html[{aws} CloudFormation,type="documentation"].
 
 [#eks-add-ons-considerations]

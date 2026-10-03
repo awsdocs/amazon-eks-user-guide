@@ -10,6 +10,12 @@ include::../attributes.txt[]
 Automate cluster infrastructure with EKS Auto Mode
 --
 
+[NOTE]
+.Nitro Sandboxes on EKS Auto Mode
+====
+EKS Auto Mode includes Nitro Sandbox support with no additional configuration, which makes it the simplest way to run isolated and confidential pods. Auto Mode provisions Nitro Enclaves-enabled nodes of supported instance types when a pod requests Nitro Sandbox slots. For more information, see <<sandboxing>>.
+====
+
 [TIP]
 ====
 https://awsworkshop.io/eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el[Register] for upcoming Amazon EKS Auto Mode workshops.

@@ -38,6 +38,12 @@ Linux containers are made up of control groups (cgroups) and namespaces that hel
 
 ====
 
+[NOTE]
+.Hardware-enforced isolation with Nitro Sandboxes
+====
+When a workload needs stronger isolation than shared-kernel containers provide, you can run selected pods inside hardware-isolated virtual machines with Nitro Sandboxes. This isolates the pod from the node's kernel and from other pods on the node. For more information, see <<sandboxing>>.
+====
+
 [.topiclist]
 [[Topic List]]
 

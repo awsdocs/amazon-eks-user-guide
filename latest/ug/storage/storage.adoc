@@ -13,6 +13,12 @@ You can use a range of {aws} storage services with Amazon EKS for the storage ne
 
 This chapter covers storage options for Amazon EKS clusters.
 
+[NOTE]
+.Storage with Nitro Sandboxes
+====
+Isolated and confidential pods that run in Nitro Sandboxes support Amazon EBS and Amazon EFS through the standard CSI drivers. For storage behavior and considerations specific to Nitro Sandboxes, see <<sandboxing-storage>>.
+====
+
 [.topiclist]
 [[Topic List]]
 

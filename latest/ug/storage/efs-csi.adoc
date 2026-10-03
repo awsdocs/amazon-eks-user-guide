@@ -12,6 +12,12 @@ The Amazon EFS Container Storage Interface (CSI) driver allows Kubernetes cluste
 
 link:efs/latest/ug/whatisefs.html[Amazon Elastic File System,type="documentation"] (Amazon EFS) provides serverless, fully elastic file storage so that you can share file data without provisioning or managing storage capacity and performance. The https://github.com/kubernetes-sigs/aws-efs-csi-driver[Amazon EFS Container Storage Interface (CSI) driver] allows Kubernetes clusters running on {aws} to mount Amazon EFS file systems as persistent volumes. This topic shows you how to deploy the Amazon EFS CSI driver to your Amazon EKS cluster.
 
+[NOTE]
+.Amazon EFS with Nitro Sandboxes
+====
+Isolated and confidential pods that run in Nitro Sandboxes can mount Amazon EFS file systems, which support shared read-write access across pods. For storage behavior specific to Nitro Sandboxes, see <<sandboxing-storage>>.
+====
+
 [#efs-csi-considerations]
 == Considerations
 

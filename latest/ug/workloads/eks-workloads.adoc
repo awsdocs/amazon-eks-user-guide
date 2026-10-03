@@ -14,6 +14,12 @@ Your workloads are deployed in containers, which are deployed in Pods in Kuberne
 * Create an external (for internet-accessible Pods) or an internal (for private Pods) <<network-load-balancing,network load balancer>> to balance network traffic across Pods. The load balancer routes traffic at Layer 4 of the OSI model.
 * Create an <<alb-ingress,Application Load Balancer>> to balance application traffic across Pods. The application load balancer routes traffic at Layer 7 of the OSI model.
 * If you're new to Kubernetes, this topic helps you <<sample-deployment,Deploy a sample application>>.
+
+[NOTE]
+.Running pods in Nitro Sandboxes
+====
+To run a workload as an isolated or confidential pod in a Nitro Sandbox, reference the Nitro Sandbox `RuntimeClass` in the pod spec. For more information, see <<sandboxing>>.
+====
 * You can <<restrict-service-external-ip,restrict IP addresses that can be assigned to a service>> with `externalIPs`.
 
 

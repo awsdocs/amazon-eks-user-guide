@@ -12,6 +12,12 @@ You can deploy nodes with pre-built Amazon EKS optimized link:AWSEC2/latest/User
 
 You can deploy nodes with pre-built Amazon EKS optimized link:AWSEC2/latest/UserGuide/AMIs.html[Amazon Machine Images,type="documentation"] (AMIs) or your own custom AMIs when you use managed node groups or self-managed nodes. If you are running hybrid nodes, see <<hybrid-nodes-os>>. For information about each type of Amazon EKS optimized AMI, see one of the following topics. For instructions on how to create your own custom AMI, see <<eks-ami-build-scripts>>.
 
+[NOTE]
+.Nitro Sandboxes AMIs
+====
+EKS Auto Mode includes Nitro Sandbox support with no additional configuration. For managed node groups or self-managed nodes, build a compatible AMI that includes the Nitro Sandbox runtime. For more information, see <<sandboxing-ami-create-update>>.
+====
+
 With Amazon EKS Auto Mode, EKS manages the EC2 instance including selecting and updating the AMI. 
 
 [.topiclist]

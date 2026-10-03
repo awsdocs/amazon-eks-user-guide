@@ -11,6 +11,12 @@ This chapter covers some common errors that you may see while using Amazon EKS a
 
 This chapter covers some common errors that you may see while using Amazon EKS and how to work around them. If you need to troubleshoot specific Amazon EKS areas, see the separate <<security-iam-troubleshoot>>, <<troubleshooting-connector>>, and https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/troubleshooting[Troubleshooting for ADOT using EKS Add-Ons] topics.
 
+[NOTE]
+.Troubleshooting Nitro Sandboxes
+====
+For issues specific to isolated and confidential pods that run in Nitro Sandboxes, such as pods that stay pending or attestation failures, see <<sandboxing>> and <<sandboxing-observability>>.
+====
+
 For other troubleshooting information, see https://repost.aws/tags/knowledge-center/TA4IvCeWI1TE66q4jEj4Z9zg/amazon-elastic-kubernetes-service[Knowledge Center content about Amazon Elastic Kubernetes Service] on _{aws} re:Post_.
 
 [#ice]

@@ -12,6 +12,12 @@ Learn how Amazon EKS isolates service traffic.
 
 As a managed service, Amazon Elastic Kubernetes Service is protected by {aws} global network security. For information about {aws} security services and how {aws} protects infrastructure, see link:security/[{aws} Cloud Security,type="marketing"]. To design your {aws} environment using the best practices for infrastructure security, see link:wellarchitected/latest/security-pillar/infrastructure-protection.html[Infrastructure Protection,type="documentation"] in _Security Pillar {aws} Well‐Architected Framework_.
 
+[NOTE]
+.Infrastructure isolation with Nitro Sandboxes
+====
+With Nitro Sandboxes, individual pods run inside hardware-isolated virtual machines that use the {aws} Nitro System. This provides a hardware boundary between the pod and the host, which supplements the network and OS-level controls described in this topic. For more information, see <<sandboxing>>.
+====
+
 You use {aws} published API calls to access Amazon EKS through the network. Clients must support the following:
 
 * Transport Layer Security (TLS). We require TLS 1.2 and recommend TLS 1.3.
