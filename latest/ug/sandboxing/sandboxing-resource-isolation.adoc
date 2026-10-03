@@ -20,7 +20,7 @@ All throttle annotation values are decimal integers with an optional suffix, wra
 * SI (powers of 1000): `k`, `M`, `G`, `T`. For example, `100M` is 100 Mbps.
 * IEC (powers of 1024): `Ki`, `Mi`, `Gi`, `Ti`. For example, `1Gi` is approximately 1 Gbps.
 
-An unrecognized value is logged and replaced with the built-in default. The one exception is `dns-packets-per-second`: a value of `0` fails the pod.
+An unrecognized value is logged and replaced with the built-in default. A value of `0` is the exception: on every throttle annotation, a value that resolves to a rate of zero fails the pod rather than being treated as unlimited. Use `"disabled"` to turn a throttle off.
 
 [#sandboxing-throttle-annotations]
 == Available annotations
@@ -58,16 +58,20 @@ An unrecognized value is logged and replaced with the built-in default. The one 
 |Overlay disk I/O operations per second.
 
 |`sandbox.amazonaws.com/rootfs-disk-bandwidth`
-|`0`
+|`disabled`
 |Root filesystem disk throughput. Unlimited by default (read-only, needed for boot).
 
 |`sandbox.amazonaws.com/rootfs-disk-iops`
-|`0`
+|`disabled`
 |Root filesystem disk IOPS. Unlimited by default.
 
 |`sandbox.amazonaws.com/log-bandwidth`
 |`2M`
 |Container log streaming throughput (2 Mbps, equivalent to 250 KBps).
+
+|`sandbox.amazonaws.com/conntrack-limit`
+|`4096`
+|Connections the pod may hold in the node's connection-tracking table, per address family. Values are clamped into `64`–`65536`. This limit protects the node from a single pod and cannot be turned off: both `0` and `disabled` fail the pod.
 |===
 
 [#sandboxing-raise-bandwidth]

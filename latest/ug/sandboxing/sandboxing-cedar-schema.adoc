@@ -53,11 +53,79 @@ The agent inside a Nitro Sandbox evaluates every gated operation against a Cedar
 namespace Workload {
     entity Sandbox;
     entity Container in [Sandbox];
+
+    // Ephemeral overlay encryption mode for the Nitro Sandbox. A
+    // confidential policy requires a specific mode by pinning
+    // context.ephemeral_layer in the SetupSandbox action. The three
+    // valid values are:
+    //
+    //   "none"             The ephemeral overlay is not encrypted.
+    //                      Used by isolated mode for faster pod
+    //                      startup.
+    //   "integrity-disk"   The ephemeral overlay uses authenticated
+    //                      encryption with integrity tags stored on
+    //                      the overlay disk.
+    //   "integrity-memory" The ephemeral overlay uses authenticated
+    //                      encryption with integrity tags held in
+    //                      guest memory. This also prevents rollback
+    //                      of the overlay by restoring an earlier
+    //                      snapshot of the disk.
+    //
+    // The modes are not interchangeable: a policy that requires one
+    // value does not accept any other. A policy that references a
+    // value outside this set fails validation.
     entity EphemeralLayer enum ["none", "integrity-disk", "integrity-memory"];
 }
 
 namespace Agent {
-    // Admission: full OCI spec for container creation
+    // One OCI lifecycle hook entry, as it appears in the
+    // CreateContainer admission context. Hook execution is not
+    // enabled at this time, so policies must require every hook
+    // phase to be empty.
+    type HookEntry = {
+        path: String,
+        args: Set<String>,
+        env: Set<String>,
+        timeout: Long,
+    };
+
+    // One Intel Resource Director Technology (RDT) configuration
+    // entry, as it appears in the CreateContainer admission
+    // context. Intel RDT partitions last-level cache and memory
+    // bandwidth between workloads. RDT enforcement is not enabled
+    // in this runtime today, so policies must require the
+    // linux_intel_rdt attribute to be absent (see the optional-
+    // attribute `?:` on the field below). The record shape is
+    // declared here so a future runtime version can permit
+    // specific RDT knobs without changing the schema:
+    //
+    //   clos_id            RDT Class of Service identifier.
+    //   schemata           Full resctrl schemata lines. Overrides
+    //                      l3_cache_schema and mem_bw_schema when
+    //                      set.
+    //   l3_cache_schema    L3 cache capacity bitmask schema.
+    //   mem_bw_schema      Memory bandwidth schema.
+    //   enable_cmt         Cache Monitoring Technology flag
+    //                      (superseded by enable_monitoring).
+    //   enable_mbm         Memory Bandwidth Monitoring flag
+    //                      (superseded by enable_monitoring).
+    //   enable_monitoring  Create a resctrl monitoring group for
+    //                      the container.
+    type LinuxRdt = {
+        clos_id: String,
+        schemata: Set<String>,
+        l3_cache_schema: String,
+        mem_bw_schema: String,
+        enable_cmt: Bool,
+        enable_mbm: Bool,
+        enable_monitoring: Bool,
+    };
+
+    // Admission of a new container into the sandbox. The
+    // context carries the container's full OCI spec, so a
+    // confidential policy can pin every admission-time field:
+    // image reference, process, security context, mounts,
+    // capabilities, hooks, and every other setting below.
     action CreateContainer appliesTo {
         principal: [Workload::Sandbox],
         resource: [Workload::Container],
@@ -68,83 +136,369 @@ namespace Agent {
             run_as_group: Long,
             additional_gids: Set<Long>,
             read_only_rootfs: Bool,
+            ecs_exec_enabled: Bool,
             capabilities_effective: Set<String>,
             capabilities_bounding: Set<String>,
             capabilities_ambient: Set<String>,
             capabilities_inheritable: Set<String>,
             capabilities_permitted: Set<String>,
-            mounts: Set<{ destination: String, source: String,
-                          mount_type: String, options: Set<String> }>,
-            env: Set<{ name: String, value: String }>,
+            mounts: Set<{
+                destination: String,
+                source: String,
+                mount_type: String,
+                options: Set<String>,
+            }>,
+            env: Set<{
+                name: String,
+                value: String,
+            }>,
             env_names: Set<String>,
             hostname: String,
             no_new_privileges: Bool,
             masked_paths: Set<String>,
             readonly_paths: Set<String>,
-            sysctls: Set<{ name: String, value: String }>,
+            sysctls: Set<{
+                name: String,
+                value: String,
+            }>,
+            has_windows: Bool,
+            has_solaris: Bool,
+            has_vm: Bool,
+            has_zos: Bool,
+            domainname: String,
+            hooks: {
+                prestart: Set<HookEntry>,
+                create_runtime: Set<HookEntry>,
+                create_container: Set<HookEntry>,
+                start_container: Set<HookEntry>,
+                poststart: Set<HookEntry>,
+                poststop: Set<HookEntry>,
+            },
+            linux_devices: Set<{
+                path: String,
+                type: String,
+                major: Long,
+                minor: Long,
+            }>,
+            linux_intel_rdt?: LinuxRdt,
+            linux_mount_label: String,
+            linux_net_devices: Bool,
+            host_network: Bool,
+            host_pid: Bool,
+            host_ipc: Bool,
+            shared_pid: Bool,
+            linux_namespace_types: Set<String>,
+            linux_personality: Bool,
+            linux_resources_block_io: Bool,
+            linux_resources_devices: Set<{
+                allow: Bool,
+                access: String,
+            }>,
+            linux_resources_network: Bool,
+            linux_resources_pids: Bool,
+            linux_rootfs_propagation: String,
+            linux_seccomp_default_action: String,
+            linux_seccomp_listener_path: Bool,
+            linux_time_offsets: Bool,
+            apparmor_profile: String,
+            process_args: String,
+            process_command_line: Bool,
+            process_console_size: Bool,
+            process_exec_cpu_affinity: Bool,
+            process_io_priority: Bool,
+            process_scheduler: Bool,
+            process_selinux_label: String,
+            process_terminal: Bool,
+            process_user_umask: Bool,
+            process_user_username: Bool,
+            root_path: String,
             image_signers: Set<String>,
         },
     };
 
-    action ReadLogs appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Container], context: {} };
-    action WriteStdin appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Container], context: {} };
-    action ReadTerminationLog appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Container], context: {} };
-    action WriteFile appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox], context: { path: String } };
-    action Exec appliesTo { principal: [Workload::Sandbox],
+    // Read a container's stdout and stderr from the guest.
+    // Once permitted, the agent streams log output to the
+    // parent instance for the lifetime of the container.
+    action ReadLogs appliesTo {
+        principal: [Workload::Sandbox],
         resource: [Workload::Container],
-        context: { command_hash: String, user_uid: Long,
-                   user_gid: Long, additional_gids: Set<Long> } };
-    action Stats appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Container], context: {} };
-    action RemoveContainer appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Container], context: {} };
-    action SetupSandbox appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox],
-        context: { sysctls: Set<{ name: String, value: String }>,
-                   fsgroup: Long, host_entries: Set<{ ip: String,
-                   hostnames: Set<String> }>, deny_all_egress: Bool,
-                   hostname: String, ephemeral_layer: Workload::EphemeralLayer,
-                   attested_clock: Bool, volume_paths: Set<String> } };
-    action WatchOomEvents appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox], context: {} };
-    action MountHostImage appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox], context: {} };
-    action DebugExec appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox], context: { command: String } };
-    action StreamAgentLogs appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox], context: {} };
-    action DeliverCredentials appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox], context: {} };
-    action DeliverNtp appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox], context: {} };
-    action StreamEfsCerts appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox], context: {} };
-    action SetupVolume appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox],
-        context: { mount_path: String, read_only: Bool, kind: String,
-                   device_path: String, fs_type: String,
-                   file_system_id: String, access_point_id: String,
-                   iam: Bool } };
-    action PrepareImage appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox],
-        context: { image_ref: String, image_signers: Set<String> } };
-    action InitGuestMetadata appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox],
-        context: { listen_address: String } };
-    action UpdateGuestMetadata appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox],
-        context: { listen_address: String } };
-    action GetSandboxMetrics appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox], context: {} };
-    action GetBootTimings appliesTo { principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox], context: {} };
-    action CreateTask appliesTo { principal: [Workload::Sandbox],
+        context: {},
+    };
+
+    // Forward stdin bytes from the parent instance into a
+    // container's stdin. Required for interactive session
+    // and attach operations.
+    action WriteStdin appliesTo {
+        principal: [Workload::Sandbox],
         resource: [Workload::Container],
-        context: { binary_logger_path: String,
-                   binary_logger_args: Set<String> } };
+        context: {},
+    };
+
+    // Read a container's termination message file after it
+    // exits. The orchestrator surfaces the contents as the
+    // container's termination reason.
+    action ReadTerminationLog appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Container],
+        context: {},
+    };
+
+    // Write a file (or create a directory, or remove an
+    // entry) at `path` inside the guest. Used to replicate
+    // orchestrator-managed state into the guest, such as
+    // projected volumes, config files, and secret files
+    // that the parent instance stages outside the guest. A
+    // policy permits `WriteFile` on a per-path basis.
+    action WriteFile appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {
+            path: String,
+        },
+    };
+
+    // Run a new process inside a container. The context
+    // carries a hash of the command and its arguments plus
+    // the UID, primary GID, and additional GIDs the process
+    // will run as, so a confidential policy can pin the set
+    // of permitted exec commands and identities.
+    action Exec appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Container],
+        context: {
+            command_hash: String,
+            user_uid: Long,
+            user_gid: Long,
+            additional_gids: Set<Long>,
+        },
+    };
+
+    // Return cgroup metrics for one container from the guest.
+    action Stats appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Container],
+        context: {},
+    };
+
+    // Reclaim a container's guest-side state (writable
+    // overlay layer and containerd registration) after the
+    // container's task has exited and will not be restarted.
+    action RemoveContainer appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Container],
+        context: {},
+    };
+
+    // Configure sandbox-level guest state before any
+    // container is created. Runs once per sandbox and is
+    // where a confidential policy pins settings that apply
+    // to the whole sandbox: `ephemeral_layer` selects the
+    // overlay encryption mode (see
+    // `Workload::EphemeralLayer`), `hostname` names the guest, `sysctls`
+    // and `fsgroup` apply sandbox-level Linux settings,
+    // `host_entries` seeds `/etc/hosts`, `deny_all_egress`
+    // blocks network egress, and `volume_paths` enumerates
+    // the guest paths at which per-container volumes will
+    // be mounted by `SetupVolume`.
+    action SetupSandbox appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {
+            sysctls: Set<{
+                name: String,
+                value: String,
+            }>,
+            fsgroup: Long,
+            host_entries: Set<{
+                ip: String,
+                hostnames: Set<String>,
+            }>,
+            deny_all_egress: Bool,
+            hostname: String,
+            ephemeral_layer: Workload::EphemeralLayer,
+            volume_paths: Set<String>,
+        },
+    };
+
+    // Stream container OOM kill events from the guest to
+    // the parent instance so the orchestrator can surface
+    // them.
+    action WatchOomEvents appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {},
+    };
+
+    // Mount a parent-instance-supplied container image into
+    // the sandbox. Isolated policies use this action to
+    // skip in-guest image ingest. Confidential policies
+    // forbid it and require every image to be verified
+    // against a manifest digest via `PrepareImage` instead.
+    action MountHostImage appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {},
+    };
+
+    // Run a fixed diagnostic command inside the guest, such
+    // as `ls` or `cat` against a well-known path. The
+    // command name is validated against a built-in
+    // allowlist. Confidential policies typically forbid
+    // this action.
+    action DebugExec appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {
+            command: String,
+        },
+    };
+
+    // Stream the agent's own diagnostic log lines from the
+    // guest to the parent instance. Permitted by default in
+    // both profiles because the stream carries only agent
+    // diagnostics (identifiers, paths, sizes, durations, exit
+    // codes, ARNs) and no workload data. Deny it when the
+    // operational-metadata side channel is unacceptable.
+    action StreamAgentLogs appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {},
+    };
+
+    // Open the credential proxy channel between the parent
+    // instance and the guest. Workload credential requests
+    // that originate inside the guest are forwarded over
+    // this channel to a credential provider on the parent
+    // instance.
+    action DeliverCredentials appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {},
+    };
+
+    // Open the NTP proxy channel between the parent
+    // instance and the guest. NTP datagrams from workloads
+    // inside the guest are forwarded to the Amazon Time
+    // Sync Service.
+    action DeliverNtp appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {},
+    };
+
+    // Open the certificate-signing channel between the
+    // parent instance and the guest. Required for
+    // IAM-authenticated Amazon EFS and Amazon S3 mounts:
+    // the guest generates a per-mount keypair and the
+    // parent instance signs a short-lived client
+    // certificate with its own IAM credentials.
+    action StreamEfsCerts appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {},
+    };
+
+    // Mount one volume inside the guest. Called once per
+    // volume attached to the sandbox. The `kind` field
+    // selects the volume style; the field-level comments
+    // below describe which context fields apply for each
+    // `kind`.
+    action SetupVolume appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {
+            // Always populated.
+            mount_path: String,
+            read_only: Bool,
+            // Volume type. One of "filesystem", "block", "efs", or
+            // "s3files". Determines which of the remaining fields
+            // are populated.
+            kind: String,
+
+            // Populated for "filesystem" and "block" volumes.
+            // Empty for "efs" and "s3files".
+            device_path: String,
+            fs_type: String,
+
+            // Populated for "efs" and "s3files" volumes.
+            // Empty (or false) for "filesystem" and "block".
+            file_system_id: String,
+            access_point_id: String,
+            iam: Bool,
+        },
+    };
+
+    // Ingest an OCI image into the guest content store.
+    // Runs before any container from the image is created.
+    // The context names the image and lists the signing
+    // profile ARNs whose signatures the agent verified
+    // against the image manifest. Confidential policies pin
+    // `image_ref` to a digest and require `image_signers`
+    // to include the expected signer.
+    action PrepareImage appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {
+            image_ref: String,
+            image_signers: Set<String>,
+        },
+    };
+
+    // Start an in-guest HTTP listener that serves cached
+    // instance or task metadata. `listen_address` identifies
+    // the service being initialized.
+    action InitGuestMetadata appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {
+            listen_address: String,
+        },
+    };
+
+    // Atomically replace the response bodies served by an
+    // in-guest metadata cache. `listen_address` identifies
+    // which cache is being updated.
+    action UpdateGuestMetadata appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {
+            listen_address: String,
+        },
+    };
+
+    // Return aggregate cgroup, per-interface network, and
+    // system-wide sandbox metrics to the parent instance.
+    action GetSandboxMetrics appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {},
+    };
+
+    // Return guest boot-stage timings the agent captured at
+    // startup. Diagnostic only; production sandboxes do not
+    // permit this action.
+    action GetBootTimings appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Sandbox],
+        context: {},
+    };
+
+    // Create a container's task (the process that runs its
+    // entrypoint). The context is populated when logs are
+    // routed to a binary logger: `binary_logger_path` is
+    // the logger executable path and `binary_logger_args`
+    // is the set of argument names. The default policy
+    // permits `CreateTask` only when both fields are empty
+    // (no binary logger); a configured binary logger
+    // requires an explicit permit pinning the path and
+    // argument names.
+    action CreateTask appliesTo {
+        principal: [Workload::Sandbox],
+        resource: [Workload::Container],
+        context: {
+            binary_logger_path: String,
+            binary_logger_args: Set<String>,
+        },
+    };
 }
 ----
