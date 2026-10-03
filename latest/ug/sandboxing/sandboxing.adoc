@@ -45,7 +45,7 @@ Container image layers can be encrypted following the OCI image encryption speci
 Container images can be signed with {aws} Signer. The Nitro Sandbox verifies Notation signatures and checks revocation status before allowing a container to start. The Cedar policy controls which signing profiles are trusted.
 
 *Attestation*::
-Attestation lets you prove that a Nitro Sandbox is running exactly the code and policy you expect before releasing secrets to it. The Nitro Sandbox exposes a TPM whose platform configuration registers (PCRs) measure the system image and the workload policy. You write KMS key policies with `kms:RecipientAttestation:PCR<PCR_ID>` conditions that gate decryption on specific PCR values. When the sandbox calls `kms:Decrypt`, KMS validates the attestation document and releases the key only if the measurements match.
+Attestation lets you prove that a Nitro Sandbox is running exactly the code and policy you expect before releasing secrets to it. The Nitro Sandbox includes a Nitro Security Module (NSM) whose platform configuration registers (PCRs) measure the system image and the workload policy. You write KMS key policies with `kms:RecipientAttestation:PCR<PCR_ID>` conditions that gate decryption on specific PCR values. When the sandbox calls `kms:Decrypt`, KMS validates the attestation document and releases the key only if the measurements match.
 +
 [IMPORTANT]
 .Verify attestation before releasing secrets

@@ -64,3 +64,5 @@ Running a pod inside a Nitro Sandbox changes the behavior of some Kubernetes fea
 |Cross-account EFS mounts that rely on the EFS CSI driver resolving mount target IPs in the remote account by using `volumeAttributes` do not work. The Nitro Sandbox does not read `volumeAttributes` from the driver.
 |Use efs-utils DNS mode (`crossaccount: "true"`) with a standard cross-account Route 53 private hosted zone.
 |===
+
+Nitro Sandboxes on Amazon EKS build on the Amazon EC2 Nitro Sandboxes primitive. Some constraints come from that primitive and apply to any workload, such as supported instance types, the maximum number of attached devices, and the absence of GPU passthrough, snapshot and restore, and live migration. For the full list, see link:AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html#nitro-sandboxes-considerations[Considerations and limitations,type="documentation"] in the _Amazon EC2 User Guide_.
