@@ -13,7 +13,7 @@ Automate cluster infrastructure with EKS Auto Mode
 [NOTE]
 .Nitro Sandboxes on EKS Auto Mode
 ====
-EKS Auto Mode includes Nitro Sandbox support with no additional configuration, which makes it the simplest way to run isolated and confidential pods. Auto Mode provisions Nitro Enclaves-enabled nodes of supported instance types when a pod requests Nitro Sandbox slots. For more information, see <<sandboxing>>.
+EKS Auto Mode includes Nitro Sandbox support with no additional configuration, which makes it the simplest way to run isolated and confidential pods. Auto Mode provisions Nitro Enclaves-enabled nodes of supported instance types when a pod requests Nitro Sandbox slots, and runs each sandboxed pod on a Bottlerocket guest operating system image. For more information, see <<sandboxing>>.
 ====
 
 [TIP]
