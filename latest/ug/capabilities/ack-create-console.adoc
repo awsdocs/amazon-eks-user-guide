@@ -35,9 +35,24 @@ For production use, replace this with a custom policy that grants only the permi
 For guidance on creating least-privilege policies, see <<ack-permissions>> and <<capabilities-security>>.
 ====
 
+. *(Optional) Configure ACK settings*:
++
+The *{aws} Controllers for Kubernetes (ACK) configuration* section includes two optional settings.
+For a description of each setting and its constraints, see <<ack-configuration-options>>.
++
+.. Select *Enable cross-namespace references* if you want ACK resources to resolve references to resources in other Kubernetes namespaces.
+This checkbox is cleared by default, and the capability is created with cross-namespace references turned off unless you select it.
+For more information, see <<ack-cross-namespace-references>>.
+.. For *Disabled services*, enter an ACK service name, for example `s3`, and then choose *Add service*.
+Repeat this for each service whose controller you want to turn off, and choose the remove icon on a service to take it back off the list.
+Leave the list empty to run the controllers for all supported ACK services.
+
 . Choose *Create*.
 
 The capability creation process begins.
+
+You can review both settings on the capability detail page after the capability is created, and change them at any time.
+For the steps to change them, see <<ack-update-configuration>>.
 
 == Verify the capability is active
 

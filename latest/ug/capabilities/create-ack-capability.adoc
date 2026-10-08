@@ -60,6 +60,88 @@ Some ACK resources that reference Kubernetes secrets (such as RDS databases with
 To learn more about access entries and how to configure additional permissions, see <<capabilities-security>>.
 ====
 
+[#ack-configuration-options]
+== ACK capability configuration options
+
+ACK capabilities accept optional type-specific settings in the `ack` object of the capability `configuration`.
+These settings are optional.
+If you omit the `configuration` when you create a capability, cross-namespace references are disabled and all supported ACK service controllers run.
+You can set these options when you create a capability with the {aws} Management Console, the {aws} CLI, the {aws} API, or {aws} CloudFormation, and you can change them later with the `update-capability` command.
+For the steps to set these options at creation, see <<ack-create-cli>> or <<ack-create-console>>.
+To change them on an existing capability, see <<ack-update-configuration>>.
+
+The `ack` configuration object supports the following fields.
+
+[cols="1,1,3",options="header"]
+|===
+|Field |Type |Description
+
+|`enableCrossNamespace`
+|Boolean
+|Controls whether ACK controllers resolve resource references to resources in a different Kubernetes namespace. Cross-namespace references are disabled by default. Set this field to `true` if you want references to resolve across namespaces. When the field is `false`, references must stay in the same namespace, and ACK reports out-of-namespace references as unresolved. When you create a capability without this field, the capability is created with the field set to `false`, and `describe-capability` returns `false`. For more information, see <<ack-cross-namespace-references>>.
+
+|`disabledServices`
+|Array of strings
+|A list of ACK service names whose controllers are turned off for this capability, for example `s3`, `ec2`, or `iam`. The controller for a disabled service does not run, and resources of that service are not reconciled until you re-enable the service by removing it from the list. Each service name is lowercase alphanumeric and is 1–63 characters long. The list can contain up to 200 service names. When you create a capability without this field or with an empty list, all supported ACK service controllers run.
+|===
+
+[NOTE]
+====
+Capabilities that were resolving cross-namespace references before `enableCrossNamespace` became available have the field set to `true`, so their behavior doesn't change.
+Capabilities that you create now have cross-namespace references disabled unless you set the field to `true`.
+====
+
+Whether the capability installs a disabled service's custom resource definitions (CRDs) depends on when you turn the service off:
+
+* If you turn a service off *when you create the capability*, the capability doesn't install that service's CRDs at all.
+* If you turn a service off *after creation*, the CRDs that the capability already installed remain in your cluster.
+
+Shared CRDs in the `services.k8s.aws` group are always installed and can't be turned off.
+
+Turning services off is how you run the capability alongside ACK controllers that you manage yourself, either while you migrate to the capability one service at a time, or to keep a particular service self-managed for the long term.
+For the recommended procedure, see <<ack-migration-coexist>>.
+
+[NOTE]
+====
+On `update-capability`, `disabledServices` replaces the previous list instead of merging with it:
+
+* Omit the field to leave the previous list unchanged.
+* Specify a list to replace the previous list entirely, so include every service that you want turned off.
+* To turn all services back on, specify an empty list.
+
+To turn a single service back on, specify the list of services that you want to remain turned off, without that service.
+====
+
+[NOTE]
+====
+A service name that doesn't correspond to a supported ACK service is ignored rather than rejected.
+The request succeeds and the name is stored, but no service is turned off for it.
+As a result, a misspelled name silently leaves that service running.
+Check your spelling carefully, because `describe-capability` returns the list exactly as you supplied it and doesn't identify unrecognized names.
+
+To confirm that a service is actually turned off, verify that its resources are no longer reconciled.
+A resource that you create for a turned-off service gets no status conditions at all, and no {aws} resource is created for it.
+====
+
+[IMPORTANT]
+====
+Turning off a service doesn't delete anything, and {aws} doesn't check whether the capability is currently managing resources of that service before turning it off.
+The Kubernetes custom resources and the {aws} resources that they represent both remain, but nothing reconciles them, so the {aws} resources can drift from the state that's declared in your cluster.
+
+Neither retention setting applies while a service is turned off:
+
+* `deletePropagationPolicy` is set on the capability and takes effect only when you delete the *capability*.
+* The `services.k8s.aws/deletion-policy` annotation is set on an individual resource and takes effect only when a running controller processes the deletion of that *Kubernetes resource*. For more information, see <<ack-considerations>>.
+
+If you delete a Kubernetes resource while its service is turned off, no controller is running to process the resource's finalizer.
+The resource stays in the `Terminating` state indefinitely and its {aws} resource is never deleted, even if you set `services.k8s.aws/deletion-policy` to `delete`.
+Re-enable the service before you delete its resources, or delete the resources before you turn the service off.
+To recover a resource that is already stuck, see <<ack-troubleshooting>>.
+
+Creating a resource while its service is turned off also has no effect, because no controller processes it.
+No {aws} resource is created, and the Kubernetes resource stays unreconciled until you re-enable the service.
+====
+
 == Next steps
 
 After creating the ACK capability:

@@ -78,7 +78,7 @@ aws eks create-capability \
 ----
 
 The command returns immediately, but the capability takes some time to become active as EKS creates the required capability infrastructure and components.
-EKS will install the Kubernetes Custom Resource Definitions related to this capability in your cluster as it is being created.
+EKS installs the Kubernetes Custom Resource Definitions related to this capability in your cluster as it creates the capability.
 
 [NOTE]
 ====
@@ -88,6 +88,33 @@ If you receive an error that the cluster doesn't exist or you don't have permiss
 * Your {aws} CLI is configured for the correct region
 * You have the required IAM permissions
 ====
+
+=== Set ACK configuration options (optional)
+
+To enable cross-namespace references or turn off specific ACK service controllers at creation, pass the `--configuration` parameter with an `ack` object.
+Run the following command *instead of* the command in the previous step, not in addition to it.
+It turns on cross-namespace reference resolution and disables the `s3` and `ec2` service controllers.
+For information about each field and its constraints, see <<ack-configuration-options>>.
+
+If you already created the capability, don't run `create-capability` again.
+Change the configuration with `update-capability` instead, as described in <<ack-update-configuration>>.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks create-capability \
+  --region [.replaceable]`region-code` \
+  --cluster-name [.replaceable]`my-cluster` \
+  --capability-name my-ack \
+  --type ACK \
+  --role-arn arn:aws:iam::$(aws sts get-caller-identity --query Account --output text):role/ACKCapabilityRole \
+  --delete-propagation-policy RETAIN \
+  --configuration '{
+    "ack": {
+      "enableCrossNamespace": true,
+      "disabledServices": ["s3", "ec2"]
+    }
+  }'
+----
 
 == Step 3: Verify the capability is active
 

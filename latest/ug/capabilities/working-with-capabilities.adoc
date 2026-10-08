@@ -229,6 +229,40 @@ Not all capability properties can be updated after creation.
 Refer to the capability-specific documentation for details on what can be modified.
 ====
 
+[#ack-update-configuration]
+=== Update ACK capability configuration
+
+For an ACK capability, you can change the type-specific settings in the `ack` object of the `configuration` after creation.
+For a description of each field and its constraints, see <<ack-configuration-options>>.
+
+The following example turns cross-namespace reference resolution on and replaces the set of disabled services with a single service (`iam`).
+Replace [.replaceable]`region-code` with the {aws} Region that your cluster is in, replace [.replaceable]`my-cluster` with the name of your cluster, and replace [.replaceable]`my-ack` with the name of your ACK capability.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks update-capability \
+  --region [.replaceable]`region-code` \
+  --cluster-name [.replaceable]`my-cluster` \
+  --capability-name [.replaceable]`my-ack` \
+  --configuration '{
+    "ack": {
+      "enableCrossNamespace": true,
+      "disabledServices": ["iam"]
+    }
+  }'
+----
+
+[NOTE]
+====
+Omitting a field leaves its current value unchanged.
+When you do specify `disabledServices`, the list replaces the previous list instead of merging with it, so include every service that you want turned off.
+To turn all services back on, specify an empty list.
+To turn a single service back on, specify the list of services that you want to remain turned off, without that service.
+For details, see <<ack-configuration-options>>.
+====
+
+The capability status changes to `UPDATING` while EKS applies the change, and returns to `ACTIVE` when the update is complete.
+
 [#capabilities-delete]
 == Delete a capability
 

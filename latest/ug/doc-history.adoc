@@ -55,6 +55,13 @@ link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
 Added `wafv2:ListWebACLs` permission in `AmazonEKSLoadBalancingPolicy` to allow Amazon EKS Auto Mode Controller to list {aws} WAF Web ACLs when reconciling Application Load Balancer associations.
 Added `gateway.eks.amazonaws.com.alb/stack`, `gateway.eks.amazonaws.com.alb/resource`, `gateway.eks.amazonaws.com.nlb/stack`, and `gateway.eks.amazonaws.com.nlb/resource` tag keys to the resource-tagging allowlist in `AmazonEKSLoadBalancingPolicy`. This allows Amazon EKS Auto Mode Controller to manage {aws} resources for Kubernetes Gateway API (ALB and NLB) workloads.
 
+[.update,date="2026-08-28"]
+=== ACK configuration options
+[.update-ulink]
+link:eks/latest/userguide/create-ack-capability.html#ack-configuration-options[type="documentation"]
+
+The Amazon EKS capability for {aws} Controllers for Kubernetes (ACK) now accepts type-specific configuration. You can control whether ACK controllers resolve cross-namespace resource references (`enableCrossNamespace`, which is disabled by default), and disable the controllers for specific ACK services (`disabledServices`), when you create or update a capability. Turning services off is now the recommended way to run the capability alongside ACK controllers that you manage yourself, and to migrate to the capability one service at a time.
+
 [.update,date="2026-08-24"]
 === Deterministic Argo CD capability endpoint
 [.update-ulink]
