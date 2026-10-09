@@ -2,17 +2,15 @@ include::../attributes.txt[]
 
 [.topic]
 [#sandboxing-ami]
-= AMIs and container images
+= Build a compatible AMI
 :info_titleabbrev: AMI
 
 [abstract]
 --
-Build compatible AMIs for Nitro Sandboxes and encrypt container images so the parent instance never accesses plaintext image contents.
+Build a compatible AMI for Nitro Sandboxes to run isolated and confidential pods on self-managed or managed node groups outside of EKS Auto Mode.
 --
 
 Pods running in Nitro Sandboxes are available on EKS Auto Mode clusters without additional configuration. For self-managed or managed node groups outside of Auto Mode, build a compatible AMI using the Nitro Sandboxes binaries provided by {aws}. See the AMI build guide.
-
-You can also encrypt the container images that run inside a sandbox so that the parent instance transfers only encrypted layer blobs and never accesses the plaintext image contents.
 
 [.topiclist]
 [[Topic List]]
@@ -20,5 +18,3 @@ You can also encrypt the container images that run inside a sandbox so that the 
 include::sandboxing-ami-create-update.adoc[leveloffset=+1]
 
 include::sandboxing-download-binaries.adoc[leveloffset=+1]
-
-include::sandboxing-encrypted-images.adoc[leveloffset=+1]

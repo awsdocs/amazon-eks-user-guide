@@ -17,16 +17,25 @@ Isolated and confidential pods are opt-in. You select the feature per pod by set
 Isolated and confidential pods run only on supported Amazon EC2 instance types. For the list of instance types that support Nitro Sandboxes, see *[PLACEHOLDER: supported instance types link]*.
 // TODO: Replace the placeholder above with the final link to the supported instance types list before publishing.
 
+[.topiclist]
+[[Topic List]]
+
+include::sandboxing-getting-started.adoc[leveloffset=+1]
+
+include::sandboxing-configure.adoc[leveloffset=+1]
+
+include::sandboxing-reference.adoc[leveloffset=+1]
+
 [#sandboxing-how-it-works]
 == How it works
 
-The parent instance runs the `sandbox-shim`, which launches a Firecracker process with virtio devices for communication. Inside the Nitro Sandbox, the `sandbox-agent` manages containers through its own `containerd` instance. The Nitro hypervisor manages sandbox lifecycle, while runtime notifications between the parent instance kernel and the sandbox kernel coordinate Nitro Sandbox operation.
+The parent instance runs the `containerd-shim-nitro-sandbox-v2`, which launches a Firecracker process with virtio devices for communication. Inside the Nitro Sandbox, the `nitro-sandbox-agent` manages containers through its own `containerd` instance. The Nitro hypervisor manages sandbox lifecycle, while runtime notifications between the parent instance kernel and the sandbox kernel coordinate Nitro Sandbox operation.
 
 When kubelet schedules a pod that uses the `isolated-sandbox` or `confidential-sandbox` runtime class, the following happens:
 
 . A Nitro Sandbox is created for the pod.
+. A policy is evaluated that controls what the pod is allowed to do, including which container images are allowed to load, which containers can run, whether `exec` and logs are permitted, and what mounts are allowed.
 . The container images are loaded into the sandbox.
-. A policy is evaluated that controls what the pod is allowed to do, including which containers can run, whether `exec` and logs are permitted, and what mounts are allowed.
 . Containers start inside the sandbox, isolated from the parent instance and from other pods.
 
 [#sandboxing-key-features]
@@ -104,12 +113,3 @@ To run untrusted or generated code that must not communicate over the network, s
 == Shared responsibility
 
 With isolated and confidential pods, {aws} is responsible for the Nitro hypervisor, the Nitro Sandbox boundary, and the guest system image. Customers are responsible for their container images, Cedar policies, {aws} KMS key policies, and application code.
-
-[.topiclist]
-[[Topic List]]
-
-include::sandboxing-getting-started.adoc[leveloffset=+1]
-
-include::sandboxing-configure.adoc[leveloffset=+1]
-
-include::sandboxing-reference.adoc[leveloffset=+1]

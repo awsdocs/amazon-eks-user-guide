@@ -2,8 +2,8 @@ include::../attributes.txt[]
 
 [.topic]
 [#sandboxing-limitations]
-= Limitations
-:info_titleabbrev: Limitations
+= Considerations
+:info_titleabbrev: Considerations
 
 [abstract]
 --
@@ -60,9 +60,9 @@ Running a pod inside a Nitro Sandbox changes the behavior of some Kubernetes fea
 |Up to 5 times the instance vCPU count in total vCPU allocation across all sandboxes on a node. On a 4-vCPU instance: 20 sandboxes x 1 vCPU, 10 sandboxes x 2 vCPUs, or 5 sandboxes x 4 vCPUs (or a mix).
 |Right-size vCPU and memory requests. Memory limits are typically the binding constraint before vCPU oversubscription.
 
-|EFS cross-account mounts that use CSI volumeAttributes
-|Cross-account EFS mounts that rely on the EFS CSI driver resolving mount target IPs in the remote account by using `volumeAttributes` do not work. The Nitro Sandbox does not read `volumeAttributes` from the driver.
-|Use efs-utils DNS mode (`crossaccount: "true"`) with a standard cross-account Route 53 private hosted zone.
+|`kubectl port-forward` to loopback-only servers
+|`kubectl port-forward` can't reach a server that listens only on `127.0.0.1` or `::1` inside the pod. The forward is established, but connections close without returning data. Port-forward traffic is delivered to the pod IP rather than to the loopback interface inside the Nitro Sandbox, so only servers that listen on the pod IP or on all interfaces are reachable.
+|Bind the server to all interfaces (`0.0.0.0` or `::`), or use `kubectl exec` to reach it from inside the pod.
 |===
 
 Nitro Sandboxes on Amazon EKS build on the Amazon EC2 Nitro Sandboxes primitive. Some constraints come from that primitive and apply to any workload, such as supported instance types, the maximum number of attached devices, and the absence of GPU passthrough, snapshot and restore, and live migration. For the full list, see link:AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html#nitro-sandboxes-considerations[Considerations and limitations,type="documentation"] in the _Amazon EC2 User Guide_.

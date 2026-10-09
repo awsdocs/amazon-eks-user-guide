@@ -72,8 +72,8 @@ The pod runs inside a Nitro Sandbox. From the workload's perspective, the enviro
 == What happens when a pod starts
 
 . A dedicated Nitro Sandbox is created for the pod.
-. The container images are loaded into the sandbox.
 . The Cedar policy attached to the pod is evaluated (if present).
+. The container images are loaded into the sandbox.
 . Containers start inside the sandbox.
 
 Each pod gets its own Nitro Sandbox. Multiple containers within the same pod share a single sandbox.
@@ -89,7 +89,7 @@ Deployments, StatefulSets, DaemonSets, ReplicaSets, Jobs, and CronJobs create po
 [IMPORTANT]
 .Set annotations on the pod template
 ====
-An annotation on the controller's own metadata is accepted and then ignored. Kubernetes does not copy it into the pods, so policy, network, and throttle annotations placed there have no effect.
+An annotation on the controller's own metadata is accepted and then ignored. For example, a `sandbox.amazonaws.com/` annotation set on a Deployment's own `metadata.annotations`, rather than under `spec.template.metadata.annotations`, has no effect. Kubernetes does not copy it into the pods, so policy, network, and throttle annotations placed there have no effect.
 ====
 
 Example Deployment:

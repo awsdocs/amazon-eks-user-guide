@@ -271,6 +271,18 @@ Signature verification requires network access from the Nitro Sandbox to the {aw
 
 In confidential mode, configure {aws} KMS key policies with `kms:RecipientAttestation:PCR<PCR_ID>` conditions to gate decryption on specific PCR values. PCR0 measures the system image; PCR17 measures the Cedar policy hash. A modified policy produces a different PCR17 value, so KMS refuses to release keys gated on the original value.
 
+Pin the Cedar policy with a `kms:RecipientAttestation:PCR17` condition set to the predicted PCR17 value from Step 1. To also require that the attestation comes from the EKS Nitro Sandbox service rather than pinning an exact PCR8 measurement, add a `kms:RecipientAttestation:PCR8:ServiceName` condition set to `eks.amazonaws.com`. The following key policy condition block requires both:
+
+[source,json,subs="verbatim,attributes"]
+----
+"Condition": {
+  "StringEqualsIgnoreCase": {
+    "kms:RecipientAttestation:PCR17": "5dafcce823381ecda1f1f8f16fc9e1992e2b9c1f78efd09bb75713026e07d57600f3fff0d785fd52e236e6ce9d2ae025",
+    "kms:RecipientAttestation:PCR8:ServiceName": "eks.amazonaws.com"
+  }
+}
+----
+
 [IMPORTANT]
 .Verify attestation before releasing secrets
 ====
