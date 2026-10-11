@@ -472,7 +472,7 @@ spec:
 [#eks-aiml-odcrs]
 == On-Demand Capacity Reservations (ODCRs)
 
-ODCRs guarantee capacity in a specific Availability Zone (AZ) without a long-term commitment. You're billed at standard On-Demand rates whether the capacity is used or not. ODCRs support all NVIDIA GPU families, including G-family instances that aren't supported by Capacity Blocks for ML. ODCRs are pre-paid, so EKS Auto Mode and Karpenter model them as free and prioritize them over On-Demand and Spot.
+ODCRs reserve capacity in a specific Availability Zone (AZ) without a long-term commitment. You're billed at standard On-Demand rates whether the capacity is used or not. ODCRs support all NVIDIA GPU families, including G-family instances that aren't supported by Capacity Blocks for ML. ODCRs are pre-paid, so EKS Auto Mode and Karpenter model them as free and prioritize them over On-Demand and Spot.
 
 ODCRs behave differently from Capacity Blocks for ML at the end of the reservation. When an ODCR expires or is cancelled, the instance keeps running as standard On-Demand. See <<eks-aiml-node-pools-expiration>> for details.
 

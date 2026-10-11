@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#ml-inference-load-serve-model]
 = Load & Serve Models on Amazon EKS
-:info_titleabbrev: Load & Serve Model
+:info_titleabbrev: Load & Serve Models
 
 [abstract]
 --
@@ -25,7 +25,7 @@ The walkthrough uses the following tools:
 
 This section uses the https://huggingface.co/mistralai/Ministral-3-8B-Instruct-2512[Ministral-3-8B-Instruct-2512 model], but you can deploy any AI model that vLLM supports. For a list of supported models, see https://docs.vllm.ai/en/latest/models/supported_models/#text-generation[Supported models] in the vLLM documentation.
 
-IMPORTANT: Use the cluster you created in the <<ml-cluster-setup>> section. The instructions in this walkthrough work for both EKS Auto Mode and self-managed Karpenter.
+IMPORTANT: Use the cluster you created in the <<ml-cluster-setup>> section, with the GPU NodePool from the <<ml-inference-gpu-nodepool>> section. The instructions in this walkthrough work for both EKS Auto Mode and self-managed Karpenter.
 
 image::images/ml-inference-load-serve-model-arch.png["Architecture diagram showing LLM inference workflow with vLLM on Amazon EKS",width=75%]
 
@@ -39,7 +39,10 @@ When you complete these steps, you have a vLLM inference endpoint that you can u
 
 == Prerequisites
 
-Complete the steps in the <<ml-cluster-setup,Cluster setup section>>.
+Complete the following sections first:
+
+. <<ml-cluster-setup>> — creates the cluster, monitoring stack, and model weights S3 bucket.
+. <<ml-inference-gpu-nodepool>> — creates the GPU NodePool that provisions the GPU nodes this walkthrough schedules vLLM on.
 
 If you opened a new terminal, set the cluster name and region you used in the <<ml-cluster-setup-cli,Cluster Setup via CLI>> section:
 
@@ -354,7 +357,7 @@ content-length: 0
 [#ml-inference-load-serve-model-monitoring]
 == Step 4: Monitor vLLM
 
-vLLM exposes Prometheus metrics out of the box, including request rate, token throughput, end-to-end latency, and GPU KV cache utilization. In this section, you use these metrics with the monitoring stack you set up in the <<ml-cluster-setup, Cluster setup>> steps and view them on a pre-provisioned Grafana dashboard.
+vLLM exposes Prometheus metrics out of the box, including request rate, token throughput, end-to-end latency, and GPU KV cache utilization. In this section, you use these metrics with the monitoring stack you set up in the <<ml-cluster-setup,Cluster setup>> steps and view them on a pre-provisioned Grafana dashboard.
 
 [IMPORTANT]
 ====

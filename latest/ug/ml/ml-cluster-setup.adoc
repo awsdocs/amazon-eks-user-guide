@@ -3,11 +3,11 @@ include::../attributes.txt[]
 [.topic]
 [#ml-cluster-setup]
 = Set up Amazon EKS cluster for AI/ML workloads
-:info_titleabbrev: Set up cluster
+:info_titleabbrev: Cluster setup
 
 [abstract]
 --
-Set up an Amazon EKS cluster for AI/ML workloads with GPU compute, monitoring, and an Amazon S3 bucket for model storage.
+Set up the Amazon EKS cluster, load balancing, monitoring, and Amazon S3 storage that AI/ML training and inference workloads need, before you provision GPU compute.
 --
 
 [TIP]
@@ -15,22 +15,25 @@ Set up an Amazon EKS cluster for AI/ML workloads with GPU compute, monitoring, a
 https://events.eksworkshop.com/workshops/genai/[Register] for upcoming Amazon EKS AI/ML workshops.
 ====
 
-This section guides you through creating an Amazon EKS cluster ready to run inference workloads, including the compute with GPUs, monitoring stack, and Amazon S3 storage for model weights, along with the necessary {AWS} IAM permissions.
+This section sets up the supporting infrastructure that AI/ML training and inference workloads need on Amazon EKS. This includes the EKS cluster itself, load balancing for in-cluster endpoints, a monitoring stack, Amazon S3 storage for model weights, and the {AWS} IAM permissions that connect them.
+
+You provision GPU compute afterward, in <<ml-inference-gpu-nodepool>>. Setting up this infrastructure first means that monitoring and storage are already in place when GPU nodes join the cluster, so the GPU components start reporting metrics as soon as the nodes are ready.
 
 == Architecture overview
 
 The setup creates the following infrastructure:
 
-* *EKS cluster with GPU-enabled nodes* — A Karpenter-managed NodePool that dynamically provisions G-family GPU instances using Spot capacity with On-Demand fallback.
+* *EKS cluster* — An EKS cluster with the cluster-level components that GPU workloads depend on, including EKS Auto Mode or Karpenter for node auto-scaling and the NVIDIA device plugin.
+* *Load balancing* — An `alb` `IngressClass` backed by an {aws} Application Load Balancer, which fronts traffic for Grafana and, later, the inference endpoint.
 * *Monitoring stack* — Prometheus scrapes cluster, node, and GPU metrics and remote-writes them to Amazon Managed Service for Prometheus (AMP). Grafana provides dashboards for visualization. The NVIDIA DCGM Exporter adds GPU-specific metrics including utilization, memory, temperature, power draw, NVLink bandwidth, and tensor activity.
 * *Model weights S3 bucket* — An Amazon S3 bucket for storing model weights, with an EKS Pod Identity association that grants workload pods read/write access.
 
 == Cluster compute options
 
-The guide provides two paths for setting up your cluster. Choose one and follow it consistently through all steps.
+The guide provides two paths for setting up your cluster, which differ in how much of the node lifecycle you manage yourself. Choose one and follow it consistently through all steps, including the GPU NodePool you create later.
 
 * *EKS Auto Mode* — A single command provisions an EKS cluster with EKS Auto Mode enabled. All of the required components are provided out-of-the-box including Karpenter-based auto-scaling, the EKS node monitoring agent, fast container pulls with SOCI, and the NVIDIA device plugin.
-* *Self-managed Karpenter* — You install and configure each component explicitly: Karpenter via `eksctl`, automatic node repair through its feature gate, the EKS node monitoring agent as an EKS add-on, and the NVIDIA device plugin via Helm. You also create a custom `EC2NodeClass` that uses the EKS-optimized NVIDIA AL2023 AMIs and configures SOCI.
+* *Self-managed Karpenter* — You install and configure each component explicitly: Karpenter by using `eksctl`, automatic node repair through its feature gate, the EKS node monitoring agent as an EKS add-on, and the NVIDIA device plugin by using Helm. You also create a custom `EC2NodeClass` that uses the EKS-optimized NVIDIA AL2023 AMIs and configures SOCI.
 
 == What you'll set up
 
@@ -41,14 +44,8 @@ The guide provides two paths for setting up your cluster. Choose one and follow 
 |*Create cluster*
 |Provision the EKS control plane and cluster-level components needed for GPU workloads.
 
-|*Create dynamically provisioned GPU nodes*
-|Define a dynamic GPU NodePool that provisions G-family GPU instances as workloads are scheduled.
-
-|*Test with a sample pod*
-|Validate the setup end-to-end by running an `nvidia-smi` pod that triggers Karpenter to provision a GPU-enabled node.
-
-|*Add reserved capacity (optional)*
-|Attach an On-Demand Capacity Reservation (ODCR) to your NodeClass for reserved-first with Spot/On-Demand fallback.
+|*Set up load balancing*
+|Deploy an Application Load Balancer (ALB) to front traffic for Grafana and the inference endpoint.
 
 |*Install monitoring*
 |Deploy kube-prometheus-stack (Prometheus + Grafana) with remote-write to AMP, plus the NVIDIA DCGM Exporter for GPU metrics.
@@ -57,9 +54,12 @@ The guide provides two paths for setting up your cluster. Choose one and follow 
 |Create an S3 bucket and configure EKS Pod Identity so workload pods can read and write model weights.
 |===
 
+Once you finish setting up your cluster, the next step is GPU compute. For instructions on creating the GPU NodePool that dynamically provisions GPU instances, see <<ml-inference-gpu-nodepool>>.
+
 == Get started
 
-For step-by-step instructions using the {aws} CLI, see <<ml-cluster-setup-cli>>. For step-by-step instructions using Terraform, see <<ml-cluster-setup-tf>>.
+- For step-by-step instructions using the {aws} CLI, see <<ml-cluster-setup-cli>>. 
+- For step-by-step instructions using Terraform, see <<ml-cluster-setup-tf>>.
 
 include::ml-cluster-setup-cli.adoc[leveloffset=+1]
 
