@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-10-26"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-AmazonEKSBlockStoragePolicyV2[type="documentation"]
+
+Added the `ec2:CopyVolumes` permission to `AmazonEKSBlockStoragePolicyV2` to allow Amazon EKS Auto Mode to copy Amazon EBS volumes that have the EKS cluster name tag. You can create a PersistentVolumeClaim from an existing one in the same cluster without first taking a snapshot.
+
 [.update,date="2026-10-23"]
 === {aws} managed policy updates
 [.update-ulink]
