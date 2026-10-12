@@ -13,6 +13,22 @@ To receive notifications of all source file changes to this specific documentati
 ----
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
 ----
+== October 12, 2026
+
+**Feature**: Amazon Elastic Kubernetes Service (Amazon EKS) Auto Mode now supports advanced compute configuration through the new `advancedCompute` field in `NodeClass`. You can use the Kubernetes API to declaratively tune kubelet settings, Linux kernel sysctls, and hugepages for workloads that require specific node tuning. EKS Auto Mode validates these settings, applies them at node boot, and preserves them through scaling and upgrade events. You don't need to maintain EC2 launch templates, custom AMIs, or privileged DaemonSets.
+
+With `advancedCompute`, you can configure the following settings:
+
+* Kubelet settings – Enable user namespaces for rootless container builds in continuous integration and continuous delivery (CI/CD) pipelines. You can also tune eviction thresholds and container log rotation to protect nodes from disk and memory pressure. For more information about kubelet settings, see <<kubelet-config>>.
+* Kernel sysctls – Raise network and ARP cache limits for large clusters, and set other supported Linux kernel parameters. For more information about kernel sysctls, see <<sysctls>>.
+* Hugepages – Pre-allocate `2Mi` or `1Gi` hugepages for high-performance computing (HPC), database, and latency-sensitive workloads. For more information about hugepages, see <<hugepages>>.
+
+If you change kubelet or sysctl settings on an existing `NodeClass`, EKS Auto Mode marks its nodes as drifted. It then replaces them with nodes that use the updated configuration, which can disrupt running Pods. To limit how many nodes EKS Auto Mode replaces at once, set a disruption budget on your NodePool. For more information about disruption budgets, see <<create-node-pool>>.
+
+For more information about creating a `NodeClass`, see <<create-node-class>>.
+
+Advanced compute configuration is available in all {aws} Regions where EKS Auto Mode is available.
+
 == October 1, 2026
 
 **Feature**: Starting with EKS 1.37, newly created Auto Mode Node Pools default to `consolidationPolicy: Balanced` instead of `WhenEmptyOrUnderutilized`. While `WhenEmptyOrUnderutilized` disrupts a node's workloads whenever it sees a replacement candidate that yields any cost savings (as little as USD 0.01 per hour), `Balanced` approves the disruption when the hourly cost savings is worth the cost of disrupting the Pods on that node. You should see fewer Pod evictions at roughly the same cost.
