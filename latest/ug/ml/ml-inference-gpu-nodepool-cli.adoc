@@ -30,7 +30,7 @@ The GPU instances this section provisions incur charges, and an On-Demand Capaci
 ====
 
 * An EKS cluster created following the steps in <<ml-cluster-setup-cli>>.
-* `kubectl` >= 1.36, configured for the cluster. For setup instructions, see <<install-kubectl>>.
+* `kubectl`, configured for the cluster and within one minor version of your cluster's Kubernetes version. For setup instructions, see <<install-kubectl>>.
 * {aws} CLI >= 2.27, for setup instructions, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"].
 
 Set the cluster name and {aws} Region of the cluster you are adding the NodePool to. The steps in this section use both, so set them in every terminal you run these commands from. The following values are the defaults from <<ml-cluster-setup-cli>>, so replace them if you created your cluster with different ones:
@@ -64,7 +64,7 @@ EKS Auto Mode::
 +
 [IMPORTANT]
 ======
-This path uses the EKS-optimized Bottlerocket NVIDIA AMI, which does not include a driver version that supports the `g7` instance family (`g7` requires NVIDIA driver version 595 or later). Therefore, the NodePool in this path excludes the `g7` family. Other generation-7 instances, such as `g7e`, run on NVIDIA driver 580 and are supported. If you need `g7` support, use the self-managed Karpenter path with the EKS-optimized AL2023 NVIDIA AMI. For more information, see <<eks-amis-nvidia,EKS-optimized NVIDIA AMIs>>.
+EKS Auto Mode does not support the `g7` instance family yet, which requires NVIDIA driver version 595 or later. Therefore, the NodePool in this path excludes the `g7` family. Other generation-7 instances, such as `g7e`, run on NVIDIA driver 580 and are supported. If you need `g7` support, use the self-managed Karpenter path with the EKS-optimized AL2023 NVIDIA AMI. For more information, see <<eks-amis-nvidia,EKS-optimized NVIDIA AMIs>>.
 ======
 +
 In EKS Auto Mode, the bundled `default` NodeClass automatically selects the Bottlerocket AMI for GPU instances, which includes pre-installed NVIDIA drivers, the NVIDIA device plugin, and SOCI parallel pull. You only need to apply a NodePool that references the `default` NodeClass:
@@ -166,7 +166,7 @@ Validate the EC2NodeClass:
 kubectl get ec2nodeclass gpu-inf
 ----
 +
-Expected output: `READY True`. If `False`, run `kubectl describe ec2nodeclass gpu-inf` and check conditions for missing subnet or security group tags.
+Expected output: `READY True`. Karpenter resolves the AMI, subnets, and security groups before it reports the `EC2NodeClass` as ready, so the `READY` column shows `Unknown` for the first several seconds. If it stays `False` or `Unknown`, run `kubectl describe ec2nodeclass gpu-inf` and check the conditions for missing subnet or security group tags.
 +
 *Create the GPU NodePool*
 +
@@ -336,6 +336,11 @@ Events:
 ----
 
 These events show the Pod scheduling sequence: the Pod initially fails to schedule because no GPU nodes exist (FailedScheduling), Karpenter nominates a new NodeClaim (Nominated), the scheduler retries while the nominated node is still booting (the second FailedScheduling, which names the uninitialized NodeClaim), the scheduler assigns the Pod after the node is ready (Scheduled), and then the container image is pulled and started. EKS Auto Mode comes with SOCI (Seekable OCI) parallel pull installed and configured out of the box on G, P, and Trn instances. Notice because of SOCI parallel pull, the container image was pulled from ECR in under 2 seconds (1.237s).
+
+[NOTE]
+====
+The preceding output is from the EKS Auto Mode path. On the self-managed Karpenter path, the `Nominated` event comes `From` `karpenter` instead of `eks-auto-mode/compute`, the `Scheduled` event names the node by its private DNS name instead of its instance ID, and the first `FailedScheduling` message reports `Insufficient nvidia.com/gpu` rather than an untolerated taint, because the `system` managed node group nodes are not tainted.
+====
 
 A NodeClaim is a request Karpenter creates to provision a specific node. It shows the instance type, capacity type, AZ, and whether the node is ready.
 
@@ -608,7 +613,7 @@ Karpenter treats `reserved` as the most cost-efficient option and launches it fi
 .Verify reserved priority and Spot fallback
 [%collapsible, expand-section="_collapse_all_"]
 ====
-After applying the changes, validate that Karpenter prioritizes reserved capacity and falls back to Spot or On-Demand. Deploy a 2-replica Deployment that requests 1 GPU per Pod. The ODCR is for 1 instance, so the first Pod triggers Karpenter to launch a reserved node. The second Pod cannot fit on the reserved node and triggers Karpenter to launch another node from Spot or On-Demand capacity.
+After applying the changes, validate that Karpenter prioritizes reserved capacity and falls back to Spot or On-Demand. Deploy a 2-replica Deployment that requests 1 GPU per Pod. The ODCR is for 1 instance, so the first Pod triggers Karpenter to launch a reserved node. The `nodeSelector` restricts the Pods to single-GPU instance types, so the second Pod cannot fit on the reserved node and triggers Karpenter to launch another node from Spot or On-Demand capacity.
 
 [source,yaml]
 ----
@@ -630,6 +635,8 @@ spec:
         app: gpu-overflow-test
         guide: ai-eks-docs
     spec:
+      nodeSelector:
+        karpenter.k8s.aws/instance-gpu-count: "1"
       tolerations:
         - key: nvidia.com/gpu
           operator: Exists
@@ -645,6 +652,13 @@ EOF
 ----
 
 Unlike the `nvidia-smi` test Pod from Step 2, which exits after 5 minutes, this Deployment keeps the Pods running (`sleep infinity`) so they hold the GPU and don't release the node.
+
+[IMPORTANT]
+======
+The `nodeSelector` is what makes this validation deterministic. The NodePool allows any G-family instance with a generation greater than 4, and several of those instance types have more than one GPU. Without the `nodeSelector`, Karpenter can satisfy both replicas with a single multi-GPU Spot instance, which leaves the reserved node empty, lets consolidation terminate it, and shows two Pods on one Spot node instead of the reserved and Spot split described here. On the EKS Auto Mode path, use `eks.amazonaws.com/instance-gpu-count` as the `nodeSelector` key instead.
+
+A reserved node that no Pod occupies still holds the reservation. The ODCR keeps billing either way, so complete <<gpu-nodepool-cli-cleanup,Clean up the GPU NodePool>> when you finish.
+======
 
 Verify the Pods scheduled on different nodes:
 
@@ -717,11 +731,41 @@ kubectl delete pod nvidia-smi --ignore-not-found
 kubectl delete deployment gpu-overflow-test --ignore-not-found
 ----
 
+Next, delete the GPU NodePool and the NodeClass object for your path. Each path has only one of the two NodeClass kinds, so running the command for the other path returns `the server doesn't have a resource type` instead of deleting anything.
+
+[role="tablist",sync-group-id="cluster-path"]
+EKS Auto Mode::
++
+[source,bash]
+----
+kubectl delete nodepool gpu-inf --ignore-not-found
+kubectl delete nodeclass gpu-inf --ignore-not-found
+----
+
+Self-managed Karpenter::
++
+[source,bash]
+----
+kubectl delete nodepool gpu-inf --ignore-not-found
+kubectl delete ec2nodeclass gpu-inf --ignore-not-found
+----
+
+Deleting the NodePool drains and terminates its nodes, which takes a few minutes. Confirm the GPU NodeClaims are gone before you move on, so no GPU instance keeps running:
+
+[source,bash]
+----
+kubectl get nodeclaims
+----
+
+No `gpu-inf` NodeClaim should appear in the output. While termination is in progress, the `gpu-inf` nodes show as `NotReady` in `kubectl get nodes`. If a NodeClaim is still listed after several minutes, check its status with `kubectl describe nodeclaim [.replaceable]``nodeclaim-name```.
+
 [#gpu-nodepool-cli-cleanup-cancel-reservation]
 .Cancel the capacity reservation
 [%collapsible, expand-section="_collapse_all_"]
 ====
-If you created an ODCR, cancel it first. List every active reservation in the Region with its instance type, so you cancel the right one even if you reserved an instance type other than the `g6e.4xlarge` default in Step 3:
+If you created an ODCR in Step 3, cancel it after the GPU NodeClaims are gone. Deleting the NodePool first drains and terminates the reserved node, because cancelling a reservation leaves any instance running on it.
+
+List every active reservation in the Region with its instance type, so you cancel the right one even if you reserved an instance type other than the `g6e.4xlarge` default in Step 3:
 
 [source,bash]
 ----
@@ -754,34 +798,16 @@ aws ec2 describe-capacity-reservations \
 
 [IMPORTANT]
 =====
-Cancelling a reservation does not terminate running instances. They continue at standard On-Demand rates until terminated. Delete the deployment first to drain the reserved node before cancelling.
+Cancelling a reservation does not terminate running instances. They continue at standard On-Demand rates until terminated. If you cancelled the reservation before the reserved node drained, confirm in the Amazon EC2 console that no GPU instance is still running.
 =====
+
+Also cancel any reservation that reached the `failed` state while you retried Step 3. A `failed` reservation does not incur charges, but it stays in your account until you cancel it. Drop the `state` filter from the preceding `describe-capacity-reservations` command to list those as well:
+
+[source,bash]
+----
+aws ec2 describe-capacity-reservations \
+  --query 'CapacityReservations[?State!=`cancelled` && State!=`expired`].[CapacityReservationId,InstanceType,AvailabilityZone,State]' \
+  --output table \
+  --region ${AWS_REGION}
+----
 ====
-
-Delete the GPU NodePool and the NodeClass object for your path. Each path has only one of the two NodeClass kinds, so running the command for the other path returns `the server doesn't have a resource type` instead of deleting anything.
-
-[role="tablist",sync-group-id="cluster-path"]
-EKS Auto Mode::
-+
-[source,bash]
-----
-kubectl delete nodepool gpu-inf --ignore-not-found
-kubectl delete nodeclass gpu-inf --ignore-not-found
-----
-
-Self-managed Karpenter::
-+
-[source,bash]
-----
-kubectl delete nodepool gpu-inf --ignore-not-found
-kubectl delete ec2nodeclass gpu-inf --ignore-not-found
-----
-
-Deleting the NodePool drains and terminates its nodes, which takes a few minutes. Confirm the GPU NodeClaims are gone before you move on, so no GPU instance keeps running:
-
-[source,bash]
-----
-kubectl get nodeclaims
-----
-
-No `gpu-inf` NodeClaim should appear in the output. While termination is in progress, the `gpu-inf` nodes show as `NotReady` in `kubectl get nodes`. If a NodeClaim is still listed after several minutes, check its status with `kubectl describe nodeclaim [.replaceable]``nodeclaim-name```.

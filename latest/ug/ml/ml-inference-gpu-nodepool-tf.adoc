@@ -31,7 +31,7 @@ The GPU instances this section provisions incur charges, and an On-Demand Capaci
 
 * An EKS cluster created following the steps in <<ml-cluster-setup-tf>>.
 * Terraform >= 1.15.0, for setup instructions, see https://developer.hashicorp.com/terraform/install[Installing Terraform].
-* `kubectl` >= 1.36, configured for the cluster. For setup instructions, see <<install-kubectl>>.
+* `kubectl`, configured for the cluster and within one minor version of your cluster's Kubernetes version. For setup instructions, see <<install-kubectl>>.
 * {aws} CLI >= 2.27, for setup instructions, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"].
 
 Confirm you are in the right directory, with state that matches the cluster `kubectl` points at:
@@ -139,6 +139,13 @@ ec2nodeclass.karpenter.k8s.aws/gpu-inf           True    25s
 
 Both paths show `0` nodes for `gpu-inf` until a GPU workload is scheduled. EKS Auto Mode and Karpenter only launch nodes when pending Pods require them.
 
+Immediately after the apply, the `READY` column can show `False` or `Unknown` for up to a minute, while Karpenter resolves the AMI, subnets, and security groups. Re-run the command until both objects report `True`.
+
+[NOTE]
+====
+The `g7` instance family requires NVIDIA driver version 595 or later, and the two paths differ in whether they can run it. The EKS-optimized AL2023 NVIDIA AMI that the self-managed Karpenter path uses includes driver 595, so `g7` is eligible on that path. EKS Auto Mode does not support `g7` yet, so the EKS Auto Mode NodePool excludes that family. Other generation-7 families, such as `g7e`, run on driver 580 and are eligible on both paths. If a NodePool manifest in `nodepools/[.replaceable]``strategy``/` constrains the instance generation or family differently than you need, edit it before you apply. For more information, see <<eks-amis-nvidia,EKS-optimized NVIDIA AMIs>>.
+====
+
 [#gpu-nodepool-tf-test]
 == Step 2: Test with a sample Pod
 
@@ -244,7 +251,7 @@ These events show the Pod scheduling sequence: the Pod initially fails to schedu
 
 [NOTE]
 ====
-On a self-managed Karpenter cluster, the `Nominated` event shows `karpenter/compute` instead of `eks-auto-mode/compute`.
+On a self-managed Karpenter cluster, the `Nominated` event comes `From` `karpenter` instead of `eks-auto-mode/compute`, and the `Scheduled` event names the node by its private DNS name instead of its instance ID.
 ====
 
 A NodeClaim is a request Karpenter creates to provision a specific node. It shows the instance type, capacity type, AZ, and whether the node is ready:
@@ -318,6 +325,36 @@ The `spot-ondemand` and `reserved-spot-ondemand` strategies are mutually exclusi
 ====
 
 GPU capacity for reservations is often constrained, so expect to retry. {aws} does not always reject an unfulfillable reservation outright: the `CreateCapacityReservation` call can succeed and the reservation then settles into the `failed` state. Terraform waits for the reservation to become `active`, so instead of an `InsufficientInstanceCapacity` error, the apply sits on `Still creating...` for as long as its timeout allows.
+
+Because each unsuccessful attempt costs you a long apply and a reservation to clean up, find a combination that {aws} can fulfill before you run Terraform. Create a reservation by hand, check its state, and cancel it. Repeat with other instance types and Availability Zones until one reports `active`, then pass that pair to `terraform apply`:
+
+[source,bash]
+----
+CR_ID=$(aws ec2 create-capacity-reservation \
+  --instance-type [.replaceable]`g6e.4xlarge` \
+  --instance-platform Linux/UNIX \
+  --availability-zone [.replaceable]`us-east-2a` \
+  --instance-count 1 \
+  --instance-match-criteria open \
+  --end-date-type unlimited \
+  --region [.replaceable]`region-code` \
+  --query 'CapacityReservation.CapacityReservationId' \
+  --output text)
+
+sleep 15
+
+aws ec2 describe-capacity-reservations \
+  --capacity-reservation-ids ${CR_ID} \
+  --query 'CapacityReservations[0].State' \
+  --output text \
+  --region [.replaceable]`region-code`
+
+aws ec2 cancel-capacity-reservation \
+  --capacity-reservation-id ${CR_ID} \
+  --region [.replaceable]`region-code`
+----
+
+An `InsufficientInstanceCapacity` error from the first command, or any state other than `active` from the second, means {aws} cannot fulfill that instance type in that Availability Zone right now. A reservation that you create this way is not the one Terraform manages, so cancel it before you apply, as shown.
 
 If the apply does not finish within a few minutes, check the reservation state from a second terminal:
 
@@ -420,7 +457,12 @@ gpu-inf   gpu-inf     0       True    30s
 .Verify that reserved capacity is used first, with Spot fallback
 [%collapsible, expand-section="_collapse_all_"]
 ====
-After applying the changes, validate that Karpenter prioritizes reserved capacity and falls back to Spot or On-Demand. Deploy a 2-replica Deployment that requests 1 GPU per Pod. The ODCR is for 1 instance (1 GPU), so the first Pod triggers Karpenter to launch a reserved node. The second Pod cannot fit on the reserved node and triggers Karpenter to launch another node from Spot or On-Demand capacity.
+After applying the changes, validate that Karpenter prioritizes reserved capacity and falls back to Spot or On-Demand. Deploy a 2-replica Deployment that requests 1 GPU per Pod. The ODCR is for 1 instance (1 GPU), so the first Pod triggers Karpenter to launch a reserved node. The `nodeSelector` restricts the Pods to single-GPU instance types, so the second Pod cannot fit on the reserved node and triggers Karpenter to launch another node from Spot or On-Demand capacity.
+
+[IMPORTANT]
+=====
+Keep the `nodeSelector`. The NodePool allows multi-GPU instance types, and without it Karpenter can satisfy both replicas with one multi-GPU Spot instance. The reserved node is then left empty, consolidation terminates it, and you see two Pods on a single Spot node instead of the reserved and Spot split described here. On the EKS Auto Mode path, use `eks.amazonaws.com/instance-gpu-count` as the `nodeSelector` key instead.
+=====
 
 [source,yaml]
 ----
@@ -442,6 +484,8 @@ spec:
         app: gpu-overflow-test
         guide: ai-eks-docs
     spec:
+      nodeSelector:
+        karpenter.k8s.aws/instance-gpu-count: "1"
       tolerations:
         - key: nvidia.com/gpu
           operator: Exists

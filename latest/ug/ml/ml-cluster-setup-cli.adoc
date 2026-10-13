@@ -47,7 +47,7 @@ Skip to <<ml-inference-gpu-nodepool>> if you already have a cluster running with
 The resources you create in this tutorial, including EKS clusters, GPU instances, Application Load Balancers, and Amazon Managed Service for Prometheus, incur charges. Delete resources when you finish to avoid ongoing charges.
 ====
 
-* `kubectl` >= 1.36. For setup instructions, see <<install-kubectl>>.
+* `kubectl` >= 1.37. For setup instructions, see <<install-kubectl>>.
 * {aws} CLI >= 2.27. For setup instructions, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"].
 * Helm >= 3.14. For setup instructions, see <<helm,Setup Helm>>.
 * `jq`. For setup instructions, see https://jqlang.github.io/jq/download/[Download jq].
@@ -72,6 +72,11 @@ Keep the following cluster name and {aws} Region consistent throughout these ste
 export CLUSTER_NAME=ai-eks-docs
 export AWS_REGION=us-east-2
 ----
+
+[IMPORTANT]
+====
+Use a cluster name that no other cluster in the Region is already using, including a cluster from a previous run of this guide or from <<ml-cluster-setup-tf>>, which uses the same default name. On the self-managed Karpenter path, the cluster name is also the value of the `karpenter.sh/discovery` tag that Karpenter uses to find subnets and security groups. If a second cluster, or an incompletely deleted one, carries the same tag, Karpenter selects subnets and security groups from both VPCs and every node launch fails with an `InvalidParameter` error that reports that a security group and a subnet belong to different networks.
+====
 
 Using all available AZs improves fault tolerance and increases the chances of obtaining GPU capacity:
 
@@ -210,7 +215,7 @@ kind: ClusterConfig
 metadata:
   name: ${CLUSTER_NAME}
   region: ${AWS_REGION}
-  version: "1.36"
+  version: "1.37"
   tags:
     karpenter.sh/discovery: ${CLUSTER_NAME}
 
@@ -254,7 +259,7 @@ Create the cluster with the config file:
 eksctl create cluster -f /tmp/cluster-karpenter.yaml
 ----
 +
-This command takes about 15 minutes. It creates an EKS cluster with a managed node group dedicated to hosting add-ons and the Karpenter controller. Karpenter is installed with the Spot interruption queue enabled so it can handle Spot interruption and rebalance recommendations. The `autoModeConfig.enabled: false` setting makes it explicit that this cluster does not use EKS Auto Mode, so the Karpenter components installed in this path are responsible for node management.
+This command takes about 25 minutes. It creates an EKS cluster with a managed node group dedicated to hosting add-ons and the Karpenter controller. Karpenter is installed with the Spot interruption queue enabled so it can handle Spot interruption and rebalance recommendations. The `autoModeConfig.enabled: false` setting makes it explicit that this cluster does not use EKS Auto Mode, so the Karpenter components installed in this path are responsible for node management.
 +
 The cluster also gets the https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html[EKS Pod Identity Agent], the https://docs.aws.amazon.com/eks/latest/userguide/node-health.html[EKS node monitoring agent], and the Amazon EBS CSI driver installed as EKS add-ons. EKS Pod Identity is used later in the guide. The EKS node monitoring agent runs on every node and reads kernel logs to set node conditions such as `AcceleratedHardwareReady`, `KernelReady`, and `NetworkingReady`, which Karpenter automatic node repair uses to decide when to replace an unhealthy node.
 +
@@ -265,25 +270,29 @@ Verify the cluster is operational:
 kubectl get pods --all-namespaces
 ----
 +
-Expected output includes Karpenter, CoreDNS, kube-proxy, aws-node (VPC CNI), the EKS Pod Identity Agent, and the EKS node monitoring agent.
+Expected output includes Karpenter, CoreDNS, kube-proxy, aws-node (VPC CNI), the Amazon EBS CSI driver, the EKS Pod Identity Agent, and the EKS node monitoring agent.
 +
 [source,bash]
 ----
-NAMESPACE     NAME                              READY   STATUS    RESTARTS   AGE
-karpenter     karpenter-567547464c-s6vkx        1/1     Running   0          3m40s
-karpenter     karpenter-567547464c-x7gmw        1/1     Running   0          3m40s
-kube-system   aws-node-b6gf2                    2/2     Running   0          12m
-kube-system   aws-node-lcphh                    2/2     Running   0          12m
-kube-system   coredns-7d4dcbf4fb-ccvrr          1/1     Running   0          16m
-kube-system   coredns-7d4dcbf4fb-qbhk2          1/1     Running   0          16m
-kube-system   eks-node-monitoring-agent-h79vm   1/1     Running   0          9m45s
-kube-system   eks-node-monitoring-agent-tf4dw   1/1     Running   0          9m45s
-kube-system   eks-pod-identity-agent-5jbtc      1/1     Running   0          12m
-kube-system   eks-pod-identity-agent-rwcrc      1/1     Running   0          12m
-kube-system   kube-proxy-p4bmq                  1/1     Running   0          12m
-kube-system   kube-proxy-v5nwr                  1/1     Running   0          12m
-kube-system   metrics-server-5b966ff79c-hr58p   1/1     Running   0          9m22s
-kube-system   metrics-server-5b966ff79c-szs2d   1/1     Running   0          9m22s
+NAMESPACE     NAME                                  READY   STATUS    RESTARTS   AGE
+karpenter     karpenter-567547464c-s6vkx            1/1     Running   0          3m40s
+karpenter     karpenter-567547464c-x7gmw            1/1     Running   0          3m40s
+kube-system   aws-node-b6gf2                        2/2     Running   0          12m
+kube-system   aws-node-lcphh                        2/2     Running   0          12m
+kube-system   coredns-7d4dcbf4fb-ccvrr              1/1     Running   0          16m
+kube-system   coredns-7d4dcbf4fb-qbhk2              1/1     Running   0          16m
+kube-system   ebs-csi-controller-86bd88d684-6jdb9   6/6     Running   0          10m
+kube-system   ebs-csi-controller-86bd88d684-6qc9z   6/6     Running   0          10m
+kube-system   ebs-csi-node-jvl22                    3/3     Running   0          10m
+kube-system   ebs-csi-node-qsp58                    3/3     Running   0          10m
+kube-system   eks-node-monitoring-agent-h79vm       1/1     Running   0          9m45s
+kube-system   eks-node-monitoring-agent-tf4dw       1/1     Running   0          9m45s
+kube-system   eks-pod-identity-agent-5jbtc          1/1     Running   0          12m
+kube-system   eks-pod-identity-agent-rwcrc          1/1     Running   0          12m
+kube-system   kube-proxy-p4bmq                      1/1     Running   0          12m
+kube-system   kube-proxy-v5nwr                      1/1     Running   0          12m
+kube-system   metrics-server-5b966ff79c-hr58p       1/1     Running   0          9m22s
+kube-system   metrics-server-5b966ff79c-szs2d       1/1     Running   0          9m22s
 ----
 +
 *Enable Karpenter feature gates*
@@ -347,6 +356,8 @@ helm install nvidia-device-plugin nvdp/nvidia-device-plugin \
 * `nodeSelector.amiFamily: al2023`: scopes the DaemonSet to AL2023 nodes only (Bottlerocket already has the plugin built in)
 * `gfd.enabled: true`: enables GPU Feature Discovery labels (`nvidia.com/gpu.product`, `nvidia.com/gpu.memory`, and others)
 --
++
+Because `gfd.enabled` is `true`, the chart also deploys Node Feature Discovery in `kube-system`. This includes a master, a garbage collector, and a worker on every node. These `nvidia-device-plugin-node-feature-discovery-*` Pods appear alongside the device plugin DaemonSet. They apply the GPU labels after a GPU node joins.
 +
 Verify the NVIDIA device plugin is installed. The expectation is that there are zero device plugin Pods until a GPU NodePool with the matching label is provisioned.
 +
@@ -494,6 +505,11 @@ aws iam create-policy \
   --policy-name AWSLoadBalancerControllerIAMPolicy \
   --policy-document file://iam_policy.json
 ----
++
+[NOTE]
+======
+IAM policy names are unique per {aws} account, not per cluster or Region. If a cluster in your account already runs the {aws} Load Balancer Controller, this command returns `EntityAlreadyExists`. That error is safe to ignore. The next step references the policy by name, so the existing policy is used. Treat the error as a failure only if you need the latest permissions. In that case, add a new policy version with `aws iam create-policy-version --set-as-default`.
+======
 +
 *Create the Pod Identity association*
 +
@@ -1242,9 +1258,9 @@ Expected output:
 ----
 === Caller Identity ===
 {
-    "UserId": "AROA...:eks-ai-eks-docs-model-s-...",
+    "UserId": "AROA...:eks-ai-eks-doc-s3-test-...",
     "Account": "123456789012",
-    "Arn": "arn:aws:sts::123456789012:assumed-role/ai-eks-docs-model-storage-role/eks-ai-eks-docs-model-s-..."
+    "Arn": "arn:aws:sts::123456789012:assumed-role/ai-eks-docs-model-storage-role/eks-ai-eks-doc-s3-test-..."
 }
 
 === S3 Write Test ===
@@ -1437,6 +1453,19 @@ kubectl delete serviceaccount model-storage-sa
 .Delete the remaining resources and the cluster
 [%collapsible, expand-section="_collapse_all_"]
 ====
+On the self-managed Karpenter path, first delete every Karpenter `NodePool` and `EC2NodeClass`, including the `general-purpose` pair from Step 1. Then wait for the nodes to drain.
+
+Karpenter creates an EC2 instance profile for each `EC2NodeClass` and removes it when you delete that `EC2NodeClass`. If an `EC2NodeClass` still exists when `eksctl` removes Karpenter, nothing is left to delete the instance profile. The stack that owns the Karpenter node IAM role then cannot be deleted:
+
+[source,bash]
+----
+kubectl delete nodepool --all
+kubectl delete ec2nodeclass --all
+kubectl get nodeclaims
+----
+
+Wait until `kubectl get nodeclaims` returns `No resources found`, then delete the cluster:
+
 [source,bash]
 ----
 eksctl delete cluster --name=$CLUSTER_NAME --region=$AWS_REGION
@@ -1462,5 +1491,58 @@ aws cloudformation describe-stacks \
   --output text
 ----
 
-The cluster name should be absent from the first command's output, the second command should return nothing, and the third should report that the stack does not exist. If the stack reports `DELETE_FAILED`, open it in the {aws} CloudFormation console to see which resource blocked deletion, remove that resource, and run `eksctl delete cluster` again.
+The cluster name should be absent from the first command's output, the second command should return nothing, and the third should report that the stack does not exist.
+
+If a stack reports `DELETE_FAILED`, list the resources that blocked deletion, remove them, and delete the stack again. The following command prints the reason for each failure, for either of the two stacks that can fail here:
+
+[source,bash]
+----
+aws cloudformation describe-stack-events \
+  --region $AWS_REGION \
+  --stack-name [.replaceable]`stack-name` \
+  --query "StackEvents[?ResourceStatus=='DELETE_FAILED'].[LogicalResourceId,ResourceStatusReason]" \
+  --output text
+----
+
+Two failures are common on the self-managed Karpenter path:
+
+* `eksctl-[.replaceable]``cluster-name``-karpenter` fails with `KarpenterNodeRole ... Cannot delete entity, must remove roles from instance profile first`. An instance profile that Karpenter created still references the node role, which happens when an `EC2NodeClass` outlived Karpenter. Detach and delete the instance profile, then delete the stack again:
++
+[source,bash]
+----
+aws iam list-instance-profiles-for-role \
+  --role-name eksctl-KarpenterNodeRole-${CLUSTER_NAME} \
+  --query 'InstanceProfiles[].InstanceProfileName' \
+  --output text
+
+aws iam remove-role-from-instance-profile \
+  --instance-profile-name [.replaceable]`instance-profile-name` \
+  --role-name eksctl-KarpenterNodeRole-${CLUSTER_NAME}
+
+aws iam delete-instance-profile --instance-profile-name [.replaceable]`instance-profile-name`
+
+aws cloudformation delete-stack --region $AWS_REGION --stack-name eksctl-${CLUSTER_NAME}-karpenter
+----
+* `eksctl-[.replaceable]``cluster-name``-cluster` fails on `ControlPlaneSecurityGroup`, `ClusterSharedNodeSecurityGroup`, or the private subnets. Each reports a dependent object error. The EKS-managed cluster security group `eks-cluster-sg-[.replaceable]``cluster-name``-*` can outlive the control plane and hold the subnets. Confirm no network interfaces remain in the VPC, delete that security group, and delete the stack again:
++
+[source,bash]
+----
+aws ec2 describe-security-groups \
+  --region $AWS_REGION \
+  --filters "Name=group-name,Values=eks-cluster-sg-${CLUSTER_NAME}-*" \
+  --query 'SecurityGroups[].[GroupId,VpcId]' \
+  --output text
+
+aws ec2 describe-network-interfaces \
+  --region $AWS_REGION \
+  --filters "Name=vpc-id,Values=[.replaceable]`vpc-id`" \
+  --query 'NetworkInterfaces[].NetworkInterfaceId' \
+  --output text
+
+aws ec2 delete-security-group --region $AWS_REGION --group-id [.replaceable]`sg-id`
+
+aws cloudformation delete-stack --region $AWS_REGION --stack-name eksctl-${CLUSTER_NAME}-cluster
+----
++
+Deletion can take several more minutes after you remove the blocking resource, because {aws} CloudFormation retries the dependent subnets and security groups.
 ====

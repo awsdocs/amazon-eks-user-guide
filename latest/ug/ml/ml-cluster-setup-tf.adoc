@@ -32,7 +32,7 @@ The resources you create in this tutorial, including EKS clusters, GPU instances
 ====
 
 * Terraform >= 1.15.0. For setup instructions, see https://developer.hashicorp.com/terraform/install[Installing Terraform].
-* `kubectl` >= 1.36. For setup instructions, see <<install-kubectl>>.
+* `kubectl` >= 1.37. For setup instructions, see <<install-kubectl>>.
 * {aws} CLI >= 2.27. For setup instructions, see link:cli/latest/userguide/cli-chap-install.html[Installing, updating, and uninstalling the {aws} CLI,type="documentation"].
 * `jq`. For setup instructions, see https://jqlang.github.io/jq/download/[Download jq].
 * `git`, to clone the sample repository.
@@ -197,6 +197,11 @@ To deploy in a different Region, add `-var "region=[.replaceable]``region-code``
 
 The Terraform code uses all available Availability Zones in the target Region, excluding `use1-az3`, `usw1-az2`, and `cac1-az3` because https://repost.aws/knowledge-center/eks-cluster-creation-errors[Amazon EKS does not support control plane placement in those zones].
 
+[IMPORTANT]
+====
+Run `terraform apply` directly, as shown in the following steps. Do not save a plan with `terraform plan -out` and apply the saved plan file. The Kubernetes, Helm, and kubectl providers authenticate with a token from the `aws_eks_cluster_auth` data source, and a saved plan freezes that token at plan time. By the time you apply the plan, the token has expired, and every Helm release and Kubernetes object fails with `Unauthorized` or `the server has asked for the client to provide credentials` after the cluster itself is already created.
+====
+
 [role="tablist",sync-group-id="cluster-path"]
 EKS Auto Mode::
 +
@@ -218,7 +223,7 @@ terraform init
 terraform apply
 ----
 +
-This command takes about 15 minutes. It creates an EKS cluster with a managed node group dedicated to hosting add-ons and the Karpenter controller. Terraform installs Karpenter with the Spot interruption queue enabled and the `NodeRepair` and `StaticCapacity` feature gates turned on. It also installs the NVIDIA device plugin, the {aws} Load Balancer Controller, and the monitoring stack.
+This command takes about 30 minutes. It creates an EKS cluster with a managed node group dedicated to hosting add-ons and the Karpenter controller. Terraform installs Karpenter with the Spot interruption queue enabled and the `NodeRepair` and `StaticCapacity` feature gates turned on. It also installs the NVIDIA device plugin, the {aws} Load Balancer Controller, and the monitoring stack.
 
 === Review the Terraform outputs
 
@@ -231,15 +236,15 @@ Outputs:
 
 cluster_name         = "ai-eks-docs"
 configure_kubectl    = "aws eks update-kubeconfig --region us-east-2 --name ai-eks-docs --alias ai-eks-docs"
-configure_model_bucket = "export MODEL_BUCKET=ai-eks-docs-models-20250612abc1"
-model_bucket         = "ai-eks-docs-models-20250612abc1"
-node_iam_role_name   = "ai-eks-docs-eks-auto-20250612..."
+configure_model_bucket = "export MODEL_BUCKET=ai-eks-docs-models-20260612084512345600000004"
+model_bucket         = "ai-eks-docs-models-20260612084512345600000004"
+node_iam_role_name   = "ai-eks-docs-eks-auto-20260612..."
 region               = "us-east-2"
 ----
 
 The `configure_kubectl` output is a ready-to-run command that points `kubectl` at the cluster. The `model_bucket` output contains the S3 bucket name for model weights. The `node_iam_role_name` output shows the IAM role that nodes use.
 
-The resource count differs from the preceding example in Regions with a different number of Availability Zones, because the code creates a subnet, a route table, and their associations per zone.
+The preceding resource count is for the EKS Auto Mode path. The self-managed Karpenter path creates roughly 115 resources, because it provisions Karpenter, its interruption queue and event rules, the `system` managed node group, the {aws} Load Balancer Controller, and the NVIDIA device plugin itself. The count also differs in Regions with a different number of Availability Zones, because the code creates a subnet, a route table, and their associations per zone.
 
 === Configure kubectl
 
@@ -283,17 +288,21 @@ Self-managed Karpenter::
 kubectl get pods --all-namespaces
 ----
 +
-Expected output includes Karpenter, CoreDNS, kube-proxy, aws-node (VPC CNI), the EKS Pod Identity Agent, the EKS node monitoring agent, and the NVIDIA device plugin:
+Expected output includes Karpenter, CoreDNS, kube-proxy, aws-node (VPC CNI), the Amazon EBS CSI driver, the EKS Pod Identity Agent, the EKS node monitoring agent, the {aws} Load Balancer Controller, and the NVIDIA device plugin:
 +
 [source,bash]
 ----
 NAMESPACE     NAME                                                              READY   STATUS    RESTARTS   AGE
+kube-system   aws-load-balancer-controller-56c454df76-bbt9h                     1/1     Running   0          5m
+kube-system   aws-load-balancer-controller-56c454df76-drdp6                     1/1     Running   0          5m
 kube-system   aws-node-bzdcz                                                    2/2     Running   0          5m
 kube-system   aws-node-vkbhb                                                    2/2     Running   0          5m
 kube-system   coredns-7dbb8998cf-9b9wk                                          1/1     Running   0          5m
 kube-system   coredns-7dbb8998cf-pwtjd                                          1/1     Running   0          5m
 kube-system   ebs-csi-controller-748f54b69-8h7jv                                6/6     Running   0          5m
 kube-system   ebs-csi-controller-748f54b69-v2mv8                                6/6     Running   0          5m
+kube-system   ebs-csi-node-ks8vq                                                3/3     Running   0          5m
+kube-system   ebs-csi-node-ps9g8                                                3/3     Running   0          5m
 kube-system   eks-node-monitoring-agent-5qw4l                                   1/1     Running   0          5m
 kube-system   eks-node-monitoring-agent-7lrtm                                   1/1     Running   0          5m
 kube-system   eks-pod-identity-agent-ddvlv                                      1/1     Running   0          5m
@@ -437,7 +446,7 @@ Expected output:
 
 ----
 {
-    "BucketArn": "arn:aws:s3:::ai-eks-docs-models-20250612abc1",
+    "BucketArn": "arn:aws:s3:::ai-eks-docs-models-20260612084512345600000004",
     "BucketRegion": "us-east-2",
     "AccessPointAlias": false
 }
@@ -490,14 +499,19 @@ kubectl wait --for=jsonpath='{.status.phase}'=Succeeded pod/s3-test --timeout=30
 kubectl logs s3-test
 ----
 
+[NOTE]
+=====
+On the self-managed Karpenter path, this Pod usually waits for a new node. The `system` managed node group is tainted for cluster-critical add-ons, so the Pod stays `Pending` until Karpenter launches a node from the `general-purpose` NodePool, which takes two to three minutes. If `kubectl wait` times out, check `kubectl describe pod s3-test` for a `Nominated` event and run the `wait` command again.
+=====
+
 Expected output:
 
 ----
 === Caller Identity ===
 {
-    "UserId": "AROA...:eks-ai-eks-docs-model-s-...",
+    "UserId": "AROA...:eks-ai-eks-doc-s3-test-...",
     "Account": "123456789012",
-    "Arn": "arn:aws:sts::123456789012:assumed-role/ai-eks-docs-models-.../eks-ai-eks-docs-..."
+    "Arn": "arn:aws:sts::123456789012:assumed-role/ai-eks-docs-models-.../eks-ai-eks-doc-s3-test-..."
 }
 
 === S3 Write Test ===
@@ -506,7 +520,7 @@ Expected output:
 2026-07-15 12:00:00         19 test.txt
 
 === S3 Delete Test ===
-delete: s3://ai-eks-docs-models-20250612abc1/test.txt
+delete: s3://ai-eks-docs-models-20260612084512345600000004/test.txt
 ----
 
 The caller identity confirms the Pod assumed the model storage role through EKS Pod Identity. The S3 commands confirm read and write access. The write test prints no output of its own, because the {aws} CLI suppresses its `upload:` progress line when the source is standard input; the object listed by the next command is the proof that the write succeeded.
@@ -552,12 +566,31 @@ kubectl delete pdb -A --all --ignore-not-found
 kubectl delete nodeclaim --all --wait=true --timeout=900s
 ----
 
-Then destroy everything Terraform created, including the EKS cluster, the VPC, the monitoring stack, the NodePools and NodeClasses, the S3 model bucket, and any ODCR:
+Next, delete the Grafana `Ingress` and wait for its load balancer to disappear. The {aws} Load Balancer Controller creates that load balancer and its security groups in response to the `Ingress`, so Terraform does not track them. If they still exist when Terraform reaches the VPC, their network interfaces hold the public subnets, which stalls the destroy on the subnets, internet gateway, and VPC:
+
+[source,bash]
+----
+kubectl delete ingress kube-prometheus-stack-grafana -n monitoring --ignore-not-found
+
+aws elbv2 describe-load-balancers \
+  --region [.replaceable]`region-code` \
+  --query "LoadBalancers[?LoadBalancerName=='grafana-ai-eks-docs'].LoadBalancerArn" \
+  --output text
+----
+
+The load balancer name is `grafana-ai-eks-docs` even if you overrode `cluster_name`. The `alb.ingress.kubernetes.io/load-balancer-name` annotation in `helm-values/kube-prometheus.yml` sets it to that literal value, and Terraform does not template it from `cluster_name`. If you changed that annotation, query for the name you set instead.
+
+Wait until the second command returns an empty result, then destroy everything Terraform created, including the EKS cluster, the VPC, the monitoring stack, the NodePools and NodeClasses, the S3 model bucket, and any ODCR:
 
 [source,bash]
 ----
 terraform destroy
 ----
+
+[NOTE]
+=====
+A destroy can report `Error: Error uninstalling release ... context deadline exceeded` for the `kube-prometheus-stack` or `karpenter-crd` Helm release and leave the cluster and VPC in place. Run `terraform destroy` again with the same `-var` overrides; the second run picks up where the first stopped.
+=====
 
 [IMPORTANT]
 =====
@@ -571,8 +604,23 @@ The model weights S3 bucket is created with `force_destroy = true`, so `terrafor
 
 [NOTE]
 =====
-The repository also ships a `scripts/cleanup.sh` helper that runs the preceding drain and destroy steps and then sweeps any orphaned EBS volumes tagged with the cluster name. Run it from inside the `terraform/<mode>/` directory you applied from, and pass `--auto-approve` to skip the Terraform confirmation prompt.
+The repository also ships a `scripts/cleanup.sh` helper that deletes the PodDisruptionBudgets, NodeClaims, NodePools, and NodeClasses and then runs `terraform destroy`. Run it from inside the `terraform/<mode>/` directory you applied from, and pass `--auto-approve` to skip the Terraform confirmation prompt. Read the script first, and if it does not delete the `Ingress` resources, delete the Grafana `Ingress` yourself as shown previously.
 =====
+
+If the destroy stalls on `module.vpc.aws_vpc.this[0]` for more than a few minutes, a security group that the {aws} Load Balancer Controller created is still in the VPC. The controller tags every security group it creates with `elbv2.k8s.aws/cluster`, so list only those, and then delete them:
+
+[source,bash]
+----
+aws ec2 describe-security-groups \
+  --region [.replaceable]`region-code` \
+  --filters "Name=tag:elbv2.k8s.aws/cluster,Values=[.replaceable]`cluster-name`" \
+  --query 'SecurityGroups[].[GroupId,GroupName]' \
+  --output text
+
+aws ec2 delete-security-group --region [.replaceable]`region-code` --group-id [.replaceable]`sg-id`
+----
+
+The groups this returns are named `k8s-traffic-[.replaceable]``cluster-name``-*` and `k8s-[.replaceable]``namespace-prefix``-[.replaceable]``ingress-prefix``-*`. Delete only these. The cluster and node security groups in the same VPC belong to Terraform, which deletes them itself once nothing holds them.
 ====
 
 [#cluster-setup-tf-cleanup-verify]
