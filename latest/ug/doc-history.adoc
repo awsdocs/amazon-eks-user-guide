@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-10-23"]
+=== {aws} managed policy updates
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added the `ec2:DescribeDhcpOptions` permission to `AmazonEKSServiceRolePolicy`. This permission allows Amazon EKS to read the Dynamic Host Configuration Protocol (DHCP) option set of the cluster VPC. As a result, the Kubernetes control plane uses the DNS servers and domain name configured for the VPC, even if your cluster IAM role doesn't include this permission. If you associate a different DHCP option set with the VPC, the control plane automatically uses the new settings.
+
 [.update,date="2026-10-15"]
 === Webhook endpoint for Argo CD ApplicationSet generators
 [.update-ulink]
