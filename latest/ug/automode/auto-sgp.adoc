@@ -1,0 +1,150 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-sgp]
+= Assign security groups to individual Pods in EKS Auto Mode
+:info_titleabbrev: Security groups for Pods
+
+[abstract]
+--
+Configure a `SecurityGroupPolicy` to apply dedicated Amazon EC2 security groups to individual Pods in EKS Auto Mode.
+--
+
+*Applies to*: EKS Auto Mode clusters running Kubernetes 1.36 or later
+
+Security groups for Pods lets you assign dedicated Amazon EC2 security groups to individual Pods, rather than sharing the security groups of the node they run on. EKS Auto Mode implements this through a `SecurityGroupPolicy` resource, Kubernetes Dynamic Resource Allocation (DRA), and EC2 branch network interfaces. A Pod matched by a `SecurityGroupPolicy` gets its own branch network interface attached to the trunk interface on its node, carrying only the security groups you specify. Traffic to and from that Pod is evaluated against those security groups at the branch interface, independently of the node's own security groups.
+
+NOTE: This feature is different from `podSecurityGroupSelectorTerms` on a `NodeClass`. `podSecurityGroupSelectorTerms` applies one security group set to every Pod on nodes using that `NodeClass`. `SecurityGroupPolicy` lets you assign different security groups to different Pods on the *same* node, selected by Pod or service account labels, matching the behavior of <<security-groups-for-pods,security groups for Pods>> on non-Auto-Mode EKS clusters.
+
+== How it works
+
+A Pod gets a dedicated branch network interface one of two ways:
+
+* *`SecurityGroupPolicy` (recommended)* -- You create a `SecurityGroupPolicy` that selects Pods by label (`podSelector`), service account (`serviceAccountSelector`), or both, and references one or more security groups. The admission webhook then injects a resource claim into any new Pod matched by the policy, with no changes needed to the Pod spec itself.
+* *Native Dynamic Resource Allocation (DRA)* -- You add a `resourceClaims` entry to the Pod spec that points at the `ResourceClaimTemplate` the controller generates for an existing `SecurityGroupPolicy`, bypassing the webhook's `podSelector`/`serviceAccountSelector` matching and automatic injection. The `SecurityGroupPolicy` is still what resolves and supplies the security groups; this path only changes how a Pod gets associated with it. See <<auto-sgp-native-dra>>.
+
+From there, both paths converge:
+
+. The Kubernetes scheduler allocates a device representing a branch-interface slot on a node, backed by the resolved security groups.
+. EKS Auto Mode creates and attaches a branch network interface carrying those security groups, and the Pod's networking is configured through it.
+
+Pods with no resource claim, by either path, are unaffected and continue to use the node's own security groups, as with any other EKS Auto Mode Pod.
+
+== Create a SecurityGroupPolicy
+
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: SecurityGroupPolicy
+metadata:
+  name: my-sgp
+  namespace: my-namespace
+spec:
+  podSelector:
+    matchLabels:
+      app: my-app
+  securityGroupSelectorTerms:
+    - id: sg-0123456789abcdef0
+----
+
+Apply this configuration with:
+
+[source,bash]
+----
+kubectl apply -f my-sgp.yaml
+----
+
+A new SGP security group has no ingress rules by default. If Pods matched by the same `SecurityGroupPolicy` need to communicate with each other -- including Pods on the same node -- add a self-referencing ingress rule:
+
+[source,bash]
+----
+aws ec2 authorize-security-group-ingress --group-id sg-0123456789abcdef0 \
+  --source-group sg-0123456789abcdef0 --protocol -1
+----
+
+Without this rule, Pods secured by the same policy can't reach each other, because EKS Auto Mode enforces security groups on same-node Pod-to-Pod traffic as well as traffic that leaves the node.
+
+[#auto-sgp-native-dra]
+== Alternative: reference the controller-generated claim template with native DRA
+
+For every `SecurityGroupPolicy`, the controller generates a matching `ResourceClaimTemplate` that carries the policy's resolved security groups; the webhook's job is only to match Pods against `podSelector`/`serviceAccountSelector` and inject a reference to that template automatically. You can reference the same `ResourceClaimTemplate` yourself, from a Pod's `resourceClaims` field, without relying on label-based matching at all:
+
+[source,bash]
+----
+kubectl get resourceclaimtemplate -n my-namespace my-sgp -o yaml
+----
+
+Use this approach if you want explicit, per-Pod control over which Pods get the security groups a `SecurityGroupPolicy` resolves, instead of relying on labels the webhook matches against.
+
+A Pod that references the claim template directly in its `resourceClaims` field bypasses the mutating webhook's `podSelector`/`serviceAccountSelector` matching and the "at most one policy per Pod" admission check described in <<auto-sgp-one-per-pod,Considerations>> -- neither applies when you wire the reference yourself. The `SecurityGroupPolicy` itself is still required: it's what resolves and supplies the security groups backing the claim. The considerations on this page about same-node enforcement, the node-local exception list, `maxPods` impact, and the five-policies-per-node guidance all still apply, because they describe the branch-network-interface datapath itself, not the webhook matching layer in front of it.
+
+[#auto-sgp-spec]
+== SecurityGroupPolicy specification
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: SecurityGroupPolicy
+metadata:
+  name: my-sgp
+  namespace: my-namespace
+spec:
+  # Required: at least one of podSelector or serviceAccountSelector.
+  # If both are set, a Pod must match BOTH to be selected.
+  podSelector:
+    matchLabels:
+      app: my-app
+  # serviceAccountSelector:
+  #   matchLabels:
+  #     my-label: my-value
+
+  # Optional: scope this policy to nodes in a specific NodePool. The only
+  # key this field may reference is karpenter.sh/nodepool. Omit the field
+  # to apply the policy cluster-wide.
+  nodeSelector:
+    matchLabels:
+      karpenter.sh/nodepool: general-purpose
+
+  # Required: at least one term. Terms are OR'd; id, name, and tags are
+  # mutually exclusive within a single term.
+  securityGroupSelectorTerms:
+    - id: sg-0123456789abcdef0
+    # Alternative approaches:
+    # - name: "my-security-group"
+    # - tags:
+    #     Team: "platform"
+----
+
+* `podSelector` and `serviceAccountSelector` -- At least one is required. If you set both, a Pod must match both to be selected by the policy.
+* `nodeSelector` -- Optional. The only label key this field may reference is `karpenter.sh/nodepool`, which scopes the policy to Pods scheduled onto a specific NodePool. Omit this field to apply the policy to matching Pods cluster-wide, regardless of NodePool.
+* `securityGroupSelectorTerms` -- Required, at least one term, maximum 30 terms. Terms are evaluated as OR -- the resolved security group set is the union of every term's matches. Within a single term, `id`, `name`, and `tags` are mutually exclusive. A `tags` term allows a maximum of 20 key-value pairs. The resolved set across all terms can't exceed 16 security groups.
+
+== Considerations
+
+* [[auto-sgp-one-per-pod]]*At most one `SecurityGroupPolicy` can match a Pod.* If a Pod's labels (and, where configured, service account) match more than one `SecurityGroupPolicy`, EKS Auto Mode rejects the Pod rather than admitting it with an ambiguous or unsecured configuration. Keep your `podSelector` and `serviceAccountSelector` values disjoint across policies.
+* *Same-node Pod-to-Pod traffic is enforced.* Unlike `standard` mode in the open source Amazon VPC CNI, EKS Auto Mode evaluates security groups on Pod-to-Pod traffic even when both Pods are on the same node and the same branch network interface. A security group with no self-referencing ingress rule blocks same-policy Pods from reaching each other on the same node. This is a deliberate security property, not a limitation to work around.
+* *A fixed set of node-local endpoints bypasses security group enforcement.* Traffic between a Pod secured by a `SecurityGroupPolicy` and the following node-local endpoints is not evaluated against the Pod's security groups, because these connections never cross the branch network interface onto the VPC: the EC2 instance metadata service (IMDS), the Amazon EKS Pod Identity Agent, kubelet health and readiness probes from the node's own IP address, and CoreDNS. This exception set is fixed by EKS Auto Mode and isn't customer-configurable.
+* *A Pod can't reach itself through its own Service.* A Pod secured by a `SecurityGroupPolicy` that connects to a Kubernetes Service it is itself a backend of needs no additional security group rule for that specific path -- EKS Auto Mode delivers that connection locally. This differs from a Pod reaching a *different* Pod (including a sibling behind the same Service), which is always security-group enforced per the previous points.
+* *IPv4 egress from an IPv6 cluster isn't enforced by the Pod's security group.* On an IPv6 cluster with `enableV4Egress` enabled (the default), a Pod's IPv4 egress traffic is translated through the node's primary network interface and uses the node's security groups for that path, not the Pod's.
+* *Branch network interfaces reduce the IP addresses available for other Pods on the node.* EKS Auto Mode calculates `maxPods` based on the available ENI slots and IP addresses per instance type. A node running any Pod secured by a `SecurityGroupPolicy` reserves at least one ENI slot for the branch interface (two if you also use <<pod-subnet-selector,separate Pod subnets>>), which lowers that node's effective `maxPods` versus a node running no secured Pods. This recalculation applies to new nodes; nodes that joined the cluster before any `SecurityGroupPolicy` existed don't have it applied retroactively. If you adopt this feature on an existing NodePool, recycle its nodes so `maxPods` reflects actual capacity.
+* *We strongly recommend no more than five `SecurityGroupPolicy` resources targeting Pods on the same node.* Each distinct policy on a node requires its own branch network interface accounting. Until further scheduler-side optimization is available upstream, exceeding five distinct policies on one node risks increased scheduling latency and increased Karpenter and `kube-scheduler` CPU and memory consumption as node density grows, up to and including scheduler instability at scale.
+* *Compatible with secondary IP mode and separate Pod subnets.* `SecurityGroupPolicy` works alongside a NodeClass configured for secondary IP mode (`advancedNetworking.ipv4PrefixSize`) or separate Pod subnets and security groups (`podSubnetSelectorTerms`/`podSecurityGroupSelectorTerms`, see <<pod-subnet-selector>>). The branch network interface's security groups still come only from the `SecurityGroupPolicy`; the NodeClass setting changes where Pod IP addresses and the trunk interface are placed, not which security groups a secured Pod's branch interface carries.
+* *39 trunking-compatible instance types have only two total ENI slots.* On these instance types, a node can support regular Pod networking plus one `SecurityGroupPolicy`-secured branch interface, but not also <<pod-subnet-selector,separate subnets and security groups for Pods>> at the same time -- that configuration needs a third ENI slot. Choose a larger instance type in your NodePool if you need both features together.
+* *Grant the cluster role `ec2:CreateNetworkInterfacePermission`.* In addition to the `AmazonEKSNetworkingPolicy` managed policy, your cluster's IAM role needs an inline (or separately managed) policy statement granting `ec2:CreateNetworkInterfacePermission`, required for the trunk-to-branch interface association. For more information, see <<auto-learn-iam>>.
+* *Upgrading an existing cluster to Kubernetes 1.36 or later.* EKS Auto Mode's control plane components that implement this feature start on the control plane's next restart after the version upgrade, which can take up to several minutes. The feature isn't available on a cluster immediately at the moment the control plane reports the new version.
+* Not supported with EKS Auto Mode: alternate CNI or network policy plugins (see <<alternate-cni-plugins>>). `SecurityGroupPolicy` only applies to Pods on EKS Auto Mode's built-in networking.
+
+== Troubleshooting
+
+If a Pod matched by a `SecurityGroupPolicy` doesn't get its own security groups, check in order:
+
+. *Does the Pod have an injected resource claim?* +
+`kubectl get pod <pod-name> -o jsonpath='{.spec.resourceClaims}'` +
+An empty result means the Pod's labels didn't match any `SecurityGroupPolicy` in its namespace, or the admission webhook didn't fire.
+. *Did the policy resolve its security groups?* +
+`kubectl get securitygrouppolicy <name> -o jsonpath='{.status}'` +
+Check for `SecurityGroupsResolved: "True"`. `False` usually means the selector matched zero security groups, or more than 16.
+. *Is there a `ResourceClaimTemplate` for the policy?* +
+`kubectl get resourceclaimtemplate -n <namespace>` +
+If missing, the policy hasn't been reconciled yet. Re-apply it to trigger reconciliation.
+. *Check for a `Warning` event on the Pod's resource claim.* An `ENICreationFailed` event names the underlying EC2 error, most often an IAM permissions issue (see the `ec2:CreateNetworkInterfacePermission` consideration above) or a security group that doesn't exist in the cluster's VPC.
