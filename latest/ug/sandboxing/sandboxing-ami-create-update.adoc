@@ -49,7 +49,7 @@ The build follows the same four steps on each supported operating system. OS-spe
 |Wire the containerd runtime handlers and the kubelet endpoint, then bake the AMI and join the cluster.
 |===
 
-After building, apply a `RuntimeClass` named `isolated-sandbox` once per cluster, with a scheduling `nodeSelector` that matches the node labels set at join time. Pods that set `runtimeClassName: isolated-sandbox` then schedule onto those nodes. For the full procedure, see the build guide in the bundle.
+After building, apply the `isolated-sandbox` and `confidential-sandbox` `RuntimeClass` objects once per cluster, each with a scheduling `nodeSelector` that matches the node labels set at join time. Pods that set `runtimeClassName: isolated-sandbox` or `runtimeClassName: confidential-sandbox` then schedule onto those nodes. For the full procedure, see the build guide in the bundle.
 
 [#sandboxing-ami-update]
 == Update an AMI
