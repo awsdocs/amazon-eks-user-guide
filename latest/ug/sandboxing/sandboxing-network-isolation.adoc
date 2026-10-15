@@ -28,7 +28,7 @@ spec:
 * Kubelet HTTP or TCP probes cannot succeed. Use exec probes instead.
 * Services that select the pod cannot reach the workload. Connections are refused rather than silently dropped, because the pod IP is still configured in the pod network namespace.
 * Logs, `exec`, `stdin`, and stats continue to work over the vsock channel.
-* Encrypted images are not available because they require Pod Identity credentials for {aws} KMS access.
+* Encrypted images are not available because they require {aws} credentials (Pod Identity or IRSA) for {aws} KMS access.
 
 [NOTE]
 .vsock channel is accessible inside the guest

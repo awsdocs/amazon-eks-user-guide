@@ -30,7 +30,7 @@ Excluding hybrid nodes, nodes must be in the same VPC as the subnets you selecte
 [NOTE]
 .Hardware-enforced pod isolation
 ====
-On nodes in the {aws} Cloud, you can run selected pods inside hardware-isolated virtual machines with Nitro Sandboxes, instead of standard containers that share the node's kernel. Nitro Sandboxes works with EKS Auto Mode and with managed or self-managed nodes that use a compatible AMI, on instance types that support Nitro Enclaves. It is available in {aws} Regions, but not in the {aws} GovCloud (US) Regions or the {aws} China Regions. For more information, see <<sandboxing>>.
+On nodes in the {aws} Cloud, you can run selected pods inside hardware-isolated virtual machines with Nitro Sandboxes, instead of standard containers that share the node's kernel. Nitro Sandboxes works with EKS Auto Mode and with managed or self-managed nodes that use a compatible AMI, on instance types that support Nitro Enclaves. It is available in {aws} Regions, but not in the {aws} GovCloud (US) Regions or the China Regions. For more information, see <<sandboxing>>.
 ====
 
 == Compare compute options

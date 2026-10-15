@@ -39,7 +39,7 @@ Every layer of the image must be encrypted. Isolated and confidential pods do no
   }
 }
 ----
-* The pod's IAM role (through EKS Pod Identity) must have `kms:Decrypt` permission on the KMS key.
+* The pod's IAM role (through EKS Pod Identity or IRSA) must have `kms:Decrypt` permission on the KMS key.
 
 [#sandboxing-encrypt-image]
 == Encrypt an image
@@ -120,7 +120,7 @@ spec:
 kubectl apply -f manifest.yaml
 ----
 
-The Nitro Sandbox calls `kms:Decrypt` through EKS Pod Identity to unwrap the layer encryption key, then decrypts and unpacks each layer inside the sandbox.
+The Nitro Sandbox calls `kms:Decrypt` through EKS Pod Identity or IRSA to unwrap the layer encryption key, then decrypts and unpacks each layer inside the sandbox.
 
 [#sandboxing-encrypted-image-identity]
 == Image identity in operator tooling

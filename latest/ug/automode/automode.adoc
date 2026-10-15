@@ -13,7 +13,7 @@ Automate cluster infrastructure with EKS Auto Mode
 [NOTE]
 .Nitro Sandboxes on EKS Auto Mode
 ====
-EKS Auto Mode includes Nitro Sandbox support with no additional configuration, which makes it the simplest way to run isolated and confidential pods. You do not build or manage an AMI. Set `runtimeClassName` to `isolated-sandbox` or `confidential-sandbox` on the pod. Auto Mode then provisions a Nitro Enclaves-enabled node of a supported instance type and runs the pod on a Bottlerocket guest operating system image. To run sandboxed pods on managed or self-managed node groups instead, you build a custom AMI first. For both setup paths, see <<sandboxing-isolated-setup>>. For more information about the feature, see <<sandboxing>>.
+Amazon EKS Auto Mode includes Nitro Sandbox support with no additional configuration, which makes it the simplest way to run isolated and confidential pods. You do not build or manage an AMI. Set `runtimeClassName` to `isolated-sandbox` or `confidential-sandbox` on the pod. Auto Mode then provisions a Nitro Enclaves-enabled node of a supported instance type and runs the pod on a Bottlerocket guest operating system image. To run sandboxed pods on managed or self-managed node groups instead, you build a custom AMI first. For both setup paths, see <<sandboxing-isolated-setup>>. For more information about the feature, see <<sandboxing>>.
 ====
 
 [TIP]
