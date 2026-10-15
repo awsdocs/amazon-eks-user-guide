@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#sandboxing]
 = Sandboxing on Amazon EKS with isolated and confidential pods
-:info_titleabbrev: Sandboxing
+:info_titleabbrev: Sandboxes
 
 [abstract]
 --
