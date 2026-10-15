@@ -15,7 +15,7 @@ Amazon CloudWatch is a monitoring service that collects metrics and logs from yo
 [NOTE]
 .CloudWatch and Nitro Sandboxes
 ====
-The Amazon CloudWatch Observability agent cannot collect metrics or logs from inside isolated or confidential pods that run in Nitro Sandboxes, because the sandbox isolates the pod from the node. CloudWatch continues to collect node-level and standard pod metrics. For more information, see <<sandboxing-observability>>.
+The Amazon CloudWatch Observability agent cannot collect metrics or logs from inside isolated or confidential pods that run in Nitro Sandboxes, because the sandbox isolates the pod from the node. CloudWatch continues to collect node-level and standard pod metrics.
 ====
 
 [#cloudwatch-basic-metrics]
