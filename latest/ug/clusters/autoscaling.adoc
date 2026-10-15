@@ -41,7 +41,7 @@ The Kubernetes Cluster Autoscaler automatically adjusts the number of nodes in y
 
 == Autoscaling with Nitro Sandboxes
 
-When you run isolated or confidential pods with Nitro Sandboxes, provisioning works with both EKS Auto Mode and Karpenter. A pod requests Nitro Sandbox slots (the `eks.amazonaws.com/nitro-sandbox` resource), and the autoscaler provisions a Nitro Enclaves-enabled node of a supported instance type. Keep the following in mind when you size and scale sandbox capacity:
+When you run isolated or confidential pods with Nitro Sandboxes, provisioning works with both EKS Auto Mode and Karpenter. A pod requests Nitro Sandbox slots using the `eks.amazonaws.com/nitro-sandbox` resource. The autoscaler then provisions a Nitro Enclaves-enabled node of a supported instance type. Keep the following in mind when you size and scale sandbox capacity:
 
 * *Sandbox density.* The total vCPUs allocated across all sandboxes on a node cannot exceed five times the node's vCPU count, and the node's maximum pods still applies. A node fits more single-vCPU sandboxes than large multi-vCPU sandboxes. For example, a 4-vCPU node has a 20-vCPU sandbox budget.
 * *Memory overhead.* Each sandbox pod carries a fixed RuntimeClass memory overhead (256 MiB) that the scheduler adds to the pod's own memory request. Size pods with this overhead included, and expect fewer sandbox pods per node than the raw memory of the instance type suggests.

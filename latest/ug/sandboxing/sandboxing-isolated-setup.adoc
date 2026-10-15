@@ -21,7 +21,7 @@ EKS Auto Mode (recommended)::
 Auto Mode includes Nitro Sandbox support with no additional setup. You do not build or manage an AMI. Set `runtimeClassName: isolated-sandbox` (or `confidential-sandbox`) on the pod, and Auto Mode provisions a compatible node and runs the pod in a sandbox. This is the simplest path, and the rest of this topic uses it.
 
 Managed or self-managed node groups::
-If you run your own node groups outside of Auto Mode, build a custom AMI that includes the Nitro Sandbox runtime, and use instance types that support Nitro Enclaves. Join those nodes to the cluster, then set the same `runtimeClassName` on the pod. For the build steps, see <<sandboxing-ami-create-update>>.
+Alternatively, if you run your own node groups outside of Auto Mode, build a custom AMI that includes the Nitro Sandbox runtime, and use instance types that support Nitro Enclaves. Join those nodes to the cluster, then set the same `runtimeClassName` on the pod. For the build steps, see <<sandboxing-ami-create-update>>.
 
 [#sandboxing-isolated-prerequisites]
 == Prerequisites
