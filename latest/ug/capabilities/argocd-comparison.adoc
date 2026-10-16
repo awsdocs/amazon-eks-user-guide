@@ -29,6 +29,8 @@ The EKS Capability for Argo CD is based on upstream Argo CD but differs in how i
 
 *Source hydrator*: Upstream Argo CD disables the source hydrator by default. To use it with the capability, add `hydrator.enabled: "true"` to `argocd-cmd-params-cm`, and then configure `spec.sourceHydrator` in your Application. The source hydrator renders manifests (for example, from Helm charts or Kustomize overlays) and pushes the rendered output to Git before syncing to the cluster. For instructions on using the source hydrator, see <<argocd-source-hydrator,Push hydrated manifests with the source hydrator>>.
 
+*Webhook endpoints*: Upstream Argo CD serves the Applications receiver and the ApplicationSet receiver on the same `/api/webhook` path. It tells them apart by hostname, which requires a second Ingress. Because each Argo CD instance has one hostname, the capability serves the ApplicationSet receiver on `/api/applicationset/webhook` instead. The capability also reads webhook shared secrets from the `argocd-webhook-creds-secret` Secret rather than from `argocd-secret`. You can therefore manage webhook credentials without access to the Argo CD server's signing key and TLS material. For more information about webhook configuration, see <<argocd-webhooks>>.
+
 *Namespace support*: You specify a primary Argo CD namespace when you create the capability.
 AppProject resources, Argo CD configuration, and repository and cluster credentials remain in this namespace.
 You can configure additional namespaces for Application and ApplicationSet resources by using the `argocd-cmd-params-cm` ConfigMap.

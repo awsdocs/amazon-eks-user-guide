@@ -246,6 +246,16 @@ spec:
 
 For details on Git generators and file-based configuration, see link:https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Git/[Git Generator] in the Argo CD documentation.
 
+=== Refresh Git generators with a webhook
+
+By default, the ApplicationSet controller re-reads the repository on an interval, so new directories or parameter files can take minutes to produce Applications.
+To have a push refresh the generator immediately, add a webhook in your Git provider that points at `${serverUrl}/api/applicationset/webhook`.
+
+This path is specific to the capability, and it is separate from the `/api/webhook` path that refreshes Applications.
+If a repository feeds both an ApplicationSet generator and an Application, add a webhook for each path.
+
+For more information about the endpoints and the shared secret, see <<argocd-webhooks>>.
+
 == Matrix generator
 
 Combine multiple generators to deploy across multiple dimensions (environments × clusters):

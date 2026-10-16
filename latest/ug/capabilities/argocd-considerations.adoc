@@ -295,6 +295,7 @@ Configure sync windows to control when applications can be synced:
 * Schedule automatic syncs for specific times
 * Use sync windows in situations where you need to make changes and stop any syncs (break-glass scenarios)
 
+[#argocd-webhooks]
 == Webhook configuration for faster sync
 
 By default, Argo CD polls Git repositories every 6 minutes to detect changes.
@@ -307,17 +308,77 @@ Webhooks provide several benefits:
 * More efficient use of API rate limits
 * Better user experience with faster feedback
 
-=== Webhook endpoint
+=== Webhook endpoints
 
-The webhook URL follows the pattern `${serverUrl}/api/webhook`, where `serverUrl` is your Argo CD server URL.
+The capability serves two webhook receivers on your Argo CD server URL: one refreshes Applications, and one refreshes ApplicationSet generators.
 To find your server URL, see <<argocd-endpoint-url>>.
 
-For example, if your Argo CD server URL is `https://my-argocd-dc855fdf-111122223333.eks-capabilities.us-west-2.amazonaws.com`, the webhook URL is:
+[cols="1,1",options="header"]
+|===
+|Refreshes
+|Path
+
+|Applications
+|`${serverUrl}/api/webhook`
+
+|ApplicationSet generators, such as the Git generator
+|`${serverUrl}/api/applicationset/webhook`
+|===
+
+For example, if your Argo CD server URL is `https://my-argocd-dc855fdf-111122223333.eks-capabilities.us-west-2.amazonaws.com`, the webhook URLs are:
 
 [source,text]
 ----
 https://my-argocd-dc855fdf-111122223333.eks-capabilities.us-west-2.amazonaws.com/api/webhook
+https://my-argocd-dc855fdf-111122223333.eks-capabilities.us-west-2.amazonaws.com/api/applicationset/webhook
 ----
+
+A push to a repository that feeds both an Application and an ApplicationSet generator needs both webhooks.
+Add them as two separate webhooks in your Git provider, each pointing at its own path.
+
+[NOTE]
+====
+The ApplicationSet path differs from upstream Argo CD.
+Upstream serves both receivers on `/api/webhook` and tells them apart by hostname, which requires a second Ingress.
+Because each Argo CD instance has one hostname, the capability serves the ApplicationSet receiver on its own path instead.
+====
+
+[#argocd-webhook-secret]
+=== Webhook shared secret
+
+To have Argo CD verify that a payload came from your Git provider, store a shared secret in the `argocd-webhook-creds-secret` Secret in your Argo CD namespace, and configure the same value in your Git provider.
+Both webhook receivers read this Secret, so one value covers Applications and ApplicationSet generators.
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argocd-webhook-creds-secret
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: webhook
+type: Opaque
+stringData:
+  webhook.github.secret: my-github-webhook-secret
+  webhook.gitlab.secret: my-gitlab-webhook-secret
+----
+
+Set the key that matches your Git provider:
+
+`webhook.github.secret`:: The secret you configured on the GitHub webhook.
+`webhook.gitlab.secret`:: The secret token you configured on the GitLab webhook.
+`webhook.bitbucketserver.secret`:: The secret you configured on the Bitbucket Server webhook.
+`webhook.bitbucket.uuid`:: The UUID of your Bitbucket Cloud workspace.
+
+The Secret accepts the same key names as upstream Argo CD, including keys for providers not listed here.
+
+[IMPORTANT]
+====
+Upstream Argo CD reads these keys from `argocd-secret`.
+The capability reads them from `argocd-webhook-creds-secret` instead, so that you can manage webhook credentials without access to the Argo CD server's signing key and TLS material.
+Setting these keys in `argocd-secret` has no effect.
+====
 
 === Configure webhooks by Git provider
 
@@ -333,6 +394,9 @@ Select "Repository push" as the trigger.
 *CodeCommit*: Create an Amazon EventBridge rule that triggers on CodeCommit repository state changes and sends notifications to the Argo CD webhook endpoint.
 
 For detailed webhook configuration instructions, see link:https://argo-cd.readthedocs.io/en/stable/operator-manual/webhook/[Argo CD Webhook Configuration^].
+When you follow those instructions, store the shared secret as described in <<argocd-webhook-secret>> rather than in `argocd-secret`.
+
+For more information about which Git providers the ApplicationSet receiver supports, see link:https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Git/[Git Generator^] in the Argo CD documentation.
 
 [NOTE]
 ====

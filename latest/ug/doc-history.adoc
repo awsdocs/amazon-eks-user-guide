@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-10-15"]
+=== Webhook endpoint for Argo CD ApplicationSet generators
+[.update-ulink]
+link:eks/latest/userguide/argocd-considerations.html#argocd-webhooks[type="documentation"]
+
+The EKS Capability for Argo CD serves a second webhook receiver at `/api/applicationset/webhook` that refreshes ApplicationSet generators, such as the Git generator. Added the endpoint, the shared secret configuration in `argocd-webhook-creds-secret`, and how both differ from upstream Argo CD.
+
 [.update,date="2026-10-09"]
 === Custom endpoint prefix for the EKS Capability for Argo CD
 [.update-ulink]
