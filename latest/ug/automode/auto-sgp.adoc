@@ -21,7 +21,7 @@ NOTE: This feature is different from `podSecurityGroupSelectorTerms` on a `NodeC
 A Pod gets a dedicated branch network interface one of two ways:
 
 * *`SecurityGroupPolicy` (recommended)* -- You create a `SecurityGroupPolicy` that selects Pods by label (`podSelector`), service account (`serviceAccountSelector`), or both, and references one or more security groups. The admission webhook then injects a resource claim into any new Pod matched by the policy, with no changes needed to the Pod spec itself.
-* *Native Dynamic Resource Allocation (DRA)* -- You add a `resourceClaims` entry to the Pod spec that points at the `ResourceClaimTemplate` the controller generates for an existing `SecurityGroupPolicy`, bypassing the webhook's `podSelector` or `serviceAccountSelector` matching and automatic injection. The `SecurityGroupPolicy` is still what resolves and supplies the security groups; this path only changes how a Pod gets associated with it. See <<auto-sgp-native-dra>>.
+* *Native Dynamic Resource Allocation (DRA)* -- You add a `resourceClaims` entry to the Pod spec that points at the `ResourceClaimTemplate` the controller generates for an existing `SecurityGroupPolicy`, bypassing the webhook's `podSelector` or `serviceAccountSelector` matching and automatic injection. The `SecurityGroupPolicy` is still what resolves and supplies the security groups; this path only changes how a Pod gets associated with it. See <<auto-sgp-native-dra,Alternative: reference the controller-generated claim template with native DRA>>.
 
 From there, both paths converge:
 
@@ -54,7 +54,10 @@ Apply this configuration with:
 kubectl apply -f my-sgp.yaml
 ----
 
+[IMPORTANT]
+====
 A new security group created for a `SecurityGroupPolicy` has no ingress rules by default. If Pods matched by the same `SecurityGroupPolicy` need to communicate with each other -- including Pods on the same node -- add a self-referencing ingress rule:
+====
 
 [source,bash]
 ----
