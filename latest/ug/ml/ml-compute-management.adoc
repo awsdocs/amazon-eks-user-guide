@@ -91,3 +91,5 @@ include::ml-node-pools.adoc[leveloffset=+1]
 include::ml-node-groups.adoc[leveloffset=+1]
 
 include::ml-eks-nvidia-ultraserver.adoc[leveloffset=+1]
+
+include::ml-validate-gpu-node-repair.adoc[leveloffset=+1]

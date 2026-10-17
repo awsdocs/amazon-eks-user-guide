@@ -1,0 +1,477 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-validate-gpu-node-repair]
+= Validate Amazon EKS automatic node repair for GPUs with XID error injection
+:info_titleabbrev: Validate GPU node repair
+
+[abstract]
+--
+Simulate NVIDIA XID errors on Amazon EKS GPU nodes to verify that the EKS node monitoring agent detects the fault and that automatic node repair replaces or reboots the node.
+--
+
+This topic shows how to validate that Amazon EKS automatic node repair is working as expected. The steps on this page simulate NVIDIA XID errors on Amazon EKS GPU nodes, verify that the EKS node monitoring agent sets the `AcceleratedHardwareReady` node condition to `False`, and that automatic node repair replaces or reboots the node accordingly. The same procedure can be used to confirm that non-critical XID errors are reported as Kubernetes events without triggering repair, which validates event monitoring and alerting pipelines.
+
+The steps on this page work with EKS Auto Mode and self-managed Karpenter. This topic assumes that you're familiar with how the EKS node monitoring agent and automatic node repair work. For more information, see the following topics:
+
+* <<node-health>> – How the two features work together, and which compute types support them.
+* <<node-health-nma>> – The node health issues that the EKS node monitoring agent detects.
+* <<nvidia-xid-codes>> – How GPU faults are detected through DCGM, and the well-known XID codes with their default repair actions and wait periods.
+* <<node-repair>> – Repair actions, thresholds, and configuration.
+* <<node-monitoring-agent-configure>> – Configuring the EKS node monitoring agent, including the bundled NVIDIA DCGM component.
+
+[IMPORTANT]
+====
+Run this procedure in a test environment. When you inject a critical XID error, automatic node repair marks the node for repair, and the injected error persists until the node is replaced. The injection Pod runs as a privileged Pod with host networking, which isn't a best practice for production environments.
+====
+
+[#ml-node-repair-how-it-works]
+== How XID error injection works
+
+Because the EKS node monitoring agent reads XID errors from NVIDIA Data Center GPU Manager (DCGM), you can simulate an XID error by injecting a value into the DCGM XID field (`DCGM_FI_DEV_XID_ERRORS`, field ID `230`) with the `dcgmi test --inject` command. The EKS node monitoring agent processes the injected XID error in the same way as one that the NVIDIA driver reports.
+
+On both EKS Auto Mode and self-managed Karpenter, the agent's `nv-hostengine` is reachable at `localhost:5555` from a Pod that uses host networking. The node's host filesystem has no `dcgmi` binary, so the `xid-inject` Pod in this procedure brings its own from a DCGM container image and connects over host networking to `nv-hostengine` on `localhost:5555`.
+
+[#ml-node-repair-prerequisites]
+== Prerequisites
+
+* An Amazon EKS cluster with a GPU NodePool, created by following <<cluster-setup-cli-create,Create the cluster>> in <<ml-cluster-setup-cli>> and <<gpu-nodepool-cli-create,Create a dynamic GPU NodePool>> in <<ml-inference-gpu-nodepool-cli>>. Choose the EKS Auto Mode or self-managed Karpenter path and follow it throughout this topic.
+* On EKS Auto Mode, the EKS node monitoring agent and automatic node repair are enabled by default. If you bring your own cluster, it must have EKS Auto Mode node pools enabled, because the GPU NodePool references the built-in `default` NodeClass.
+* On self-managed Karpenter, the `eks-node-monitoring-agent` add-on must be installed and the Karpenter `NodeRepair` feature gate enabled. Both are configured during cluster setup.
+* On self-managed Karpenter, the `dcgm-server` DaemonSet must be able to schedule on your GPU nodes. Add-on version `v1.7.3-eksbuild.1` and later tolerates the `nvidia.com/gpu` taint by default. On earlier versions, set `dcgmAgent.tolerations` to match the taints on your GPU nodes, as described in <<nma-configure-dcgm>>. If you've configured the agent to use an external DCGM host engine, confirm that the agent can reach it instead, as described in <<nma-configure-byo-dcgm>>.
+
+[#ml-node-repair-considerations]
+== Considerations
+
+Review the following considerations before you run this test.
+
+* *A single critical XID error is sufficient.* `AcceleratedHardwareReady` is a node-level condition, so the first critical XID error marks the entire node for replacement. Injecting additional XID errors, or targeting additional GPUs, doesn't change the repair outcome.
+* *Injected errors persist.* The injected XID error persists in DCGM until the node is replaced. A `dcgmi` injection can't be reverted. If automatic node repair is not enabled, replace the node yourself to clear the condition.
+* *Workloads on the test node are stopped.* On EKS Auto Mode and Karpenter versions earlier than `v1.15.0`, automatic node repair doesn't drain the node first. Karpenter `v1.15.0` and later applies a termination grace period, but the workloads are still stopped when repair begins. Run this procedure only on a node whose workloads can be interrupted. For more information, see <<node-repair>>.
+* *Inject on only one node at a time.* If too many nodes in a NodePool are unhealthy, automatic node repair stops taking action and no node is repaired, which prevents this procedure from producing a valid result. For the thresholds and the `NodeRepairBlocked` event that reports this, see <<node-repair>>.
+* *Consolidation.* Karpenter can consolidate a GPU node before the repair wait completes, for example by replacing an On-Demand node with a cheaper Spot node. Adding the `karpenter.sh/do-not-disrupt: "true"` annotation to the test node blocks consolidation without blocking automatic node repair.
+* *The injection Pod is privileged.* The Pod requires `privileged: true`, `hostNetwork: true`, and `hostPID: true` to reach the DCGM host engine. Clusters that enforce Pod Security Standards or admission policies that block privileged Pods reject the Pod.
+
+[#ml-node-repair-prepare]
+== Step 1: Prepare the test node
+
+. Deploy a long-running GPU workload. The `nvidia-smi` Pod in <<gpu-nodepool-cli-test,Test with a sample Pod>> exits after it runs, which leaves the GPU node empty, and Karpenter consolidates an empty node within about one minute. This workload keeps a GPU node up for the duration of the procedure.
++
+[source,yaml]
+----
+cat << 'EOF' | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gpu-workload
+  labels:
+    guide: ai-eks-docs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gpu-workload
+  template:
+    metadata:
+      labels:
+        app: gpu-workload
+        guide: ai-eks-docs
+    spec:
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: nvidia-smi
+          image: public.ecr.aws/amazonlinux/amazonlinux:2023-minimal
+          command: ["sh", "-c", "nvidia-smi && sleep infinity"]
+          resources:
+            limits:
+              nvidia.com/gpu: 1
+EOF
+----
+
+. *Self-managed Karpenter only* – Verify that a `dcgm-server` Pod is running on each GPU node. If none are running, the EKS node monitoring agent can't reach `nv-hostengine`, and every GPU node reports `AcceleratedHardwareReady=False` with the reason `DCGMError`, which prevents this procedure from producing a valid result.
++
+[source,bash]
+----
+kubectl get pods -n kube-system -l k8s-app=dcgm-server -o wide
+----
+
+. Confirm that the GPU node reports `AcceleratedHardwareReady=True`.
++
+[source,bash]
+----
+kubectl get nodes -o custom-columns='NAME:.metadata.name,ACCEL:.status.conditions[?(@.type=="AcceleratedHardwareReady")].status,REASON:.status.conditions[?(@.type=="AcceleratedHardwareReady")].reason'
+----
++
+Expected output:
++
+[source,bash]
+----
+NAME                  ACCEL    REASON
+i-0097459337d05fab4   True     NvidiaGPUIsReady
+i-02bc396bb4e3b8169   <none>   <none>
+i-08b2480bcfd6c9c1e   <none>   <none>
+----
++
+Nodes without a GPU don't have the `AcceleratedHardwareReady` condition and show `<none>`. On the self-managed Karpenter path, node names have the form `ip-192-168-126-248.us-east-2.compute.internal`.
+
+[#ml-node-repair-inject]
+== Step 2: Inject an XID error
+
+. Set an environment variable to the name of the GPU node that runs the `gpu-workload` Pod:
++
+[source,bash]
+----
+export NODE_NAME=$(kubectl get pod -l app=gpu-workload -o jsonpath='{.items[0].spec.nodeName}')
+echo $NODE_NAME
+----
+
+. Create the `xid-inject` Pod on that node. The Pod injects one XID error on one GPU, set through the `XID_CODE` and `GPU_ID` environment variables (defaults `XID_CODE="79"` and `GPU_ID="0"`). XID `79` (GPU has fallen off the bus) is a well-known critical code that results in node replacement. The manifest sets `nodeName` to a `NODE_NAME` placeholder that you replace with your node name in the next step.
++
+[source,yaml]
+----
+cat << 'EOF' > xid-inject.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: xid-inject
+spec:
+  nodeName: NODE_NAME               # REQUIRED: pin to the GPU node whose nv-hostengine you target
+  hostNetwork: true                 # so localhost:5555 reaches the node's nv-hostengine
+  hostPID: true
+  tolerations:
+    - key: nvidia.com/gpu
+      operator: Exists
+      effect: NoSchedule
+  restartPolicy: Never
+  containers:
+    - name: inject
+      image: nvcr.io/nvidia/k8s/dcgm-exporter:4.5.2-4.8.1-ubuntu22.04
+      securityContext:
+        privileged: true
+      env:
+        - name: XID_CODE
+          value: "79"
+        - name: GPU_ID
+          value: "0"
+        - name: DCGM_HOST
+          value: "localhost:5555"
+      command: ["/bin/bash", "-c"]
+      args:
+        - |
+          set -uo pipefail
+
+          echo "=== EKS XID injection (DCGM field 230 -> XidPolicy) ==="
+          echo "Target nv-hostengine: ${DCGM_HOST} | XID: ${XID_CODE} | GPU: ${GPU_ID}"
+          echo
+
+          echo "### Step 1: is nv-hostengine reachable on ${DCGM_HOST}?"
+          host="${DCGM_HOST%%:*}"; port="${DCGM_HOST##*:}"
+          if timeout 5 bash -c "cat < /dev/null > /dev/tcp/${host}/${port}" 2>/dev/null; then
+            echo "  OK: ${DCGM_HOST} is open (agent's nv-hostengine is listening)."
+          else
+            echo "  UNREACHABLE: ${DCGM_HOST} is not accepting connections."
+            echo "  The node monitoring agent may bind nv-hostengine to a non-host-visible namespace,"
+            echo "  or the port differs. Nothing was injected. Investigate before proceeding."
+            sleep 3600; exit 0
+          fi
+          echo
+
+          # NOTE: in dcgmi, `-h` means --help, NOT host. dcgmi connects to localhost:5555 by
+          # default, which is exactly where the agent's nv-hostengine listens, so we pass no host
+          # flag. (Passing `-h host:port` silently prints help and exits 0 - injecting nothing.)
+
+          echo "### Step 2: enumerate GPUs dcgmi can see on this node (default localhost:5555)"
+          dcgmi discovery -l || echo "  (discovery failed - see error above)"
+          echo
+
+          echo "### Step 3: inject XID ${XID_CODE} on GPU ${GPU_ID} into field 230 (DCGM_FI_DEV_XID_ERRORS)"
+          if dcgmi test --inject --gpuid "${GPU_ID}" -f 230 -v "${XID_CODE}"; then
+            echo "  -> injected. Expect NvidiaXID${XID_CODE}Error/Warning; a well-known critical XID"
+            echo "     sets AcceleratedHardwareReady=False -> node Replace after the 10-min toleration."
+          else
+            echo "  -> FAILED (may surface as DCGMFieldError/DCGMHealthCode - check events)"
+          fi
+          echo
+          echo "Verify from your workstation:"
+          echo "  kubectl get events -A | grep NvidiaXID"
+          echo "  kubectl get nodes -o custom-columns='NAME:.metadata.name,ACCEL:.status.conditions[?(@.type==\"AcceleratedHardwareReady\")].status,REASON:.status.conditions[?(@.type==\"AcceleratedHardwareReady\")].reason'"
+          echo
+          echo "=== pod idles so you can re-run dcgmi manually: kubectl exec -it xid-inject -- bash ==="
+          sleep 3600
+EOF
+----
++
+Replace the `NODE_NAME` placeholder with your node name and create the Pod:
++
+[source,bash]
+----
+sed -i.bak "s/nodeName: NODE_NAME/nodeName: ${NODE_NAME}/" xid-inject.yaml
+kubectl apply -f xid-inject.yaml
+----
++
+This manifest is also available in the link:https://github.com/aws-samples/sample-eks-docs/tree/main/ai-ml/manifests/xid-injection[sample-eks-docs repository] on GitHub. The Pod idles after the injection (`sleep 3600`), so you can run additional `dcgmi` commands in it later without editing the manifest.
+
+. Check the Pod logs to confirm the injection succeeded:
++
+[source,bash]
+----
+kubectl logs -f xid-inject
+----
++
+Expected output:
++
+[source,bash]
+----
+=== EKS XID injection (DCGM field 230 -> XidPolicy) ===
+Target nv-hostengine: localhost:5555 | XID: 79 | GPU: 0
+
+### Step 1: is nv-hostengine reachable on localhost:5555?
+  OK: localhost:5555 is open (agent's nv-hostengine is listening).
+
+### Step 2: enumerate GPUs dcgmi can see on this node (default localhost:5555)
+1 GPU found (Active).
++--------+----------------------------------------------------------------------+
+| GPU ID | Device Information                                                   |
++--------+----------------------------------------------------------------------+
+| 0      | Name: NVIDIA L4                                                      |
+|        | PCI Bus ID: 00000000:31:00.0                                         |
+|        | Device UUID: GPU-4eb405ac-2b68-71d3-eb2f-56e0ce3acf76                |
++--------+----------------------------------------------------------------------+
+...
+
+### Step 3: inject XID 79 on GPU 0 into field 230 (DCGM_FI_DEV_XID_ERRORS)
+Successfully injected field info.
+  -> injected. Expect NvidiaXID79Error/Warning; a well-known critical XID
+     sets AcceleratedHardwareReady=False -> node Replace after the 10-min toleration.
+----
++
+Press *Ctrl+C* to stop following the logs.
+
+[#ml-node-repair-verify]
+== Step 3: Verify detection
+
+The EKS node monitoring agent detects the injected XID error within seconds and records a Kubernetes event on the node.
+
+. View the XID events:
++
+[source,bash]
+----
+kubectl get events -A | grep NvidiaXID
+----
++
+Expected output:
++
+[source,bash]
+----
+default   69s   Normal   AcceleratedHardwareReady   node/i-0097459337d05fab4   Status condition transitioned, Type: AcceleratedHardwareReady, Status: True -> False, Reason: NvidiaXID79Error, Message: detected XID-79 on the instance, review kernel logs for additional information.
+----
+
+. View the node condition:
++
+[source,bash]
+----
+kubectl get nodes -o custom-columns='NAME:.metadata.name,ACCEL:.status.conditions[?(@.type=="AcceleratedHardwareReady")].status,REASON:.status.conditions[?(@.type=="AcceleratedHardwareReady")].reason'
+----
++
+Expected output:
++
+[source,bash]
+----
+NAME                  ACCEL    REASON
+i-0097459337d05fab4   False    NvidiaXID79Error
+i-02bc396bb4e3b8169   <none>   <none>
+i-08b2480bcfd6c9c1e   <none>   <none>
+----
++
+The `AcceleratedHardwareReady` condition is now `False` with the reason `NvidiaXID79Error`.
+
+[NOTE]
+====
+Within a few minutes of the injection, the agent's periodic DCGM health check also reports the fault, and the condition reason on the node changes from `NvidiaXID79Error` to `DCGMHealthCode120`. The condition status stays `False` and `lastTransitionTime` doesn't change.
+
+On EKS Auto Mode this doesn't affect the repair, which still happens 10 minutes after the condition transitioned. On self-managed Karpenter `v1.15.0` and later it does: `DCGMHealthCode120` isn't matched by a specific repair policy, so the node becomes eligible for repair 30 minutes after the condition transitioned instead of 10. Expect the wait in <<ml-node-repair-observe-repair,Step 4>> to be 30 minutes on that path. For more information, see <<node-health-AcceleratedHardware>> and <<node-repair-reason-vs-status>>.
+====
+
+[#ml-node-repair-observe-repair]
+== Step 4: Observe the repair cycle
+
+After the critical XID error sets `AcceleratedHardwareReady=False`, automatic node repair begins after the wait period: 10 minutes on EKS Auto Mode, and 30 minutes on self-managed Karpenter `v1.15.0` and later if the condition reason has changed to `DCGMHealthCode120` as described in <<ml-node-repair-verify,Step 3>>. The wait runs from the condition's `lastTransitionTime`, which you can read with the following command.
+
+[source,bash]
+----
+kubectl get nodes -o jsonpath='{range .items[*].status.conditions[?(@.type=="AcceleratedHardwareReady")]}{.lastTransitionTime}{"\n"}{end}'
+----
+
+How you observe the repair differs by compute type.
+
+[role="tablist",sync-group-id="cluster-path"]
+EKS Auto Mode::
++
+Automatic node repair is always enabled and fully managed. Karpenter runs in the {aws} managed control plane, so there is no Karpenter controller Pod to view logs from. Observe the repair through node conditions, events, and NodeClaims.
++
+Watch the node condition and the NodeClaim replacement:
++
+[source,bash]
+----
+kubectl get nodes -o custom-columns='NAME:.metadata.name,READY:.status.conditions[?(@.type=="AcceleratedHardwareReady")].status,REASON:.status.conditions[?(@.type=="AcceleratedHardwareReady")].reason' -w
+----
++
+[source,bash]
+----
+kubectl get nodeclaims
+kubectl get events -A --sort-by=.lastTimestamp | grep -iE "disrupt|unhealthy|terminat|NvidiaXID"
+----
++
+About 10 minutes after the condition transitioned to `False`, a new NodeClaim is launched for the replacement node and the unhealthy node is terminated:
++
+[source,bash]
+----
+NAME            TYPE         CAPACITY    ZONE         NODE                  READY   AGE
+gpu-inf-92wsb   g5.2xlarge   spot        us-east-2c   i-093054e7eeead3702   True    87s
+gpu-inf-hwv6z   g5.2xlarge   spot        us-east-2c   i-0097459337d05fab4   True    27m
+----
+
+Self-managed Karpenter::
++
+The Karpenter controller runs as a Pod in the `karpenter` namespace, so you can view its logs directly:
++
+[source,bash]
+----
+kubectl logs -n karpenter -l app.kubernetes.io/name=karpenter -f | grep -iE "repair|health|unhealthy|terminat"
+----
++
+[source,bash]
+----
+kubectl get nodeclaims -w
+----
++
+When the wait period elapses, Karpenter logs the repair policy it selected, launches a replacement NodeClaim, and taints the unhealthy node:
++
+[source,bash]
+----
+{"level":"INFO","time":"2026-10-14T20:42:54.876Z","logger":"controller","message":"selected repair policy","controller":"disruption",...,"Node":{"name":"ip-192-168-117-194.us-west-2.compute.internal"},"condition":"AcceleratedHardwareReady","status":"False","reason":"DCGMHealthCode120","reason-regex":"","fallback":true,"action":"ReplaceNode","eligible-at":"2026-10-14T20:42:48.000Z","termination-grace-period":"10m0s"}
+{"level":"INFO","time":"2026-10-14T20:42:54.876Z","logger":"controller","message":"disrupting node(s)","controller":"disruption",...,"command":"Unhealthy/7d64a822: replace: nodepools=[gpu-inf]: [ip-192-168-117-194.us-west-2.compute.internal] -> [1 replacement]","decision":"replace","disrupted-node-count":1,"replacement-node-count":1}
+{"level":"INFO","time":"2026-10-14T20:43:00.155Z","logger":"controller","message":"launched nodeclaim","controller":"nodeclaim.lifecycle",...,"NodeClaim":{"name":"gpu-inf-75tb5"},"instance-type":"g7.8xlarge",...}
+{"level":"INFO","time":"2026-10-14T20:43:34.067Z","logger":"controller","message":"tainted node","controller":"node.termination",...,"taint.Key":"karpenter.sh/disrupted","taint.Value":"","taint.Effect":"NoSchedule"}
+----
++
+The `selected repair policy` entry reports which policy matched. An empty `reason-regex` with `fallback: true` means the condition reason didn't match a specific policy, so the node was repaired on the longer fallback wait shown in `eligible-at`.
++
+[NOTE]
+====
+These log messages come from the `disruption` controller, which is the default in Karpenter `v1.15.0` and later. On earlier versions, and on any version run with `--legacy-node-repair`, repair is handled by the `node.health` controller instead and logs `deleting unhealthy node`.
+====
+
+The expected sequence is the same on both paths: the condition transitions to `False`, the wait period passes, the node is tainted with `karpenter.sh/disrupted:NoSchedule`, a replacement NodeClaim launches, and the old node is terminated. For the full sequence, see <<node-repair-replace-sequence>>.
+
+The unhealthy node object remains in the cluster as `NotReady` for a few minutes after the replacement is ready, while its EC2 instance shuts down. It's removed when instance termination completes.
+
+When the repair completes, the original node has been removed and the replacement node reports `AcceleratedHardwareReady=True`:
+
+[source,bash]
+----
+kubectl get nodes -o custom-columns='NAME:.metadata.name,ACCEL:.status.conditions[?(@.type=="AcceleratedHardwareReady")].status,REASON:.status.conditions[?(@.type=="AcceleratedHardwareReady")].reason'
+----
+
+Expected output:
+
+[source,bash]
+----
+NAME                  ACCEL    REASON
+i-02bc396bb4e3b8169   <none>   <none>
+i-08b2480bcfd6c9c1e   <none>   <none>
+i-093054e7eeead3702   True     NvidiaGPUIsReady
+----
+
+The `gpu-workload` Pod is rescheduled onto the replacement node. The `xid-inject` Pod is removed with the old node because it was pinned to it with `nodeName`.
+
+[#ml-node-repair-warning]
+== Inject a non-critical XID error
+
+Non-critical XID codes are logged as events and don't change the node condition or trigger repair. Testing one confirms that your event monitoring and alerting pipeline receives the `NvidiaXID[Code]Warning` events without disrupting the node.
+
+The `xid-inject` Pod remains running after its injection, so you can use it to inject additional XID codes without editing the manifest. `dcgmi` defaults to `localhost:5555`, so pass no host flag (in `dcgmi`, `-h` means `--help`, not host).
+
+To inject a non-critical XID error, complete the following steps:
+
+[NOTE]
+====
+Inject non-critical XID errors before you inject a critical one, or on a fresh `xid-inject` Pod on a healthy node. After a critical XID error, the node is replaced after the wait period and the `xid-inject` Pod is removed with it. To create the `xid-inject` Pod without injecting a critical XID error on creation, set `XID_CODE` to a non-critical code, such as `"13"`, in the manifest.
+====
+
+. Inject a non-critical XID error, for example XID `13`:
++
+[source,bash]
+----
+kubectl exec xid-inject -- dcgmi test --inject --gpuid 0 -f 230 -v 13
+----
++
+Expected output:
++
+[source,bash]
+----
+Successfully injected field info.
+----
++
+To inject several codes, loop from your workstation. Include a delay between injections. The agent samples the DCGM field periodically, so successive injections that occur between two samples overwrite each other and only the last value is detected.
++
+[source,bash]
+----
+for xid in 13 31 43; do
+  kubectl exec xid-inject -- dcgmi test --inject --gpuid 0 -f 230 -v $xid
+  sleep 60
+done
+----
+
+. Check for the warning event:
++
+[source,bash]
+----
+kubectl get events -A | grep NvidiaXID
+----
++
+Expected output:
++
+[source,bash]
+----
+default   48s   Warning   AcceleratedHardwareReady   node/i-0097459337d05fab4   NvidiaXID13Warning: detected unknown XID-13 on the instance, review kernel logs for additional information.
+----
+
+. Confirm that the node condition is unchanged:
++
+[source,bash]
+----
+kubectl get nodes -o custom-columns='NAME:.metadata.name,ACCEL:.status.conditions[?(@.type=="AcceleratedHardwareReady")].status,REASON:.status.conditions[?(@.type=="AcceleratedHardwareReady")].reason'
+----
++
+Expected output:
++
+[source,bash]
+----
+NAME                  ACCEL    REASON
+i-0097459337d05fab4   True     NvidiaGPUIsReady
+i-02bc396bb4e3b8169   <none>   <none>
+i-08b2480bcfd6c9c1e   <none>   <none>
+----
+
+[#ml-node-repair-cleanup]
+== Clean up
+
+Delete the `xid-inject` Pod if it still exists. If the test node was replaced, the Pod was removed with it.
+
+[source,bash]
+----
+kubectl delete pod xid-inject --ignore-not-found
+----
+
+Delete the GPU workload:
+
+[source,bash]
+----
+kubectl delete deployment gpu-workload
+----
+
+To delete the cluster and GPU nodes, follow the cleanup steps in <<cluster-setup-cli-cleanup>>.

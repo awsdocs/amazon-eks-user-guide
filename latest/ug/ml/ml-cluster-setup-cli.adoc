@@ -200,7 +200,7 @@ Store your Karpenter version in an environment variable for later use. For the l
 +
 [source,bash]
 ----
-export KARPENTER_VERSION=1.14.0
+export KARPENTER_VERSION=1.15.0
 ----
 +
 [#cluster-setup-cli-step1-karpenter-cluster-yaml]
@@ -513,7 +513,7 @@ IAM policy names are unique per {aws} account, not per cluster or Region. If a c
 +
 *Create the Pod Identity association*
 +
-The cluster already installs the `eks-pod-identity-agent` add-on when you <<cluster-setup-cli-create-cluster,create the EKS cluster>>, so EKS Pod Identity is available. Create a Pod Identity association that binds the IAM policy to the controller's service account:
+The cluster already installs the `eks-pod-identity-agent` add-on when you <<cluster-setup-cli-create,create the EKS cluster>>, so EKS Pod Identity is available. Create a Pod Identity association that binds the IAM policy to the controller's service account:
 +
 [source,bash]
 ----

@@ -2,21 +2,28 @@ include::../attributes.txt[]
 
 [.topic]
 [#auto-get-tcpdump]
-= Capture network traffic on a managed node using kubectl and S3
+= Capture network traffic on an EKS Auto Mode node using kubectl and Amazon S3
 :info_titleabbrev: Capture network traffic
 
 [abstract]
 --
-Learn how to capture network traffic on an Amazon EKS managed node using the node monitoring agent and tcpdump.
+Learn how to capture network traffic on an Amazon EKS Auto Mode node using the EKS node monitoring agent and tcpdump.
 --
 
-Learn how to capture network traffic on an Amazon EKS managed node that has the node monitoring agent. The agent runs tcpdump on the node, compresses capture files, and uploads them to your S3 bucket.
+Learn how to capture network traffic on an Amazon EKS Auto Mode node. The EKS node monitoring agent runs `tcpdump` on the node, compresses capture files, and uploads them to your S3 bucket.
+
+[IMPORTANT]
+====
+Packet capture requires the `tcpdump` binary to be present in the environment that the EKS node monitoring agent runs in. This is currently the case only on EKS Auto Mode nodes, where the agent runs as part of the node image.
+
+When you install the agent as an EKS add-on or with Helm on other compute types, such as EKS managed node groups or self-managed nodes, the agent runs in a container that doesn't include `tcpdump`. The capture fails immediately, and the capture status reports a `reason` of `Failure` with the message `failed to start tcpdump: exec: "tcpdump": executable file not found in $PATH`.
+====
 
 == Prerequisites
 
 Make sure you have the following:
 
-* An existing Amazon EKS Auto Mode cluster with the node monitoring agent. For more information, see <<node-health>>.
+* An existing Amazon EKS Auto Mode cluster. EKS Auto Mode includes the EKS node monitoring agent. For more information, see <<node-health>>.
 * The `kubectl` command-line tool installed and configured to communicate with your cluster.
 * The {aws} CLI installed and logged in with sufficient permissions to create S3 buckets and objects.
 * A recent version of Python 3 installed.
@@ -66,7 +73,7 @@ python3 start-capture.py --bucket [.replaceable]`<bucket-name>` --node [.replace
 python3 start-capture.py --bucket [.replaceable]`<bucket-name>` --node [.replaceable]`<node-name>` --dry-run
 ----
 +
-The script requires Python 3 with `boto3` and `pyyaml` installed, and `kubectl` configured for your cluster.
+The script requires Python 3 with `boto3` and `pyyaml` installed, and `kubectl` configured for your cluster. The script applies the resource to your current `kubectl` context, so if you work with more than one cluster, confirm your context first with `kubectl config current-context`.
 +
 The script generates a `NodeDiagnostic` resource like the following. This example is provided for reference; note that the `upload` fields require pre-signed S3 POST credentials that are generated programmatically by the script.
 +
@@ -75,7 +82,7 @@ The script generates a `NodeDiagnostic` resource like the following. This exampl
 apiVersion: eks.amazonaws.com/v1alpha1
 kind: NodeDiagnostic
 metadata:
-  name: [.replaceable]`<node-name>`                    # Required: node instance ID
+  name: [.replaceable]`<node-name>`                    # Required: node name as shown by kubectl get nodes
 spec:
   packetCapture:
     duration: "30s"                       # Required: capture duration (max 1h)
@@ -120,12 +127,22 @@ Once the status shows `Success`, download the capture files from S3.
 aws s3 cp s3://[.replaceable]`<bucket-name>`/captures/ ./captures/ --recursive
 ----
 
-The files are gzip-compressed pcap format. Decompress and analyze with tcpdump or Wireshark:
+The EKS node monitoring agent uploads each capture under a prefix that includes the `captureID`, so the downloaded files are nested rather than sitting directly in `./captures/`. The resulting layout is as follows.
+
+[source,none,subs="verbatim,attributes,quotes"]
+----
+captures/[.replaceable]`<node-name>`/[.replaceable]`<captureID>`/capture.pcap0000.gz
+----
+
+The files are gzip-compressed pcap format. Decompress and analyze them with tcpdump or Wireshark. Because of the nesting, use a recursive pattern rather than a flat one.
 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
-gunzip captures/*.gz
-tcpdump -r captures/capture.pcap0000 -n
+# Decompress every capture file that was downloaded
+find captures -name '*.gz' -exec gunzip {} +
+
+# Read one capture file
+tcpdump -r captures/[.replaceable]`<node-name>`/[.replaceable]`<captureID>`/capture.pcap0000 -n
 ----
 
 == Step 5: Clean up

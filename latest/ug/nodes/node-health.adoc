@@ -12,21 +12,21 @@ Use the EKS node monitoring agent to detect health issues and EKS node repair to
 
 Node health refers to the operational status and capability of a Kubernetes node to effectively run workloads. A healthy node maintains expected network connectivity, has sufficient compute and storage resources, and can successfully run workloads without disruption.
 
-To help with maintaining healthy nodes in EKS clusters, EKS offers the _node monitoring agent_ and _automatic node repair_. These features are automatically enabled with EKS Auto Mode compute. You can also use automatic node repair with EKS managed node groups and Karpenter, and can use the EKS node monitoring agent with any EKS compute types except for {AWS} Fargate. The EKS node monitoring agent and automatic node repair are most effective when used together, but they can also be used individually in EKS clusters.
+To help with maintaining healthy nodes in EKS clusters, EKS offers the _EKS node monitoring agent_ and _automatic node repair_. These features are automatically enabled with EKS Auto Mode compute. You can also use automatic node repair with EKS managed node groups and Karpenter, and can use the EKS node monitoring agent with any EKS compute types except for {AWS} Fargate. The EKS node monitoring agent and automatic node repair are most effective when used together, but they can also be used individually in EKS clusters.
 
 [IMPORTANT]
 ====
-The _node monitoring agent_ and _node auto repair_ are only available on Linux. These features aren't available on Windows.
+The _EKS node monitoring agent_ and _automatic node repair_ are only available on Linux. These features aren't available on Windows.
 ====
 
 [#node-monitoring-agent]
-== Node monitoring agent
+== EKS node monitoring agent
 
 The EKS node monitoring agent reads node logs to detect health issues. It parses logs to detect failures and surfaces status information about the health status of the nodes. For each category of issues detected, the agent applies a dedicated `NodeCondition` to the worker nodes. For detailed information on the node health issues detected by the EKS node monitoring agent, see <<node-health-nma>>.
 
-EKS Auto Mode compute includes the node monitoring agent. For other EKS compute types, you can add the node monitoring agent as an EKS add-on or you can manage it with Kubernetes tooling such as Helm. For more information, see <<node-monitoring-agent-configure>>.
+EKS Auto Mode compute includes the EKS node monitoring agent. For other EKS compute types, you can add the EKS node monitoring agent as an EKS add-on or you can manage it with Kubernetes tooling such as Helm. For more information, see <<node-monitoring-agent-configure>>.
 
-With the EKS node monitoring agent, the following categories of node health issues are surfaced as node conditions. Note, `Ready`, `DiskPressure`, and `MemoryPressure` are standard Kubernetes node conditions that are surfaced even without the EKS node monitoring agent. 
+With the EKS node monitoring agent, the following categories of node health issues are surfaced as node conditions. Note, `Ready`, `DiskPressure`, and `MemoryPressure` are standard Kubernetes node conditions that are surfaced even without the EKS node monitoring agent. For the repair action and wait period that each condition triggers, see <<node-repair>>.
 
 [%header,cols="2"]
 |===
@@ -65,18 +65,26 @@ With the EKS node monitoring agent, the following categories of node health issu
 
 EKS automatic node repair continuously monitors node health, reacts to detected problems, and replaces or reboots nodes when possible. This improves cluster reliability with minimal manual intervention and helps reduce application downtime.
 
-By itself, EKS automatic node repair reacts to the `Ready` conditions of the kubelet, any manually deleted node objects, and EKS managed node group instances that fail to join the cluster. When EKS automatic node repair is enabled with the node monitoring agent installed, EKS automatic node repair reacts to additional node conditions: `AcceleratedHardwareReady`, `ContainerRuntimeReady`, `KernelReady`, `NetworkingReady`, and `StorageReady`. 
+By itself, EKS automatic node repair reacts to the `Ready` conditions of the kubelet, any manually deleted node objects, and EKS managed node group instances that fail to join the cluster. When EKS automatic node repair is enabled with the EKS node monitoring agent installed, EKS automatic node repair reacts to additional node conditions: `AcceleratedHardwareReady`, `ContainerRuntimeReady`, `KernelReady`, `NetworkingReady`, and `StorageReady`. 
 
 EKS automatic node repair does not react to standard Kubernetes `DiskPressure`, `MemoryPressure`, or `PIDPressure` node conditions. These conditions often indicate issues with application behavior, workload configuration, or resource limits rather than node-level failures, making it difficult to determine an appropriate default repair action. In these scenarios, workloads are subject to the Kubernetes link:https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction[node pressure eviction behavior].
 
 For more information on EKS automatic node repair, see <<node-repair>>.
 
 [.topiclist]
-[[Topic List]]
+
+* <<node-health-nma>> – The node health issues that the EKS node monitoring agent detects.
+* <<nvidia-xid-codes>> – How GPU faults are detected and the well-known XID codes with their default repair actions.
+* <<node-repair>> – Repair actions, thresholds, and configuration.
+* <<node-monitoring-agent-configure>> – Configuring the EKS node monitoring agent, including the bundled NVIDIA DCGM component.
+* <<auto-get-logs>> – Retrieving node logs from any node that runs the EKS node monitoring agent, using `kubectl` and Amazon S3.
+* <<auto-get-tcpdump>> – Capturing network traffic on an EKS Auto Mode node using `kubectl` and Amazon S3.
 
 include::node-health-nma.adoc[leveloffset=+1]
 
 include::node-repair.adoc[leveloffset=+1]
+
+include::node-monitoring-agent-configure.adoc[leveloffset=+1]
 
 include::learn-status-conditions.adoc[leveloffset=+1]
 
