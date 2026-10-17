@@ -57,7 +57,7 @@ kubectl apply -f my-sgp.yaml
 [IMPORTANT]
 .Self-referencing ingress rule required for same-policy Pods
 ====
-Important: A new security group created for a `SecurityGroupPolicy` has no ingress rules by default. If Pods matched by the same `SecurityGroupPolicy` need to communicate with each other -- including Pods on the same node -- add a self-referencing ingress rule:
+A new security group created for a `SecurityGroupPolicy` has no ingress rules by default. If Pods matched by the same `SecurityGroupPolicy` need to communicate with each other -- including Pods on the same node -- add a self-referencing ingress rule using the following AWS CLI command:
 
 [source,bash]
 ----
