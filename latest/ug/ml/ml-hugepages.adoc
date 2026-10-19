@@ -1,0 +1,454 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-hugepages]
+= Configure hugepages in Amazon EKS clusters
+:info_titleabbrev: Configure hugepages
+
+[abstract]
+--
+Pre-allocate 2Mi and 1Gi hugepages on Amazon EKS nodes with EKS Auto Mode or Karpenter, and request them from Pods, to reduce memory-access overhead for large-memory AI/ML workloads.
+--
+
+== Overview
+
+By default, the Linux kernel manages memory in 4 KiB pages. A workload with a large resident memory footprint, such as a model server holding tens of gigabytes of weights or a KV cache, needs millions of page table entries to map that memory. Every memory access that misses the CPU's translation lookaside buffer (TLB) costs a page table walk, and the page tables themselves consume memory and CPU cycles to maintain.
+
+_Hugepages_ let the kernel map memory in much larger units: 2 MiB or 1 GiB on x86-64 and arm64. A single 1 GiB hugepage replaces 262,144 4 KiB entries, so the same memory footprint fits in far fewer TLB entries. This reduces TLB misses and page table overhead, which can measurably improve performance for memory-bandwidth-bound workloads. {aws} services apply the same technique internally: Amazon RDS for PostgreSQL and Aurora PostgreSQL enable huge pages by default to reduce the CPU overhead of managing page table entries for shared buffers. For more information, see link:AmazonRDS/latest/UserGuide/PostgreSQL.Concepts.General.FeatureSupport.HugePages.html[Huge pages for RDS for PostgreSQL,type="documentation"] in the _Amazon RDS User Guide_.
+
+[#ml-hugepages-when]
+=== When to configure hugepages
+
+Consider hugepages for the following workloads:
+
+* *Required by the runtime* — Some workloads do not start without hugepages. link:enclaves/latest/user/kubernetes.html[{aws} Nitro Enclaves on Amazon EKS,type="documentation"] requires Pods to request `hugepages-2Mi` or `hugepages-1Gi` for enclave memory. Data plane frameworks built on DPDK have the same requirement.
+* *High-performance inter-node communication* — Pods that use Elastic Fabric Adapter (EFA) with NVIDIA Collective Communications Library (NCCL) request `hugepages-2Mi` alongside the `vpc.amazonaws.com/efa` resource, so that the pinned buffers used for RDMA transfers are backed by hugepages. For an example, see <<device-management-efa>>.
+* *Large in-memory datasets* — Vector databases, in-memory caches, feature stores, and analytics engines that scan large contiguous regions benefit from the reduced TLB pressure.
+* *Latency-sensitive serving* — Workloads with strict tail-latency targets benefit because page table walks are a source of unpredictable memory-access latency.
+
+Hugepages are not a universal win. They are pre-allocated and pinned, so the memory is unavailable to any workload that does not request it, and a workload that cannot use hugepages sees only the reduced conventional memory. Benchmark your workload before you reserve hugepages in production.
+
+[#ml-hugepages-static-vs-thp]
+=== Static hugepages compared to transparent hugepages
+
+Amazon EKS supports two independent mechanisms. You can use them separately or together.
+
+* *Static hugepages* — The node pre-allocates a fixed number of pages of a given size at boot. kubelet advertises them as the schedulable node resources `hugepages-2Mi` and `hugepages-1Gi`, and Pods must explicitly request them. Static hugepages are never overcommitted or swapped. For more information, see https://kubernetes.io/docs/tasks/manage-hugepages/scheduling-hugepages/[Manage HugePages] in the Kubernetes documentation.
+* *Transparent hugepages (THP)* — The kernel promotes eligible memory regions to hugepages automatically, with no change to the workload. THP is a kernel-wide policy, not an allocatable resource, so it does not affect scheduling or node capacity and Pods do not request it. For more information, see https://docs.kernel.org/admin-guide/mm/transhuge.html[Transparent Hugepage Support] in the Linux kernel documentation.
+
+Use static hugepages when a workload requires an explicit, guaranteed reservation. Use THP when you want the kernel to opportunistically use hugepages for a workload that is not written to request them. Some databases recommend disabling THP, which you can also do through these settings.
+
+== Prerequisites
+
+* An Amazon EKS cluster running either EKS Auto Mode or self-managed Karpenter. To create one, see <<ml-cluster-setup>>.
+* `kubectl` installed and configured for your cluster. For more information, see <<install-kubectl>>.
+* The node IAM role and the subnet and security group tags that your NodeClass selects. These are already in place if you followed <<ml-cluster-setup>>.
+* The cluster name and {aws} Region set in every terminal you run these commands from. The examples below reference both. The following values are the defaults from <<ml-cluster-setup>>, so replace them if you created your cluster with different ones:
++
+[source,bash]
+----
+export CLUSTER_NAME=ai-eks-docs
+export AWS_REGION=us-east-2
+----
+
+== Step 1: Allocate hugepages on your nodes
+
+Hugepages must be allocated on the node before kubelet starts, so that kubelet reports the capacity. Both paths below handle that ordering for you. Choose the path that matches how your cluster provisions nodes.
+
+[%header,cols="1,1"]
+|===
+|Node provisioning |Mechanism
+
+|EKS Auto Mode
+|The `advancedCompute.hugepages` field on the EKS Auto Mode `NodeClass`.
+
+|Self-managed Karpenter (AL2023)
+|A shell script in the `EC2NodeClass` `userData`, which `nodeadm` runs before it starts kubelet, plus a `NodeOverlay` so Karpenter's scheduler accounts for the pages.
+|===
+
+=== EKS Auto Mode
+
+EKS Auto Mode configures hugepages declaratively through the `advancedCompute.hugepages` field on the `NodeClass`. Create a dedicated `NodeClass` and `NodePool` for hugepages workloads, so that nodes without a hugepages reservation remain available for everything else.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+NODE_ROLE=$(kubectl get nodeclass default -o jsonpath='{.spec.role}')
+
+cat << EOF | kubectl apply -f -
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: hugepages
+spec:
+  role: "$NODE_ROLE"
+  subnetSelectorTerms:
+    - tags:
+        alpha.eksctl.io/cluster-name: "$CLUSTER_NAME"
+        kubernetes.io/role/internal-elb: "1"
+  securityGroupSelectorTerms:
+    - tags:
+        aws:eks:cluster-name: "$CLUSTER_NAME"
+  advancedCompute:
+    hugepages:
+      pages:
+        - size: "2Mi"
+          count: 1024
+      transparent:
+        enabled: madvise
+        defrag: defer
+---
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: hugepages
+spec:
+  template:
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: hugepages
+      requirements:
+        - key: eks.amazonaws.com/instance-category
+          operator: In
+          values: ["m"]
+        - key: eks.amazonaws.com/instance-generation
+          operator: Gt
+          values: ["4"]
+        - key: karpenter.sh/capacity-type
+          operator: In
+          values: ["on-demand"]
+  limits:
+    cpu: 100
+EOF
+----
+
+The `pages` field pre-allocates 1024 pages of 2 MiB, which is 2 GiB of static hugepages per node. You can add a second entry with `size: "1Gi"` to reserve both page sizes on the same nodes. The `transparent` field sets the kernel THP policy: `madvise` applies THP only to regions that opt in with `madvise(MADV_HUGEPAGE)`, and `defrag` controls how aggressively the kernel compacts memory to satisfy a THP allocation.
+
+Confirm the `NodeClass` reports `Ready` before you continue:
+
+[source,bash]
+----
+kubectl get nodeclass hugepages -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}'
+----
+
+Expected output: `True`. Amazon EKS resolves the instance profile, subnets, and security groups before it reports the `NodeClass` as ready, so this returns `False` for the first several seconds. If it stays `False`, run `kubectl describe nodeclass hugepages` and check the conditions for unresolved subnets or security groups.
+
+Then confirm the `NodePool` is ready:
+
+[source,bash]
+----
+kubectl get nodepool hugepages
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+NAME        NODECLASS   NODES   READY   AGE
+hugepages   hugepages   0       True    45s
+----
+
+For the full field reference, including the valid `transparent` values and the EFA restriction, see <<hugepages,Configure hugepages on nodes>>.
+
+=== Self-managed Karpenter with AL2023
+
+The AL2023 `nodeadm` `NodeConfig` API does not have a hugepages field, so you allocate the pages from a shell script in the `EC2NodeClass` `userData`. On AL2023, `nodeadm-run.service` is ordered `After=cloud-final.service` specifically so that user-supplied cloud-init scripts run first. Because `nodeadm-run` is what starts kubelet, a shell script that writes to `/sys/kernel/mm/hugepages` always completes before kubelet inspects the node, and the capacity is reported correctly.
+
+Karpenter accepts a MIME multi-part archive in `userData` and merges its own generated `NodeConfig` into it, so you can combine a `NodeConfig` part with a shell script part.
+
+[IMPORTANT]
+====
+On self-managed Karpenter, the `userData` alone is not enough. Karpenter's scheduler computes the capacity of each candidate instance type from Amazon EC2 instance metadata, which does not describe hugepages you allocate in user data. A Pod that requests `hugepages-2Mi` or `hugepages-1Gi` therefore never triggers provisioning, and Karpenter logs the following indefinitely while the Pod stays `Pending`:
+
+[source,bash,subs="verbatim,attributes"]
+----
+could not schedule pod ... no instance type has enough resources
+----
+
+You also create a `NodeOverlay` that declares the same hugepage capacity to Karpenter's scheduling simulation, as shown in the next step. This keeps normal dynamic provisioning, including scale-from-zero, working for hugepages workloads.
+
+This limitation does not apply to EKS Auto Mode. Amazon EKS knows the `NodeClass` hugepages reservation, factors it into instance-type capacity, and provisions nodes from a pending hugepages Pod as usual.
+====
+
+[source,yaml,subs="verbatim,attributes"]
+----
+cat << EOF | kubectl apply -f -
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: hugepages
+spec:
+  role: "eksctl-KarpenterNodeRole-${CLUSTER_NAME}"
+  amiSelectorTerms:
+    - alias: al2023@latest
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: ${CLUSTER_NAME}
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: ${CLUSTER_NAME}
+  tags:
+    karpenter.sh/discovery: ${CLUSTER_NAME}
+  userData: |
+    MIME-Version: 1.0
+    Content-Type: multipart/mixed; boundary="//"
+
+    --//
+    Content-Type: text/x-shellscript; charset="us-ascii"
+
+    #!/bin/bash
+    set -euo pipefail
+
+    # Static hugepages. Each node must have enough free, unfragmented
+    # memory to satisfy these reservations at boot.
+    echo 512 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
+    echo 2 > /sys/kernel/mm/hugepages/hugepages-1048576kB/nr_hugepages
+
+    # Transparent hugepages (THP) kernel policy.
+    echo madvise > /sys/kernel/mm/transparent_hugepage/enabled
+    echo defer > /sys/kernel/mm/transparent_hugepage/defrag
+
+    --//--
+EOF
+----
+
+This example reserves 512 pages of 2 MiB (1 GiB) and 2 pages of 1 GiB (2 GiB), for 3 GiB of static hugepages per node. Size the reservations for the smallest instance type your `NodePool` can launch, because the same user data runs on every node.
+
+[NOTE]
+====
+1 GiB pages are _gigantic_ pages, which the kernel can only allocate from contiguous physical memory. Allocating them this early in boot normally succeeds because memory is not yet fragmented, but the write to `nr_hugepages` is best-effort: the kernel may allocate fewer pages than you request without returning an error. Always verify the reported node capacity in Step 3 rather than assuming the reservation succeeded.
+====
+
+`NodeOverlay` is behind the `NodeOverlay` feature gate, which is Alpha and off by default in Karpenter. Enable it on your Karpenter installation. If you installed Karpenter with Helm, set `settings.featureGates.nodeOverlay=true`. Otherwise, patch the deployment and wait for the rollout:
+
+[source,bash]
+----
+kubectl set env deployment/karpenter -n karpenter \
+  FEATURE_GATES=NodeOverlay=true
+
+kubectl rollout status deployment/karpenter -n karpenter
+----
+
+IMPORTANT: `FEATURE_GATES` replaces the full gate list rather than merging. If you already enable other gates, such as `NodeRepair` from <<ml-cluster-setup-cli>>, include them in the same command: `FEATURE_GATES=NodeRepair=true,NodeOverlay=true`.
+
+Then create the `NodePool` and a `NodeOverlay` that declares the hugepage capacity to Karpenter's scheduler:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+cat << EOF | kubectl apply -f -
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: hugepages
+spec:
+  template:
+    metadata:
+      labels:
+        hugepages: "true"
+    spec:
+      nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
+        name: hugepages
+      requirements:
+        - key: karpenter.k8s.aws/instance-category
+          operator: In
+          values: ["m"]
+        - key: karpenter.k8s.aws/instance-generation
+          operator: Gt
+          values: ["4"]
+        - key: karpenter.k8s.aws/instance-memory
+          operator: Gt
+          values: ["8192"]
+        - key: karpenter.sh/capacity-type
+          operator: In
+          values: ["on-demand"]
+  limits:
+    cpu: 100
+---
+apiVersion: karpenter.sh/v1alpha1
+kind: NodeOverlay
+metadata:
+  name: hugepages
+spec:
+  requirements:
+    - key: karpenter.sh/nodepool
+      operator: In
+      values: ["hugepages"]
+  capacity:
+    hugepages-2Mi: 1Gi
+    hugepages-1Gi: 2Gi
+EOF
+----
+
+The `capacity` values must match what the `userData` script actually allocates: 512 pages of 2 MiB is `1Gi`, and 2 pages of 1 GiB is `2Gi`. A `NodeOverlay` changes only Karpenter's simulation, not the node itself, so if the two disagree, Karpenter launches nodes that cannot satisfy the Pods it scheduled onto them. The `requirements` field scopes the overlay to this `NodePool` so that no other NodePool inherits the phantom capacity.
+
+The `instance-memory` requirement keeps Karpenter from launching an instance too small to hold the reservation alongside the workload.
+
+Confirm the `NodeOverlay` is ready:
+
+[source,bash]
+----
+kubectl get nodeoverlay hugepages
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+NAME        READY   AGE   WEIGHT
+hugepages   True    10s
+----
+
+[NOTE]
+====
+A `NodeOverlay` can only add extended resources such as hugepages. It cannot change a node's CPU, memory, or ephemeral storage. For more information, see https://karpenter.sh/docs/concepts/nodeoverlays/[NodeOverlays] in the Karpenter documentation.
+
+If you prefer not to enable an Alpha feature gate, the alternative is a _static_ `NodePool` (`spec.replicas`, behind the `StaticCapacity` gate), which maintains a fixed node count instead of scaling in response to pending Pods. The nodes then exist and advertise their hugepage capacity before any Pod requests it, so Karpenter never simulates the scheduling decision. That approach gives up scale-from-zero.
+====
+
+== Step 2: Request hugepages from a Pod
+
+Static hugepages are a schedulable resource, so a Pod must request them explicitly. Hugepage requests and limits must be equal, and a Pod that mounts hugepage-backed memory also needs an `emptyDir` volume with a `HugePages` medium.
+
+The following Pod requests 2 GiB of 1 GiB hugepages. It schedules only onto the nodes you created in Step 1, because no other node advertises the resource.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+cat << EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hugepages-consumer
+spec:
+  containers:
+    - name: app
+      image: public.ecr.aws/amazonlinux/amazonlinux:2023
+      command: ["sh", "-c", "sleep 3600"]
+      resources:
+        requests:
+          cpu: "1"
+          memory: "1Gi"
+          hugepages-1Gi: "2Gi"
+        limits:
+          cpu: "1"
+          memory: "1Gi"
+          hugepages-1Gi: "2Gi"
+      volumeMounts:
+        - name: hugepage-1gi
+          mountPath: /hugepages-1Gi
+  volumes:
+    - name: hugepage-1gi
+      emptyDir:
+        medium: HugePages-1Gi
+EOF
+----
+
+On the EKS Auto Mode path, change `hugepages-1Gi` to `hugepages-2Mi` and the medium to `HugePages-2Mi` to match the `2Mi` reservation in that example.
+
+== Step 3: Verify the hugepages reservation
+
+The Pod request triggers a new node on both paths. After the node is `Ready`, check that kubelet reports the hugepage resources:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get nodes -o custom-columns=\
+'NODE:.metadata.name,2Mi:.status.capacity.hugepages-2Mi,1Gi:.status.capacity.hugepages-1Gi,MEM-ALLOC:.status.allocatable.memory'
+----
+
+The output differs by path, because the two Step 1 examples reserve different pages. On the EKS Auto Mode path, which reserves 1024 pages of 2 MiB and no 1 GiB pages, the output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+NODE                  2Mi   1Gi   MEM-ALLOC
+i-0241d09e88e0ecc86   2Gi   0     5074240Ki
+----
+
+On the self-managed Karpenter path, which reserves 512 pages of 2 MiB and 2 pages of 1 GiB, the output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+NODE                                          2Mi   1Gi   MEM-ALLOC
+ip-192-168-77-23.us-west-2.compute.internal   1Gi   2Gi   12003684Ki
+----
+
+The `2Mi` and `1Gi` columns show the static reservation. A `0` in a column means no pages of that size were reserved, which is expected on the Auto Mode example. Notice that allocatable `memory` is reduced by the full hugepages reservation: hugepages are carved out of the instance's memory, so conventional memory shrinks by the same amount.
+
+Confirm the Pod scheduled and can see the pages:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl exec hugepages-consumer -- grep -E 'HugePages_Total|Hugepagesize|Hugetlb' /proc/meminfo
+----
+
+`HugePages_Total` and `Hugepagesize` report the default page size only, so they count 2 MiB pages. `Hugetlb` is the total across all page sizes. On the EKS Auto Mode path, the output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+HugePages_Total:    1024
+Hugepagesize:       2048 kB
+Hugetlb:         2097152 kB
+----
+
+Here `Hugetlb` of 2097152 KiB is the full 2 GiB reservation, all of it in 2 MiB pages. On the self-managed Karpenter path, the output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+HugePages_Total:     512
+Hugepagesize:       2048 kB
+Hugetlb:         3145728 kB
+----
+
+Here `HugePages_Total` counts only the 512 pages of 2 MiB, while `Hugetlb` of 3145728 KiB is the full 3 GiB across both page sizes.
+
+To check the THP policy, read the kernel settings. The active value is in brackets.
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl exec hugepages-consumer -- sh -c \
+  'cat /sys/kernel/mm/transparent_hugepage/enabled /sys/kernel/mm/transparent_hugepage/defrag'
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+always [madvise] never
+always [defer] defer+madvise madvise never
+----
+
+== Considerations
+
+* *Memory accounting* — Static hugepages count against the instance's total memory and are not available to workloads that do not request them. On EKS Auto Mode, Amazon EKS marks instance types as incompatible with the `NodeClass` when the combined reservation would exceed 80% of total memory.
+* *Requests must equal limits* — Kubernetes requires that a container's hugepage request and limit match. Hugepages cannot be overcommitted.
+* *Hugepages are not swappable and not shared* — Pages reserved but unused by a Pod stay idle for the Pod's lifetime. Size reservations to actual workload demand.
+* *EFA and static hugepages on EKS Auto Mode* — Elastic Fabric Adapter and static hugepages cannot coexist on the same EKS Auto Mode `NodeClass`. Use a separate `NodeClass` for EFA workloads. Transparent hugepages do not conflict with EFA. For more information, see <<hugepages-considerations,Hugepages considerations>>.
+* *1 GiB pages need contiguous memory* — Reserve 1 GiB pages at boot, as shown here. Allocating them on a long-running node often fails because physical memory has fragmented.
+* *Keep the NodeOverlay in sync* — On self-managed Karpenter, the `NodeOverlay` capacity and the `userData` reservation are two independent declarations of the same thing. If you change one, change the other. An overlay that claims more than the node allocates causes Karpenter to schedule Pods onto nodes that cannot run them. EKS Auto Mode has a single source of truth in the `NodeClass`, so it is not affected.
+* *Dedicate NodePools* — Put hugepages workloads on their own `NodePool` so that the reservation does not reduce usable memory for the rest of your cluster.
+
+== Clean up
+
+Delete the Pod and the node provisioning resources you created. Deleting the `NodePool` drains and terminates its nodes.
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl delete pod hugepages-consumer
+kubectl delete nodepool hugepages
+----
+
+On the EKS Auto Mode path:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl delete nodeclass hugepages
+----
+
+On the self-managed Karpenter path:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl delete ec2nodeclass hugepages
+kubectl delete nodeoverlay hugepages
+----

@@ -86,6 +86,13 @@ A well-designed Amazon EKS cluster organizes accelerated compute NodePools or no
 
 Specify the desired capacity type for workloads using nodeSelector: `karpenter.sh/capacity-type: [spot, on-demand, reserved]`. Weight-based provisioning scales the cluster efficiently across all capacity pools. With this architecture, you can run diverse AI/ML workloads—from experimental notebooks to production inference—within a single Amazon EKS cluster while optimizing cost.
 
+== Topics
+
+* <<ml-node-pools>> — Provision accelerated compute with EKS Auto Mode and Karpenter NodePools, including static capacity, Capacity Blocks, and ODCRs.
+* <<ml-node-groups>> — Provision accelerated compute with EKS managed and self-managed node groups.
+* <<ml-eks-nvidia-ultraserver>> — Run P6e-GB200 UltraServers on Amazon EKS.
+* <<ml-validate-gpu-node-repair>> — Validate EKS automatic node repair for GPUs by injecting XID errors.
+
 include::ml-node-pools.adoc[leveloffset=+1]
 
 include::ml-node-groups.adoc[leveloffset=+1]

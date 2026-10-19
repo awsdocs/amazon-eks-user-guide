@@ -103,7 +103,11 @@ The <<ml-inference-load-serve-model,Load & Serve Models>> walkthrough guides you
 
 The walkthrough uses the cluster infrastructure from the <<ml-cluster-setup>> section and the GPU NodePool from the <<ml-inference-gpu-nodepool>> section, and works with both EKS Auto Mode and self-managed Karpenter paths.
 
-include::ml-inference-gpu-nodepool.adoc[leveloffset=+1]
+This section covers the following topics:
+
+* <<ml-inference-load-serve-model>> — Deploy the end-to-end inference application described above.
+* <<ml-inference-autoscaling>> — Scale the deployment with traffic, including how to find scaling thresholds and autoscale with HPA and KEDA.
+* <<ml-inference-fast-model-loading>> — Reduce the time it takes to load model weights onto GPU nodes.
 
 include::ml-inference-load-serve-model.adoc[leveloffset=+1]
 

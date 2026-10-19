@@ -1,0 +1,251 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-inferentia]
+= Use {aws} Inferentia instances with Amazon EKS for Machine Learning
+:info_titleabbrev: Use {aws} Inferentia
+
+[abstract]
+--
+Learn how to create an Amazon EKS cluster with nodes running Amazon EC2 Inf2 instances for machine learning inference using {aws} Inferentia2 chips, and compile and run a model with {aws} Neuron.
+--
+
+== Overview
+
+link:ec2/instance-types/inf2/[Amazon EC2 Inf2,type="marketing"] instances are powered by link:machine-learning/inferentia/[{aws} Inferentia2,type="marketing"] chips, which are purpose-built by {aws} for deep learning inference. Compared to the previous-generation Inf1 instances, Inf2 instances offer higher throughput, lower latency, and far more accelerator memory, which makes them suitable for serving large models such as large language models (LLMs) and diffusion models.
+
+You deploy models to Inf2 instances using link:machine-learning/neuron/[{aws} Neuron,type="marketing"], an SDK consisting of a compiler, runtime, and profiling tools. A model must be compiled to a Neuron target before it can run on Inferentia2. The Neuron compiler traces your model and produces a NEFF (Neuron Executable File Format) artifact that the Neuron runtime loads onto the device.
+
+Neuron currently supports PyTorch (through `torch-neuronx` and NxD Inference), JAX, and vLLM for Neuron. The TensorFlow Neuron and MXNet Neuron integrations used with first-generation Inf1 instances are no longer actively developed, so use PyTorch or vLLM for new work. For the frameworks and versions in the current release, see the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/release-notes/[{aws} Neuron release notes].
+
+[#ml-inferentia-instance-types]
+=== Inf2 instance types
+
+[%header,cols="2,1,1,1,1"]
+|===
+|Instance type |Inferentia2 devices |NeuronCores |Accelerator memory |vCPUs
+
+|`inf2.xlarge`
+|1
+|2
+|32 GiB
+|4
+
+|`inf2.8xlarge`
+|1
+|2
+|32 GiB
+|32
+
+|`inf2.24xlarge`
+|6
+|12
+|192 GiB
+|96
+
+|`inf2.48xlarge`
+|12
+|24
+|384 GiB
+|192
+|===
+
+Each Inferentia2 device contains two NeuronCores. Pods request whole devices through the `aws.amazon.com/neuron` resource, or individual cores through `aws.amazon.com/neuroncore`. Size your instance by the accelerator memory your compiled model needs: a model must fit in the memory of the devices allocated to its Pod.
+
+== Prerequisites
+
+* An existing Amazon EKS cluster. If you don't have one, see <<getting-started>>.
+* `eksctl` installed on your computer. If you don't have it installed, see https://eksctl.io/installation[Installation] in the `eksctl` documentation.
+* `kubectl` installed and configured for your cluster. For more information, see <<install-kubectl>>.
+* Helm installed in your command-line environment. For more information, see <<helm>>.
+
+== Step 1: Create a node group with Inf2 instances
+
+Create a node group backed by Inf2 instances. You can replace [.replaceable]`inf2.xlarge` with any Inf2 instance type from the preceding table. Because the instance type is a Neuron type, Amazon EKS uses an EKS-optimized accelerated AMI that includes the Neuron driver. For more information about these AMIs, see <<eks-amis-neuron>>.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+cat << EOF > inf2-nodegroup.yaml
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: [.replaceable]`my-cluster`
+  region: [.replaceable]`region-code`
+
+managedNodeGroups:
+  - name: ng-inf2
+    instanceType: inf2.xlarge
+    desiredCapacity: 1
+    minSize: 1
+    maxSize: 4
+    volumeSize: 100
+    privateNetworking: true
+EOF
+
+eksctl create nodegroup -f inf2-nodegroup.yaml
+----
+
+Set `volumeSize` large enough for the Neuron container images, which are several gigabytes. Compiling a model also writes intermediate artifacts to disk.
+
+Verify that the node joined the cluster:
+
+[source,bash]
+----
+kubectl get nodes
+----
+
+== Step 2: Install the Neuron Kubernetes components
+
+The EKS-optimized Neuron AMIs include the Neuron driver, but they do not include the components that expose Neuron devices to Kubernetes. Install either the Neuron DRA driver or the Neuron Kubernetes device plugin:
+
+* *Neuron DRA driver* — Recommended for Kubernetes version 1.34 and later. It provides topology-aware allocation and connected device subset scheduling without a custom scheduler extension. For instructions, see <<neuron-dra-driver>>.
+* *Neuron Kubernetes device plugin* — Supported on all EKS-supported Kubernetes versions. It advertises Neuron devices as extended resources. For instructions, see <<neuron-device-plugin>>.
+
+For a comparison of the two mechanisms, see <<device-management-neuron>>.
+
+The remainder of this topic uses the device plugin, which you can install with the following command:
+
+[source,bash]
+----
+helm upgrade --install neuron-helm-chart oci://public.ecr.aws/neuron/neuron-helm-chart \
+    --set "npd.enabled=false"
+----
+
+[NOTE]
+====
+On `inf2.24xlarge` and `inf2.48xlarge`, which have more than one Inferentia2 device, a Pod that requests multiple devices requires contiguous device IDs. With the device plugin, install the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/deploy/infrastructure/scheduler.html[Neuron Kubernetes scheduler extension] to guarantee this. The Neuron DRA driver handles it automatically through topology constraints. For more information, see <<device-management-neuron>>.
+====
+
+== Step 3: Verify that Neuron devices are allocatable
+
+Confirm that the device plugin is advertising Neuron resources on your node:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get nodes "-o=custom-columns=NAME:.metadata.name,NeuronDevice:.status.allocatable.aws\.amazon\.com/neuron,NeuronCore:.status.allocatable.aws\.amazon\.com/neuroncore"
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+NAME                                           NeuronDevice   NeuronCore
+ip-192-168-71-233.us-west-2.compute.internal   1              2
+----
+
+An `inf2.xlarge` reports one device and two NeuronCores. If both columns show `<none>`, the device plugin is not running on the node. Check the DaemonSet with `kubectl get ds -n kube-system neuron-device-plugin`.
+
+== Step 4: Compile and run a model on Inferentia2
+
+The following Pod uses the {aws} Deep Learning Container for PyTorch Neuron, which bundles the Neuron compiler, the Neuron runtime, and `torch-neuronx`. It compiles a small model for Inferentia2 with `torch_neuronx.trace`, runs inference on the device, and compares the result against the same model on CPU. This verifies the full path from compilation through execution.
+
+. Create a file named `neuron-infer-test.yaml` with the following contents. Replace [.replaceable]`region-code` with your {aws} Region so that the image is pulled from a regional Amazon ECR repository.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: neuron-infer-test
+spec:
+  restartPolicy: Never
+  containers:
+  - name: infer
+    image: 763104351884.dkr.ecr.[.replaceable]`region-code`.amazonaws.com/pytorch-inference-neuronx:2.9.0-neuronx-py312-sdk2.31.1-ubuntu24.04
+    command: ["/bin/bash", "-lc"]
+    args:
+      - |
+        set -e
+        neuron-ls
+        python - <<'PY'
+        import torch, torch.nn as nn, torch_neuronx
+
+        class Model(nn.Module):
+            def __init__(self):
+                super().__init__()
+                self.fc1 = nn.Linear(8, 4)
+                self.fc2 = nn.Linear(4, 2)
+            def forward(self, x):
+                return self.fc2(torch.relu(self.fc1(x)))
+
+        model = Model().eval()
+        example = torch.rand(1, 8)
+
+        # Compile the model for Inferentia2
+        neuron_model = torch_neuronx.trace(model, example)
+
+        print("neuron out:", neuron_model(example))
+        print("cpu    out:", model(example))
+        PY
+    resources:
+      limits:
+        aws.amazon.com/neuron: 1
+      requests:
+        aws.amazon.com/neuron: 1
+  tolerations:
+  - key: "aws.amazon.com/neuron"
+    operator: "Exists"
+    effect: "NoSchedule"
+----
++
+The `tolerations` entry is required because the EKS Neuron AMIs taint Neuron nodes with `aws.amazon.com/neuron`, which keeps non-accelerated workloads off them.
+. Apply the manifest.
++
+[source,bash]
+----
+kubectl apply -f neuron-infer-test.yaml
+----
+. Wait for the Pod to reach `Completed`. The container image is several gigabytes and model compilation takes a few minutes, so allow up to 10 minutes on the first run.
++
+[source,bash]
+----
+kubectl get pod neuron-infer-test
+----
+. View the logs.
++
+[source,bash]
+----
+kubectl logs neuron-infer-test
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+instance-type: inf2.xlarge
+instance-id: i-0eb8c1f59f121359e
++--------+--------+----------+--------+--------------+----------+------+
+| NEURON | NEURON |  NEURON  | NEURON |     PCI      |   CPU    | NUMA |
+| DEVICE | CORES  | CORE IDS | MEMORY |     BDF      | AFFINITY | NODE |
++--------+--------+----------+--------+--------------+----------+------+
+| 0      | 2      | 0-1      | 32 GB  | 0000:00:1f.0 | 0-3      | -1   |
++--------+--------+----------+--------+--------------+----------+------+
+.
+Compiler status PASS
+neuron out: tensor([[0.4206, 0.0627]])
+cpu    out: tensor([[0.4206, 0.0627]], grad_fn=<AddmmBackward0>)
+----
++
+`Compiler status PASS` confirms the Neuron compiler produced a NEFF artifact for the model. The matching `neuron out` and `cpu out` tensors confirm the compiled model executed correctly on the Inferentia2 device.
+
+== Serving models in production
+
+The preceding example compiles at Pod startup, which is fine for validation but adds minutes to every cold start. For production inference, compile the model once and reuse the artifact:
+
+* *Pre-compile and cache* — Compile the model ahead of time and store the NEFF artifacts in Amazon S3 or a container image, then load them at startup. You can also use the Neuron persistent cache to avoid recompiling across restarts. For more information, see https://awsdocs-neuron.readthedocs-hosted.com/en/latest/[the {aws} Neuron documentation].
+* *Serve LLMs with vLLM* — For large language models, use vLLM for Neuron with NxD Inference, which handles model sharding across NeuronCores and continuous batching. {aws} publishes a `huggingface-vllm-inference-neuronx` Deep Learning Container for this. For the general pattern of serving an LLM on Amazon EKS, including autoscaling and monitoring, see <<ml-inference>>.
+* *Scale with a NodePool* — To provision Inf2 capacity on demand rather than through a fixed-size node group, use EKS Auto Mode or Karpenter. For more information, see <<ml-node-pools>>.
+
+For more examples, see the https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html[Neuron Kubernetes documentation] and the https://github.com/aws-neuron/aws-neuron-eks-samples[{aws} Neuron EKS samples] on GitHub.
+
+== Clean up
+
+Delete the test Pod and the Inf2 node group so that you stop incurring charges:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl delete pod neuron-infer-test
+
+eksctl delete nodegroup --cluster [.replaceable]`my-cluster` --name ng-inf2 --region [.replaceable]`region-code`
+----

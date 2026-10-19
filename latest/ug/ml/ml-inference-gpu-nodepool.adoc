@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#ml-inference-gpu-nodepool]
 = Create a GPU NodePool for AI/ML inference
-:info_titleabbrev: Create GPU NodePools
+:info_titleabbrev: Inference
 
 [abstract]
 --

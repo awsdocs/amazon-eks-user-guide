@@ -1,0 +1,26 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-gpu-nodes]
+= Create GPU nodes for AI/ML workloads on Amazon EKS
+:info_titleabbrev: Create GPU nodes
+
+[abstract]
+--
+Provision GPU-enabled compute in your Amazon EKS cluster so that AI/ML workloads have accelerators to run on.
+--
+
+[TIP]
+====
+https://events.eksworkshop.com/workshops/genai/[Register] for upcoming Amazon EKS AI/ML workshops.
+====
+
+After you set up the cluster infrastructure in <<ml-cluster-setup>>, the next step is GPU compute. This section defines the EKS Auto Mode or Karpenter NodePools that dynamically provision Amazon EC2 GPU instances, so that nodes are created as GPU workloads are scheduled and removed when they are no longer needed.
+
+Create NodePools based on your workload type, because each type places different demands on GPU capacity:
+
+* *Inference* — Favors smaller G-family instances with Spot capacity and scale-to-zero behavior, which keeps GPUs idle-free between traffic peaks. For a walkthrough, see <<ml-inference-gpu-nodepool>>.
+
+Each walkthrough builds on the cluster you created in the <<ml-cluster-setup>> section. Complete that section first, then choose the same path (EKS Auto Mode or self-managed Karpenter) that you used to create your cluster.
+
+include::ml-inference-gpu-nodepool.adoc[leveloffset=+1]

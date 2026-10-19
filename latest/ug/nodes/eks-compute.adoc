@@ -69,7 +69,7 @@ Bottlerocket has some specific differences from the general information in this 
 |Yes
 
 |Can run workloads that require the Inferentia chip
-|<<inferentia-support,Yes>> – Amazon Linux nodes only
+|<<ml-inferentia,Yes>> – Amazon Linux nodes only
 |Yes
 |No
 

@@ -15,9 +15,14 @@ Follow bite-sized recipes to optimize your Amazon EKS clusters for AI/ML workloa
 https://events.eksworkshop.com/workshops/genai/[Register] for upcoming Amazon EKS AI/ML workshops.
 ====
 
-This section is designed to provide bite-sized recipes for optimizing your Amazon EKS cluster, particularly for AI/ML workloads involving specialized hardware. You'll find guidance on preventing pods from being scheduled on specific nodes by adding taints to managed node groups, including prerequisites, step-by-step procedures, and deployment considerations.
+This section is designed to provide bite-sized recipes for optimizing your Amazon EKS cluster, particularly for AI/ML workloads involving specialized hardware. Each recipe includes prerequisites, step-by-step procedures, and deployment considerations.
 
-[.topiclist]
-[[Topic List]]
+* <<ml-workload-management>> — Control where workloads land by adding taints to managed node groups.
+* <<ml-hugepages>> — Configure hugepages for memory-intensive workloads.
+* <<ml-inferentia>> — Create an inference cluster with {aws} Inferentia instances.
 
-include::node-taints-managed-node-groups.adoc[leveloffset=+1]
+include::ml-workload-management.adoc[leveloffset=+1]
+
+include::ml-hugepages.adoc[leveloffset=+1]
+
+include::ml-inferentia.adoc[leveloffset=+1]

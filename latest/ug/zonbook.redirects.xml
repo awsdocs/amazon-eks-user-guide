@@ -163,4 +163,8 @@
     <redirect from="^/eks/latest/userguide/ml-realtime-inference-llm-inference-vllm\.html" to="/eks/latest/userguide/ml-inference-load-serve-model.html" flags="[L,R]" />
     <redirect from="^/eks/latest/userguide/capacity-blocks-mng\.html" to="/eks/latest/userguide/ml-node-groups.html" flags="[L,R]" />
     <redirect from="^/eks/latest/userguide/capacity-blocks\.html" to="/eks/latest/userguide/ml-node-groups.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/node-efa\.html" to="/eks/latest/userguide/device-management-efa.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/ml-cluster-configuration\.html" to="/eks/latest/userguide/ml-eks-optimized-amis-overview.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/inferentia-support\.html" to="/eks/latest/userguide/ml-inferentia.html" flags="[L,R]" />
+    <redirect from="^/eks/latest/userguide/node-taints-managed-node-groups\.html" to="/eks/latest/userguide/ml-workload-management.html" flags="[L,R]" />
 </redirects>

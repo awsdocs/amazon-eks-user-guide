@@ -1,0 +1,27 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-eks-optimized-amis-overview]
+= EKS-optimized accelerated AMIs for AI/ML workloads
+:info_titleabbrev: EKS accelerated AMIs
+
+[abstract]
+--
+Learn about the EKS-optimized accelerated AMIs that provide the GPU drivers and kernel modules your AI/ML workloads need, for both Linux and Windows nodes.
+--
+
+[TIP]
+====
+https://events.eksworkshop.com/workshops/genai/[Register] for upcoming Amazon EKS AI/ML workshops.
+====
+
+Running AI/ML workloads on Amazon EKS requires an operating system image that includes the GPU drivers, kernel modules, and container runtime configuration that accelerated instances depend on. Amazon EKS publishes EKS-optimized accelerated AMIs that bundle these components with the standard EKS node components, so your nodes can run GPU-accelerated containers as soon as they join the cluster.
+
+This section covers the accelerated AMI options for both node operating systems:
+
+* <<ml-eks-optimized-ami>> — The EKS-optimized Amazon Linux and Bottlerocket accelerated AMIs, which include the NVIDIA and {aws} Neuron drivers for `G`, `P`, Inferentia, and Trainium instances. This topic also covers which instance types each AMI variant supports and how to find the latest AMI IDs.
+* <<ml-eks-windows-optimized-ami>> — The options for GPU-accelerated Windows containers, including building a custom EKS Windows optimized AMI with the GPU drivers pre-installed, or installing the drivers on worker nodes after launch.
+
+include::ml-eks-optimized-ami.adoc[leveloffset=+1]
+
+include::ml-eks-windows-optimized-ami.adoc[leveloffset=+1]

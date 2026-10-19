@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#ml-inference-gpu-nodepool-cli]
 = Create a GPU NodePool using CLIs
-:info_titleabbrev: Command-line interface (CLI)
+:info_titleabbrev: {aws} CLI
 
 [abstract]
 --

@@ -12,7 +12,7 @@ Learn how to manage {aws} Trainium and Inferentia devices on Amazon EKS using th
 
 {aws} Trainium and {aws} Inferentia are purpose-built machine learning chips designed by {aws}. Amazon EKS supports two mechanisms for managing Neuron devices in EKS clusters: the _Neuron DRA driver_ and the _Neuron Kubernetes device plugin_.
 
-We recommend using DRA drivers for new deployments with Kubernetes versions 1.34 and later when using link:https://karpenter.sh/docs/concepts/nodepools/#static-nodepool[static capacity provisioning] in Karpenter, EKS managed node groups, or self-managed nodes. DRA is not currently supported with EKS Auto Mode. The Neuron DRA driver provides topology-aware allocation, connected device subset scheduling, Logical NeuronCore (LNC) configuration, and UltraServer multi-node allocation without requiring custom scheduler extensions.
+We recommend using DRA drivers for new deployments with Kubernetes versions 1.34 and later on Karpenter, EKS managed node groups, or self-managed nodes. Karpenter supports DRA with both dynamic and static capacity provisioning as of Karpenter version 1.15, though dynamic provisioning requires enabling Karpenter feature gates. For more information, see <<dra-karpenter>>. DRA is not currently supported with EKS Auto Mode. The Neuron DRA driver provides topology-aware allocation, connected device subset scheduling, Logical NeuronCore (LNC) configuration, and UltraServer multi-node allocation without requiring custom scheduler extensions.
 
 == Neuron DRA driver vs. Neuron device plugin
 
@@ -27,7 +27,7 @@ We recommend using DRA drivers for new deployments with Kubernetes versions 1.34
 | All EKS-supported Kubernetes versions
 
 | EKS Compute
-| Karpenter (static capacity only), managed node groups, self-managed nodes
+| Karpenter, managed node groups, self-managed nodes
 | EKS Auto Mode, Karpenter, managed node groups, self-managed nodes
 
 | EKS-optimized AMI support
@@ -331,13 +331,13 @@ An example output is as follows.
 [source,bash,subs="verbatim,attributes"]
 ----
 instance-type: inf2.xlarge
-instance-id: ...
-+--------+--------+--------+---------+
-| NEURON | NEURON | NEURON |   PCI   |
-| DEVICE | CORES  | MEMORY |   BDF   |
-+--------+--------+--------+---------+
-| 0      | 2      | 32 GB  | 00:1f.0 |
-+--------+--------+--------+---------+
+instance-id: i-0eb8c1f59f121359e
++--------+--------+----------+--------+--------------+----------+------+
+| NEURON | NEURON |  NEURON  | NEURON |     PCI      |   CPU    | NUMA |
+| DEVICE | CORES  | CORE IDS | MEMORY |     BDF      | AFFINITY | NODE |
++--------+--------+----------+--------+--------------+----------+------+
+| 0      | 2      | 0-1      | 32 GB  | 0000:00:1f.0 | 0-3      | -1   |
++--------+--------+----------+--------+--------------+----------+------+
 ----
 
 [NOTE]

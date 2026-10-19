@@ -66,16 +66,21 @@ Alongside the instructions, the guide provides the necessary background and foun
 To begin planning for and using AI/ML platforms and workloads on Amazon EKS, follow the <<ml-cluster-setup>> section to create an Amazon EKS cluster, including the required Kubernetes components, in your {aws} account. Once your environment is up and running, you can continue to the next steps:
 
 * <<ml-cluster-setup>>: Create the Amazon EKS cluster, monitoring, and Amazon S3 bucket infrastructure to use throughout this section.
+* <<ml-gpu-nodes>>: Provision GPU-enabled compute for your AI/ML workloads with EKS Auto Mode or Karpenter NodePools.
 * <<ml-inference>>: Use Amazon EKS to deploy, configure, and start using an inference application with a large language model (LLM).
-* <<ml-cluster-configuration>>: Configure Amazon EKS clusters optimized for AI/ML workloads.
+* <<ml-eks-optimized-amis-overview>>: Use the EKS-optimized accelerated AMIs that include the GPU drivers for Linux and Windows nodes.
 * <<ml-compute-management>>: Manage and optimize compute resources for machine learning workloads on Amazon EKS.
 * <<device-management>>: Manage specialized hardware devices using Dynamic Resource Allocation (DRA) and device plugins.
+* <<ml-recipes>>: Follow bite-sized recipes for workload placement, hugepages, and {aws} Inferentia.
+* <<ml-resources>>: Choose the AI/ML tools and platforms that suit your needs, then use quick start procedures to deploy them.
 
 include::ml-cluster-setup.adoc[leveloffset=+1]
 
+include::ml-gpu-nodes.adoc[leveloffset=+1]
+
 include::ml-inference.adoc[leveloffset=+1]
 
-include::ml-cluster-configuration.adoc[leveloffset=+1]
+include::ml-eks-optimized-amis-overview.adoc[leveloffset=+1]
 
 include::ml-compute-management.adoc[leveloffset=+1]
 

@@ -3,7 +3,7 @@ include::../attributes.txt[]
 [.topic]
 [#ml-cluster-setup-cli]
 = Set up Amazon EKS cluster for AI/ML workloads using CLIs
-:info_titleabbrev: Command-line interface (CLI)
+:info_titleabbrev: {aws} CLI
 
 [abstract]
 --
@@ -1285,7 +1285,7 @@ kubectl delete pod s3-test
 [#cluster-setup-cli-next-steps]
 == Next steps
 
-With your cluster ready, continue to <<ml-inference-gpu-nodepool>>, in the <<ml-inference>> section, to create a GPU NodePool that dynamically provisions GPU-enabled nodes for your workloads.
+With your cluster ready, continue to <<ml-inference-gpu-nodepool>>, in the <<ml-gpu-nodes>> section, to create a GPU NodePool that dynamically provisions GPU-enabled nodes for your workloads.
 
 [#cluster-setup-cli-cleanup]
 == Cleanup
