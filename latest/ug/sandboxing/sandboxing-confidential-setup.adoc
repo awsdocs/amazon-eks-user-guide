@@ -155,8 +155,8 @@ CLI flags override profile defaults:
 |`--disable-layer-pull`
 |Fetch the image config but skip pulling layers; leaves a non-numeric (named) user unpinned
 
-|`--allow-unpinned-identity`
-|Generate a policy even when the user and group cannot be resolved to numeric IDs
+|`--allow-any-uid-gid-container <name>`
+|Omit the uid, gid, and supplemental group constraints for the named container, so the policy permits any identity for it (repeatable)
 |===
 
 [#sandboxing-hardening-hints]
@@ -204,7 +204,6 @@ runtime:
   logs: allow
   stdin: deny
   imds: allow
-  deliver_pod_identity_credentials: allow
 ----
 
 Pass the file path to `--profile`:
@@ -214,7 +213,7 @@ Pass the file path to `--profile`:
 eks-nitro-sandbox-genpolicy --profile ./my-profile.yaml manifest.yaml
 ----
 
-Omitted fields use defaults: admission fields default to `false`, runtime actions default to `allow`.
+Omitted fields use defaults: admission fields default to `false` (nothing pinned). Runtime actions default to `deny` for `exec`, `stdin`, `stats`, and `mount_host_image`, and to `allow` for the rest; `sa_token` defaults to `infer` (it reads the pod spec's `automountServiceAccountToken`).
 
 [#sandboxing-image-signature-verification]
 == Image signature verification

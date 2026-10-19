@@ -15,7 +15,7 @@ EKS Auto Mode includes Nitro Sandbox support with no additional configuration. I
 * *Use a supported AMI.* Nitro Sandbox supports Amazon Linux.
 * *Build your own AMI* from the Nitro Sandbox binaries that {aws} publishes as a signed release.
 
-The release delivers the runtime binaries and a host-kernel patch series that you use to build the AMI. Each sandbox node runs two kernels: a *host kernel* that you build from the patch series, and a pre-compiled *guest kernel* that boots inside every sandbox pod's microVM. You never build or modify the guest kernel. For how to download and verify the runtime binaries, see <<sandboxing-download-binaries>>.
+The release delivers the runtime binaries and a host-kernel patch series. Each sandbox node runs two kernels: a *host kernel* and a pre-compiled *guest kernel* that boots inside every sandbox pod's microVM. On Amazon Linux, the host kernel already includes the required patches, so you do not apply the patch series or take any kernel action. On operating systems other than Amazon Linux, you build the host kernel from the patch series. You never build or modify the guest kernel. For how to download and verify the runtime binaries, see <<sandboxing-download-binaries>>.
 
 [NOTE]
 .Before you begin
@@ -26,7 +26,7 @@ Before you start, confirm you have an EKS cluster, a build instance with Nitro E
 [#sandboxing-ami-build]
 == Build a custom AMI
 
-The build follows the same four steps on each supported operating system. OS-specific differences are called out in the build guide included with the release.
+The build follows these steps. On Amazon Linux, skip Step 2: the host kernel already includes the required patches, so no kernel action is needed. OS-specific differences are called out in the build guide included with the release.
 
 [%header,cols="1,2,3"]
 |===
@@ -38,7 +38,7 @@ The build follows the same four steps on each supported operating system. OS-spe
 
 |2
 |`scripts/build-kernel-<os>.sh <patch-dir>`
-|Build the host kernel with the patch series, install it, and reboot into it.
+|On operating systems other than Amazon Linux, build the host kernel with the patch series, install it, and reboot into it. Amazon Linux already includes these patches, so you skip this step.
 
 |3
 |`scripts/install-runtime.sh <bundle-dir>`

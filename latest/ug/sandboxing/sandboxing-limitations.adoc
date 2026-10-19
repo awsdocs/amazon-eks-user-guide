@@ -37,7 +37,7 @@ Running a pod inside a Nitro Sandbox changes the behavior of some Kubernetes fea
 |Scale the workload down, expand the volume, and scale back up.
 
 |In-place resource resize
-|In-place CPU and memory resize (Kubernetes 1.27+) is not supported. The Nitro Sandbox's CPU and memory are allocated at boot and cannot be changed.
+|In-place CPU and memory resize is not supported. The Nitro Sandbox's CPU and memory are allocated at boot and cannot be changed.
 |Delete and recreate the pod with new resource requests.
 
 |IMDS paths

@@ -365,27 +365,6 @@ namespace Agent {
         context: {},
     };
 
-    // Open the credential proxy channel between the parent
-    // instance and the guest. Workload credential requests
-    // that originate inside the guest are forwarded over
-    // this channel to a credential provider on the parent
-    // instance.
-    action DeliverCredentials appliesTo {
-        principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox],
-        context: {},
-    };
-
-    // Open the NTP proxy channel between the parent
-    // instance and the guest. NTP datagrams from workloads
-    // inside the guest are forwarded to the Amazon Time
-    // Sync Service.
-    action DeliverNtp appliesTo {
-        principal: [Workload::Sandbox],
-        resource: [Workload::Sandbox],
-        context: {},
-    };
-
     // Open the certificate-signing channel between the
     // parent instance and the guest. Required for
     // IAM-authenticated Amazon EFS and Amazon S3 mounts:
