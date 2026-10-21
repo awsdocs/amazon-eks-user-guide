@@ -63,6 +63,18 @@ Running a pod inside a Nitro Sandbox changes the behavior of some Kubernetes fea
 |`kubectl port-forward` to loopback-only servers
 |`kubectl port-forward` can't reach a server that listens only on `127.0.0.1` or `::1` inside the pod. The forward is established, but connections close without returning data. Port-forward traffic is delivered to the pod IP rather than to the loopback interface inside the Nitro Sandbox, so only servers that listen on the pod IP or on all interfaces are reachable.
 |Bind the server to all interfaces (`0.0.0.0` or `::`), or use `kubectl exec` to reach it from inside the pod.
+
+|GPU and device passthrough
+|GPU and other device passthrough is not available. The Nitro Sandbox runs on Firecracker, which does not support passing host devices into the guest.
+|Run pods that require GPUs or passthrough devices without a sandbox runtime class.
+
+|`emptyDir` and ephemeral storage usage
+|Ephemeral storage usage for `emptyDir` volumes and the container writable layer reports as zero. The data lives inside the Nitro Sandbox, so kubelet on the node cannot measure it.
+|Set `ephemeral-storage` requests and limits, or use an `emptyDir` with `medium: Memory` and a `sizeLimit`.
+
+|CPU pinning (CPU Manager `static` policy)
+|Pinning pods to specific host CPUs with the kubelet CPU Manager `static` policy has no effect, because host CPU IDs are not meaningful inside the sandbox.
+|Rely on pod CPU requests and limits, which still apply to the sandbox.
 |===
 
 Nitro Sandboxes on Amazon EKS build on the Amazon EC2 Nitro Sandboxes primitive. Some constraints come from that primitive and apply to any workload, such as supported instance types, the maximum number of attached devices, and the absence of GPU passthrough, snapshot and restore, and live migration. For the full list, see link:AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html#nitro-sandboxes-considerations[Considerations and limitations,type="documentation"] in the _Amazon EC2 User Guide_.

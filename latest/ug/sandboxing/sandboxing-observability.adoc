@@ -15,12 +15,12 @@ Running a pod inside a Nitro Sandbox changes what you can observe and how. What 
 [#sandboxing-observability-logs-exec]
 == Logs and exec
 
-`kubectl logs` works for sandboxed pods in both isolated and confidential mode. Container logs stream over the vsock channel to the parent instance.
+`kubectl logs` works for sandboxed pods in both isolated and confidential mode. Container logs stream over the vsock channel to the parent instance. The container's termination message and container stats (`kubectl top`) are also available by default in both modes.
 
-`kubectl exec` (along with `stdin`, stats, and process listing) depends on the mode:
+`kubectl exec` (along with `kubectl attach`, `stdin`, and process listing) depends on the mode:
 
-* *Isolated mode* permits `exec`, `stdin`, stats, and process listing, so interactive debugging works the same as for a standard pod.
-* *Confidential mode* denies `exec`, `stdin`, stats, and process listing by default, so the parent instance cannot introspect the guest. You can permit specific exec commands when you generate the Cedar policy. For more information, see <<sandboxing-confidential-setup>>.
+* *Isolated mode* permits `exec`, `stdin`, and process listing, so interactive debugging works the same as for a standard pod.
+* *Confidential mode* denies `exec`, `stdin`, and process listing by default, so the parent instance cannot introspect the guest. You can permit specific exec commands when you generate the Cedar policy. For more information, see <<sandboxing-confidential-setup>>.
 
 [#sandboxing-observability-agents]
 == Node-level monitoring agents
