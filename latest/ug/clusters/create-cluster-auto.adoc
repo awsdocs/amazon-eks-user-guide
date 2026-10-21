@@ -68,7 +68,7 @@ If role manager is enabled in your account, Amazon EKS attaches the role for you
 ** *Cluster authentication mode* -- EKS Auto Mode requires EKS access entries, the EKS API authentication mode. You can optionally enable the `ConfigMap` authentication mode by selecting *EKS API and ConfigMap*. 
 . Enter the remaining fields on the configure cluster page:
 ** *Secrets encryption* – (Optional) Choose to enable secrets encryption of Kubernetes secrets using a KMS key. You can also enable this after you create your cluster. Before you enable this capability, make sure that you're familiar with the information in <<enable-kms>>.
-** *ARC Zonal shift* -- EKS Auto Mode does not support ARC zonal shift. 
+** *ARC Zonal shift* – (Optional) You can use Amazon Application Recovery Controller (ARC) zonal shift to move traffic away from an impaired Availability Zone. For more information, see <<zone-shift>>.
 ** *Tags* – (Optional) Add any tags to your cluster. For more information, see <<eks-using-tags>>.
 +
 When you're done with this page, choose *Next*.
