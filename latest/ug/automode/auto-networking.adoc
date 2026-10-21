@@ -81,6 +81,8 @@ You configure {aws} Elastic Load Balancers provisioned by EKS Auto Mode using an
 
 For more information, see <<auto-configure-alb>> or <<auto-configure-nlb>>.
 
+You can also use the Kubernetes Gateway API to configure load balancing in EKS Auto Mode. For more information, see <<auto-configure-gateway-api>>.
+
 === Considerations for load balancing with EKS Auto Mode
 
 * The default targeting mode is IP Mode, not Instance Mode.

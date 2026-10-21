@@ -82,6 +82,17 @@ a|
 
 
 a|
+*Gateway API settings*
+
+- Configure L7 (HTTP/gRPC) and L4 (TCP/UDP) routing with the Kubernetes Gateway API
+- Provision Application Load Balancers and Network Load Balancers from Gateway resources
+- Use GatewayClass, Gateway, and Route resources for role-oriented traffic management
+- Apply {aws} specific configuration with TargetGroupConfiguration, LoadBalancerConfiguration, and ListenerRuleConfiguration
+- Coexist with third-party gateway implementations in the same cluster
+|<<auto-configure-gateway-api>>
+
+
+a|
 *Multi cluster target groups*
 
 - Understand how the load balancer controller manages target group membership
@@ -149,5 +160,7 @@ include::auto-configure-security.adoc[leveloffset=+1]
 include::auto-configure-scheduling.adoc[leveloffset=+1]
 
 include::auto-configure-cost.adoc[leveloffset=+1]
+
+include::auto-configure-gateway-api.adoc[leveloffset=+1]
 
 include::auto-configure-lifecycle.adoc[leveloffset=+1]
