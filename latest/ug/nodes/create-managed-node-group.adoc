@@ -178,7 +178,7 @@ The launch template must meet the requirements in <<launch-templates,Customize m
 +
 If you implement <<iam-roles-for-service-accounts,IAM roles for service accounts>>, assign necessary permissions directly to every Pod that requires access to {aws} services, and no Pods in your cluster require access to IMDS for other reasons, such as retrieving the current {aws} Region, then you can also disable access to IMDS for Pods that don't use host networking in a launch template. For more information, see https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[Restrict access to the instance profile assigned to the worker node].
 *** *Kubernetes labels* – (Optional) You can choose to apply Kubernetes labels to the nodes in your managed node group.
-*** *Kubernetes taints* – (Optional) You can choose to apply Kubernetes taints to the nodes in your managed node group. The available options in the *Effect* menu are `*NoSchedule*`, `*NoExecute*`, and `*PreferNoSchedule*`. For more information, see <<ml-workload-management>>.
+*** *Kubernetes taints* – (Optional) You can choose to apply Kubernetes taints to the nodes in your managed node group. The available options in the *Effect* menu are `*NoSchedule*`, `*NoExecute*`, and `*PreferNoSchedule*`. For more information, see <<ml-workload-taints>>.
 *** *Tags* – (Optional) You can choose to tag your Amazon EKS managed node group. These tags don't propagate to other resources in the node group, such as Auto Scaling groups or instances. For more information, see <<eks-using-tags>>.
 . On the *Set compute and scaling configuration* page, fill out the parameters accordingly, and then choose *Next*.
 +

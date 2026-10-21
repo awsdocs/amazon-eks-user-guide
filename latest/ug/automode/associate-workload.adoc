@@ -111,3 +111,5 @@ spec:
 ----
 
 For more information about how Karpenter matches pods to NodePools, see https://karpenter.sh/docs/concepts/scheduling/[Scheduling] in the Karpenter documentation.
+
+For the complete set of node labels available for targeting across EKS Auto Mode, Karpenter, managed node groups, and self-managed nodes, see <<ml-workload-placement>>. To place the Pods of a distributed workload close to each other in the {aws} network, see <<ml-workload-topology>>.

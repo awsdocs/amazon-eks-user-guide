@@ -68,6 +68,8 @@ A node that runs only the NVIDIA device plugin, without GPU Feature Discovery, h
 
 The labels are informational and are used for node targeting. To run a workload on a GPU, request the GPU _resource_ (for example, `nvidia.com/gpu` or `nvidia.com/mig-1g.10gb`) in the Pod spec. Use the labels in a `nodeSelector` or node affinity to constrain _which_ GPU nodes a workload lands on.
 
+The `nvidia.com/*` labels are only one family of labels on a GPU node. Amazon EKS and the {aws} cloud controller manager apply labels that describe the instance type, capacity type, provisioning path, Availability Zone, and network position, all of which are also available for targeting. For the full set, see <<ml-workload-placement>>.
+
 === GPU Feature Discovery (GFD)
 
 GPU Feature Discovery (GFD) is a component of the NVIDIA device plugin project (the `gpu-feature-discovery` deployment) that runs either standalone or as part of the NVIDIA GPU Operator. It depends on link:https://github.com/kubernetes-sigs/node-feature-discovery[Node Feature Discovery (NFD)] on the GitHub website, and it writes all of the descriptive `nvidia.com/*` _feature_ labels, including the following.

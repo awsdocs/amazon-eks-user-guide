@@ -99,7 +99,11 @@ NOTE: EKS Auto Mode uses different labels than Karpenter. Labels related to EC2 
 
 |topology.kubernetes.io/zone
 |us-east-2a
-|{aws} region
+|{aws} Availability Zone name
+
+|topology.k8s.aws/zone-id
+|use2-az1
+|{aws} Availability Zone ID. Unlike the zone name, the ID identifies the same physical zone in every {aws} account.
 
 |node.kubernetes.io/instance-type
 |g4dn.8xlarge
@@ -149,6 +153,14 @@ NOTE: EKS Auto Mode uses different labels than Karpenter. Labels related to EC2 
 |`aws`
 |Name of the CPU manufacturer
 
+|eks.amazonaws.com/instance-cpu-sustained-clock-speed-mhz
+|3500
+|Sustained CPU clock speed in MHz
+
+|eks.amazonaws.com/instance-capability-flex
+|false
+|Whether the instance type is a flexible (`flex`) variant
+
 |eks.amazonaws.com/instance-memory
 |131072
 |Number of mebibytes of memory on the instance
@@ -177,9 +189,25 @@ NOTE: EKS Auto Mode uses different labels than Karpenter. Labels related to EC2 
 |16384
 |Number of mebibytes of memory on the GPU
 
+|eks.amazonaws.com/instance-accelerator-name
+|trainium
+|Name of the {aws} accelerator on the instance, if available
+
+|eks.amazonaws.com/instance-accelerator-manufacturer
+|aws
+|Name of the accelerator manufacturer
+
+|eks.amazonaws.com/instance-accelerator-count
+|1
+|Number of accelerators on the instance
+
 |eks.amazonaws.com/instance-local-nvme
 |900
 |Number of gibibytes of local nvme storage on the instance
+
+|karpenter.k8s.aws/instance-tenancy
+|default
+|EC2 tenancy of the instance, either `default` or `dedicated`. This label keeps the `karpenter.k8s.aws` prefix on EKS Auto Mode nodes.
 
 |eks.amazonaws.com/capacity-reservation-interruptible
 |true
@@ -188,6 +216,8 @@ NOTE: EKS Auto Mode uses different labels than Karpenter. Labels related to EC2 
 |===
 
 NOTE: EKS Auto Mode only supports certain instances, and has minimum size requirements. For more information, see <<auto-supported-instances>>.
+
+EKS Auto Mode nodes also carry the `eks.amazonaws.com/nodeclass` label, set to the name of the NodeClass that configured the node, and the `topology.k8s.aws/network-node-layer-*` labels on supported instance types. For how to use the network topology labels to place distributed workloads, see <<ml-workload-topology>>. For the complete set of node labels available for scheduling across all Amazon EKS compute types, see <<ml-workload-placement>>.
 
 == EKS Auto Mode Not Supported Labels
 

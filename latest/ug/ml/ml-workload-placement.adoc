@@ -1,0 +1,510 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-workload-placement]
+= Target AI/ML workloads to specific nodes with labels
+:info_titleabbrev: Target nodes with labels
+
+[abstract]
+--
+Use Kubernetes node labels to constrain where AI/ML Pods are scheduled.
+--
+
+== Overview
+
+An AI/ML cluster is rarely homogeneous. A single cluster often mixes general-purpose nodes that run platform components, GPU nodes of more than one model, and {aws} Trainium or {aws} Inferentia nodes, provisioned through more than one path. Getting a Pod onto the right subset of that fleet is a scheduling problem, and the inputs the scheduler uses are _node labels_.
+
+Amazon EKS and the components that run on your nodes apply a large set of labels automatically. You do not have to create them, and most customers never need to add their own. This recipe covers which labels exist, which component applies each one, and how to match them from a workload.
+
+Labels are not uniform across compute types. EKS managed node groups, Karpenter, and EKS Auto Mode express several of the same concepts with different label keys, and in one case with differently formatted values. If you are moving a workload between compute types or writing a manifest for a mixed cluster, start with <<ml-workload-placement-equivalence>>.
+
+[IMPORTANT]
+====
+Labels constrain _which_ node a Pod lands on. They do not reserve or allocate a device. To use an accelerator, the Pod must also request the device as a _resource_ (for example, `nvidia.com/gpu` or `aws.amazon.com/neuron`), or claim it through Dynamic Resource Allocation. A Pod that only matches `eks.amazonaws.com/instance-gpu-name` lands on a GPU node without being granted a GPU. For more information, see <<device-management>>.
+====
+
+[#ml-workload-placement-labels]
+== Labels available for targeting
+
+Which labels a node carries depends on how the node was provisioned and which components run on it. A label is present only when the component that writes it runs on the node.
+
+=== Labels on every node
+
+These labels are applied by kubelet and by the {aws} cloud controller manager, which Amazon EKS runs in the cluster control plane. They are present regardless of how you provisioned the node.
+
+[cols="2,1,2", options="header"]
+|===
+| Label | Example | Description
+
+| `topology.kubernetes.io/region`
+| `us-west-2`
+| The {aws} Region.
+
+| `topology.kubernetes.io/zone`
+| `us-west-2b`
+| The Availability Zone name. Zone names are mapped for each account, so the same name can refer to different physical zones in different accounts.
+
+| `topology.k8s.aws/zone-id`
+| `usw2-az1`
+| The Availability Zone ID. Unlike the zone name, the ID identifies the same physical zone in every account. Use it when you need to correlate placement across accounts.
+
+| `node.kubernetes.io/instance-type`
+| `g7e.12xlarge`
+| The EC2 instance type.
+
+| `kubernetes.io/arch`, `kubernetes.io/os`
+| `amd64`, `linux`
+| CPU architecture and operating system.
+
+| `kubernetes.io/hostname`
+| `ip-192-168-3-238.us-west-2.compute.internal`
+| The Kubernetes node name. See <<ml-workload-placement-hostname>>.
+|===
+
+=== Labels on accelerated and HPC nodes only
+
+The {aws} cloud controller manager also applies the `topology.k8s.aws/network-node-layer-*` labels, which describe where the node sits in the {aws} network hierarchy. These labels are not on every node. They are present only on the accelerated, HPC, and GPU instance types for which Amazon EC2 reports topology, and only in the {aws} Regions where that API is available.
+
+[cols="2,1,2", options="header"]
+|===
+| Label | Example | Description
+
+| `topology.k8s.aws/network-node-layer-1`, `-2`, `-3`
+| `nn-e50490a237cb0f01a`
+| The node's position in the {aws} network hierarchy, from the top layer down. Present on the `g6e`, `g7e`, `hpc6a`, `hpc6id`, `hpc7a`, `hpc7g`, `hpc8a`, `p3dn`, `p4d`, `p4de`, `p5`, `p5e`, `p5en`, `p6e-gb200`, `trn1`, `trn1n`, `trn2`, and `trn2u` instance types.
+
+| `topology.k8s.aws/network-node-layer-4`
+| `nn-4a0d56b3e45d29e0a`
+| A fourth, more specific layer. Present only on `p6-b200` and `p6-b300` instance types, which report four layers rather than three.
+|===
+
+A node of any other instance type, such as `m5.large`, carries no `topology.k8s.aws/network-node-layer-*` labels at all. Do not write a selector that assumes these labels exist across a mixed cluster. For the authoritative per-size list of supported instance types, and for how to use these labels to place the Pods of a distributed job close to each other, see <<ml-workload-topology>>.
+
+=== Labels that identify how a node was provisioned
+
+Use these labels to separate workloads across compute types in a mixed cluster, or to pin a workload to one node group or NodePool. Choose the tab for the way you provision nodes.
+
+[role="tablist",sync-group-id="compute-path"]
+EKS Auto Mode::
++
+EKS Auto Mode shares the `karpenter.sh/*` labels with Karpenter, but uses the `eks.amazonaws.com/` prefix for most {aws}-specific labels. For the instance attribute labels, see <<auto-supported-labels>>.
++
+[cols="2,1,2", options="header"]
+|===
+| Label
+| Example value
+| Description
+
+| `eks.amazonaws.com/compute-type`
+| `auto`
+| Identifies a node managed by EKS Auto Mode. For examples that require or exclude EKS Auto Mode nodes, see <<associate-workload>>.
+
+| `karpenter.sh/nodepool`
+| `training`
+| The name of the NodePool that provisioned the node.
+
+| `eks.amazonaws.com/nodeclass`
+| `training`
+| The name of the NodeClass that configured the node.
+
+| `karpenter.sh/capacity-type`
+| `on-demand`
+| One of `on-demand`, `spot`, or `reserved`. `reserved` means the node was launched from a capacity reservation that a NodeClass selected. For more information, see <<auto-odcr>>.
+
+| `eks.amazonaws.com/capacity-reservation-id`
+| `cr-0913b3fc104705e49`
+| The capacity reservation the node was launched from. Only present on nodes with `karpenter.sh/capacity-type: reserved`.
+
+| `eks.amazonaws.com/capacity-reservation-type`
+| `capacity-block`
+| `default` for an On-Demand Capacity Reservation, `capacity-block` for a Capacity Block for ML.
+
+| `eks.amazonaws.com/capacity-reservation-interruptible`
+| `false`
+| Whether the reservation is interruptible.
+
+| `karpenter.sh/initialized`, `karpenter.sh/registered`
+| `true`
+| Lifecycle markers that Karpenter sets as a node joins. Treat them as read-only; they are not useful scheduling constraints.
+
+|===
+
+Self-managed Karpenter::
++
+Karpenter also applies a set of instance attribute labels under the `karpenter.k8s.aws/instance-*` prefix. For the full list, see https://karpenter.sh/docs/concepts/scheduling/#well-known-labels[Karpenter Well-Known Labels] in the Karpenter documentation.
++
+[cols="2,1,2", options="header"]
+|===
+| Label
+| Example value
+| Description
+
+| `karpenter.sh/nodepool`
+| `training`
+| The name of the NodePool that provisioned the node.
+
+| `karpenter.k8s.aws/ec2nodeclass`
+| `training`
+| The name of the EC2NodeClass that configured the node.
+
+| `karpenter.sh/capacity-type`
+| `on-demand`
+| One of `on-demand`, `spot`, or `reserved`. `reserved` means the node was launched from a capacity reservation that an EC2NodeClass selected.
+
+| `karpenter.k8s.aws/capacity-reservation-id`
+| `cr-0913b3fc104705e49`
+| The capacity reservation the node was launched from. Only present on nodes with `karpenter.sh/capacity-type: reserved`.
+
+| `karpenter.k8s.aws/capacity-reservation-type`
+| `capacity-block`
+| `default` for an On-Demand Capacity Reservation, `capacity-block` for a Capacity Block for ML.
+
+| `karpenter.sh/initialized`, `karpenter.sh/registered`
+| `true`
+| Lifecycle markers that Karpenter sets as a node joins. Treat them as read-only; they are not useful scheduling constraints.
+
+|===
+
+EKS managed node groups::
++
+Amazon EKS applies these labels through the node group's launch template user data. A self-managed node carries them only if you pass them to kubelet yourself.
++
+[cols="2,1,2", options="header"]
+|===
+| Label
+| Example value
+| Description
+
+| `eks.amazonaws.com/nodegroup`
+| `gpu`
+| The name of the managed node group.
+
+| `eks.amazonaws.com/nodegroup-image`
+| `ami-01517c0b8f431a6f8`
+| The AMI ID the node booted from. Useful for finding nodes that have not yet been rolled onto a new AMI.
+
+| `eks.amazonaws.com/capacityType`
+| `ON_DEMAND`
+| One of `ON_DEMAND`, `SPOT`, or `CAPACITY_BLOCK`. Note the uppercase, underscore-separated values, which differ from the Karpenter and EKS Auto Mode equivalent.
+
+| `eks.amazonaws.com/sourceLaunchTemplateId`
+| `lt-0f20d6f901007611e`
+| The launch template the node was created from. Applied only when the node group uses a launch template that you supply.
+
+| `eks.amazonaws.com/sourceLaunchTemplateVersion`
+| `1`
+| The launch template version. Applied only when the node group uses a launch template that you supply.
+
+|===
+
+[#ml-workload-placement-equivalence]
+=== Same concept, different label by provisioner
+
+Several concepts are expressed by a different label, or by the same label with differently formatted values, depending on how the node was provisioned. A manifest that works on one compute type can leave Pods `Pending` on another. Use the following table when you move a workload between compute types, or when you write a manifest that has to work across a mixed cluster.
+
+[cols="1,1,1,1", options="header"]
+|===
+| Concept | EKS Auto Mode | Karpenter | EKS managed node groups
+
+| Which group or pool owns the node
+| `karpenter.sh/nodepool`, plus `eks.amazonaws.com/compute-type: auto`
+| `karpenter.sh/nodepool`
+| `eks.amazonaws.com/nodegroup`
+
+| Which template configured the node
+| `eks.amazonaws.com/nodeclass`
+| `karpenter.k8s.aws/ec2nodeclass`
+| `eks.amazonaws.com/sourceLaunchTemplateId`, applied only with a launch template you supply
+
+| Capacity type
+| `karpenter.sh/capacity-type`, with the values `on-demand`, `spot`, `reserved`
+| `karpenter.sh/capacity-type`, with the same values as EKS Auto Mode
+| `eks.amazonaws.com/capacityType`, with the values `ON_DEMAND`, `SPOT`, `CAPACITY_BLOCK`
+
+| Capacity reservation ID
+| `eks.amazonaws.com/capacity-reservation-id`
+| `karpenter.k8s.aws/capacity-reservation-id`
+| No label. Match the network topology instead, as described in <<ml-workload-topology>>.
+
+| AMI the node booted from
+| No label.
+| No label.
+| `eks.amazonaws.com/nodegroup-image`
+
+| Instance attributes, such as CPU count, memory, and GPU model
+| `eks.amazonaws.com/instance-*`
+| `karpenter.k8s.aws/instance-*`
+| No labels. Match `node.kubernetes.io/instance-type`, or set your own labels on the node group.
+
+| Instance tenancy
+| `karpenter.k8s.aws/instance-tenancy`. This is the one instance attribute that keeps the `karpenter.k8s.aws` prefix on EKS Auto Mode rather than moving to `eks.amazonaws.com`.
+| `karpenter.k8s.aws/instance-tenancy`
+| No label.
+
+| Node name, in `kubernetes.io/hostname`
+| The EC2 instance ID, such as `i-0c4bf4493cf51d74c`
+| Varies with the AMI family and node configuration. Read the label from the cluster.
+| The EC2 private DNS name, such as `ip-192-168-3-238.us-west-2.compute.internal`
+
+| Position in the {aws} network
+| `topology.k8s.aws/network-node-layer-*`, on supported instance types
+| `topology.k8s.aws/network-node-layer-*`, on supported instance types
+| `topology.k8s.aws/network-node-layer-*`, on supported instance types
+|===
+
+Two implications are worth calling out:
+
+* *The capacity type values are not interchangeable.* `eks.amazonaws.com/capacityType: ON_DEMAND` and `karpenter.sh/capacity-type: on-demand` describe the same thing in different formats. A selector written for one silently matches nothing on the other, because a label mismatch is not an error.
+* *Self-managed nodes carry only what you set.* The `eks.amazonaws.com/*` labels in the managed node group column are applied by Amazon EKS through the node group's launch template user data. A self-managed node gets them only if you pass them to kubelet yourself, so treat the managed node group column as a starting point rather than a guarantee.
+
+EKS Auto Mode nodes also carry `app.kubernetes.io/managed-by: eks` and `topology.ebs.csi.eks.amazonaws.com/zone`. These identify the managing service and the zone used by the EBS CSI driver. They are not intended as scheduling constraints.
+
+=== Labels that describe instance attributes
+
+EKS Auto Mode and Karpenter compute a set of labels from the EC2 instance type, covering CPU count, memory, network and EBS bandwidth, local NVMe, GPU model and memory, and accelerator name and count. Managed node groups and self-managed nodes do not apply these labels; match `node.kubernetes.io/instance-type` instead, or add your own labels to the node group.
+
+The two provisioners use different label prefixes for the same attributes. EKS Auto Mode uses `eks.amazonaws.com/instance-*` and Karpenter uses `karpenter.k8s.aws/instance-*`.
+
+* For the subset of these labels that matters most for AI/ML targeting, shown side by side for both prefixes, see <<eks-aiml-labels>>.
+* For the full list of EKS Auto Mode labels, see <<auto-supported-labels>>.
+* For the full list of Karpenter labels, see https://karpenter.sh/docs/concepts/scheduling/#well-known-labels[Well-Known Labels] in the Karpenter documentation.
+
+=== Labels that describe devices
+
+Device plugins and feature-discovery components apply their own labels after the node joins.
+
+* NVIDIA GPU nodes carry `nvidia.com/*` labels that describe the GPU model, count, memory, MIG configuration, and sharing strategy. For which component applies each label and how to interpret them, see <<eks-nvidia-gpu-labels>>.
+* EKS Auto Mode applies `neuron.amazonaws.com/present` to nodes with {aws} Trainium or {aws} Inferentia accelerators.
+
+[#ml-workload-placement-hostname]
+== The node name format differs by provisioner
+
+The value of `kubernetes.io/hostname` is the Kubernetes node name, and the node name format is not the same across provisioners:
+
+* Managed node groups and self-managed nodes use the EC2 private DNS name, such as `ip-192-168-3-238.us-west-2.compute.internal`.
+* EKS Auto Mode uses the EC2 instance ID, such as `i-0c4bf4493cf51d74c`.
+
+A manifest that hardcodes one format leaves Pods `Pending` when you move it to the other compute type. Read the label from the cluster rather than deriving it from an instance ID or an IP address.
+
+The node name is not the only label that differs between compute types. For the others, see <<ml-workload-placement-equivalence>>.
+
+== Discover the labels on your own nodes
+
+The authoritative list for your cluster is the cluster itself. List every label on a node:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get node <node-name> -o go-template='{{range $k, $v := .metadata.labels}}{{$k}} = {{$v}}{{"\n"}}{{end}}' | sort
+----
+
+Show selected labels as columns across all nodes:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get nodes \
+  -L node.kubernetes.io/instance-type \
+  -L karpenter.sh/capacity-type \
+  -L eks.amazonaws.com/nodegroup \
+  -L topology.k8s.aws/zone-id
+----
+
+List the nodes that match a prospective selector before you deploy against it:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get nodes -l eks.amazonaws.com/instance-gpu-manufacturer=nvidia
+----
+
+== Considerations
+
+* *Prefer capability labels to name labels.* Matching `eks.amazonaws.com/instance-gpu-name: rtx-pro-server-6000` describes what the workload needs. Matching `karpenter.sh/nodepool: gpu-pool` or `eks.amazonaws.com/nodegroup: gpu-ng` ties the workload to a specific piece of infrastructure, and leaves Pods `Pending` if you rename or replace it. For capacity that you provision yourself, define your own label on the node group or NodePool, such as `workload-class: gpu-inference`, and match that.
+* *Reserve `eks.amazonaws.com`, `karpenter.sh`, `karpenter.k8s.aws`, and `topology.k8s.aws` for Amazon EKS.* These prefixes are managed. Do not set labels in them yourself; a label you add can be overwritten or can conflict with provisioning logic. Use your own prefix for custom labels.
+* *Labels are not a substitute for taints.* A label keeps a workload off the wrong nodes only if every workload opts in. To keep workloads that do not request a GPU away from expensive GPU nodes by default, taint the nodes. For more information, see <<ml-workload-taints>>.
+* *Node labels are mutable, and some are reconciled.* Labels you add with `kubectl label` persist, but a label that a provisioner manages can be reset when the node is reconciled or replaced. Set durable custom labels in the node group or NodePool definition instead, so every replacement node inherits them.
+* *Deprecated aliases exist.* Nodes also carry `beta.kubernetes.io/arch`, `beta.kubernetes.io/instance-type`, `beta.kubernetes.io/os`, and `failure-domain.beta.kubernetes.io/*`. These are deprecated aliases. Use the non-beta labels in new manifests.
+
+== Prerequisites
+
+* An link:eks/latest/userguide/getting-started.html[existing Amazon EKS cluster,type="documentation"] with nodes.
+* `kubectl` configured to communicate with your cluster. For more information, see <<kubectl-install-update>>.
+
+== Step 1: Target a capability with nodeSelector
+
+`nodeSelector` is the simplest form of targeting. Every key-value pair must match, and a Pod with no matching node stays `Pending`. Use it when the constraint is absolute and expressible as equality.
+
+The following Pod runs only on an EKS Auto Mode node with an NVIDIA GPU.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: inference
+spec:
+  nodeSelector:
+    eks.amazonaws.com/compute-type: auto
+    eks.amazonaws.com/instance-gpu-manufacturer: nvidia
+  tolerations:
+    - key: nvidia.com/gpu
+      operator: Exists
+      effect: NoSchedule
+  containers:
+    - name: app
+      image: public.ecr.aws/docker/library/busybox:latest
+      command: ["sh", "-c", "sleep 3600"]
+      resources:
+        limits:
+          nvidia.com/gpu: "1"
+----
+
+Three separate things are doing work here, and a GPU workload needs all three:
+
+* The `nodeSelector` directs the Pod to a GPU node.
+* The `toleration` allows it onto a node that is tainted to keep non-GPU workloads off. If your GPU nodes are not tainted, the toleration is harmless. For the taint side, see <<ml-workload-taints>>.
+* The `nvidia.com/gpu` limit allocates a GPU on the node. Without it the Pod lands on a GPU node without being granted a GPU.
+
+For {aws} Trainium and {aws} Inferentia nodes, the same pattern applies with the `eks.amazonaws.com/instance-accelerator-manufacturer` label and the `aws.amazon.com/neuron` resource. For more information, see <<device-management-neuron>>.
+
+== Step 2: Express hard and soft constraints with node affinity
+
+Node affinity is more expressive than `nodeSelector`. It supports set operators such as `In`, `NotIn`, `Exists`, and `Gt`, and it distinguishes required constraints from preferences.
+
+* `requiredDuringSchedulingIgnoredDuringExecution` is a hard constraint. A Pod with no matching node stays `Pending`.
+* `preferredDuringSchedulingIgnoredDuringExecution` is a soft constraint. The scheduler weights matching nodes higher but places the Pod elsewhere rather than leaving it `Pending`.
+
+Combine both to express "an NVIDIA GPU is required, and one particular GPU model is preferred":
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inference
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: inference
+  template:
+    metadata:
+      labels:
+        app: inference
+    spec:
+      affinity:
+        nodeAffinity:
+          # Hard: the node must have an NVIDIA GPU.
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: eks.amazonaws.com/instance-gpu-manufacturer
+                    operator: In
+                    values: ["nvidia"]
+          # Soft: prefer RTX PRO 6000 Blackwell GPUs, fall back to any other GPU node.
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: eks.amazonaws.com/instance-gpu-name
+                    operator: In
+                    values: ["rtx-pro-server-6000"]
+      containers:
+        - name: app
+          image: public.ecr.aws/docker/library/busybox:latest
+          command: ["sh", "-c", "sleep 3600"]
+          resources:
+            limits:
+              nvidia.com/gpu: "1"
+----
+
+[NOTE]
+====
+Within a single `matchExpressions` list, all expressions must match, which is a logical AND. Separate entries in `nodeSelectorTerms` are ORed. To express "this GPU model or that one", put both values in one expression's `values` list rather than writing two terms.
+====
+
+== Step 3: Pin a Pod to one host
+
+Pin to `kubernetes.io/hostname` when you need a specific machine, for example to reproduce a failure on one node or to colocate a debugging Pod with a running job. Use the node name format for your provisioner, as described in <<ml-workload-placement-hostname>>.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values: ["ip-192-168-3-238.us-west-2.compute.internal"]
+  containers:
+    - name: app
+      image: public.ecr.aws/docker/library/busybox:latest
+      command: ["sh", "-c", "sleep 3600"]
+----
+
+Host pinning is appropriate for short-lived, operational Pods. Avoid it for production workloads: the Pod cannot be rescheduled if that node is replaced during a node group update, a Karpenter consolidation, or node auto repair.
+
+== Step 4: Spread replicas across hosts
+
+To keep replicas from concentrating on one node, use a topology spread constraint rather than affinity. The following constraint allows at most one replica of difference between any two nodes, and leaves excess replicas `Pending` rather than stacking them.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: inference
+----
+
+Set `whenUnsatisfiable: ScheduleAnyway` to make the spread a preference instead.
+
+Any label can serve as a `topologyKey`. Be clear about which direction you want before choosing one: a spread constraint distributes replicas *across* domains, so pointing it at a `topology.k8s.aws/network-node-layer-*` key scatters a job rather than co-locating it. To pull the Pods of a distributed job into one network domain, use Pod affinity instead, as described in <<ml-workload-topology>>.
+
+[#ml-workload-placement-behavior]
+== What happens when no node matches
+
+Node affinity and `nodeSelector` are evaluated only when a Pod is scheduled. `IgnoredDuringExecution` in the affinity field names means exactly that: a running Pod is never re-evaluated, even if the node's labels change or a better node appears.
+
+The following table summarizes the behavior when the target nodes become unavailable and then return. The hard constraint is `requiredDuringSchedulingIgnoredDuringExecution` and the soft constraint is `preferredDuringSchedulingIgnoredDuringExecution`.
+
+[cols="2,2,2", options="header"]
+|===
+| Situation | Hard constraint | Soft constraint
+
+| No matching node at scheduling time
+| Pod stays `Pending` with a `FailedScheduling` event reading `node(s) didn't match Pod's node affinity/selector`. Deleting and recreating the Pod does not help.
+| Pod is scheduled onto any node that fits.
+
+| A matching node appears later
+| The scheduler binds the `Pending` Pod automatically, with no restart or intervention.
+| No effect. An already-running Pod is not moved onto the newly available preferred node.
+
+| The node a running Pod is on is terminated
+| The replacement Pod is scheduled against the constraint again, and stays `Pending` if nothing matches.
+| The replacement Pod is scheduled against the preference again.
+|===
+
+If a Pod is stuck `Pending`, the scheduler's reason is in the Pod's events:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl describe pod <pod-name>
+----
+
+== Related topics
+
+For more information, see the following topics.
+
+* <<ml-workload-topology>> — Place the Pods of a distributed job close to each other on the network.
+* <<ml-workload-taints>> — Keep workloads off specialized nodes with taints.
+* <<associate-workload>> — Require or exclude EKS Auto Mode nodes.
+* <<auto-supported-labels>> — The full list of EKS Auto Mode instance-attribute labels.
+* <<eks-nvidia-gpu-labels>> — NVIDIA GPU node labels and the component that applies each one.
+* https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/[Assigning Pods to Nodes] in the Kubernetes documentation.

@@ -1,0 +1,262 @@
+include::../attributes.txt[]
+
+[.topic]
+[#ml-workload-topology]
+= Place distributed AI/ML workloads with network topology labels
+:info_titleabbrev: Use network topology
+
+[abstract]
+--
+Use the `topology.k8s.aws/network-node-layer-*` node labels to place the Pods of a distributed training job close to each other in the {aws} network.
+--
+
+== Overview
+
+A distributed training job is bound by its slowest collective operation. Every all-reduce waits for the last rank, so a job whose ranks are spread across the data center runs at the speed of its longest network path, no matter how fast the accelerators are. Placing the ranks of one job within the same part of the network reduces the number of network hops between them, which lowers latency and raises effective collective bandwidth.
+
+The {aws} network is arranged as a hierarchy of layers, and an EC2 instance connects into that hierarchy at or below the third layer. Amazon EKS exposes each node's position in that hierarchy as node labels, so the Kubernetes scheduler can use network proximity as a scheduling input. For background on the hierarchy itself, see link:AWSEC2/latest/UserGuide/how-ec2-instance-topology-works.html[How Amazon EC2 instance topology works,type="documentation"] in the _Amazon EC2 User Guide_.
+
+[#ml-workload-topology-labels]
+== The network topology labels
+
+[cols="2,1,3", options="header"]
+|===
+| Label | Example | Description
+
+| `topology.k8s.aws/network-node-layer-1`
+| `nn-e50490a237cb0f01a`
+| The top of the network hierarchy. The broadest grouping, so the least selective.
+
+| `topology.k8s.aws/network-node-layer-2`
+| `nn-92a6a64ff2aef5492`
+| The middle layer.
+
+| `topology.k8s.aws/network-node-layer-3`
+| `nn-bb8ee55d5c5a78452`
+| The bottom layer for most supported instance types, and therefore the most selective. Nodes that share this value are physically closest to each other.
+
+| `topology.k8s.aws/network-node-layer-4`
+| `nn-4a0d56b3e45d29e0a`
+| Present only on instance types whose topology has four layers. On those types, this is the bottom layer.
+|===
+
+The values are opaque identifiers. They are hashed for each {aws} account, so the same identifier refers to the same network node across every cluster in one account, but identifiers cannot be compared across accounts. Do not hardcode them in manifests that you reuse; read them from the cluster.
+
+=== How the labels are applied
+
+The {aws} cloud controller manager, which Amazon EKS runs in the cluster control plane, calls link:AWSEC2/latest/APIReference/API_DescribeInstanceTopology.html[DescribeInstanceTopology,type="documentation"] when a node registers and writes one label per network node in the response, numbered from the top of the hierarchy down.
+
+Because the control plane does this, the labels do not depend on how you provisioned the node. They are applied to EKS managed node group nodes, self-managed nodes, Karpenter nodes, and EKS Auto Mode nodes alike, with no add-on to install and no IAM permission for you to grant.
+
+=== Requirements and caveats
+
+[IMPORTANT]
+====
+*The labels are present only on supported instance types.* Amazon EC2 reports topology for a specific set of accelerated, HPC, and GPU instance types. A node of any other instance type, such as `m5.large`, carries no `topology.k8s.aws/network-node-layer-*` labels at all, even when it sits in the same Availability Zone as a node that does.
+====
+
+The following instance families report topology. The number of layers varies by family, which determines whether the bottom, most selective layer is `network-node-layer-3` or `network-node-layer-4`.
+
+[cols="1,2,1", options="header"]
+|===
+| Layers | Instance families | Bottom layer
+
+| Three
+| `g6e`, `g7e`, `hpc6a`, `hpc6id`, `hpc7a`, `hpc7g`, `hpc8a`, `p3dn`, `p4d`, `p4de`, `p5`, `p5e`, `p5en`, `p6e-gb200`, `trn1`, `trn1n`, `trn2`, `trn2u`
+| `network-node-layer-3`
+
+| Four
+| `p6-b200`, `p6-b300`
+| `network-node-layer-4`
+|===
+
+Not every size within a family is supported. For the authoritative per-size list, see link:AWSEC2/latest/UserGuide/ec2-instance-topology-prerequisites.html[Prerequisites for Amazon EC2 topology,type="documentation"] in the _Amazon EC2 User Guide_. Amazon EC2 adds families to this list as they launch, so confirm against your own nodes with the command in Step 1 rather than assuming.
+
+* *Write selectors against the bottom layer your instance type actually reports.* A selector on `network-node-layer-4` matches nothing on a three-layer family, and a selector on `network-node-layer-3` is one layer broader than the tightest available grouping on a four-layer family.
+* *The API is not available in every {aws} Region.* `DescribeInstanceTopology` is supported in a subset of {aws} Regions. In an unsupported {aws} Region, no node receives these labels.
+* *The labels are set once, at registration.* The cloud controller manager writes them when the node first joins and does not refresh them afterward. This is safe, because an instance does not change its position in the network while it is running, but it also means you cannot force a refresh by relabeling.
+* *Comparing layers is only meaningful within an {aws} Region.* Nodes in different Availability Zones do not share a bottom-layer network node. Combine these labels with `topology.kubernetes.io/zone` or `topology.k8s.aws/zone-id` when you need to reason about both.
+
+== Considerations
+
+* *Topology placement is a best-effort optimization, not a guarantee of bandwidth.* Two nodes under the same bottom-layer network node are physically close, but the labels do not express link capacity. For a guarantee that the instances of a job are placed together, reserve them together with a Capacity Block or a cluster placement group.
+* *Pair topology placement with gang scheduling for training jobs.* The default scheduler places Pods one at a time. A training job that needs all of its ranks running before it can make progress also needs all-or-nothing admission, which the default scheduler does not provide. Use a batch scheduler or queueing system that supports gang scheduling and can consume a topology label as its placement domain.
+* *Elastic Fabric Adapter is a separate configuration.* EFA gives you the high-bandwidth, low-latency interface between nodes; topology labels help you choose nodes that are close together. Both matter for a distributed job, and you configure them independently. For more information, see <<device-management-efa>>.
+* *Narrower is not always better.* Requiring the bottom layer gives the tightest placement and the smallest pool of eligible nodes, so jobs are more likely to wait for capacity. If your job tolerates a longer path, constrain on `network-node-layer-2` instead to widen the pool.
+
+== Prerequisites
+
+* An link:eks/latest/userguide/getting-started.html[existing Amazon EKS cluster,type="documentation"] with nodes of a supported instance type.
+* `kubectl` configured to communicate with your cluster. For more information, see <<kubectl-install-update>>.
+
+== Step 1: Inspect the topology of your nodes
+
+Display the topology labels as columns to see how your fleet is grouped:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get nodes \
+  -L node.kubernetes.io/instance-type \
+  -L topology.k8s.aws/zone-id \
+  -L topology.k8s.aws/network-node-layer-1 \
+  -L topology.k8s.aws/network-node-layer-2 \
+  -L topology.k8s.aws/network-node-layer-3
+----
+
+If you run a four-layer family, add `-L topology.k8s.aws/network-node-layer-4` to see the bottom layer on those nodes.
+
+An example response from a cluster with one `g7e.12xlarge` node and one `m5.large` node, both in the same Availability Zone. The `g7e` node reports all three layers. The `m5.large` node is in the same zone but is not a supported instance type, so it has no topology labels at all.
+
+[source,bash,subs="verbatim,attributes"]
+----
+NAME                  INSTANCE-TYPE   ZONE-ID    NETWORK-NODE-LAYER-1   NETWORK-NODE-LAYER-2   NETWORK-NODE-LAYER-3
+i-0018afcc092475f5e   g7e.12xlarge    usw2-az3   nn-e50490a237cb0f01a   nn-92a6a64ff2aef5492   nn-bb8ee55d5c5a78452
+i-0bdc4d83b3f8a6263   m5.large        usw2-az3
+----
+
+Nodes whose bottom-layer value is identical are the closest together that the topology can express. Nodes that match only at layer 1 or 2 are further apart, and a node with no values cannot be compared at all.
+
+Count the nodes in each bottom-layer domain to find the largest group a job could fit into. On a four-layer family, substitute `network-node-layer-4`:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get nodes \
+  -o jsonpath='{range .items[*]}{.metadata.labels.topology\.k8s\.aws/network-node-layer-3}{"\n"}{end}' \
+  | sort | uniq -c | sort -rn
+----
+
+== Step 2: Keep the Pods of a job within one network domain
+
+Use Pod affinity with the bottom-layer label as the `topologyKey`. Each Pod is then drawn to a node in the same network domain as the Pods that are already running, which is what co-locates the ranks of a job.
+
+Because the label selector matches the Pods' own label, the first Pod has nothing to attract it and schedules onto any eligible node. Every later Pod is confined to that Pod's domain. The domain is therefore chosen by wherever the first Pod lands, not by you; to choose it yourself, see <<ml-workload-topology-pin>>.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: training-job
+spec:
+  replicas: 8
+  selector:
+    matchLabels:
+      app: training-job
+  template:
+    metadata:
+      labels:
+        app: training-job
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: training-job
+              topologyKey: topology.k8s.aws/network-node-layer-3
+      containers:
+        - name: app
+          image: public.ecr.aws/docker/library/busybox:latest
+          command: ["sh", "-c", "sleep 3600"]
+----
+
+With `requiredDuringSchedulingIgnoredDuringExecution`, replicas that do not fit in the first Pod's domain stay `Pending` rather than starting far away. Use `preferredDuringSchedulingIgnoredDuringExecution` with a weight instead if you would rather the job start spread out than not start at all.
+
+[IMPORTANT]
+====
+Do not use `topologySpreadConstraints` for this. A topology spread constraint distributes Pods *evenly across* domains, which is the opposite of co-locating them, and `maxSkew: 1` is the tightest spread rather than the tightest packing. Pointing a spread constraint at a `network-node-layer` key scatters a job across the network and makes its collectives slower, not faster.
+
+Spread constraints are the right tool for the opposite goal. Use them with `topology.kubernetes.io/zone` or `kubernetes.io/hostname` when you want replicas of a *serving* workload distributed for resilience. For an example, see <<ml-workload-placement>>.
+====
+
+[NOTE]
+====
+A node that does not carry the `topologyKey` label is not a candidate for a Pod with a required `podAffinity` rule on that key. This works in your favor here: because only supported instance types carry a `network-node-layer` label, the rule implicitly keeps the job off general-purpose nodes without your having to exclude them. It also means the rule leaves every Pod `Pending` if no node in the cluster reports the label.
+====
+
+[#ml-workload-topology-pin]
+== Step 3: Pin a job to a specific network domain
+
+When a job must run alongside capacity that is already placed, for example to join nodes that an earlier job left behind, require the specific bottom-layer value with node affinity. In this example, replace `nn-bb8ee55d5c5a78452` with a value that Step 1 reported for your own nodes.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: training-job-pinned
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: topology.k8s.aws/network-node-layer-3
+                operator: In
+                values: ["nn-bb8ee55d5c5a78452"]
+  containers:
+    - name: app
+      image: public.ecr.aws/docker/library/busybox:latest
+      command: ["sh", "-c", "sleep 3600"]
+----
+
+Make the constraint a preference instead if you would rather have the job start on distant nodes than not start at all:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: topology.k8s.aws/network-node-layer-3
+                    operator: In
+                    values: ["nn-bb8ee55d5c5a78452"]
+----
+
+For the behavior of hard and soft constraints when nothing matches, see <<ml-workload-placement-behavior>>.
+
+The network topology labels are the same on every compute type, so these examples work as written whichever way you provision nodes. If you narrow them further, check the label first: capacity type, for instance, is `eks.amazonaws.com/capacityType` with values such as `ON_DEMAND` on managed node groups, but `karpenter.sh/capacity-type` with values such as `on-demand` on Karpenter and EKS Auto Mode. For the labels that differ, see <<ml-workload-placement-equivalence>>.
+
+== Step 4: Target a Capacity Block or UltraServer
+
+Capacity Blocks for ML and P6e-GB200 UltraServers give you a contiguous, pre-placed set of instances. How you target one depends on how the nodes were provisioned.
+
+Each of the following snippets is a pair of `matchExpressions` entries. Add them to a `nodeAffinity` block built like the one in Step 3, in place of that example's single expression.
+
+* *EKS managed node groups and self-managed nodes* — There is no node label for the reservation. Match the bottom network-node layer, narrowed to Capacity Block capacity:
++
+[source,yaml,subs="verbatim,attributes"]
+----
+              - key: eks.amazonaws.com/capacityType
+                operator: In
+                values: ["CAPACITY_BLOCK"]
+              - key: topology.k8s.aws/network-node-layer-3
+                operator: In
+                values: ["nn-bb8ee55d5c5a78452"]
+----
+* *EKS Auto Mode and Karpenter* — Match the reservation directly. Nodes launched from a reservation that a NodeClass selected carry `karpenter.sh/capacity-type: reserved` plus a capacity reservation ID label: `eks.amazonaws.com/capacity-reservation-id` on EKS Auto Mode, and `karpenter.k8s.aws/capacity-reservation-id` on Karpenter.
++
+[source,yaml,subs="verbatim,attributes"]
+----
+              - key: karpenter.sh/capacity-type
+                operator: In
+                values: ["reserved"]
+              - key: eks.amazonaws.com/capacity-reservation-id
+                operator: In
+                values: ["cr-0913b3fc104705e49"]
+----
++
+In this example, replace `cr-0913b3fc104705e49` with the ID of your own capacity reservation. For how to select reservations on a NodeClass, and the full set of capacity reservation labels, see <<auto-odcr>>.
+
+Multi-node NVLink workloads on P6e-GB200 UltraServers have an additional requirement beyond placement: the Pods must share an IMEX domain, which the NVIDIA DRA driver creates from a `ComputeDomain` resource. Network topology labels alone are not sufficient. For the full procedure, see <<ml-eks-nvidia-ultraserver>>.
+
+== Related topics
+
+For more information, see the following topics.
+
+* <<ml-workload-placement>> — The full set of node labels available for targeting, and how to match them.
+* <<device-management-efa>> — Configure Elastic Fabric Adapter for inter-node communication.
+* <<ml-eks-nvidia-ultraserver>> — Run Multi-Node NVLink workloads on P6e-GB200 UltraServers.
+* link:AWSEC2/latest/UserGuide/how-ec2-instance-topology-works.html[How Amazon EC2 instance topology works,type="documentation"] in the _Amazon EC2 User Guide_.

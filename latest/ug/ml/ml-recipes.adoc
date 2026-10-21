@@ -17,11 +17,17 @@ https://events.eksworkshop.com/workshops/genai/[Register] for upcoming Amazon EK
 
 This section is designed to provide bite-sized recipes for optimizing your Amazon EKS cluster, particularly for AI/ML workloads involving specialized hardware. Each recipe includes prerequisites, step-by-step procedures, and deployment considerations.
 
-* <<ml-workload-management>> — Control where workloads land by adding taints to managed node groups.
+* <<ml-workload-placement>> — Target workloads to the right nodes using the labels that Amazon EKS applies automatically.
+* <<ml-workload-topology>> — Place the Pods of a distributed job close to each other using network topology labels.
+* <<ml-workload-taints>> — Keep workloads off accelerated nodes by adding taints, with EKS Auto Mode, Karpenter, and managed node groups.
 * <<ml-hugepages>> — Configure hugepages for memory-intensive workloads.
 * <<ml-inferentia>> — Create an inference cluster with {aws} Inferentia instances.
 
-include::ml-workload-management.adoc[leveloffset=+1]
+include::ml-workload-placement.adoc[leveloffset=+1]
+
+include::ml-workload-topology.adoc[leveloffset=+1]
+
+include::ml-workload-taints.adoc[leveloffset=+1]
 
 include::ml-hugepages.adoc[leveloffset=+1]
 
