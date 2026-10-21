@@ -155,7 +155,7 @@ CLI flags override profile defaults:
 |`--disable-layer-pull`
 |Fetch the image config but skip pulling layers; leaves a non-numeric (named) user unpinned
 
-|`--allow-any-uid-gid-container <name>`
+|`--allow-unpinned-identity-for-container <name>`
 |Omit the uid, gid, and supplemental group constraints for the named container, so the policy permits any identity for it (repeatable)
 |===
 
