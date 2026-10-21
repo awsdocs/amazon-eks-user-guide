@@ -24,3 +24,5 @@ include::sandboxing-network-isolation.adoc[leveloffset=+1]
 include::sandboxing-storage.adoc[leveloffset=+1]
 
 include::sandboxing-metadata-credentials.adoc[leveloffset=+1]
+
+include::sandboxing-observability.adoc[leveloffset=+1]

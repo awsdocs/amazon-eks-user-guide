@@ -12,7 +12,7 @@ Among other features, GuardDuty offers the following two features that detect po
 [NOTE]
 .GuardDuty and Nitro Sandboxes
 ====
-The GuardDuty agent cannot monitor activity inside isolated or confidential pods that run in Nitro Sandboxes. The sandbox isolates the pod from the node. GuardDuty continues to monitor standard pods on the same node.
+The GuardDuty agent cannot monitor activity inside isolated or confidential pods that run in Nitro Sandboxes. The sandbox isolates the pod from the node. GuardDuty continues to monitor standard pods on the same node. For what you can observe, see <<sandboxing-observability>>.
 ====
 
 [NOTE]
