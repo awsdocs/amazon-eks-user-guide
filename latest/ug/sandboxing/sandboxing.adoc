@@ -29,7 +29,7 @@ include::sandboxing-reference.adoc[leveloffset=+1]
 [#sandboxing-how-it-works]
 == How it works
 
-The parent instance runs the `containerd-shim-nitro-sandbox-v2`, which launches a Firecracker process with virtio devices for communication. Inside the Nitro Sandbox, the `nitro-sandbox-agent` manages containers through its own `containerd` instance. The Nitro hypervisor manages sandbox lifecycle, while runtime notifications between the parent instance kernel and the sandbox kernel coordinate Nitro Sandbox operation.
+The parent instance runs a shim process (`containerd-shim-nitro-sandbox-v2`) that launches a lightweight virtual machine (a Firecracker microVM) for the sandbox and communicates with it over virtio devices. Inside the Nitro Sandbox, an agent process (`nitro-sandbox-agent`) manages containers through its own `containerd` instance. The Nitro hypervisor manages sandbox lifecycle, while runtime notifications between the parent instance kernel and the sandbox kernel coordinate Nitro Sandbox operation.
 
 When kubelet schedules a pod that uses the `isolated-sandbox` or `confidential-sandbox` runtime class, the following happens:
 
@@ -45,13 +45,13 @@ When kubelet schedules a pod that uses the `isolated-sandbox` or `confidential-s
 Each pod runs in its own Nitro Sandbox. The {aws} Nitro hypervisor enforces memory and CPU isolation between sandboxes on the same parent instance. A compromised container cannot access memory or storage belonging to another pod, and the parent instance cannot observe the CPU or memory state of the sandbox.
 
 *Policy enforcement*::
-Every pod has a Cedar policy that controls container admission, `exec` access, log streaming, and other runtime operations. The Nitro Sandbox enforces the policy from inside the guest, so it applies even when the parent instance is untrusted. The pod policy is measured into an attestation register, so a compromised parent instance cannot silently substitute a different policy without changing the attestation.
+Every pod has a Cedar policy that controls container admission, `exec` access, log streaming, and other runtime operations. The Nitro Sandbox enforces the policy from inside the guest, so it applies even when the parent instance is untrusted. The sandbox enforces the policy in both isolated and confidential mode, with or without attestation. The pod policy is measured into an attestation register, so a compromised parent instance cannot silently substitute a different policy without changing the attestation. Attestation adds external verification that the expected policy is in force, which confidential workloads use to gate {aws} KMS access. See <<sandboxing-security-model>>.
 
 *Encrypted container images*::
 Container image layers can be encrypted following the OCI image encryption specification. Encrypted layers are decrypted inside the Nitro Sandbox using {aws} KMS. The parent instance transfers the encrypted blobs but never accesses the plaintext image contents. See <<sandboxing-encrypted-images>>.
 
 *Image signature verification*::
-Container images can be signed with {aws} Signer. The Nitro Sandbox verifies Notation signatures and checks revocation status before allowing a container to start. The Cedar policy controls which signing profiles are trusted.
+Container images can be signed with {aws} Signer. The Nitro Sandbox verifies the image's {aws} Signer signature (in the Notation format) and checks revocation status before allowing a container to start. The Cedar policy controls which signing profiles are trusted.
 
 *Attestation*::
 Attestation lets you prove that a Nitro Sandbox is running exactly the code and policy you expect before releasing secrets to it. The Nitro Sandbox includes a Nitro Security Module (NSM) whose platform configuration registers (PCRs) measure the system image and the workload policy. You write KMS key policies with `kms:RecipientAttestation:PCR<PCR_ID>` conditions that gate decryption on specific PCR values. When the sandbox calls `kms:Decrypt`, KMS validates the attestation document and releases the key only if the measurements match.
@@ -63,7 +63,7 @@ Without a KMS key policy (or equivalent external verifier) that checks PCR value
 ====
 
 *Shared persistent storage*::
-Pods can mount Amazon EFS volumes through the EFS CSI driver (`efs.csi.aws.com`) for shared read-write persistent storage across pods. The Nitro Sandbox performs the NFS mount itself, terminating TLS to the mount target inside the guest.
+Pods can mount Amazon EFS volumes through the EFS CSI driver (`efs.csi.aws.com`) for shared read-write persistent storage across pods. The Nitro Sandbox performs the NFS mount itself, terminating TLS to the mount target inside the guest. Pods can also use Amazon EBS volumes through the EBS CSI driver for single-pod block storage. For all storage options, see <<sandboxing-storage>>.
 
 [#sandboxing-concepts]
 == Concepts
