@@ -157,7 +157,7 @@ Deploy worker nodes to your local cluster using <<launch-workers,self-managed no
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2025-11-24/amazon-eks-outpost-nodegroup.yaml
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2026-10-26/amazon-eks-outpost-instance-store-nodegroup.yaml
 ----
 +
 

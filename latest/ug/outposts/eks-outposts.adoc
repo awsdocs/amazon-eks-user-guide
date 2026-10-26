@@ -108,7 +108,7 @@ The following table compares the differences between extended clusters and the t
 |Managed policies
 |<<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>> and <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
 |<<security-iam-awsmanpol-amazonekslocaloutpostclusterpolicy,AmazonEKSLocalOutpostClusterPolicy>> and <<security-iam-awsmanpol-amazonekslocaloutpostservicerolepolicy>>
-|<<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>> and <<security-iam-awsmanpol-amazoneksservicerolepolicy>>
+|<<security-iam-awsmanpol-amazoneksclusterpolicy,AmazonEKSClusterPolicy>> and <<security-iam-awsmanpol-amazoneksservicepolicy>>
 
 |Cluster VPC and subnets
 |See <<network-reqs>>
