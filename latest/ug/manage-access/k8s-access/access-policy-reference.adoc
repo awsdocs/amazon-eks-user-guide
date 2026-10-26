@@ -828,6 +828,10 @@ Argo CD Resource Management:
 - Full access to Applications and ApplicationSets across the cluster.
 - Manage finalizers and status for Applications and ApplicationSets.
 
+Notification Configuration:
+
+- Read access to the `argocd-notifications-cm` ConfigMap and the `argocd-notifications-secret` Secret, by name only, so that the notifications controller can read notification configuration from the additional namespaces that you enable. For more information, see <<argocd-notifications>>.
+
 API Discovery:
 
 - Read access to Kubernetes API endpoints for resource discovery.
@@ -872,11 +876,28 @@ Amazon EKS applies changes to this access policy automatically to existing capab
 |`{asterisk}`
 
 |
+|
+|`configmaps` (`argocd-notifications-cm` only)
+|`get`, `list`, `watch`
+
+|
+|
+|`secrets` (`argocd-notifications-secret` only)
+|`get`, `list`, `watch`
+
+|
 |`/api`, `/api/{asterisk}`, `/apis`, `/apis/{asterisk}`
 |
 |`get`
 
 |===
+
+[NOTE]
+====
+The `configmaps` and `secrets` permissions are restricted to those two resource names and grant no write access.
+No other ConfigMap or Secret in your cluster becomes readable through this access policy.
+Kubernetes authorizes a name-restricted `list` or `watch` only when the request filters on that name, so an unfiltered cluster-wide list of ConfigMaps or Secrets is still denied.
+====
 
 == AmazonEKSArgoCDPolicy
 
@@ -987,6 +1008,10 @@ View details about updates to access policies, since they were introduced. For a
 |Change
 |Description
 |Date
+
+|Update Argo CD access policy permissions
+|Add read access for the `argocd-notifications-cm` ConfigMap and the `argocd-notifications-secret` Secret, by name only, to `AmazonEKSArgoCDClusterPolicy`. This allows the notifications controller to read notification configuration from additional namespaces. The update applies automatically to existing Argo CD capabilities; no action is required.
+|November 2, 2026
 
 |Update Argo CD access policy permissions
 |Move the `events`, `applications`, and `applicationsets` permissions from `AmazonEKSArgoCDPolicy` to `AmazonEKSArgoCDClusterPolicy`. The update applies automatically to existing Argo CD capabilities; no action is required.

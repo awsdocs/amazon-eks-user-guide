@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-11-02"]
+=== Notifications for the EKS Capability for Argo CD
+[.update-ulink]
+link:eks/latest/userguide/argocd-notifications.html[type="documentation"]
+
+The EKS Capability for Argo CD can now notify your team when an Application syncs, fails, or changes health. Added how to enable notifications, the supported services, sending to Amazon SQS and Amazon EventBridge with the IAM Capability Role, storing credentials in {aws} Secrets Manager, per-namespace configuration, and troubleshooting.
+
 [.update,date="2026-10-26"]
 === {aws} managed policy updates
 [.update-ulink]

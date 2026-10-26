@@ -153,6 +153,10 @@ Don't apply the upstream Argo CD `ClusterRole` or `ClusterRoleBinding` manifests
 If you remove a namespace from the ConfigMap, the capability stops managing `Application` or `ApplicationSet` resources in that namespace.
 However, it doesn't delete those resources or their deployed workloads.
 
+The `argocd-cmd-params-cm` ConfigMap supports one more key, `notificationscontroller.selfservice.enabled`.
+Set it to `true` to let each additional namespace carry its own notification configuration.
+For more information, see <<argocd-notifications-selfservice>>.
+
 [#argocd-supported-settings]
 == Supported settings
 

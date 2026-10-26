@@ -567,6 +567,16 @@ Open an {aws} Support case in the following situations:
 
 Include the output of `argocd app get` and `argocd app diff` for affected applications in your support case.
 
+== Notifications are not delivered
+
+If an Application syncs but no notification arrives, the capability records the reason as a Kubernetes event.
+Check the `argocd-notifications-cm` ConfigMap in the namespace that holds your notification configuration, and the Application itself.
+
+The most common cause is a missing opt-in label.
+The capability reads no notification configuration from an `argocd-notifications-cm` ConfigMap unless the ConfigMap carries the `eks.amazonaws.com/managed-notifications: "enabled"` label.
+
+For the events, their meanings, and the other common causes, see <<argocd-notifications-troubleshooting>>.
+
 == Next steps
 
 * <<argocd-considerations>> - Argo CD considerations and best practices

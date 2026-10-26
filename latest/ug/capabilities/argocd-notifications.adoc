@@ -1,0 +1,453 @@
+include::../attributes.txt[]
+
+[.topic]
+[#argocd-notifications]
+= Send notifications for Argo CD Applications
+:info_titleabbrev: Notifications
+
+[abstract]
+--
+Notify your team when Applications sync, fail, or change health by sending Argo CD events to Slack, PagerDuty, Amazon SQS, Amazon EventBridge, and other services.
+--
+
+The EKS Capability for Argo CD runs a managed notifications controller.
+Use it to send a message when an Application syncs, fails to sync, or changes health, so that your team learns about deployment outcomes without watching the Argo CD UI.
+
+Notifications have three parts:
+
+. An `argocd-notifications-cm` ConfigMap in your Argo CD namespace that defines your services, triggers, and message templates.
+. An optional `argocd-notifications-secret` Secret in the same namespace that holds credentials, such as a Slack token.
+. An annotation on each Application that subscribes it to a trigger and a destination.
+
+The capability does not create these resources for you, and it does not install a catalog of predefined triggers and templates.
+You author the triggers and templates that you need.
+For the trigger expression syntax, the template fields, and the options that each service accepts, see link:https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/[Notifications^] in the Argo CD documentation.
+
+== Prerequisites
+
+* An EKS cluster with the Argo CD capability created. See <<create-argocd-capability>>.
+* The `kubectl` CLI configured to communicate with your cluster.
+* At least one Argo CD Application. See <<argocd-create-application>>.
+
+[#argocd-notifications-enable]
+== Enable notifications
+
+The notifications controller ignores a ConfigMap that does not carry an opt-in label.
+To turn notifications on, add the following label to your `argocd-notifications-cm` ConfigMap:
+
+[source,yaml]
+----
+labels:
+  eks.amazonaws.com/managed-notifications: "enabled"
+----
+
+[NOTE]
+====
+The label value must be exactly `enabled`.
+Without the label, the capability reads no configuration from the ConfigMap and sends no notifications.
+The label is required on every notifications ConfigMap, including the one in your primary Argo CD namespace.
+====
+
+The `argocd-notifications-secret` Secret does not need the label.
+
+== Example: notify a Slack channel
+
+The following example sends a message to Slack when an Application syncs successfully.
+
+Create the ConfigMap and the Secret in your primary Argo CD namespace:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  namespace: argocd
+  labels:
+    eks.amazonaws.com/managed-notifications: "enabled"
+data:
+  service.slack: |
+    token: $slack-token
+  trigger.on-sync-succeeded: |
+    - when: app.status.operationState.phase in ['Succeeded']
+      send: [app-sync-succeeded]
+  template.app-sync-succeeded: |
+    message: "Application {{.app.metadata.name}} synced successfully."
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argocd-notifications-secret
+  namespace: argocd
+type: Opaque
+stringData:
+  slack-token: <SLACK_BOT_TOKEN>
+----
+
+Replace `<SLACK_BOT_TOKEN>` with your Slack bot token.
+The `$slack-token` reference in the service definition resolves to the `slack-token` key in the Secret.
+To keep the token out of the Secret entirely, store an {aws} Secrets Manager ARN as the value instead, as described in <<argocd-notifications-secrets>>.
+
+=== Subscribe an Application
+
+Add an annotation to each Application that you want notifications for.
+The annotation names a trigger and a service, and its value is the recipient.
+
+[source,yaml]
+----
+metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: my-channel
+----
+
+Replace `my-channel` with the name of your Slack channel.
+Sync the Application and check the channel.
+If no message arrives, see <<argocd-notifications-troubleshooting>>.
+
+[#argocd-notifications-services]
+== Supported notification services
+
+The capability supports 16 service types:
+
+*Chat and collaboration*:: `slack`, `googlechat`, `mattermost`, `teams-workflows`, `telegram`, `webex`
+*Incident management*:: `pagerduty`, `pagerdutyv2`, `opsgenie`
+*{aws}*:: `awssqs`, `eventbridge`
+*Other*:: `github`, `grafana`, `newrelic`, `pushover`, `gcppubsub`
+
+A `service.` key for any other type is dropped, and the rest of your configuration still loads.
+Upstream Argo CD also supports the `email`, `teams`, `webhook`, `rocketchat`, `nats`, and `alertmanager` service types.
+These are not available in the managed capability.
+The `eventbridge` service is specific to this capability and has no upstream equivalent.
+
+[IMPORTANT]
+====
+A supported service whose options are invalid behaves differently from an unsupported one.
+An unsupported service type is dropped on its own.
+An invalid service definition fails the whole namespace's configuration, so that namespace sends no notifications at all until you correct it.
+The capability records a `NotificationConfigInvalid` event on the ConfigMap, as described in <<argocd-notifications-troubleshooting>>.
+====
+
+[IMPORTANT]
+====
+The `gcppubsub` service requires inline credentials in this capability.
+Set `keyJSON` to a `$` reference for the service account key JSON in your Secret, as in `keyJSON: $gcp-key`.
+
+The capability rejects both the `keyFile` path and Application Default Credentials, which are the two approaches the upstream Argo CD documentation describes.
+Because a rejected service definition fails the whole namespace's configuration, following the upstream instructions for this service stops notifications for every other service in the same ConfigMap.
+====
+
+[NOTE]
+====
+Declare services as `service.` keys in `argocd-notifications-cm`.
+Upstream Argo CD also honors a deprecated `notifiers.yaml` key in the notification Secret that registers services directly.
+The capability ignores that key, because a service declared there would bypass the supported-service check.
+====
+
+[#argocd-notifications-aws]
+== Send to Amazon SQS and Amazon EventBridge
+
+The `awssqs` and `eventbridge` services authenticate with your IAM Capability Role.
+They take no credentials in the service definition, so you grant access through the role's IAM policy rather than storing keys in the Secret.
+
+=== Grant permissions to the Capability Role
+
+Attach a policy to your IAM Capability Role with only the statements that you need.
+In the following example, replace the {aws} Region, the account ID, and the queue, key, and event bus names with your own values.
+
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "SendToQueue",
+      "Effect": "Allow",
+      "Action": [
+        "sqs:GetQueueUrl",
+        "sqs:SendMessage"
+      ],
+      "Resource": "{arn-aws}sqs:us-west-2:111122223333:my-queue"
+    },
+    {
+      "Sid": "DecryptQueueKmsKey",
+      "Effect": "Allow",
+      "Action": [
+        "kms:GenerateDataKey",
+        "kms:Decrypt"
+      ],
+      "Resource": "{arn-aws}kms:us-west-2:111122223333:key/my-key-id"
+    },
+    {
+      "Sid": "PutEvents",
+      "Effect": "Allow",
+      "Action": "events:PutEvents",
+      "Resource": "{arn-aws}events:us-west-2:111122223333:event-bus/my-event-bus"
+    }
+  ]
+}
+----
+
+The queue statement needs both actions.
+The controller looks up the queue URL from the queue name before each send, so `sqs:SendMessage` alone is not enough.
+Include the {aws} KMS statement only if your queue is encrypted with a customer managed key.
+
+=== Configure the services
+
+Add the services to `argocd-notifications-cm`:
+
+[source,yaml]
+----
+  service.awssqs: |
+    queue: my-queue
+    region: us-west-2
+    account: "111122223333"
+  service.eventbridge: |
+    region: us-west-2
+    eventBusName: my-event-bus
+    source: argocd
+    detailType: argocd-sync
+----
+
+The fields have the following effects:
+
+`queue`:: The name of the queue, not its URL. For a FIFO queue, the name ends in `.fifo`.
+`region`:: The {aws} Region of the queue or event bus.
+`account`:: The {aws} account that owns the queue. Set it when the queue is in another account.
+`eventBusName`:: The event bus to publish to. If you omit it, the default bus is used. For an event bus in another account, use the full event bus ARN.
+`source`:: The `source` field of the published event. The default is `argocd`.
+`detailType`:: The `detail-type` field of the published event. The default is `argocd-notification`.
+
+Subscribe an Application with the queue name or the event bus name as the recipient:
+
+[source,yaml]
+----
+metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.awssqs: my-queue
+    notifications.argoproj.io/subscribe.on-sync-succeeded.eventbridge: my-event-bus
+----
+
+The recipient in the annotation takes precedence over the queue or event bus in the service definition.
+
+Both services can send to another {aws} Region or another account, as long as the Capability Role has the required permissions:
+
+* For a queue or event bus in another Region, set `region` to that Region.
+* For a queue in another account, set `account` to the owning account ID, and add a resource policy on the queue that allows the Capability Role.
+* For an event bus in another account, set `eventBusName` to the full event bus ARN rather than the name, and add a resource policy on the bus that allows the Capability Role.
+
+[NOTE]
+====
+EventBridge requires the event detail to be a JSON object, and the capability sends your template's `message` as the detail.
+Write the template to produce valid JSON, for example `message: '{"app": "{{.app.metadata.name}}"}'`.
+====
+
+[NOTE]
+====
+A successful `PutEvents` call that matches no EventBridge rule succeeds silently.
+To confirm that events arrive, add a rule that matches your `source` value, such as `{"source":["argocd"]}`, with a target you can read, such as a CloudWatch log group.
+====
+
+[#argocd-notifications-secrets]
+== Store credentials in {aws} Secrets Manager
+
+Instead of storing a credential in `argocd-notifications-secret`, you can store a Secrets Manager ARN as the value.
+The capability resolves the ARN at send time using your IAM Capability Role.
+
+. Store the ARN as the value of the key:
++
+[source,yaml,subs="verbatim,attributes"]
+----
+stringData:
+  slack-token: {arn-aws}secretsmanager:us-west-2:111122223333:secret:my-secret
+----
+
+. Reference the key from your service definition with `$`, exactly as you would for a literal value:
++
+[source,yaml]
+----
+  service.slack: |
+    token: $slack-token
+----
+
+. Grant the Capability Role read access to the secret:
++
+[source,json,subs="verbatim,attributes"]
+----
+{
+  "Effect": "Allow",
+  "Action": "secretsmanager:GetSecretValue",
+  "Resource": "{arn-aws}secretsmanager:us-west-2:111122223333:secret:my-secret-*"
+}
+----
+
+If the secret is encrypted with a customer managed {aws} KMS key, also allow `kms:Decrypt` on that key.
+
+Resolution behaves as follows:
+
+* A value that is not a Secrets Manager ARN is used exactly as written.
+* The secret can be in any account, in any Region of the same partition as your capability. A cross-account secret needs a resource policy that allows the Capability Role, and must use a customer managed {aws} KMS key whose key policy also allows the role.
+* References resolve one level only. If the value of a secret is itself a Secrets Manager ARN, the reference is rejected.
+* A resolved value is reused for about 5 minutes, so a rotated secret is picked up within about 5 minutes.
+* Resolution fails closed. A reference that cannot be resolved is dropped and is never sent. The service configuration keeps the literal `$` reference instead, so the send fails at any destination that authenticates it.
+
+When a reference is dropped, the capability records a `NotificationSecretRejected` event on your `argocd-notifications-cm` that names the key and the reason.
+Common reasons are that the secret was not found, access was denied, the secret is empty, or the secret is in a different partition.
+When every key resolves again, the capability records a `NotificationSecretResolved` event.
+
+[#argocd-notifications-selfservice]
+== Configure notifications per namespace
+
+By default, the capability reads notification configuration only from your primary Argo CD namespace.
+If you run Applications in additional namespaces, you can let each namespace carry its own notification configuration.
+
+. In the `argocd-cmd-params-cm` ConfigMap in your primary Argo CD namespace, list the namespaces and turn on self-service configuration:
++
+[source,yaml]
+----
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cmd-params-cm
+  namespace: argocd
+data:
+  application.namespaces: "team-a-gitops,team-b-gitops"
+  notificationscontroller.selfservice.enabled: "true"
+----
++
+The value of `notificationscontroller.selfservice.enabled` must be exactly `true`.
+Any other value, such as `True` or `yes`, turns the setting off.
+For more information about `application.namespaces`, see <<argocd-configure-resource-namespaces>>.
+
+. In each namespace, create an `argocd-notifications-cm` ConfigMap with the opt-in label, and optionally its own `argocd-notifications-secret`.
+
+. Wait for the change to apply. A change to `argocd-cmd-params-cm` can take up to about 10 minutes to reach the notifications controller.
+
+[IMPORTANT]
+====
+List each namespace by its exact name.
+A namespace that `application.namespaces` matches only with a wildcard, such as `team-*`, can still run Applications, but the capability does not read its notification configuration.
+The capability records a `NotificationConfigNotRead` event on that namespace's ConfigMap.
+====
+
+.Self-service configuration withholds credentials from templates
+[WARNING]
+====
+Turning on self-service configuration withholds the `{{ .secrets }}` template variable from *every* notification configuration, including the one in your primary Argo CD namespace.
+This matches upstream Argo CD, where the setting is process-wide.
+
+A template that still references `{{ .secrets }}` then behaves in one of three ways, depending on how it is written:
+
+* `{{ .secrets.mykey }}` renders the literal text `<no value>`, and the notification is still sent without the credential.
+* `{{ index .secrets "my-key" }}` fails to render, which blocks the send and records a `NotificationFailed` event on the Application.
+* `{{ .secrets.my-key }}` fails to parse, which stops the whole namespace's configuration from loading.
+
+Reference credentials from the service definition with `$`, as in `token: $slack-token`, rather than from a template.
+A `$` reference is resolved before this setting applies, and works whether self-service configuration is on or off.
+====
+
+[#argocd-notifications-limits]
+== Differences from upstream Argo CD
+
+=== Supported configuration keys
+
+The capability reads the following keys from `argocd-notifications-cm`:
+
+* `service.` keys for the service types in <<argocd-notifications-services>>
+* `trigger.` keys
+* `template.` keys
+* `subscriptions`
+* `defaultTriggers`
+* `context`
+
+Any other key is dropped, and the rest of your configuration still loads.
+
+=== Size limits
+
+* A `template.` or `trigger.` value over 64 KiB is dropped. The rest of the configuration still loads, and notifications that use the dropped key fail.
+* A ConfigMap whose keys and values total more than 256 KiB is ignored completely, and no notification configuration is read from it.
+* A template function that would produce more than 64 KiB of output fails.
+
+=== Template functions
+
+Templates can use the Sprig function library, with the following exceptions.
+These functions are not available:
+
+* Environment and DNS functions: `env`, `expandenv`, and `getHostByName`
+* Copy and merge functions: `deepCopy`, `mustDeepCopy`, `merge`, `mergeOverwrite`, `mustMerge`, and `mustMergeOverwrite`
+* Cryptographic and key generation functions: `bcrypt`, `htpasswd`, `derivePassword`, `genPrivateKey`, `genCA`, `genSelfSignedCert`, `genSignedCert`, `genCAWithKey`, `genSelfSignedCertWithKey`, `genSignedCertWithKey`, and `buildCustomCert`
+* Generator functions: `until`, `untilStep`, `seq`, `randAlpha`, `randAlphaNum`, `randAscii`, `randNumeric`, `randBytes`, and `wrapWith`
+* List functions: `uniq` and `mustUniq`
+
+The `printf`, `repeat`, `indent`, `nindent`, `replace`, and `regexReplaceAll` functions are available, but fail if a single call would produce more than 64 KiB of output.
+
+A template that names an unavailable function stops its namespace's configuration from loading.
+
+=== Destination requirements
+
+For services where you supply a URL, the destination must meet the following requirements:
+
+* The URL uses `https`. A plain `http` URL is refused.
+* The host is a host name, not an IP address, and it resolves to a public address. A private or link-local address is refused.
+* TLS certificate verification is always on. If you set `insecureSkipVerify` to `true`, the capability resets it to `false`.
+
+[#argocd-notifications-troubleshooting]
+== Monitor and troubleshoot notifications
+
+=== Check events
+
+The capability records Kubernetes events that explain why a notification did not arrive.
+To see them, describe the object that the event is recorded on.
+
+Events on `argocd-notifications-cm` in the namespace that owns the configuration:
+
+[source,bash]
+----
+kubectl describe configmap argocd-notifications-cm -n argocd
+----
+
+`NotificationConfigInvalid`:: The namespace's configuration failed to load. The message gives the reason, such as a template that does not parse.
+`NotificationConfigValid`:: The configuration loaded successfully.
+`NotificationConfigNotRead`:: The namespace's configuration is never read. Add the namespace to `application.namespaces` by name, and add the opt-in label to its ConfigMap.
+`NotificationSecretRejected`:: One or more Secrets Manager references were dropped. The message names each key and its reason.
+`NotificationSecretResolved`:: Every Secrets Manager reference resolved again.
+
+Events on an Application:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl describe application [.replaceable]`my-app` -n argocd
+----
+
+`NotificationFailed`:: A send to a destination failed. The message carries the destination's own error.
+`NotificationTimeout`:: A send to a destination timed out.
+
+[NOTE]
+====
+An event that reports recovery, such as `NotificationConfigValid`, is a separate event rather than a removal of the warning that preceded it.
+Both events remain, so compare their timestamps.
+A recovery event that is newer than the warning means the problem is resolved.
+====
+
+=== Review controller logs
+
+To investigate a problem that the events do not explain, deliver the notifications controller's logs to CloudWatch Logs, Amazon S3, or Amazon Data Firehose.
+Use the Amazon EKS capability log type `EKS_CAPABILITY_ARGOCD_NOTIFICATION_LOGS`.
+For instructions, see <<capabilities-controller-logs>>.
+
+=== Common causes
+
+No notifications at all:: Confirm that your `argocd-notifications-cm` carries the `eks.amazonaws.com/managed-notifications: "enabled"` label, with that exact value.
+
+Notifications work from the primary namespace but not from another namespace:: Confirm that you listed the namespace by name in `application.namespaces`, that you set `notificationscontroller.selfservice.enabled` to `true`, and that the namespace's own ConfigMap carries the opt-in label.
+
+A message arrives with `<no value>` in place of a credential:: One of your templates references `{{ .secrets }}` while self-service configuration is on. Reference the credential from the service definition with `$` instead. For more information, see <<argocd-notifications-selfservice>>.
+
+A destination rejects the credential:: Check for a `NotificationSecretRejected` event. If the capability dropped a Secrets Manager reference, it sends the literal `$` reference in place of the credential.
+
+A service you configured is ignored:: Confirm that your service type is listed in <<argocd-notifications-services>>.
+
+== Next steps
+
+* <<argocd-create-application>> - Create Applications to subscribe to notifications
+* <<capabilities-controller-logs>> - Deliver controller logs to CloudWatch Logs, Amazon S3, or Amazon Data Firehose
+* <<argocd-troubleshooting>> - Troubleshoot other Argo CD issues
