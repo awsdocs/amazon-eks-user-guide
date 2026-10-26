@@ -40,15 +40,15 @@ Three mechanisms assign security groups to EKS workloads. Two of them use the sa
 
 |NodeClass `podSecurityGroupSelectorTerms`
 |`eks.amazonaws.com/v1`
-|The same security groups for every Pod on the node. For more information, see <<pod-subnet-selector>>.
+|EKS Auto Mode. The same security groups for every Pod on the node. For more information, see <<pod-subnet-selector>>.
 
 |`SecurityGroupPolicy`
 |`eks.amazonaws.com/v1`
-|Different security groups per Pod, on EKS Auto Mode. Described on this page.
+|EKS Auto Mode. Different security groups per Pod. Described on this page.
 
 |`SecurityGroupPolicy`
 |`vpcresources.k8s.aws/v1beta1`
-|Different security groups per Pod, on self-managed Amazon VPC CNI. Not supported on EKS Auto Mode, and its spec isn't compatible with the `eks.amazonaws.com/v1` resource. For more information, see <<security-groups-for-pods>>.
+|Amazon VPC CNI, on clusters that aren't EKS Auto Mode. Different security groups per Pod. Its spec isn't compatible with the `eks.amazonaws.com/v1` resource. For more information, see <<security-groups-for-pods>>.
 |===
 
 == Create a SecurityGroupPolicy
@@ -152,7 +152,7 @@ EKS Auto Mode reports what a policy resolved to in its `status` field:
 
 [source,bash]
 ----
-kubectl get securitygrouppolicy <name> -n <namespace> -o yaml
+kubectl get securitygrouppolicies.eks.amazonaws.com <name> -n <namespace> -o yaml
 ----
 
 * `status.securityGroups` -- The security group IDs the selector terms resolved to. These are the groups a matched Pod's branch network interface carries.
@@ -183,7 +183,7 @@ If a Pod matched by a `SecurityGroupPolicy` doesn't get its own security groups,
 `kubectl get pod <pod-name> -o jsonpath='{.spec.resourceClaims}'` +
 An empty result means the Pod's labels didn't match any `SecurityGroupPolicy` in its namespace, or the admission webhook didn't fire.
 . *Did the policy resolve its security groups?* +
-`kubectl get securitygrouppolicy <name> -n <namespace> -o jsonpath='{.status}'` +
+`kubectl get securitygrouppolicies.eks.amazonaws.com <name> -n <namespace> -o jsonpath='{.status}'` +
 Check for `SecurityGroupsResolved: "True"`. `False` usually means the selector matched zero security groups, or more than 16.
 . *Is there a `ResourceClaimTemplate` for the policy?* +
 `kubectl get resourceclaimtemplate -n <namespace>` +
