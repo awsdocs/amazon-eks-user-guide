@@ -25,6 +25,8 @@ Before working with Argo CD, you need:
 
 The following topics guide you through common Argo CD tasks:
 
+*<<argocd-cli-configuration>>* - Install and configure the Argo CD CLI for use with the managed capability.
+
 *<<argocd-configure-repositories>>* - Configure Argo CD to access your Git repositories using {aws} Secrets Manager, {aws} CodeConnections, or Kubernetes Secrets.
 
 *<<argocd-register-clusters>>* - Register target clusters where Argo CD will deploy applications.
@@ -262,6 +264,8 @@ For detailed information about Argo CD features:
 * https://argo-cd.readthedocs.io/en/stable/user-guide/application-specification/[Application Spec^] - Full Application API reference
 * https://argo-cd.readthedocs.io/en/stable/user-guide/application-set/[ApplicationSet Guide^] - ApplicationSet patterns and examples
 * https://github.com/argoproj/argo-cd[Argo CD GitHub^] - Source code and examples
+
+include::argocd-cli-configuration.adoc[leveloffset=+1]
 
 include::argocd-configure-repositories.adoc[leveloffset=+1]
 

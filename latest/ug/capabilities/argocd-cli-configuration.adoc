@@ -1,0 +1,86 @@
+include::../attributes.txt[]
+
+[.topic]
+[#argocd-cli-configuration]
+= Using the Argo CD CLI with the managed capability
+:info_titleabbrev: Argo CD CLI
+
+[abstract]
+--
+Configure and use the Argo CD command line interface (CLI) with the Amazon EKS managed Argo CD capability.
+--
+
+The Argo CD command line interface (CLI) works the same with the managed capability as it does with upstream Argo CD for most operations, but authentication and cluster registration differ.
+
+== Prerequisites
+
+Install the Argo CD CLI following the https://argo-cd.readthedocs.io/en/stable/cli_installation/[upstream installation instructions^] on the Argo CD website.
+
+== Configuration
+
+Configure the CLI using environment variables:
+
+. Get the Argo CD server URL from the Amazon EKS console (under your cluster's *Capabilities* page), or using the {aws} CLI.
+The `https://` prefix must be removed:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+export ARGOCD_SERVER=$(aws eks describe-capability \
+  --cluster-name [.replaceable]`my-cluster` \
+  --capability-name [.replaceable]`my-argocd` \
+  --query 'capability.configuration.argoCd.serverUrl' \
+  --output text \
+  --region [.replaceable]`region-code` | sed 's|^https://||')
+----
+
+. Generate an account token from the Argo CD UI (*Settings* → *Accounts* → *admin* → *Generate New Token*), then set it as an environment variable:
++
+[source,bash]
+----
+export ARGOCD_AUTH_TOKEN="your-token-here"
+----
++
+[IMPORTANT]
+====
+This configuration uses the admin account token for initial setup and development workflows.
+For production use cases, use project-scoped roles and tokens to follow the principle of least privilege.
+For more information about configuring project roles and RBAC, see <<argocd-permissions>>.
+====
+
+. Set the required gRPC option:
++
+[source,bash]
+----
+export ARGOCD_OPTS="--grpc-web"
+----
+
+With these environment variables set, you can use the Argo CD CLI without the `argocd login` command.
+
+== Key differences
+
+The managed capability has the following CLI limitations:
+
+* `argocd admin` commands are not supported (they require direct pod access)
+* `argocd login` is not supported (use account or project tokens instead)
+* `argocd cluster add` requires the `--aws-cluster-name` flag with the EKS cluster ARN
+
+== Example: Register a cluster
+
+Register an EKS cluster for application deployment:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+# Get the cluster ARN
+CLUSTER_ARN=$(aws eks describe-cluster \
+  --name [.replaceable]`my-cluster` \
+  --query 'cluster.arn' \
+  --output text)
+
+# Register the cluster
+argocd cluster add $CLUSTER_ARN \
+  --aws-cluster-name $CLUSTER_ARN \
+  --name in-cluster \
+  --project default
+----
+
+For more information about the Argo CD CLI, see the https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd/[Argo CD CLI reference^] on the Argo CD website.
