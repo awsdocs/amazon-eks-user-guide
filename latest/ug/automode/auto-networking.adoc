@@ -36,7 +36,7 @@ Learn how to <<create-node-class,Create an Amazon EKS NodeClass>>.
 EKS Auto Mode supports:
 
 * EKS Network Policies.
-* Security groups for individual Pods, through the `SecurityGroupPolicy` resource. For more information, see <<auto-sgp>>.
+* Security groups for individual Pods, through the `SecurityGroupPolicy` resource, on clusters running Kubernetes version 1.36 or later. For more information, see <<auto-sgp>>.
 * The `HostPort` and `HostNetwork` options for Kubernetes Pods.
 * Nodes and Pods in public or private subnets.
 * Caching DNS queries on the node.
