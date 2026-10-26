@@ -5,25 +5,25 @@ include::../attributes.txt[]
 = Configure the Kubernetes Gateway API in EKS Auto Mode
 :info_titleabbrev: Gateway API
 
-EKS Auto Mode supports the Kubernetes Gateway API for configuring load balancing. The Gateway API is the next-generation Kubernetes standard for managing traffic routing into and within your cluster. It provides a role-oriented, expressive, and portable model that addresses limitations of the older Ingress API, with native support for L4 (TCP/UDP/TLS) and L7 (HTTP/gRPC) routing, cross-namespace routing, weighted traffic splitting, and header-based routing.
+Amazon Elastic Kubernetes Service (Amazon EKS) Auto Mode supports the Kubernetes Gateway API for configuring load balancing. The Gateway API is the next-generation Kubernetes standard for managing traffic routing into and within your cluster. It provides a role-oriented, expressive, and portable model that addresses limitations of the older Ingress API. It natively supports L4 (TCP/UDP/TLS) and L7 (HTTP/gRPC) routing, cross-namespace routing, weighted traffic splitting, and header-based routing.
 
-When you use the Gateway API in EKS Auto Mode, you define your routing intent using standard Gateway API resources, and EKS Auto Mode provisions and manages the underlying {aws} load balancers automatically. There is no separate controller to install or operate. EKS Auto Mode maps your Gateway API resources to {aws} load balancers: L7 routes are served by an Application Load Balancer (ALB), and L4 routes are served by a Network Load Balancer (NLB).
+When you use the Gateway API in EKS Auto Mode, you define your routing intent using standard Gateway API resources. EKS Auto Mode then provisions and manages the underlying {aws} load balancers automatically, with no separate controller to install or operate. An Application Load Balancer (ALB) serves L7 routes, and a Network Load Balancer (NLB) serves L4 routes.
 
-EKS Auto Mode supports the standard Gateway API route types `HTTPRoute`, `GRPCRoute`, `TCPRoute`, and `UDPRoute`. Not every field in the Gateway API specification maps to an {aws} load balancer capability. For the specific fields and features supported by each load balancer type, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v3.5/guide/gateway/l7gateway/#feature-comparison-alb-gateways-vs-standard-gateway-api[Gateway API feature comparison] in the {aws} Load Balancer Controller documentation.
+EKS Auto Mode supports the standard Gateway API route types `HTTPRoute`, `GRPCRoute`, `TCPRoute`, and `UDPRoute`. Not every field in the Gateway API specification maps to an {aws} load balancer capability. For more information about the specific fields and features supported by each load balancer type, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller/v3.5/guide/gateway/l7gateway/#feature-comparison-alb-gateways-vs-standard-gateway-api[Feature comparison: ALB Gateways vs. standard Gateway API] on the Kubernetes SIGs GitHub website.
 
 == How the Gateway API works in EKS Auto Mode
 
 The Gateway API uses a role-oriented resource model with three core resource types:
 
-* *GatewayClass* defines a template for creating Gateways, including which controller manages them and what type of load balancer to provision. This is typically managed by platform teams.
-* *Gateway* instantiates a load balancer and defines its listeners (protocol and port combinations), hostnames, and TLS settings. This is typically managed by cluster operators.
-* *Routes* (`HTTPRoute`, `GRPCRoute`, `TCPRoute`, `UDPRoute`) define the rules that map listeners to backend Kubernetes Services. These are typically managed by application developers.
+* *GatewayClass* defines a template for creating Gateways, including which controller manages them and what type of load balancer to provision. Platform teams typically manage this.
+* *Gateway* instantiates a load balancer and defines its listeners (protocol and port combinations), hostnames, and TLS settings. Cluster operators typically manage this.
+* *Routes* (`HTTPRoute`, `GRPCRoute`, `TCPRoute`, `UDPRoute`) define the rules that map listeners to backend Kubernetes Services. Application developers typically manage these.
 
 To configure {aws} specific load balancer behavior, EKS Auto Mode supports the same {aws} extension resources used by the {aws} Load Balancer Controller (`gateway.k8s.aws/v1`):
 
 * *TargetGroupConfiguration* configures target group properties, including health checks, deregistration delays, and stickiness settings, at the Service level.
 * *LoadBalancerConfiguration* defines listener and load balancer properties, such as subnet placement, security groups, and access logs, at the Gateway or GatewayClass level.
-* *ListenerRuleConfiguration* extends `HTTPRoute` and `GRPCRoute` resources with {aws} specific routing behaviors, including authentication through Amazon Cognito or OIDC providers.
+* *ListenerRuleConfiguration* extends `HTTPRoute` and `GRPCRoute` resources with {aws} specific routing behaviors, including authentication through Amazon Cognito or OpenID Connect (OIDC) providers.
 
 In EKS Auto Mode:
 
@@ -40,7 +40,7 @@ In EKS Auto Mode:
 . Create a workload that you want to expose.
 . Create a `Gateway` resource that defines the listeners for your load balancer.
 . Create a route (for example, an `HTTPRoute`) that maps a listener to your workload's Service.
-. EKS Auto Mode provisions the load balancer and routes traffic to your workload.
+. EKS Auto Mode provisions the load balancer and routes traffic to your workload. This might take a few minutes to complete.
 
 [#auto-configure-gateway-api-crds]
 == Enable the Gateway API on your cluster
@@ -49,12 +49,11 @@ You enable the Gateway API on an EKS Auto Mode cluster through the `gatewayApi.c
 
 You set this field with the {aws} CLI, the Amazon EKS API, or the Amazon EKS console. There are two options:
 
-* *Managed* (`gatewayApi.crds.managed: true`). {aws} installs and manages the lifecycle of the Gateway API CRDs on your behalf, at Gateway API v1. Choose this when you want {aws} to keep the CRDs up to date automatically. If your cluster already has Gateway API CRDs, they must be at v1. If they are at an earlier version, the operation is rejected and no change is made. This prevents {aws} from altering CRDs that another component depends on. In that case, move your CRDs to v1 first, and then choose *Managed*.
-* *Unmanaged* (`gatewayApi.crds.managed: false`). You keep ownership of the Gateway API CRDs and install and upgrade them yourself. {aws} coexists with any other Gateway API controllers on your cluster, so your existing setup is not disturbed. Choose this if you already run the Gateway API on your cluster, or if another controller manages the CRDs. It is also the path for moving to {aws} management gradually, because you can migrate when you are ready.
+* *Managed* (`gatewayApi.crds.managed: true`). {aws} installs and manages the lifecycle of the Gateway API CRDs on your behalf, at Gateway API v1. Choose this when you want {aws} to keep the CRDs up to date automatically. If your cluster already has Gateway API CRDs, they must be at v1. If they are at an earlier version, the operation is rejected and no change is made. This prevents {aws} from altering CRDs that another component depends on. In that case, move your CRDs to v1 first, and then choose *Managed*.* *Unmanaged* (`gatewayApi.crds.managed: false`). You keep ownership of the Gateway API CRDs and install and upgrade them yourself. {aws} coexists with any other Gateway API controllers on your cluster, so your existing setup is not disturbed. Choose this if you already run the Gateway API on your cluster, or if another controller manages the CRDs. It is also the path for moving to {aws} management gradually, because you can migrate when you are ready.
 
 Gateway API CRDs are cluster-wide, so only one party owns them at a time. Choosing *Managed* hands that ownership to {aws}. Choosing *Unmanaged* keeps it with you.
 
-The following shows the full network configuration payload that enables the Gateway API with {aws}-managed CRDs:
+The following JSON shows the full network configuration payload that enables the Gateway API with {aws}-managed CRDs:
 
 [source,json]
 ----
@@ -115,17 +114,18 @@ In the Amazon EKS console, choose *Managed* or *Unmanaged* to set `managed` to `
 == Prerequisites
 
 * EKS Auto Mode enabled on an Amazon EKS cluster.
-* The Gateway API enabled on your cluster. For more information, see the preceding section, <<auto-configure-gateway-api-crds>>.
+* The Gateway API enabled on your cluster. For more information, see <<auto-configure-gateway-api-crds>>.
 * Kubectl configured to connect to your cluster.
-** You can use `kubectl apply -f <filename>` to apply the sample configuration YAML files below to your cluster.
+** You can use `kubectl apply -f <filename>` to apply the following sample configuration YAML files to your cluster.
 
 [NOTE]
+.Subnet tagging requirement
 ====
 EKS Auto Mode requires subnet tags to identify public and private subnets.
 
 If you created your cluster with `eksctl`, you already have these tags.
 
-Learn how to <<tag-subnets-auto>>.
+For information about tagging subnets, see <<tag-subnets-auto>>.
 ====
 
 == Step 1: Create a GatewayClass
