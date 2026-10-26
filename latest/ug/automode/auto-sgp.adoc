@@ -68,13 +68,6 @@ spec:
     - id: sg-0123456789abcdef0
 ----
 
-Apply this configuration with:
-
-[source,bash]
-----
-kubectl apply -f my-sgp.yaml
-----
-
 [IMPORTANT]
 .Self-referencing ingress rule required for Pods under the same policy
 ====
@@ -88,6 +81,13 @@ aws ec2 authorize-security-group-ingress --group-id sg-0123456789abcdef0 \
 
 Without this rule, Pods secured by the same policy can't reach each other, because EKS Auto Mode enforces security groups on same-node Pod-to-Pod traffic as well as traffic that leaves the node.
 ====
+
+Apply this configuration with:
+
+[source,bash]
+----
+kubectl apply -f my-sgp.yaml
+----
 
 [#auto-sgp-native-dra]
 == Alternative: reference the controller-generated claim template with native DRA
