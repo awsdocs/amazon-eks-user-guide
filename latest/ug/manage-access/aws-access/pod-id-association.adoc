@@ -71,7 +71,16 @@ You can run the following command to create an example policy file that allows r
 +
 [source,json,subs="verbatim,attributes"]
 ----
-include::iam_snippet:1ac501bc-092b-4a4c-8fc9-e802ea247027[]
+{
+    "Version":"2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::my-pod-secrets-bucket/*"
+        }
+    ]
+}
 ----
 .. Create the IAM policy.
 +
