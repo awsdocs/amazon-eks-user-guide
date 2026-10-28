@@ -12,7 +12,7 @@ Learn how to manage Amazon EC2 accelerated compute for AI/ML training and infere
 
 [TIP]
 ====
-https://events.eksworkshop.com/workshops/genai/[Register] for upcoming Amazon EKS AI/ML workshops.
+https://awsworkshop.io/eks/genai?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el[Register] for upcoming Amazon EKS AI/ML workshops.
 ====
 
 This section covers how to purchase and provision EC2 accelerated compute instances for AI/ML training and inference workloads with Amazon EKS. Whether you're training large-scale models, running real-time inference, or deploying generative AI applications, using the right NVIDIA GPU or {aws} Trainium capacity is foundational for performance of your workloads.

@@ -12,7 +12,7 @@ Use command-line interfaces (CLIs) to create and validate a GPU NodePool in your
 
 [TIP]
 ====
-https://events.eksworkshop.com/workshops/genai/[Register] for upcoming Amazon EKS AI/ML workshops.
+https://awsworkshop.io/eks/genai?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el[Register] for upcoming Amazon EKS AI/ML workshops.
 ====
 
 This section walks you through creating a GPU NodePool on the EKS cluster you set up in <<ml-cluster-setup-cli>>, testing it with a sample Pod, and optionally adding reserved capacity. Choose the same path (EKS Auto Mode or self-managed Karpenter) that you used to create your cluster.

@@ -22,6 +22,7 @@ exceptions:
   - aws-controllers-k8s.github.io
   - awsdocs-neuron.readthedocs-hosted.com
   - awslabs.github.io
+  - awsworkshop.io
   - boto3.amazonaws.com
   - bottlerocket.dev
   - brew.sh

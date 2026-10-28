@@ -12,7 +12,7 @@ Set up the Amazon EKS cluster, load balancing, monitoring, and Amazon S3 storage
 
 [TIP]
 ====
-https://events.eksworkshop.com/workshops/genai/[Register] for upcoming Amazon EKS AI/ML workshops.
+https://awsworkshop.io/eks/genai?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el[Register] for upcoming Amazon EKS AI/ML workshops.
 ====
 
 This section sets up the supporting infrastructure that AI/ML training and inference workloads need on Amazon EKS. This includes the EKS cluster itself, load balancing for in-cluster endpoints, a monitoring stack, Amazon S3 storage for model weights, and the {AWS} IAM permissions that connect them.

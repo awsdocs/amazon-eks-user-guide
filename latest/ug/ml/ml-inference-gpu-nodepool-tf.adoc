@@ -12,7 +12,7 @@ Use Terraform to create and validate a GPU NodePool in your Amazon EKS cluster f
 
 [TIP]
 ====
-https://events.eksworkshop.com/workshops/genai/[Register] for upcoming Amazon EKS AI/ML workshops.
+https://awsworkshop.io/eks/genai?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el[Register] for upcoming Amazon EKS AI/ML workshops.
 ====
 
 This section walks you through creating a GPU NodePool on the EKS cluster you set up in <<ml-cluster-setup-tf>>, testing it with a sample Pod, and optionally adding reserved capacity. Run the `terraform` commands from the same `terraform/<mode>/` directory you deployed the cluster from in the previous <<cluster-setup-tf-deploy,Cluster setup>> step. Choose the same path (EKS Auto Mode or self-managed Karpenter) that you used to create your cluster.
