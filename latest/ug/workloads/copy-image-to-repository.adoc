@@ -64,11 +64,11 @@ aws ecr get-login-password --region region-code | docker login --username {aws} 
 ----
 docker pull 602401143452.dkr.ecr.region-code.amazonaws.com/cni-metrics-helper:v1.12.6
 ----
-. Tag the image that you pulled with your registry, repository, and tag. The following example assumes that you pulled the image from the manifest file and are going to push it to the Amazon ECR private repository that you created in the first step. Replace [.replaceable]`111122223333` with your account ID. Replace [.replaceable]`region-code` with the {aws} Region that you created your Amazon ECR private repository in.
+. Tag the image that you pulled with your registry, repository, and tag. The following example assumes that you pulled the image from the manifest file and are going to push it to the Amazon ECR private repository that you created in the first step. For the source image, specify the full image name that you pulled in the previous step, including the registry. Replace [.replaceable]`602401143452` and the first [.replaceable]`region-code` with the information that you provided in the previous step. Replace [.replaceable]`111122223333` with your account ID. Replace the second [.replaceable]`region-code` with the {aws} Region that you created your Amazon ECR private repository in.
 +
 [source,bash,subs="verbatim,attributes"]
 ----
-docker tag cni-metrics-helper:v1.12.6 111122223333.dkr.ecr.region-code.amazonaws.com/cni-metrics-helper:v1.12.6
+docker tag 602401143452.dkr.ecr.region-code.amazonaws.com/cni-metrics-helper:v1.12.6 111122223333.dkr.ecr.region-code.amazonaws.com/cni-metrics-helper:v1.12.6
 ----
 . Authenticate to your registry. In this example, you authenticate to the Amazon ECR private registry that you created in the first step. For more information, see link:AmazonECR/latest/userguide/Registries.html#registry_auth[Registry authentication,type="documentation"] in the Amazon Elastic Container Registry User Guide.
 +
