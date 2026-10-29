@@ -1,0 +1,31 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-ro-reference]
+= {ro-name} resource reference
+:info_titleabbrev: Resource reference
+
+[abstract]
+--
+Reference for the `ClusterResourceOptimizationPolicy` and `ResourceOptimization` Kubernetes resources and the workload annotations used by {ro-short}.
+--
+
+////
+OWNER: ramaliar (SDE)
+STATUS: Stub. MUST-HAVE. Content final by Nov 13. Stands in for "API changes" in FLC; there is no EKS API change for Preview.
+SOURCES: ERO Preview API Spec, "API Spec", "The existing ERO object", "Workload annotations", "CRD version" (chorus WNMYDWOPOOsV)
+
+GOAL (reference topic): complete field-level reference for everything a customer can read or set.
+
+MUST COVER:
+[ ] ClusterResourceOptimizationPolicy: fields, defaults, status, and conditions.
+[ ] ResourceOptimization: what it is, naming, ownership, and status. State that customers don't create it.
+[ ] Workload annotations.
+[ ] Balanced profile values.
+[ ] A full example of each kind.
+
+DECIDE: whether the inherited `objectives` and `constraints` spec fields on ResourceOptimization are documented
+or omitted as controller-set.
+////
+
+// TODO(ramaliar): Content.

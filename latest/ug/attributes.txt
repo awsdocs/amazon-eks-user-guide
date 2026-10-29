@@ -18,3 +18,7 @@
 :aws: pass:q[[.shared]``AWS``]
 :assistant: pass:q[[.shared]``ASSISTANT``]
 :aws-management-console: pass:q[[.shared]``consolelong``]
+
+// EKS Auto Mode resource optimization (Preview). Name matches the What's New post draft; change here only.
+:ro-name: EKS Auto Mode resource optimization
+:ro-short: resource optimization

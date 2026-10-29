@@ -1,0 +1,56 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-resource-optimization]
+= Rightsize workloads with {ro-short}
+:info_titleabbrev: Rightsize workloads
+
+[abstract]
+--
+Use {ro-name} to set CPU and memory requests for workloads in EKS Auto Mode clusters based on observed usage.
+--
+
+////
+OWNER: kestnera (PM), with Aravind (SME)
+STATUS: Stub. MUST-HAVE for Road to re:Invent (FLC). Content final by Nov 13.
+SOURCES: ERO Preview API Spec (chorus WNMYDWOPOOsV); ERO Product Open Decisions (chorus X1YjOohTWSFo);
+         What's New post draft (chorus WhSxiBVMVo2z) - title must match the WNP link text "Rightsize workloads with resource optimization"
+
+REQUIRED CONTENT (concept topic):
+[ ] Preview notice (use the standard preview disclaimer).
+[ ] What it does: collects CPU and memory usage, produces recommendations, and in Apply mode resizes running Pods in place.
+[ ] Requirements: EKS Auto Mode, Kubernetes 1.36 or later. No cluster update or EKS API call needed; the CRDs are installed on every Auto Mode cluster at 1.36+.
+[ ] Supported workloads: Deployments and StatefulSets. Resources: CPU and memory only (no GPU, no ephemeral storage).
+[ ] Modes: Recommend (default, changes nothing) and Apply. Changing a workload is a second, explicit decision.
+[ ] How changes are applied: in place through the Pod resize subresource. ERO never edits the Deployment or StatefulSet template, so GitOps tools (Argo CD, Flux, kro) have nothing to revert.
+[ ] New Pods (scale-out, consolidation, deploys) are sized at admission rather than starting at template size.
+[ ] Profile: Balanced only in Preview (p95 utilization ceiling of 70%; floor 0.5x declared request; ceiling 2x declared limit).
+[ ] Warm-up: about 12 hours of usage history before the first recommendation for a container.
+[ ] Preview considerations (must be documented, not discovered):
+    - No automatic rollback in Apply mode. Recovery is the opt-out annotation or Recommend mode.
+    - Disabling or opting out stops future changes only; resource values already applied stay in place.
+    - No savings figures in status or the console in Preview.
+    - System namespaces (kube-system, kube-public, kube-node-lease) are never managed.
+[ ] Regions: WNP lists 6 (us-east-1, us-east-2, us-west-2, eu-central-1, eu-west-1, ap-northeast-1), but the ALA launch lists 34
+    commercial Regions. Resolve with PMM (ramadit) before publishing; the docs must match the WNP.
+[ ] Pricing: WNP says "at no additional charge" - include only if PMM confirms the docs should state it.
+[ ] Console: no new console experience for Preview. ClusterResourceOptimizationPolicy and ResourceOptimization objects are visible read-only through the existing Kubernetes resource viewer; link <<view-kubernetes-resources>>.
+[ ] Links to each child topic.
+
+DO NOT include: "machine learning-powered" or "up to 40%" claims (not supported by Preview behavior; check with PMM).
+NAMING: "Amazon EKS Auto Mode resource optimization" on first mention, "resource optimization" after (lowercase, per WNP). Use :ro-name: / :ro-short:.
+////
+
+// TODO(kestnera): Overview content.
+
+include::auto-ro-enable.adoc[leveloffset=+1]
+
+include::auto-ro-policies.adoc[leveloffset=+1]
+
+include::auto-ro-workloads.adoc[leveloffset=+1]
+
+include::auto-ro-resize.adoc[leveloffset=+1]
+
+include::auto-ro-reference.adoc[leveloffset=+1]
+
+include::auto-ro-troubleshoot.adoc[leveloffset=+1]

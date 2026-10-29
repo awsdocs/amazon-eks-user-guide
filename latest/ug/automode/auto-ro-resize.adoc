@@ -1,0 +1,34 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-ro-resize]
+= How {ro-short} applies changes to Pods
+:info_titleabbrev: How changes are applied
+
+[abstract]
+--
+Learn how {ro-short} resizes running Pods in place, sizes new Pods at admission, and reclaims startup CPU with startup boost.
+--
+
+////
+OWNER: Tanvir (SME), reviewer kestnera
+STATUS: Stub. MUST-HAVE. First draft by Nov 6.
+SOURCES: ERO Preview API Spec, "How changes are applied" and "Startup boost and shrink on readiness" (chorus WNMYDWOPOOsV);
+         ERO Right-Sizing Pods at Admission (chorus T39mHEFUkt2S); Startup CPU Boost and Post-Readiness Shrink (chorus onLO7j0p6uyf);
+         ERO Preview Proposal: Only in-place updates (chorus 4gXQR8FwRT6t)
+
+GOAL (concept topic): a customer knows what happens to running and new Pods after switching to Apply,
+including when a resize can't happen, and can decide whether to use startup boost.
+
+MUST COVER:
+[ ] In-place resize, and why it means GitOps tools see no drift (WNP: "without editing templates or creating GitOps drift").
+[ ] What happens when a resize can't be applied, and how the customer sees it.
+[ ] How new Pods are sized.
+[ ] Startup boost: when to use it, how to turn it on, and its prerequisites.
+[ ] Short Karpenter note; the full topic is a fast-follow. Coordinate with Jigisha and Wanyi.
+
+CONFIRM BEFORE PUBLISHING:
+- Scope of the CPU floor waiver for startup-boost workloads (open in the API spec).
+////
+
+// TODO(Tanvir): Content.

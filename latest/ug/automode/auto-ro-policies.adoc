@@ -1,0 +1,36 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-ro-policies]
+= How {ro-short} policies select and combine
+:info_titleabbrev: Policy selection
+
+[abstract]
+--
+Learn which workloads a `ClusterResourceOptimizationPolicy` selects and how {ro-short} resolves settings when more than one policy selects a workload.
+--
+
+////
+OWNER: Aravind (SME), reviewer kestnera
+STATUS: Stub. MUST-HAVE. First draft by Nov 6.
+SOURCES: ERO Preview API Spec, "Selectors" and "How policies combine" (chorus WNMYDWOPOOsV); Open Decisions #25, #31
+
+GOAL (concept topic): a platform admin can predict which workloads a set of policies manages, and with which
+settings, without reading controller code.
+
+MUST COVER:
+[ ] What each selector matches. Call out that workloadSelector matches the workload object, not the Pod template
+    (likely customer mistake).
+[ ] How overlapping policies resolve, end to end, including system namespaces and the opt-out annotation.
+[ ] Where a customer sees the result for a given workload.
+[ ] At least one worked example of overlapping policies.
+
+NICE TO HAVE: tip on restricting who can create policies (for example, with a ValidatingAdmissionPolicy).
+
+CONFIRM BEFORE PUBLISHING:
+- Specificity rule. The CRD field docs (Oct 26) count the selectors that are set, so a namespace-only policy ties
+  with a workload-only policy. Decision #25 and the API spec text each say something different. Document what the
+  controller does, and update the API spec to match.
+////
+
+// TODO(Aravind): Content.

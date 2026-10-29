@@ -119,6 +119,8 @@ include::auto-workloads.adoc[leveloffset=+1]
 
 include::settings-auto.adoc[leveloffset=+1]
 
+include::auto-resource-optimization.adoc[leveloffset=+1]
+
 include::auto-reference.adoc[leveloffset=+1]
 
 include::auto-observability.adoc[leveloffset=+1]

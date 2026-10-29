@@ -1,0 +1,39 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-ro-workloads]
+= How {ro-short} works with autoscalers and workload types
+:info_titleabbrev: Autoscalers and workloads
+
+[abstract]
+--
+Learn how {ro-short} coexists with the Horizontal Pod Autoscaler and KEDA, recovers from out-of-memory events, and handles Java and multi-container workloads.
+--
+
+////
+OWNER: Zaid (SME), reviewer kestnera
+STATUS: Stub. MUST-HAVE. First draft by Nov 6.
+SOURCES: ERO Preview API Spec, "HPA coexistence" (chorus WNMYDWOPOOsV); HPA and KEDA Coexistence (chorus YwTnJdw8WfFf);
+         Open Decisions #7, #13, #16, #20, #26, #27, #29, #30, #32 and follow-ups
+
+GOAL (concept topic): a customer who already runs HPA, KEDA, VPA, Java services, or sidecars knows what
+resource optimization will and won't change for them.
+
+MUST COVER:
+[ ] HPA and KEDA: which configurations make resource optimization leave a resource alone, and what the customer sees.
+[ ] VPA: how to exclude workloads that VPA already manages.
+[ ] Out-of-memory recovery, at the level a customer needs to trust it. Resize mechanics belong in auto-ro-resize.
+[ ] Java heap floors and their Preview limits.
+[ ] Workload shapes that behave differently (missing limits or requests, BestEffort, sidecars and init containers,
+    multi-container Pods).
+[ ] Supported controllers.
+
+MESSAGING THIS TOPIC MUST BACK UP (from the WNP): keeps memory above each Java heap; raises memory after an OOM kill;
+doesn't change the CPU or memory that HPA or KEDA scales on; you can exclude VPA-managed workloads.
+
+CONFIRM BEFORE PUBLISHING:
+- VPA exclusion is manual. No automatic VPA detection found in controller code (Oct 26).
+- Pending decision #2 (hold memory decreases near the new limit) affects OOM and memory text.
+////
+
+// TODO(Zaid): Content.

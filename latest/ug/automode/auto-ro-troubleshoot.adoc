@@ -1,0 +1,37 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-ro-troubleshoot]
+= Troubleshoot {ro-name}
+:info_titleabbrev: Troubleshoot
+
+[abstract]
+--
+Find out why {ro-short} didn't manage a workload or apply a recommendation, and how to stop changes quickly.
+--
+
+////
+OWNER: ramaliar (SDE), reviewer kestnera
+STATUS: Stub. MUST-HAVE. First draft by Nov 6.
+SOURCES: ERO Preview API Spec (chorus WNMYDWOPOOsV); ERO Product Open Decisions #2, #8, #12, #26, #27 and follow-ups (chorus X1YjOohTWSFo)
+
+GOAL (troubleshooting topic): a customer gets from "it didn't do what I expected" to a cause and an action using
+kubectl output alone. For each issue: symptom, condition or reason as kubectl shows it, cause, action.
+
+LIKELY CUSTOMER QUESTIONS (starting list; add, merge, or drop as you see fit):
+- My workload isn't managed.
+- My policy isn't Ready, or some workloads didn't sync.
+- There's no recommendation yet.
+- A resize didn't happen.
+- My workload keeps running out of memory.
+- A resource is being left alone (for example, because of HPA). Expected behavior, not an error.
+- Startup boost isn't shrinking my Pods.
+
+MUST-HAVE: how to stop changes during an incident and how to revert applied values. Preview has no automatic rollback.
+
+CONFIRM BEFORE PUBLISHING:
+- Condition types and reasons (status API still under review).
+- Memory-decrease hold depends on pending decision #2; include only if adopted.
+////
+
+// TODO(ramaliar): Content.

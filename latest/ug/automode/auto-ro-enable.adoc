@@ -1,0 +1,34 @@
+include::../attributes.txt[]
+
+[.topic]
+[#auto-ro-enable]
+= Turn on and configure {ro-name}
+:info_titleabbrev: Turn on and configure
+
+[abstract]
+--
+Create a `ClusterResourceOptimizationPolicy` to turn on {ro-short}, choose which workloads it manages, and turn it off.
+--
+
+////
+OWNER: kestnera (PM)
+STATUS: Stub. MUST-HAVE. Content final by Nov 13. This kubectl how-to replaces the FLC "console how-to" must-have; there is no new console flow for Preview.
+SOURCES: ERO Preview API Spec (chorus WNMYDWOPOOsV)
+
+REQUIRED CONTENT (task topic):
+[ ] Prerequisites: Auto Mode cluster on Kubernetes 1.36+, kubectl access.
+[ ] Turn on with defaults: apply a policy named `default` with `spec: {}`.
+    Result: Recommend mode for every non-system namespace, Balanced profile.
+[ ] Confirm it took effect: `kubectl get crop` shows the Ready and Selected (count of selected workloads) columns. Do not quote a time.
+[ ] Example: recommendations everywhere except one namespace (namespaceSelector with NotIn on kubernetes.io/metadata.name).
+[ ] Example: Apply for one team's stateless workloads (namespaceSelector + workloadSelector + mode: Apply).
+[ ] Switch to Apply: change `mode` on the policy. (Decision 28: a mode-only change should not restart warm-up; confirm with engineering before stating.)
+[ ] Opt out a single workload: `optimization.eks.amazonaws.com/enabled: "false"` on the workload.
+[ ] Pause changes but keep recommendations: set `mode: Recommend`.
+[ ] Turn off: delete the policy. Deleting the last policy stops collection, recommendations, and resizes cluster-wide. Per-workload objects are garbage-collected. Applied values are not reverted; to revert, roll the workload.
+[ ] View policies and per-workload objects in the console (read-only) with the existing Kubernetes resource viewer: <<view-kubernetes-resources>>. One sentence; no console procedure.
+
+OPEN: How quickly delete / switch-to-Recommend stops in-flight resizes (API spec asks engineering to confirm).
+////
+
+// TODO(kestnera): Procedures.
