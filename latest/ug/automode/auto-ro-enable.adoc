@@ -12,7 +12,7 @@ Create a `ClusterResourceOptimizationPolicy` to turn on {ro-short}, choose which
 
 ////
 OWNER: kestnera (PM)
-STATUS: Stub. MUST-HAVE. Content final by Nov 13. This kubectl how-to replaces the FLC "console how-to" must-have; there is no new console flow for Preview.
+STATUS: Stub. MUST-HAVE. First draft by Nov 10, content final by Nov 13. This kubectl how-to replaces the FLC "console how-to" must-have; there is no new console flow for Preview.
 SOURCES: ERO Preview API Spec (chorus WNMYDWOPOOsV)
 
 REQUIRED CONTENT (task topic):

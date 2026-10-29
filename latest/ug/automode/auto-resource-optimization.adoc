@@ -12,7 +12,7 @@ Use {ro-name} to set CPU and memory requests for workloads in EKS Auto Mode clus
 
 ////
 OWNER: kestnera (PM), with ramaliar (Aravind, SME)
-STATUS: Stub. MUST-HAVE for Road to re:Invent (FLC). Content final by Nov 13.
+STATUS: Stub. MUST-HAVE for Road to re:Invent (FLC). First draft by Nov 10, content final by Nov 13.
 SOURCES: ERO Preview API Spec (chorus WNMYDWOPOOsV); ERO Product Open Decisions (chorus X1YjOohTWSFo);
          What's New post draft (chorus WhSxiBVMVo2z) - title must match the WNP link text "Rightsize workloads with resource optimization"
 
