@@ -11,7 +11,7 @@ Find out why {ro-short} didn't manage a workload or apply a recommendation, and 
 --
 
 ////
-OWNER: ramaliar (SDE), reviewer kestnera
+OWNER: ramaliar (Aravind, SDE), reviewer kestnera
 STATUS: Stub. MUST-HAVE. First draft by Nov 6.
 SOURCES: ERO Preview API Spec (chorus WNMYDWOPOOsV); ERO Product Open Decisions #2, #8, #12, #26, #27 and follow-ups (chorus X1YjOohTWSFo)
 

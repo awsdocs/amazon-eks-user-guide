@@ -11,7 +11,7 @@ Reference for the `ClusterResourceOptimizationPolicy` and `ResourceOptimization`
 --
 
 ////
-OWNER: ramaliar (SDE)
+OWNER: ramaliar (Aravind, SDE)
 STATUS: Stub. MUST-HAVE. Content final by Nov 13. Stands in for "API changes" in FLC; there is no EKS API change for Preview.
 SOURCES: ERO Preview API Spec, "API Spec", "The existing ERO object", "Workload annotations", "CRD version" (chorus WNMYDWOPOOsV)
 

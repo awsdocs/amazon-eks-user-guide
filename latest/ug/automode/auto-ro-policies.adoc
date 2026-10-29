@@ -11,7 +11,7 @@ Learn which workloads a `ClusterResourceOptimizationPolicy` selects and how {ro-
 --
 
 ////
-OWNER: Aravind (SME), reviewer kestnera
+OWNER: ramaliar (Aravind, SME), reviewer kestnera
 STATUS: Stub. MUST-HAVE. First draft by Nov 6.
 SOURCES: ERO Preview API Spec, "Selectors" and "How policies combine" (chorus WNMYDWOPOOsV); Open Decisions #25, #31
 
@@ -33,4 +33,4 @@ CONFIRM BEFORE PUBLISHING:
   controller does, and update the API spec to match.
 ////
 
-// TODO(Aravind): Content.
+// TODO(ramaliar): Content.
