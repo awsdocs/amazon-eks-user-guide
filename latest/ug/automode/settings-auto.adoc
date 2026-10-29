@@ -161,6 +161,4 @@ include::auto-configure-scheduling.adoc[leveloffset=+1]
 
 include::auto-configure-cost.adoc[leveloffset=+1]
 
-include::auto-configure-gateway-api.adoc[leveloffset=+1]
-
 include::auto-configure-lifecycle.adoc[leveloffset=+1]

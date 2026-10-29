@@ -19,6 +19,8 @@ include::auto-configure-alb.adoc[leveloffset=+1]
 
 include::auto-configure-nlb.adoc[leveloffset=+1]
 
+include::auto-configure-gateway-api.adoc[leveloffset=+1]
+
 include::auto-multi-cluster-target-groups.adoc[leveloffset=+1]
 
 include::auto-multi-cluster-target-groups-example.adoc[leveloffset=+1]
