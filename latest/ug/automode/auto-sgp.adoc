@@ -103,7 +103,7 @@ Use this approach if you want explicit, per-Pod control over which Pods get the 
 
 A Pod that references the claim template directly in its `resourceClaims` field bypasses the mutating webhook's `podSelector` or `serviceAccountSelector` matching and automatic injection. Reference exactly one `SecurityGroupPolicy` claim template per Pod. A Pod gets a single branch network interface, so referencing more than one policy's claim template in the same Pod isn't supported. When the webhook matches Pods for you, it rejects this misconfiguration automatically, as described in <<auto-sgp-one-per-pod,Considerations>>.
 
-The `SecurityGroupPolicy` itself is still required: it's what resolves and supplies the security groups backing the claim. The considerations on this page about same-node enforcement, the node-local exception list, and `maxPods` impact still apply, along with the guidance to use no more than five policies per node. They describe the branch network interface datapath itself, not the webhook matching layer in front of it.
+The `SecurityGroupPolicy` itself is still required: it's what resolves and supplies the security groups backing the claim. The considerations on this page about same-node enforcement, the node-local exception list, and `maxPods` impact still apply, along with the recommendation to use no more than five policies per node for scheduler performance. They describe the branch network interface datapath itself, not the webhook matching layer in front of it.
 
 [#auto-sgp-spec]
 == SecurityGroupPolicy specification
@@ -144,7 +144,7 @@ spec:
 
 * `podSelector` and `serviceAccountSelector` -- At least one is required. If you set both, a Pod must match both to be selected by the policy.
 * `nodeSelector` -- Optional. The only label key this field may reference is `karpenter.sh/nodepool`, which scopes the policy to Pods scheduled onto a specific NodePool. Omit this field to apply the policy to matching Pods cluster-wide, regardless of NodePool.
-* `securityGroupSelectorTerms` -- Required, at least one term, maximum 30 terms. Terms are evaluated as OR -- the resolved security group set is the union of every term's matches. Within a single term, `id`, `name`, and `tags` are mutually exclusive. A `tags` term allows a maximum of 20 key-value pairs. The resolved set across all terms can't exceed 16 security groups.
+* `securityGroupSelectorTerms` -- Required, at least one term, maximum 30 terms. Terms are evaluated as OR -- the resolved security group set is the union of every term's matches. Within a single term, `id`, `name`, and `tags` are mutually exclusive. A `tags` term allows a maximum of 20 key-value pairs. The resolved set across all terms can't exceed 16 security groups, the Amazon VPC hard limit on security groups per network interface.
 
 == Check policy status
 
