@@ -7,10 +7,10 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Walk through granting the Amazon EKS Auto Mode load balancer controller `get` on a specific Kubernetes Secret so it can resolve an OpenID Connect (OIDC) configuration on an Application Load Balancer (ALB) Ingress.
+Walk through granting the Amazon EKS Auto Mode load balancer controller `get` on a specific Kubernetes Secret so it can resolve an OIDC configuration on an ALB Ingress.
 --
 
-In this tutorial, you grant the Amazon EKS Auto Mode load balancer controller read access to a specific Kubernetes `Secret`. This unblocks OIDC authentication on an ALB `Ingress`. You use a namespace-scoped `Role` and `RoleBinding` targeted at the `eks:managed` group.
+In this tutorial, you grant the Amazon EKS Auto Mode load balancer controller read access to a specific Kubernetes `Secret`. This unblocks OpenID Connect (OIDC) authentication on an Application Load Balancer (ALB) `Ingress`. You use a namespace-scoped `Role` and `RoleBinding` targeted at the `eks:managed` group.
 
 This tutorial takes approximately 15 minutes to complete. The Kubernetes role-based access control (RBAC) objects you create do not incur {aws} charges.
 

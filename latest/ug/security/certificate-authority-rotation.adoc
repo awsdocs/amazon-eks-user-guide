@@ -50,7 +50,7 @@ The dual trust period gives you time to identify and update all the worker nodes
 
 NOTE: During the dual trust period, your cluster's trust bundle contains two CAs. This is standard behavior for .pem-encoded trust bundles. Update applications that perform strict single-CA validation or CA pinning to accept multiple CAs before rotation begins.
 
-image::images/ca-rotation-trust-bundle-phases.png["Trust bundle contents across the three CA rotation phases: one CA before, both during dual trust, successor CA after."]
+image::images/ca-rotation-trust-bundle-phases.png[Trust bundle contents across the three CA rotation phases.]
 
 It is important to understand how activation of the successor CA affects connectivity. When a client connects to the API server, it verifies the server's identity by checking that the server's certificate was signed by a CA it trusts.
 
@@ -58,11 +58,11 @@ After the successor CA is activated, the API server presents its certificate sig
 
 The following diagram shows the TLS connection flow after successor CA activation.
 
-image::images/ca-rotation-tls-connection-flow.png[TLS connection flow after activation: the connection succeeds only when the client trust bundle contains the successor CA.]
+image::images/ca-rotation-tls-connection-flow.png[TLS connection flow after successor CA activation.]
 
 This is why updating worker nodes and external clients before activation of the successor CA is important: they need the successor CA in their trust bundle to verify the API server's identity and connect. The dual trust period and CA rollback provide you time and a safety net to complete this.
 
-image::images/ca-rotation-three-stages.png["The three stages of CA rotation: Append, Distribute, and Activate."]
+image::images/ca-rotation-three-stages.png[The three stages of CA rotation.]
 
 
 == Shared responsibility model
