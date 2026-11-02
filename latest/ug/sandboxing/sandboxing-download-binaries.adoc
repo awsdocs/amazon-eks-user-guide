@@ -10,24 +10,21 @@ include::../attributes.txt[]
 Download the signed Nitro Sandbox runtime binaries and verify that what you downloaded is what {aws} published.
 --
 
-If you build your own node images instead of using the AMIs that {aws} manages, you install the Nitro Sandbox runtime binaries yourself. {aws} publishes them as a signed release for each supported architecture (`x86_64` and `aarch64`). You do not need an {aws} account to download or verify a release.
+If you build your own node images instead of using the AMIs that {aws} manages, you install the Nitro Sandbox runtime binaries yourself. {aws} publishes them as a signed release for each supported architecture (`x86_64` and `aarch64`), under the {aws} Intellectual Property License. The binaries require glibc 2.34 or later. You do not need an {aws} account to download or verify a release.
 
-This topic covers the runtime binaries release. The host-kernel patch series that you also need to build an AMI ships separately with the build materials. For the full build procedure, see <<sandboxing-ami-create-update>>.
+This topic covers the runtime binaries release. The host-kernel patch series and the guest image that you also need to build an AMI are published separately. For the full build procedure, see <<sandboxing-ami-create-update>>.
 
 [#sandboxing-release-contents]
 == What a release contains
 
-Each release is published under a versioned path. A release contains the following four files:
+For each architecture, {aws} publishes the following files:
 
 [%header,cols="2,3"]
 |===
 |File |Contents
 
 |`nitro-sandboxes-runtime.tar.gz`
-|The runtime binaries, `LICENSE`, and `ATTRIBUTION`, plus a checksum manifest covering those members. The archive extracts flat, with no directories.
-
-|`ATTRIBUTION`
-|Third-party license notices. Identical to the copy inside the archive.
+|The runtime binaries — the shim (`containerd-shim-nitro-sandbox-v2`), `eks-nitro-sandbox-genpolicy`, and `nitro-sandbox-keyprovider` — plus `LICENSE` and `ATTRIBUTION`. The archive extracts flat, with no directories.
 
 |`SHA256SUM`
 |SHA-256 hashes of the archive and of each binary. This is the file that {aws} signs.
@@ -36,27 +33,60 @@ Each release is published under a versioned path. A release contains the followi
 |The detached signature over `SHA256SUM`.
 |===
 
-Pin your image build to a specific version. Published files are never changed or removed, so a URL that works once keeps returning the same bytes.
+The download links resolve to the latest release, so you do not need to track version numbers.
 
 [#sandboxing-download-location]
 == Download a release
 
-Download the binaries from the location where {aws} hosts them: *[PLACEHOLDER: runtime binaries download link]*.
-// TODO: Replace the placeholder above with the final download domain (and signing key path) before publishing.
+Download the archive for your node architecture:
+
+* x86_64: https://d1uvmbvklg8rt.cloudfront.net/latest/x86_64/nitro-sandboxes-runtime.tar.gz[nitro-sandboxes-runtime.tar.gz]
+* aarch64: https://d1uvmbvklg8rt.cloudfront.net/latest/aarch64/nitro-sandboxes-runtime.tar.gz[nitro-sandboxes-runtime.tar.gz]
+
+Extract the archive:
+
+[source,bash,subs="verbatim,attributes"]
+----
+tar -xzf nitro-sandboxes-runtime.tar.gz
+----
+
+[NOTE]
+====
+Depending on your version of `tar`, extraction might print `implausibly old time stamp` warnings for the archive members. This is expected and does not indicate a problem: the archive uses fixed timestamps for reproducible builds, and `tar` still exits successfully.
+====
+
+To confirm that what you downloaded is what {aws} published, verify the download before you use the binaries, as described in the next section.
 
 [#sandboxing-verify-binaries]
 == Verify a release
 
-Verification establishes two things: that the files were published by {aws} (authenticity), and that the files are byte-for-byte what was published (integrity). The procedure uses `openssl` and standard shell tools (`curl`, `sha256sum`, `tar`, and `grep`), and consists of the following steps:
+{aws} signs each release so that you can confirm it is intact and came from {aws}. This step is optional but recommended. Alongside each archive, {aws} publishes a checksum manifest (`SHA256SUM`) and a detached signature over that manifest (`SHA256SUM.sig`). The signature is produced with an asymmetric {aws} KMS key (ECDSA on the NIST P-384 curve). You verify the signature with the public key.
 
-. Download the signing public key and check its fingerprint against the value in this guide. This fingerprint is the trust anchor: the key and the release come from the same host, but the fingerprint is published separately, so a matching fingerprint confirms the key is from {aws}.
-. Verify the signature over `SHA256SUM` with the public key.
-. Check the archive, and then each extracted binary, against the signed manifest.
-
-[IMPORTANT]
-.Check the key fingerprint
-====
-The key fingerprint check is the step the whole chain depends on. If the fingerprint does not match the value published in this guide, stop and do not use the download.
-====
-
-Because the manifest lists every binary individually, you can verify a single binary on its own without the archive.
+. Create the public key file. Copy the following into a text file named `nitro-sandboxes-runtime-v1.pub`:
++
+[source,text,subs="verbatim,attributes"]
+----
+-----BEGIN PUBLIC KEY-----
+MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAESqdVXO82n+Zh5+IFLh1xjmxZLkjjZWvf
+DCS927SdVYjP0AZ92XCxS+ucrs9cjuNlTaDARTHov2XVfMVgau8TEPFKGDRmVZXJ
+c25CVihKHLFK8T8hNMIL+fbGcvE2fwIO
+-----END PUBLIC KEY-----
+----
+. Download the checksum manifest and its signature for your architecture into the same directory as the archive. For x86_64, download https://d1uvmbvklg8rt.cloudfront.net/latest/x86_64/SHA256SUM[SHA256SUM] and https://d1uvmbvklg8rt.cloudfront.net/latest/x86_64/SHA256SUM.sig[SHA256SUM.sig]. For aarch64, download https://d1uvmbvklg8rt.cloudfront.net/latest/aarch64/SHA256SUM[SHA256SUM] and https://d1uvmbvklg8rt.cloudfront.net/latest/aarch64/SHA256SUM.sig[SHA256SUM.sig].
+. Verify the signature over the manifest. The digest is SHA-384 (it pairs with the P-384 key), even though the hashes listed inside the manifest are SHA-256:
++
+[source,bash,subs="verbatim,attributes"]
+----
+openssl dgst -sha384 -verify nitro-sandboxes-runtime-v1.pub \
+  -signature SHA256SUM.sig SHA256SUM
+----
++
+The command prints `Verified OK` on success. Any other output means the manifest or signature is not what {aws} published; do not use the download.
+. Verify the downloaded archive and the extracted binaries against the signed manifest:
++
+[source,bash,subs="verbatim,attributes"]
+----
+sha256sum -c SHA256SUM
+----
++
+The `SHA256SUM` manifest covers the archive and each binary in it, so `sha256sum` prints one `OK` line per file. Any `FAILED` line means that file does not match what {aws} published; do not use the download.

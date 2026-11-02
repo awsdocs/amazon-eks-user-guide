@@ -10,73 +10,169 @@ include::../attributes.txt[]
 Build a custom AMI from the Nitro Sandbox binaries that {aws} publishes as a signed release, or use a supported AMI, and update it when {aws} publishes a new release.
 --
 
-EKS Auto Mode includes Nitro Sandbox support with no additional configuration. If you run managed node groups or self-managed nodes outside of Auto Mode, you need a compatible AMI. You have two options:
-
-* *Use a supported AMI.* Nitro Sandbox supports Amazon Linux.
-* *Build your own AMI* from the Nitro Sandbox binaries that {aws} publishes as a signed release.
-
-The release delivers the runtime binaries and a host-kernel patch series. Each sandbox node runs two kernels: a *host kernel* and a pre-compiled *guest kernel* that boots inside every sandbox pod's microVM. On Amazon Linux, the host kernel already includes the required patches, so you do not apply the patch series or take any kernel action. On operating systems other than Amazon Linux, you build the host kernel from the patch series. You never build or modify the guest kernel. For how to download and verify the runtime binaries, see <<sandboxing-download-binaries>>.
+EKS Auto Mode includes Nitro Sandbox support with no additional configuration. If you run managed node groups or self-managed nodes outside of Auto Mode, you build a custom AMI that contains the components in this topic, then join nodes built from that AMI to your cluster.
 
 [NOTE]
 .Before you begin
 ====
-Before you start, confirm you have an EKS cluster, a build instance with Nitro Enclaves enabled and Secure Boot disabled, and permissions to create AMIs, launch templates, and managed node groups. Each release ships OS-specific build guides and helper scripts for the supported operating systems.
+Confirm you have an Amazon EKS cluster, a build instance whose instance type supports Nitro Enclaves (with Nitro Enclaves enabled), and permissions to create AMIs, launch templates, and node groups.
 ====
 
-[#sandboxing-ami-build]
-== Build a custom AMI
+[#sandboxing-ami-components]
+== Components a sandbox node needs
 
-The build follows these steps. On Amazon Linux, skip Step 2: the host kernel already includes the required patches, so no kernel action is needed. OS-specific differences are called out in the build guide included with the release.
+A node that runs isolated and confidential pods needs the following components in its AMI. The rest of this topic covers where each one comes from and how to assemble them.
 
-[%header,cols="1,2,3"]
+[%header,cols="2,3"]
 |===
-|Step |Command |What it does
+|Component |Source
 
-|1
-|`scripts/verify-archives.sh`
-|Unpack the runtime binaries archive and the host-kernel patch series archive, and validate every shipped checksum.
+|A host kernel with Nitro Sandbox support
+|Built in to Amazon Linux 2023 on kernel 6.18 or later. On other operating systems, build a kernel with the Amazon Linux sandbox patch applied. See <<sandboxing-ami-kernel>>.
 
-|2
-|`scripts/build-kernel-<os>.sh <patch-dir>`
-|On operating systems other than Amazon Linux, build the host kernel with the patch series, install it, and reboot into it. Amazon Linux already includes these patches, so you skip this step.
+|The Nitro Sandbox runtime (the shim and the agent) and `eks-nitro-sandbox-genpolicy`
+|The signed Nitro Sandboxes runtime release that {aws} publishes. See <<sandboxing-download-binaries>>.
 
-|3
-|`scripts/install-runtime.sh <bundle-dir>`
-|Install the runtime binaries, stage the guest image, and write the shim config.
+|The guest image (an Enclave Image File, or EIF)
+|An Amazon S3 location that {aws} publishes. See <<sandboxing-ami-guest-image>>.
 
-|4
-|By hand (per the OS guide)
-|Wire the containerd runtime handlers and the kubelet endpoint, then bake the AMI and join the cluster.
+|Firecracker and jailer
+|The open source https://github.com/firecracker-microvm/firecracker[Firecracker] project on GitHub, version 1.14 or later. `jailer` ships with Firecracker.
+
+|`containerd`
+|Your operating system's package, version 2.0 or later, configured with `discard_unpacked_layers = false`.
+
+|The `isolated-sandbox` and `confidential-sandbox` `RuntimeClass` objects
+|Applied to the cluster once, not baked into the AMI. See <<sandboxing-ami-runtimeclass>>.
 |===
 
-After building, apply the `isolated-sandbox` and `confidential-sandbox` `RuntimeClass` objects once per cluster, each with a scheduling `nodeSelector` that matches the node labels set at join time. Pods that set `runtimeClassName: isolated-sandbox` or `runtimeClassName: confidential-sandbox` then schedule onto those nodes. For the full procedure, see the build guide in the bundle.
+[#sandboxing-ami-kernel]
+== Host kernel
+
+Each sandbox node runs two kernels: a *host kernel* on the parent instance, and a pre-compiled *guest kernel* that boots inside every sandbox pod's microVM. You never build or modify the guest kernel; it ships inside the guest image.
+
+The host kernel must include the patches that let the parent instance talk to the Nitro Sandbox drivers. How you get them depends on your operating system.
+
+*Amazon Linux 2023* already includes the patches in its kernel 6.18 or later (for example, the `kernel-6.18.56-125.164` package). Build your AMI on top of a prebuilt Amazon Linux 2023 AMI and use that kernel RPM. You do not apply any patch or build a kernel. For the kernel version included in each release, see the Amazon Linux 2023 release notes.
+
+*Other operating systems* build a kernel from a vanilla kernel source tree with the Amazon Linux sandbox patch applied. The patch is published at https://github.com/amazonlinux/linux/commit/4ae89f6e09f949848123407602b4e5a8bb8d8631.patch. The following example builds and installs a patched 6.18 kernel:
+
+[source,bash,subs="verbatim,attributes"]
+----
+# 1. Download the vanilla kernel source.
+curl -LO https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.56.tar.xz
+tar xf linux-6.18.56.tar.xz && cd linux-6.18.56
+
+# 2. Apply the Nitro Sandbox patch.
+curl -L https://github.com/amazonlinux/linux/commit/4ae89f6e09f949848123407602b4e5a8bb8d8631.patch | patch -p1
+
+# 3. Start from your distribution's config, then enable the required options.
+scripts/config -e VIRT_DRIVERS -e NITRO_ENCLAVES --set-val CMA_AREAS 20 \
+  -m VSOCKETS -m VIRTIO_VSOCKETS -m VHOST_VSOCK
+make olddefconfig
+
+# 4. Build and install.
+make -j"$(nproc)"
+sudo make modules_install install
+
+# 5. Reserve the sandbox memory pool and reboot.
+sudo grubby --update-kernel=ALL --args="nitro_enclaves.mempool=95%-1G"
+sudo reboot
+----
+
+[IMPORTANT]
+.Kernel configuration requirements
+====
+* `NITRO_ENCLAVES` must be built in (`=y`), not a module.
+* `VIRT_DRIVERS` must be enabled. It is off in the x86_64 default config, and without it `make olddefconfig` silently drops `NITRO_ENCLAVES`.
+* The Nitro Sandbox memory pool must be reserved at boot with the `nitro_enclaves.mempool` kernel parameter (for example, `95%-1G`). The sandbox fails to start if the pool is not reserved.
+* Kernel 6.18 requires a recent compiler (for example, GCC 11 or later).
+====
+
+[#sandboxing-ami-guest-image]
+== Guest image (EIF)
+
+The guest image is an Enclave Image File (EIF) that contains the guest kernel and the Nitro Sandbox agent. {aws} publishes it for each supported architecture. Download the EIF for your node architecture and stage it on the AMI at the path the shim configuration references:
+
+* *[PLACEHOLDER: Amazon S3 location of the guest image EIF]*
+// TODO: Replace the placeholder above with the published S3 location of the guest image EIF before publishing.
+
+The agent inside the EIF is built reproducibly, so you can rebuild it from source and confirm it matches the published image before you trust it. For more information, see <<sandboxing-security-model>>.
+
+[#sandboxing-ami-runtime]
+== Nitro Sandbox runtime and Firecracker
+
+. Download and verify the signed Nitro Sandboxes runtime release, and place the shim (`containerd-shim-nitro-sandbox-v2`) and `eks-nitro-sandbox-genpolicy` on the node. For the download and verification steps, see <<sandboxing-download-binaries>>.
+. Install Firecracker and `jailer` 1.14 or later from the https://github.com/firecracker-microvm/firecracker[Firecracker] project, and place both on the node's `PATH`.
+. Install `containerd` 2.0 or later and set `discard_unpacked_layers = false` so that compressed image layers remain available for the shim to load into the sandbox.
+. Write the shim configuration to `/etc/containerd/nitro-sandbox.toml`, pointing `kernel_path` at the staged guest image:
++
+[source,toml,subs="verbatim,attributes"]
+----
+kernel_path = "/usr/share/nitro-sandbox/vmlinuz"
+kubeconfig_path = "/var/lib/kubelet/kubeconfig"
+----
+. Register the `containerd` runtime handlers for `isolated-sandbox` and `confidential-sandbox`, then bake the AMI.
+
+[#sandboxing-ami-runtimeclass]
+== Install the RuntimeClass objects
+
+Apply the two `RuntimeClass` objects to the cluster once. They are not part of the AMI. Each one sets a `handler` that matches its name, the per-pod memory and sandbox-slot overhead, and a `nodeSelector` that schedules sandbox pods onto your sandbox-capable nodes:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: node.k8s.io/v1
+kind: RuntimeClass
+metadata:
+  name: isolated-sandbox
+handler: isolated-sandbox
+overhead:
+  podFixed:
+    memory: 256Mi
+    eks.amazonaws.com/nitro-sandbox: "1"
+scheduling:
+  nodeSelector:
+    eks.amazonaws.com/nitro-sandbox: "true"
+---
+apiVersion: node.k8s.io/v1
+kind: RuntimeClass
+metadata:
+  name: confidential-sandbox
+handler: confidential-sandbox
+overhead:
+  podFixed:
+    memory: 256Mi
+    eks.amazonaws.com/nitro-sandbox: "1"
+scheduling:
+  nodeSelector:
+    eks.amazonaws.com/nitro-sandbox: "true"
+----
+
+Label your sandbox-capable nodes with `eks.amazonaws.com/nitro-sandbox=true` (for example, in the node group's `--node-labels`) so the `nodeSelector` matches. Pods that set `runtimeClassName: isolated-sandbox` or `runtimeClassName: confidential-sandbox` then schedule onto those nodes.
 
 [#sandboxing-ami-update]
 == Update an AMI
 
-When {aws} publishes a new release, rebuild your AMI. Each release is versioned, and a newer version replaces the previous one. The release notes list which components changed and whether a kernel rebuild is required.
+When {aws} publishes a new release, rebuild your AMI. Each release is versioned, and a newer version replaces the previous one. The release notes list which components changed and whether a host-kernel rebuild is required.
 
-[%header,cols="2,3,2,1"]
+[%header,cols="2,3,1"]
 |===
-|Category |What changed |Steps to repeat |Reboot
+|Category |What to repeat |Reboot
 
 |Runtime update
-|New binaries or guest image, same kernel patches
-|Steps 1 and 3
+|Re-download the runtime release and the guest image, and replace the shim, `eks-nitro-sandbox-genpolicy`, and the EIF on the node.
 |No
 
 |Kernel update
-|New or updated patch series
-|Steps 1, 2, and 3
+|Rebuild the host kernel from the new patch series (operating systems other than Amazon Linux), or update to the Amazon Linux kernel that includes the change.
 |Yes
 
-|Full bundle update
-|Both kernel patches and runtime
-|All four steps
+|Full update
+|Both the kernel and the runtime and guest image.
 |Yes
 |===
 
-Launch a fresh build instance from your current sandbox AMI so the update applies only the changed components, then repeat the steps for the update category and bake a new AMI. Update your launch template to the new AMI and roll out the managed node group one node at a time.
+Bake a new AMI with the updated components, update your launch template to the new AMI, and roll out the node group one node at a time.
 
 [IMPORTANT]
 .Update Cedar policies when the guest image changes
