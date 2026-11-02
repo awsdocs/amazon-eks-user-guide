@@ -16,4 +16,5 @@
 // Entities that differ depending on the AWS Region build such as China
 :arn-aws: pass:q[[.shared]``region.arn``]
 :aws: pass:q[[.shared]``AWS``]
+:assistant: pass:q[[.shared]``ASSISTANT``]
 :aws-management-console: pass:q[[.shared]``consolelong``]
