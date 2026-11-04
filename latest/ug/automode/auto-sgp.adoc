@@ -144,7 +144,16 @@ spec:
 
 * `podSelector` and `serviceAccountSelector` -- At least one is required. If you set both, a Pod must match both to be selected by the policy.
 * `nodeSelector` -- Optional. The only label key this field may reference is `karpenter.sh/nodepool`, which scopes the policy to Pods scheduled onto a specific NodePool. Omit this field to apply the policy to matching Pods cluster-wide, regardless of NodePool.
-* `securityGroupSelectorTerms` -- Required, at least one term, maximum 30 terms. Terms are evaluated as OR -- the resolved security group set is the union of every term's matches. Within a single term, `id`, `name`, and `tags` are mutually exclusive. A `tags` term allows a maximum of 20 key-value pairs. The resolved set across all terms can't exceed 16 security groups, the Amazon VPC hard limit on security groups per network interface.
+* `securityGroupSelectorTerms` -- Required, at least one term, maximum 30 terms. Terms are evaluated as OR -- the resolved security group set is the union of every term's matches. Within a single term, `id`, `name`, and `tags` are mutually exclusive. A `tags` term allows a maximum of 20 key-value pairs. The resolved set across all terms can't exceed your account's Amazon VPC *Security groups per network interface* quota, which defaults to *5* and can be raised to a maximum of *16*.
++
+[IMPORTANT]
+====
+The default maximum is *5* security groups, not 16. 16 is only the ceiling you can raise the quota to. Request an increase before you rely on more than five.
+
+Resolving more groups than your account's quota allows fails differently from exceeding 16. More than 16 is rejected when the policy resolves, so the policy reports `SecurityGroupsResolved: False` with reason `sg_quota_exceeded`. More than your account's quota but no more than 16 resolves successfully, so the policy reports `SecurityGroupsResolved: True` and the failure appears later, as an `ENICreationFailed` event on a matched Pod's resource claim when Amazon EC2 rejects the branch network interface.
+
+Raising this quota interacts with one other quota: *Security groups per network interface* multiplied by *Inbound or outbound rules per security group* can't exceed 1,000. At 16 security groups you can keep the default of 60 rules per group, because 960 is under the cap, but you can't raise rules per group much above 62. Plan for both if you need many groups and many rules. For more information, see link:vpc/latest/userguide/amazon-vpc-limits.html[Amazon VPC quotas,type="documentation"].
+====
 
 == Check policy status
 
@@ -156,9 +165,13 @@ kubectl get securitygrouppolicies.eks.amazonaws.com <name> -n <namespace> -o yam
 ----
 
 * `status.securityGroups` -- The security group IDs the selector terms resolved to. These are the groups a matched Pod's branch network interface carries.
-* `status.conditions[]` with `type: SecurityGroupsResolved` -- `True` once the selector terms resolved successfully. `False` means the terms matched zero security groups, or more than the 16 allowed; the condition's `reason` and `message` say which.
+* `status.conditions[]` with `type: SecurityGroupsResolved` -- `True` once the selector terms resolved successfully. When it's `False`, the condition's `reason` names the failure class:
+** `no_sgs_matched` -- Every lookup succeeded but no security group matched the terms.
+** `sg_quota_exceeded` -- The terms resolved to more than 16 security groups. This reason always means more than 16, never that your account's *Security groups per network interface* quota is lower than the resolved count.
+** `invalid_spec` -- The policy spec itself is rejected.
+** `resolution_error` -- An Amazon EC2 call failed while resolving the terms. This is the one reason that indicates a service-side problem rather than something to fix in your policy.
 
-A policy with `SecurityGroupsResolved: False` doesn't secure Pods. Matched Pods stay pending rather than being admitted with the node's security groups.
+A policy with `SecurityGroupsResolved: False` doesn't secure Pods. Matched Pods stay pending rather than being admitted with the node's security groups. A `sg_quota_exceeded` reason also records a `SecurityGroupQuotaExceeded` warning event on the policy; the other reasons record `SecurityGroupResolutionFailed`.
 
 == Considerations
 
@@ -185,7 +198,7 @@ If a Pod matched by a `SecurityGroupPolicy` doesn't get its own security groups,
 An empty result means the Pod's labels didn't match any `SecurityGroupPolicy` in its namespace, or the admission webhook didn't fire.
 . *Did the policy resolve its security groups?* +
 `kubectl get securitygrouppolicies.eks.amazonaws.com <name> -n <namespace> -o jsonpath='{.status}'` +
-Check for `SecurityGroupsResolved: "True"`. `False` usually means the selector matched zero security groups, or more than 16.
+Check for `SecurityGroupsResolved: "True"`. `False` usually means the selector matched zero security groups (reason `no_sgs_matched`) or resolved more than 16 (reason `sg_quota_exceeded`). If this reports `True` but Pods still don't get interfaces, check your account's *Security groups per network interface* quota, which defaults to 5: resolving more groups than the quota allows leaves the condition `True` and surfaces as an `ENICreationFailed` event instead.
 . *Is there a `ResourceClaimTemplate` for the policy?* +
 `kubectl get resourceclaimtemplate -n <namespace>` +
 If missing, the policy hasn't been reconciled yet. Re-apply it to trigger reconciliation.
