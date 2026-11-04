@@ -51,6 +51,36 @@ Three mechanisms assign security groups to EKS workloads. Two of them use the sa
 |Amazon VPC CNI, on clusters that aren't EKS Auto Mode. Different security groups per Pod. Its spec isn't compatible with the `eks.amazonaws.com/v1` resource. For more information, see <<security-groups-for-pods>>.
 |===
 
+[#auto-sgp-migrate-from-vpc-cni]
+== Migrate from the Amazon VPC CNI SecurityGroupPolicy
+
+Both resources can exist in the same cluster. Which one applies depends on the API group you used and the node the Pod lands on: `vpcresources.k8s.aws/v1beta1` policies apply to Pods on non-Auto-Mode nodes, such as a managed node group, and `eks.amazonaws.com/v1` policies apply to Pods on EKS Auto Mode nodes. Neither enforces the other's policies, so a Pod that can be scheduled onto either kind of node needs a policy in both API groups to be secured on both.
+
+The field mapping is direct. `podSelector` and `serviceAccountSelector` carry over unchanged. Replace `spec.securityGroups.groupIds` with one `securityGroupSelectorTerms` entry per group:
+
+[source,yaml,subs="verbatim,attributes"]
+----
+# vpcresources.k8s.aws/v1beta1
+spec:
+  securityGroups:
+    groupIds:
+      - sg-0123456789abcdef0
+      - sg-0123456789abcdef1
+
+# eks.amazonaws.com/v1
+spec:
+  securityGroupSelectorTerms:
+    - id: sg-0123456789abcdef0
+    - id: sg-0123456789abcdef1
+----
+
+Before you migrate, check your policies against the scope and limits of the new API, which differ from v1beta1:
+
+* *At most one policy can match a Pod.* v1beta1 allows a Pod to match several policies and merges the result. Overlapping selectors must be made disjoint first, or EKS Auto Mode rejects the Pod. For more information, see <<auto-sgp-one-per-pod,Considerations>>.
+* *Security group counts differ.* v1beta1 caps `groupIds` at 5 per policy. The new API resolves up to 16, but your account's *Security groups per network interface* quota still applies, and it defaults to 5.
+* *Selector terms resolve dynamically.* `name` and `tags` terms re-resolve as security groups change, so a policy's effective groups can change without the policy being edited. Direct `id` terms behave like v1beta1.
+* *Each policy consumes node capacity.* Branch network interfaces lower a node's effective `maxPods`, and more than five distinct policies on one node risks scheduling latency. See the considerations that follow.
+
 == Create a SecurityGroupPolicy
 
 [source,yaml]
