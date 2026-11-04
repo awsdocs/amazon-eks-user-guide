@@ -144,7 +144,7 @@ spec:
 
 * `podSelector` and `serviceAccountSelector` -- At least one is required. If you set both, a Pod must match both to be selected by the policy.
 * `nodeSelector` -- Optional. The only label key this field may reference is `karpenter.sh/nodepool`, which scopes the policy to Pods scheduled onto a specific NodePool. Omit this field to apply the policy to matching Pods cluster-wide, regardless of NodePool.
-* `securityGroupSelectorTerms` -- Required, at least one term, maximum 30 terms. Terms are evaluated as OR -- the resolved security group set is the union of every term's matches. Within a single term, `id`, `name`, and `tags` are mutually exclusive. A `tags` term allows a maximum of 20 key-value pairs. The resolved set across all terms can't exceed your account's Amazon VPC *Security groups per network interface* quota, which defaults to *5* and can be raised to a maximum of *16*.
+* `securityGroupSelectorTerms` -- Required, at least one term, maximum 30 terms. Terms are evaluated as OR -- the resolved security group set is the union of every term's matches. Within a single term, `id`, `name`, and `tags` are mutually exclusive. A `tags` term allows a maximum of 20 key-value pairs. The resolved set across all terms can't exceed *16* security groups, the ceiling enforced when the policy resolves. Separately, your account's Amazon VPC *Security groups per network interface* quota, which defaults to *5*, governs how many a Pod's branch network interface can actually carry.
 +
 [IMPORTANT]
 .Security groups per network interface defaults to 5
@@ -171,7 +171,6 @@ kubectl get securitygrouppolicies.eks.amazonaws.com <name> -n <namespace> -o yam
 ** `sg_quota_exceeded` -- More than 16 security groups resolved. Always means more than 16, never that your account quota is lower than the resolved count.
 ** `invalid_spec` -- The policy spec itself is rejected.
 ** `resolution_error` -- An Amazon EC2 call failed while resolving the terms: a service-side problem, not something to fix in your policy.
-** `sg_isolated` -- The terms resolved, but interface creation kept failing because a resolved security group doesn't exist or is in another VPC. EKS Auto Mode stops retrying it and records a `SecurityGroupIsolated` event; correcting the security group clears it.
 
 A policy with `SecurityGroupsResolved: False` doesn't secure Pods. Matched Pods stay pending rather than being admitted with the node's security groups. A `sg_quota_exceeded` reason also records a `SecurityGroupQuotaExceeded` warning event on the policy; the other reasons record `SecurityGroupResolutionFailed`.
 
@@ -204,4 +203,4 @@ Check for `SecurityGroupsResolved: "True"`. `False` usually means zero security 
 . *Is there a `ResourceClaimTemplate` for the policy?* +
 `kubectl get resourceclaimtemplate -n <namespace>` +
 If missing, the policy hasn't been reconciled yet. Re-apply it to trigger reconciliation.
-. *Check for a `Warning` event on the Pod's resource claim.* An `ENICreationFailed` event names the underlying EC2 error, most often an IAM permissions issue (see the `ec2:CreateNetworkInterfacePermission` consideration described earlier in this topic) or a security group that doesn't exist in the cluster's VPC.
+. *Check for a `Warning` event on the Pod's resource claim.* An `ENICreationFailed` event names the underlying EC2 error, most often an IAM permissions issue (see the `ec2:CreateNetworkInterfacePermission` consideration described earlier in this topic) or a security group that doesn't exist in the cluster's VPC. If that keeps failing, EKS Auto Mode stops retrying the security group set and records a `SecurityGroupIsolated` event instead; correcting the security group clears it.
