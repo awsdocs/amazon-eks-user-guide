@@ -29,6 +29,11 @@ include::sandboxing-reference.adoc[leveloffset=+1]
 [#sandboxing-how-it-works]
 == How it works
 
+The following diagram shows the components that run on the parent instance and inside the Nitro Sandbox, and how they communicate.
+
+.Nitro Sandbox components on the parent instance and inside the sandbox
+image::images/sandboxing-how-it-works.png[Diagram of a Nitro Sandbox. On the parent EC2 instance, kubelet calls containerd, which calls the sandbox-shim, which drives a Firecracker process with virtio-vsock, virtio-blk, and virtio-net devices over the parent kernel. Inside the Nitro Sandbox, the sandbox-agent uses its own containerd to run the workload over the guest kernel. Device Memory Buffers (DMBs) form the device data path between them, the Nitro Hypervisor sits beneath both and carries sandbox lifecycle and runtime notifications.,scaledwidth=100%]
+
 The parent instance runs a shim process (`containerd-shim-nitro-sandbox-v2`) that launches the pod's Nitro Sandbox, which is a lightweight virtual machine (a Firecracker microVM), and communicates with it over virtio devices. Inside the Nitro Sandbox, an agent process (`nitro-sandbox-agent`) manages containers through its own `containerd` instance. The Nitro hypervisor manages sandbox lifecycle, while runtime notifications between the parent instance kernel and the sandbox kernel coordinate Nitro Sandbox operation.
 
 When kubelet schedules a pod that uses the `isolated-sandbox` or `confidential-sandbox` runtime class, the following happens:

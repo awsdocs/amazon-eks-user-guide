@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn which storage options work with Nitro Sandboxes, including Amazon EBS, Amazon EFS, tmpfs-backed CSI drivers, and standard Kubernetes volumes.
+Learn which storage options work with Nitro Sandboxes, including Amazon EBS, Amazon EFS, Amazon S3 Files, tmpfs-backed CSI drivers, and standard Kubernetes volumes.
 --
 
 Pods running in Nitro Sandboxes support several storage options through standard Kubernetes CSI drivers.
@@ -59,6 +59,19 @@ IAM requirements depend on the mount type:
 .EFS not available with network isolation
 ====
 EFS volumes are not available when `sandbox.amazonaws.com/network-isolated` is set to `"true"` because the Nitro Sandbox has no network access.
+====
+
+[#sandboxing-storage-s3files]
+== Amazon S3 Files
+
+Amazon S3 Files provides shared persistent storage backed by Amazon S3. Like Amazon EFS, it mounts through the EFS CSI driver (`efs.csi.aws.com`) and the runtime handles both filesystems through the same code path. Install the `aws-efs-csi-driver` EKS add-on on your cluster before creating S3 Files volumes.
+
+As with EFS, the NFS mount is performed inside the Nitro Sandbox and TLS is terminated there, so the parent instance does not sit on the data path. S3 Files mounts always use IAM authentication: the runtime authenticates with a SigV4 signature using {aws} credentials resolved from the EFS CSI Node DaemonSet's service account through EKS Pod Identity.
+
+[NOTE]
+.S3 Files not available with network isolation
+====
+S3 Files volumes are not available when `sandbox.amazonaws.com/network-isolated` is set to `"true"` because the Nitro Sandbox has no network access.
 ====
 
 [#sandboxing-storage-tmpfs]
