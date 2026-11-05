@@ -28,16 +28,19 @@ A node that runs isolated and confidential pods needs the following components i
 |Component |Source
 
 |A host kernel with Nitro Sandbox support
-|Built in to Amazon Linux 2023 on kernel 6.18 or later. On other operating systems, build a kernel with the Amazon Linux sandbox patch applied. See <<sandboxing-ami-kernel>>.
+|Built in to Amazon Linux 2023 on kernel 6.18.51 or later. On other operating systems, build a kernel with the Amazon Linux sandbox patch applied. See <<sandboxing-ami-kernel>>.
 
 |The Nitro Sandbox shim (`containerd-shim-nitro-sandbox-v2`)
-|The signed Nitro Sandboxes runtime release that {aws} publishes. The agent runs inside the guest image, not on the node. See <<sandboxing-download-binaries>>.
+|The signed Nitro Sandboxes runtime release that {aws} publishes. The same binary also runs as the node's CRI proxy, invoked as its `cri-proxy` subcommand, which runs once per node between `kubelet` and `containerd`. The agent is the third runtime component and runs inside the guest image, not on the node. See <<sandboxing-download-binaries>> and <<sandboxing-ami-runtime>>.
 
-|The guest image (an Enclave Image File, or EIF)
-|An Amazon S3 location that {aws} publishes. See <<sandboxing-ami-guest-image>>.
+|`kubelet` and `nodeadm`
+|Included in the Amazon EKS-optimized Amazon Linux 2023 AMI. If you build on a base Amazon Linux 2023 AMI, they are not present and you install and configure them yourself. See <<sandboxing-ami-kernel>>.
+
+|The guest image (a matched pair: an Enclave Image File, or EIF, and its guest disk image)
+|An Amazon S3 location that {aws} publishes. Download both files; {aws} publishes them together as a matched set. See <<sandboxing-ami-guest-image>>.
 
 |Firecracker and jailer
-|The open source https://github.com/firecracker-microvm/firecracker[Firecracker] project on GitHub, version 1.14 or later. `jailer` ships with Firecracker.
+|The open source https://github.com/firecracker-microvm/firecracker[Firecracker] project on GitHub, *[PLACEHOLDER: required Firecracker and jailer release version]*. `jailer` ships with Firecracker.
 
 |`containerd`
 |Version 2.0 or later, from your operating system's package repository, configured with `discard_unpacked_layers = false`. See <<sandboxing-ami-runtime>>.
@@ -46,6 +49,8 @@ A node that runs isolated and confidential pods needs the following components i
 |Applied to the cluster once, not baked into the AMI. See <<sandboxing-ami-runtimeclass>>.
 |===
 
+// TODO: Set the Firecracker and jailer version once the Firecracker release that includes the required Nitro Sandbox patches is published (firecracker-microvm/firecracker PRs 6392 and 6393). Do not cite 1.14; it predates those patches.
+
 [#sandboxing-ami-kernel]
 == Host kernel
 
@@ -53,7 +58,7 @@ Each sandbox node runs two kernels: a *host kernel* on the parent instance, and 
 
 The host kernel must include the patches that let the parent instance talk to the Nitro Sandbox drivers. How you get them depends on your operating system.
 
-*Amazon Linux 2023* already includes the patches in its kernel 6.18 or later (for example, the `kernel-6.18.56-125.164` package). Build your AMI on top of a prebuilt Amazon Linux 2023 AMI and use that kernel RPM. You do not apply any patch or build a kernel. For the kernel version included in each release, see the Amazon Linux 2023 release notes.
+*Amazon Linux 2023* already includes the patches in its kernel 6.18.51 or later (for example, the `kernel-6.18.56-125.164` package). Nitro Sandbox support was added in 6.18.51, so earlier 6.18 builds do not work. Build your AMI on top of a prebuilt Amazon EKS-optimized Amazon Linux 2023 AMI, which already includes `kubelet` and `nodeadm`, and use that kernel RPM. If you start from a base Amazon Linux 2023 AMI instead, it does not include `kubelet` or `nodeadm`, so install and configure them as well. You do not apply any patch or build a kernel. For the kernel version included in each release, see the Amazon Linux 2023 release notes.
 
 *Other operating systems* build a kernel from a vanilla kernel source tree with the Amazon Linux sandbox patch applied. The patch is published at https://github.com/amazonlinux/linux/commit/4ae89f6e09f949848123407602b4e5a8bb8d8631.patch. The following example builds and installs a patched 6.18 kernel:
 
@@ -92,10 +97,10 @@ sudo reboot
 [#sandboxing-ami-guest-image]
 == Guest image (EIF)
 
-The guest image is an Enclave Image File (EIF) that contains the guest kernel and the Nitro Sandbox agent. {aws} publishes it for each supported architecture. Download the EIF for your node architecture and stage it on the AMI at the path the shim configuration references:
+The guest image is a matched pair of files that {aws} publishes for each supported architecture: an Enclave Image File (EIF, `nitro-sandbox-guest.eif`) that contains the guest kernel and the Nitro Sandbox agent, and a guest disk image (`nitro-sandbox-guest-disk.img`) that holds the guest root filesystem. {aws} publishes both files together in the same location. Download both for your node architecture from the published location, and stage them on the AMI. Use the EIF and the disk image from the same release as a matched set; a mismatched pair can fail to boot.
 
-* *[PLACEHOLDER: Amazon S3 location of the guest image EIF]*
-// TODO: Replace the placeholder above with the published S3 location of the guest image EIF before publishing.
+* *[PLACEHOLDER: Amazon S3 location of the guest image files (`nitro-sandbox-guest.eif` and `nitro-sandbox-guest-disk.img`)]*
+// TODO: Replace the placeholder above with the published S3 location of the guest image files (the EIF and its disk image) before publishing.
 
 The agent inside the EIF is built reproducibly, so you can rebuild it from source and confirm it matches the published image before you trust it. For more information, see <<sandboxing-security-model>>.
 
@@ -103,7 +108,7 @@ The agent inside the EIF is built reproducibly, so you can rebuild it from sourc
 == Nitro Sandbox runtime and Firecracker
 
 . Download and verify the signed Nitro Sandboxes runtime release, and place the shim (`containerd-shim-nitro-sandbox-v2`) on the node's `PATH` so that `containerd` can find it. You run `eks-nitro-sandbox-genpolicy` on your workstation or in your build pipeline, not on the node, so you do not install it in the AMI. For the download and verification steps, see <<sandboxing-download-binaries>>.
-. Install Firecracker and `jailer` 1.14 or later from the https://github.com/firecracker-microvm/firecracker[Firecracker] project, and place both on the node's `PATH`.
+. Install Firecracker and `jailer` from the https://github.com/firecracker-microvm/firecracker[Firecracker] project (*[PLACEHOLDER: required Firecracker and jailer release version]*), and place both on the node's `PATH`.
 . Install `containerd` 2.0 or later from your operating system's package repository. In the containerd configuration file (`/etc/containerd/config.toml`, under the CRI plugin configuration), set `discard_unpacked_layers = false` so that compressed image layers remain available for the shim to load into the sandbox.
 . Write the shim configuration to `/etc/containerd/nitro-sandbox.toml`, pointing `kernel_path` at the staged guest image. The full file looks like this:
 +
@@ -118,7 +123,10 @@ kubeconfig_path = "/var/lib/kubelet/kubeconfig"
 # keep this off in production.
 # debug = true
 ----
+. Set up the CRI proxy so that `kubelet` talks to it instead of to `containerd` directly. The CRI proxy is the same shim binary run as its `cri-proxy` subcommand, and it runs once per node between `kubelet` and `containerd`. Create a `cri-proxy.service` systemd unit that starts it, for example running `containerd-shim-nitro-sandbox-v2 cri-proxy --listen /run/nitro-sandbox/cri-proxy.sock`, and set the kubelet container runtime endpoint to `unix:///run/nitro-sandbox/cri-proxy.sock`.
 . Register the `containerd` runtime handlers for `isolated-sandbox` and `confidential-sandbox`, then bake the AMI.
+
+// TODO: Confirm the complete cri-proxy flag set and the full cri-proxy.service unit (dependencies, restart policy, and any gating) before publishing; the example above shows only the listen socket.
 
 [#sandboxing-ami-runtimeclass]
 == Install the RuntimeClass objects
