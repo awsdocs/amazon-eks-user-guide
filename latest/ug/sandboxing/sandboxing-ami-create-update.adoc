@@ -10,7 +10,8 @@ include::../attributes.txt[]
 Build a custom AMI from the Nitro Sandbox binaries that {aws} publishes as a signed release, or use a supported AMI, and update it when {aws} publishes a new release.
 --
 
-EKS Auto Mode includes Nitro Sandbox support with no additional configuration. If you run managed node groups or self-managed nodes outside of Auto Mode, you build a custom AMI that contains the components in this topic, then join nodes built from that AMI to your cluster.
+EKS Auto Mode includes Nitro Sandbox support with no additional configuration. If you run managed node groups or self-managed nodes outside of Auto Mode, you build a custom AMI that contains the components in this topic, then join nodes built from that AMI to your cluster. For a scripted alternative to the manual steps that follow, use the Packer template that {aws} publishes: *[PLACEHOLDER: link to the Nitro Sandbox AMI Packer template]*.
+// TODO: Add the public link to the Nitro Sandbox AMI Packer template (the easier, scripted path), or remove this sentence if no public template is published at GA.
 
 [NOTE]
 .Before you begin
@@ -101,6 +102,7 @@ The guest image is a matched pair of files that {aws} publishes for each support
 
 * *[PLACEHOLDER: Amazon S3 location of the guest image files (`nitro-sandbox-guest.eif` and `nitro-sandbox-guest-disk.img`)]*
 // TODO: Replace the placeholder above with the published S3 location of the guest image files (the EIF and its disk image) before publishing.
+// TODO: Confirm the exact filename and directory the shim expects for the guest disk image relative to the EIF (kernel_path's directory) before publishing.
 
 The agent inside the EIF is built reproducibly, so you can rebuild it from source and confirm it matches the published image before you trust it. For more information, see <<sandboxing-security-model>>.
 
@@ -110,12 +112,29 @@ The agent inside the EIF is built reproducibly, so you can rebuild it from sourc
 . Download and verify the signed Nitro Sandboxes runtime release, and place the shim (`containerd-shim-nitro-sandbox-v2`) on the node's `PATH` so that `containerd` can find it. You run `eks-nitro-sandbox-genpolicy` on your workstation or in your build pipeline, not on the node, so you do not install it in the AMI. For the download and verification steps, see <<sandboxing-download-binaries>>.
 . Install Firecracker and `jailer` from the https://github.com/firecracker-microvm/firecracker[Firecracker] project (*[PLACEHOLDER: required Firecracker and jailer release version]*), and place both on the node's `PATH`.
 . Install `containerd` 2.0 or later from your operating system's package repository. In the containerd configuration file (`/etc/containerd/config.toml`, under the CRI plugin configuration), set `discard_unpacked_layers = false` so that compressed image layers remain available for the shim to load into the sandbox.
-. Write the shim configuration to `/etc/containerd/nitro-sandbox.toml`, pointing `kernel_path` at the staged guest image. The full file looks like this:
+. Write the shim configuration to `/etc/containerd/nitro-sandbox.toml`, pointing `kernel_path` at the staged guest image EIF. The full file looks like this:
 +
 [source,toml,subs="verbatim,attributes"]
 ----
-kernel_path = "/usr/share/nitro-sandbox/vmlinuz"
+# kernel_path points at the guest image EIF, not a bare kernel file. The EIF
+# carries the guest kernel and its command line. Stage the guest disk image in
+# the same directory as the EIF, and keep both outside data_base_dir.
+kernel_path = "/var/lib/nitro-sandbox-images/nitro-sandbox-guest.eif"
 kubeconfig_path = "/var/lib/kubelet/kubeconfig"
+
+# Create a GPT-partitioned, formatted overlay disk, as the guest image requires.
+format_overlay = true
+
+# Optional; defaults to true. Host-schedules enclave vCPUs instead of
+# dedicating whole physical cores from the Nitro Enclaves CPU pool. Keep it
+# enabled so a node can run as many sandboxes as it advertises; setting it to
+# false dedicates full cores (at least 2 vCPUs per sandbox), so small instance
+# types can run only one sandbox.
+# cpu_overcommit = true
+
+# Optional; defaults to /var/lib/nitro-sandbox. Base directory for each
+# sandbox's jailer chroot, drive images, and sockets.
+# data_base_dir = "/var/lib/nitro-sandbox"
 
 # Optional; defaults to false. Enables the Nitro enclave vsock debug
 # console and captures the Firecracker guest serial console and
@@ -124,7 +143,21 @@ kubeconfig_path = "/var/lib/kubelet/kubeconfig"
 # debug = true
 ----
 . Set up the CRI proxy so that `kubelet` talks to it instead of to `containerd` directly. The CRI proxy is the same shim binary run as its `cri-proxy` subcommand, and it runs once per node between `kubelet` and `containerd`. Create a `cri-proxy.service` systemd unit that starts it, for example running `containerd-shim-nitro-sandbox-v2 cri-proxy --listen /run/nitro-sandbox/cri-proxy.sock`, and set the kubelet container runtime endpoint to `unix:///run/nitro-sandbox/cri-proxy.sock`.
-. Register the `containerd` runtime handlers for `isolated-sandbox` and `confidential-sandbox`, then bake the AMI.
+. Register the `containerd` runtime handlers for `isolated-sandbox` and `confidential-sandbox` by adding them to the `containerd` configuration (`/etc/containerd/config.toml`). Both handlers use the same shim; the CRI proxy selects the isolation mode from the handler name. Then bake the AMI.
++
+[source,toml,subs="verbatim,attributes"]
+----
+[plugins."io.containerd.cri.v1.runtime".containerd.runtimes.isolated-sandbox]
+  runtime_type = "io.containerd.nitro-sandbox.v2"
+  sandboxer = "shim"
+  # Host devices are meaningless inside the guest VM.
+  privileged_without_host_devices = true
+
+[plugins."io.containerd.cri.v1.runtime".containerd.runtimes.confidential-sandbox]
+  runtime_type = "io.containerd.nitro-sandbox.v2"
+  sandboxer = "shim"
+  privileged_without_host_devices = true
+----
 
 // TODO: Confirm the complete cri-proxy flag set and the full cri-proxy.service unit (dependencies, restart policy, and any gating) before publishing; the example above shows only the listen socket.
 
@@ -174,7 +207,7 @@ When {aws} publishes a new release, rebuild your AMI. Each release is versioned,
 |Category |What to repeat |Reboot
 
 |Runtime update
-|Re-download the runtime release and the guest image, and replace the shim, `eks-nitro-sandbox-genpolicy`, and the EIF on the node.
+|Re-download the runtime release and the guest image, and replace the shim and the guest image files on the node. Update `eks-nitro-sandbox-genpolicy` on your workstation or in your build pipeline; it is not installed on the node.
 |No
 
 |Kernel update
