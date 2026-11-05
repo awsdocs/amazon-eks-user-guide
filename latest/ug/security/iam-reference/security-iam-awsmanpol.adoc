@@ -486,6 +486,10 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/secu
 |Description
 |Date
 
+|Added permission to <<security-iam-awsmanpol-amazoneksservicerolepolicy,AmazonEKSServiceRolePolicy>>.
+|Added `AmazonEKSResourceOptimizerClusterPolicy` and `AmazonEKSResourceOptimizerPolicy` to the list of access policies that the service-linked role can associate and dissociate from cluster access entries.
+|November 6, 2026
+
 |Added permission to <<security-iam-awsmanpol-AmazonEKSBlockStoragePolicyV2>>.
 |Added the `ec2:CopyVolumes` permission to `AmazonEKSBlockStoragePolicyV2`. With this permission, Amazon EKS Auto Mode can copy EBS volumes that have the EKS cluster name tag, for example to create a PersistentVolumeClaim from an existing one.
 |October 26, 2026

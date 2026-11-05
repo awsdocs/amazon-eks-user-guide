@@ -19,6 +19,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/doc-history.rss
 [.updates]
 == Updates
 
+[.update,date="2026-11-06"]
+=== Service-linked role update
+[.update-ulink]
+link:eks/latest/userguide/security-iam-awsmanpol.html[type="documentation"]
+
+Added `AmazonEKSResourceOptimizerClusterPolicy` and `AmazonEKSResourceOptimizerPolicy` to the list of access policies in `AmazonEKSServiceRolePolicy` that the service-linked role can associate and dissociate from cluster access entries.
+
 [.update,date="2026-11-02"]
 === Notifications for the EKS Capability for Argo CD
 [.update-ulink]
