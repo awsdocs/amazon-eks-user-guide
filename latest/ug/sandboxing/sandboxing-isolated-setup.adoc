@@ -71,7 +71,7 @@ The pod runs inside a Nitro Sandbox. From the workload's perspective, the enviro
 [#sandboxing-isolated-pod-start]
 == What happens when a pod starts
 
-. A dedicated Nitro Sandbox is created for the pod.
+. A Nitro Sandbox is created for the pod.
 . The Cedar policy attached to the pod is evaluated (if present).
 . The container images are loaded into the sandbox.
 . Containers start inside the sandbox.

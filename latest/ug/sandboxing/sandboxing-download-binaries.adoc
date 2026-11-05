@@ -35,6 +35,11 @@ For each architecture, {aws} publishes the following files:
 
 The download links resolve to the latest release, so you do not need to track version numbers.
 
+[NOTE]
+====
+Verify the release with the `SHA256SUM` file you download separately (alongside the archive), not the `SHA256SUM` file found inside the extracted archive. The two have the same name but different contents: the downloaded manifest is the one {aws} signs and covers the archive and each binary, while the copy inside the archive covers a different set of files. The signature verification in the next section succeeds only against the downloaded manifest.
+====
+
 [#sandboxing-download-location]
 == Download a release
 

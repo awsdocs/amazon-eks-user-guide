@@ -30,8 +30,8 @@ A node that runs isolated and confidential pods needs the following components i
 |A host kernel with Nitro Sandbox support
 |Built in to Amazon Linux 2023 on kernel 6.18 or later. On other operating systems, build a kernel with the Amazon Linux sandbox patch applied. See <<sandboxing-ami-kernel>>.
 
-|The Nitro Sandbox runtime (the shim and the agent) and `eks-nitro-sandbox-genpolicy`
-|The signed Nitro Sandboxes runtime release that {aws} publishes. See <<sandboxing-download-binaries>>.
+|The Nitro Sandbox shim (`containerd-shim-nitro-sandbox-v2`)
+|The signed Nitro Sandboxes runtime release that {aws} publishes. The agent runs inside the guest image, not on the node. See <<sandboxing-download-binaries>>.
 
 |The guest image (an Enclave Image File, or EIF)
 |An Amazon S3 location that {aws} publishes. See <<sandboxing-ami-guest-image>>.
@@ -40,7 +40,7 @@ A node that runs isolated and confidential pods needs the following components i
 |The open source https://github.com/firecracker-microvm/firecracker[Firecracker] project on GitHub, version 1.14 or later. `jailer` ships with Firecracker.
 
 |`containerd`
-|Your operating system's package, version 2.0 or later, configured with `discard_unpacked_layers = false`.
+|Version 2.0 or later, from your operating system's package repository, configured with `discard_unpacked_layers = false`. See <<sandboxing-ami-runtime>>.
 
 |The `isolated-sandbox` and `confidential-sandbox` `RuntimeClass` objects
 |Applied to the cluster once, not baked into the AMI. See <<sandboxing-ami-runtimeclass>>.
@@ -49,7 +49,7 @@ A node that runs isolated and confidential pods needs the following components i
 [#sandboxing-ami-kernel]
 == Host kernel
 
-Each sandbox node runs two kernels: a *host kernel* on the parent instance, and a pre-compiled *guest kernel* that boots inside every sandbox pod's microVM. You never build or modify the guest kernel; it ships inside the guest image.
+Each sandbox node runs two kernels: a *host kernel* on the parent instance, and a *guest kernel* that boots inside every sandbox pod's microVM. The guest kernel ships prebuilt inside the guest image (EIF), so you do not build it when you build your AMI. If you do rebuild the guest image, its measurements (PCRs) change, so you must re-pin any KMS key policy for confidential pods to the new PCR values. For more information, see <<sandboxing-security-model>>.
 
 The host kernel must include the patches that let the parent instance talk to the Nitro Sandbox drivers. How you get them depends on your operating system.
 
@@ -102,15 +102,21 @@ The agent inside the EIF is built reproducibly, so you can rebuild it from sourc
 [#sandboxing-ami-runtime]
 == Nitro Sandbox runtime and Firecracker
 
-. Download and verify the signed Nitro Sandboxes runtime release, and place the shim (`containerd-shim-nitro-sandbox-v2`) and `eks-nitro-sandbox-genpolicy` on the node. For the download and verification steps, see <<sandboxing-download-binaries>>.
+. Download and verify the signed Nitro Sandboxes runtime release, and place the shim (`containerd-shim-nitro-sandbox-v2`) on the node's `PATH` so that `containerd` can find it. You run `eks-nitro-sandbox-genpolicy` on your workstation or in your build pipeline, not on the node, so you do not install it in the AMI. For the download and verification steps, see <<sandboxing-download-binaries>>.
 . Install Firecracker and `jailer` 1.14 or later from the https://github.com/firecracker-microvm/firecracker[Firecracker] project, and place both on the node's `PATH`.
-. Install `containerd` 2.0 or later and set `discard_unpacked_layers = false` so that compressed image layers remain available for the shim to load into the sandbox.
-. Write the shim configuration to `/etc/containerd/nitro-sandbox.toml`, pointing `kernel_path` at the staged guest image:
+. Install `containerd` 2.0 or later from your operating system's package repository. In the containerd configuration file (`/etc/containerd/config.toml`, under the CRI plugin configuration), set `discard_unpacked_layers = false` so that compressed image layers remain available for the shim to load into the sandbox.
+. Write the shim configuration to `/etc/containerd/nitro-sandbox.toml`, pointing `kernel_path` at the staged guest image. The full file looks like this:
 +
 [source,toml,subs="verbatim,attributes"]
 ----
 kernel_path = "/usr/share/nitro-sandbox/vmlinuz"
 kubeconfig_path = "/var/lib/kubelet/kubeconfig"
+
+# Optional; defaults to false. Enables the Nitro enclave vsock debug
+# console and captures the Firecracker guest serial console and
+# hypervisor log. These outputs are guest-influenced and unbounded, so
+# keep this off in production.
+# debug = true
 ----
 . Register the `containerd` runtime handlers for `isolated-sandbox` and `confidential-sandbox`, then bake the AMI.
 

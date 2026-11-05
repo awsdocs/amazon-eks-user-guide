@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Generate a Cedar policy, attach it to your pod, and deploy a confidential pod that protects workload data from the node operator or a compromised parent instance.
 --
 
-Confidential mode requires a Cedar policy. The policy pins every container admission field and controls which operations the parent instance can perform. Isolated mode does not require a Cedar policy — without one, the sandbox applies a permissive built-in default that allows all containers and operations.
+Confidential mode requires a Cedar policy. The policy pins every container admission field and controls which operations the parent instance can perform. Isolated mode does not require a Cedar policy. Without one, the sandbox applies a permissive built-in default that allows all containers and operations.
 
 [#sandboxing-confidential-generate]
 == Step 1: Generate a Cedar policy
@@ -48,6 +48,14 @@ spec:
         cpu: "1"
         memory: 512Mi
 ----
+
+[IMPORTANT]
+.Generate the policy from the pod's final spec
+====
+A confidential policy pins the container admission fields (image digest, args, environment variables, mounts, and more), so it must be generated from the exact pod spec that runs. Generate it as the last step, after any admission or mutating webhooks (for example, sidecar injectors or policy controllers) have modified the spec. A policy generated from a spec that is later mutated no longer matches, and the pod is denied.
+
+Regenerate the policy, and update the `PCR17` condition on your KMS key policy, whenever the pod spec changes in any way that the policy pins, including a new image digest. Build this regeneration step into the CI/CD pipeline that produces your pod manifests.
+====
 
 [#sandboxing-confidential-deploy]
 == Step 3: Deploy
@@ -270,7 +278,11 @@ Signature verification requires network access from the Nitro Sandbox to the {aw
 
 In confidential mode, configure {aws} KMS key policies with `kms:RecipientAttestation:PCR<PCR_ID>` conditions to gate decryption on specific PCR values. PCR0 measures the system image; PCR17 measures the Cedar policy hash. A modified policy produces a different PCR17 value, so KMS refuses to release keys gated on the original value.
 
-Pin the Cedar policy with a `kms:RecipientAttestation:PCR17` condition set to the predicted PCR17 value from Step 1. To also require that the attestation comes from the EKS Nitro Sandbox service rather than pinning an exact PCR8 measurement, add a `kms:RecipientAttestation:PCR8:ServiceName` condition set to `eks.amazonaws.com`. The following key policy condition block requires both:
+Pin the Cedar policy with a `kms:RecipientAttestation:PCR17` condition set to the predicted PCR17 value from Step 1. Also add a `kms:RecipientAttestation:PCR8:ServiceName` condition set to `eks.amazonaws.com`.
+
+PCR8 is the measurement of the certificate that signed the guest image (the EIF). The Nitro Security Module includes PCR8 in the attestation document it signs and presents to {aws} KMS, so KMS can trust the value. The `:ServiceName` selector tells KMS to compare the service identity recorded in that signing certificate rather than the raw PCR8 hash. Setting it to `eks.amazonaws.com` therefore attests that the guest image was signed by the EKS Nitro Sandbox service. It is preferred over pinning a raw PCR8 value because it keeps matching when {aws} rotates the signing certificate, which changes the raw PCR8 hash but not the service identity.
+
+Gating on PCR17 alone is not sufficient: without the PCR8 condition, a policy with the same hash could be presented from a guest image that {aws} did not sign. The following key policy condition block requires both:
 
 [source,json,subs="verbatim,attributes"]
 ----

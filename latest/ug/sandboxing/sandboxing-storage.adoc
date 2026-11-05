@@ -64,7 +64,7 @@ EFS volumes are not available when `sandbox.amazonaws.com/network-isolated` is s
 [#sandboxing-storage-tmpfs]
 == Tmpfs-backed CSI drivers
 
-CSI drivers that populate a host tmpfs (rather than attaching a block device) work with Nitro Sandboxes. The contents are delivered into the sandbox and refreshed automatically when the driver rotates them on the host. The Secrets Store CSI Driver is one example.
+CSI drivers that populate a host tmpfs (rather than attaching a block device) work with Nitro Sandboxes. The contents are delivered into the sandbox and refreshed automatically when the driver rotates them on the host. The Secrets Store CSI Driver and the cert-manager CSI driver are two examples.
 
 [NOTE]
 .Tmpfs volumes visible to the parent instance

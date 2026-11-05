@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Run Amazon EKS pods inside hardware-isolated Nitro Sandboxes to protect workloads from each other and from the node, with per-pod policy enforcement, encrypted images, and attestation.
 --
 
-In a standard Amazon EKS cluster, pods on the same node share a Linux kernel. A container escape or kernel vulnerability can expose one workload to another. Isolated and confidential pods address this by running each pod inside its own Nitro Sandbox — a dedicated hardware-isolated environment backed by the {aws} Nitro System. Each sandbox runs as a first-level guest with direct hardware-assisted virtualization, not through emulation or nested virtualization. The Nitro hypervisor enforces memory and CPU isolation between sandboxes, providing a hardware trust boundary around every pod.
+In a standard Amazon EKS cluster, pods on the same node share a Linux kernel. A container escape or kernel vulnerability can expose one workload to another. Isolated and confidential pods address this by running each pod inside its own Nitro Sandbox, a dedicated hardware-isolated environment backed by the {aws} Nitro System. Each sandbox runs as a first-level guest with direct hardware-assisted virtualization, not through emulation or nested virtualization. The Nitro hypervisor enforces memory and CPU isolation between sandboxes, providing a hardware trust boundary around every pod.
 
 Isolated and confidential pods are opt-in. You select the feature per pod by setting `runtimeClassName` to `isolated-sandbox` or `confidential-sandbox` in the pod spec. Pods without this setting continue to use the default container runtime.
 
@@ -29,10 +29,11 @@ include::sandboxing-reference.adoc[leveloffset=+1]
 [#sandboxing-how-it-works]
 == How it works
 
-The parent instance runs a shim process (`containerd-shim-nitro-sandbox-v2`) that launches a lightweight virtual machine (a Firecracker microVM) for the sandbox and communicates with it over virtio devices. Inside the Nitro Sandbox, an agent process (`nitro-sandbox-agent`) manages containers through its own `containerd` instance. The Nitro hypervisor manages sandbox lifecycle, while runtime notifications between the parent instance kernel and the sandbox kernel coordinate Nitro Sandbox operation.
+The parent instance runs a shim process (`containerd-shim-nitro-sandbox-v2`) that launches the pod's Nitro Sandbox, which is a lightweight virtual machine (a Firecracker microVM), and communicates with it over virtio devices. Inside the Nitro Sandbox, an agent process (`nitro-sandbox-agent`) manages containers through its own `containerd` instance. The Nitro hypervisor manages sandbox lifecycle, while runtime notifications between the parent instance kernel and the sandbox kernel coordinate Nitro Sandbox operation.
 
 When kubelet schedules a pod that uses the `isolated-sandbox` or `confidential-sandbox` runtime class, the following happens:
 
+. The pod spec sets `runtimeClassName` to `isolated-sandbox` or `confidential-sandbox`.
 . A Nitro Sandbox is created for the pod.
 . A policy is evaluated that controls what the pod is allowed to do, including which container images are allowed to load, which containers can run, whether `exec` and logs are permitted, and what mounts are allowed.
 . The container images are loaded into the sandbox.
@@ -42,7 +43,7 @@ When kubelet schedules a pod that uses the `isolated-sandbox` or `confidential-s
 == Key features
 
 *Nitro Sandbox isolation*::
-Each pod runs in its own Nitro Sandbox. The {aws} Nitro hypervisor enforces memory and CPU isolation between sandboxes on the same parent instance. A compromised container cannot access memory or storage belonging to another pod, and the parent instance cannot observe the CPU or memory state of the sandbox.
+Each pod runs in its own Nitro Sandbox. The {aws} Nitro hypervisor enforces memory and CPU isolation between sandboxes on the same parent instance. A compromised container cannot access memory or storage belonging to another pod, and the parent instance cannot observe the CPU or memory state of the sandbox. This isolation is a security boundary, not a performance reservation: a sandbox does not get dedicated physical cores. vCPUs are time-shared across the sandboxes on a node, and total sandbox vCPU allocation can oversubscribe the node's vCPUs. For density and sizing, see <<sandboxing-limitations>>.
 
 *Policy enforcement*::
 Every pod has a Cedar policy that controls container admission, `exec` access, log streaming, and other runtime operations. The Nitro Sandbox enforces the policy from inside the guest, so it applies even when the parent instance is untrusted. The sandbox enforces the policy in both isolated and confidential mode, with or without attestation. The pod policy is measured into an attestation register, so a compromised parent instance cannot silently substitute a different policy without changing the attestation. Attestation adds external verification that the expected policy is in force, which confidential workloads use to gate {aws} KMS access. See <<sandboxing-security-model>>.
