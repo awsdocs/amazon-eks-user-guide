@@ -14,8 +14,9 @@ In a standard Amazon EKS cluster, pods on the same node share a Linux kernel. A 
 
 Isolated and confidential pods are opt-in. You select the feature per pod by setting `runtimeClassName` to `isolated-sandbox` or `confidential-sandbox` in the pod spec. Pods without this setting continue to use the default container runtime.
 
-Isolated and confidential pods run only on supported Amazon EC2 instance types. For the list of instance types that support Nitro Sandboxes, see *[PLACEHOLDER: supported instance types link]*.
-// TODO: Replace the placeholder above with the final link to the supported instance types list before publishing.
+Isolated and confidential pods run only on supported Amazon EC2 instance types. For the list of instance types that support Nitro Sandboxes, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html#nitro-sandboxes-considerations[supported instance types] in the _Amazon EC2 User Guide_.
+
+To read more about the Nitro Sandboxes primitive on Amazon EC2, see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html[Nitro Sandboxes] in the _Amazon EC2 User Guide_.
 
 [.topiclist]
 [[Topic List]]

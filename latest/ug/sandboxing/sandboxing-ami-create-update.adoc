@@ -188,7 +188,7 @@ metadata:
 handler: confidential-sandbox
 overhead:
   podFixed:
-    memory: 256Mi
+    memory: 512Mi
     eks.amazonaws.com/nitro-sandbox: "1"
 scheduling:
   nodeSelector:
