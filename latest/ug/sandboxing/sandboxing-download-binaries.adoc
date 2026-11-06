@@ -33,7 +33,7 @@ For each architecture, {aws} publishes the following files:
 |The detached signature over `SHA256SUM`.
 |===
 
-The download links resolve to the latest release, so you do not need to track version numbers.
+The download links resolve to the latest release, so you do not need to track version numbers. To pin a specific release instead, replace `latest` in the download and verification URLs with the release version (for example, `0.1.4274.0`).
 
 [NOTE]
 ====

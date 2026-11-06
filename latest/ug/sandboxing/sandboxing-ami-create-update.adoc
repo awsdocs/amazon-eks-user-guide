@@ -98,8 +98,23 @@ sudo reboot
 
 The guest image is a matched pair of files that {aws} publishes for each supported architecture: an Enclave Image File (EIF, `nitro-sandbox-guest.eif`) that contains the guest kernel and the Nitro Sandbox agent, and a guest disk image (`nitro-sandbox-guest-disk.img`) that holds the guest root filesystem. {aws} publishes both files together in the same location. Download both for your node architecture from the published location, and stage them on the AMI. Use the EIF and the disk image from the same release as a matched set; a mismatched pair can fail to boot.
 
-* *[PLACEHOLDER: Amazon S3 location of the guest image files (`nitro-sandbox-guest.eif` and `nitro-sandbox-guest-disk.img`)]*
-// TODO: Replace the placeholder above with the published S3 location of the guest image files (the EIF and its disk image) before publishing.
+{aws} publishes the guest image in Amazon S3, keyed by your cluster's Kubernetes version, the release date, and the node architecture (`amd64` or `arm64`). The download path has this form:
+
+[source,text,subs="verbatim,attributes"]
+----
+https://amazon-eks.s3.us-west-2.amazonaws.com/<kubernetes-version>/<release-date>/nitro-sandbox-guest/linux/<arch>/nitro-sandbox-guest.eif
+https://amazon-eks.s3.us-west-2.amazonaws.com/<kubernetes-version>/<release-date>/nitro-sandbox-guest/linux/<arch>/nitro-sandbox-guest-disk.img
+----
+
+Replace `<kubernetes-version>` with the patch version for your cluster's Kubernetes minor version (for example, `1.36.5` for 1.36, or `1.37.1` for 1.37), `<release-date>` with the release you install (for example, `2026-11-06`), and `<arch>` with `amd64` or `arm64`. For example, the files in the `2026-11-06` release are:
+
+* Kubernetes 1.36 (`1.36.5`):
+** `amd64`: https://amazon-eks.s3.us-west-2.amazonaws.com/1.36.5/2026-11-06/nitro-sandbox-guest/linux/amd64/nitro-sandbox-guest.eif[nitro-sandbox-guest.eif] and https://amazon-eks.s3.us-west-2.amazonaws.com/1.36.5/2026-11-06/nitro-sandbox-guest/linux/amd64/nitro-sandbox-guest-disk.img[nitro-sandbox-guest-disk.img]
+** `arm64`: https://amazon-eks.s3.us-west-2.amazonaws.com/1.36.5/2026-11-06/nitro-sandbox-guest/linux/arm64/nitro-sandbox-guest.eif[nitro-sandbox-guest.eif] and https://amazon-eks.s3.us-west-2.amazonaws.com/1.36.5/2026-11-06/nitro-sandbox-guest/linux/arm64/nitro-sandbox-guest-disk.img[nitro-sandbox-guest-disk.img]
+* Kubernetes 1.37 (`1.37.1`):
+** `amd64`: https://amazon-eks.s3.us-west-2.amazonaws.com/1.37.1/2026-11-06/nitro-sandbox-guest/linux/amd64/nitro-sandbox-guest.eif[nitro-sandbox-guest.eif] and https://amazon-eks.s3.us-west-2.amazonaws.com/1.37.1/2026-11-06/nitro-sandbox-guest/linux/amd64/nitro-sandbox-guest-disk.img[nitro-sandbox-guest-disk.img]
+** `arm64`: https://amazon-eks.s3.us-west-2.amazonaws.com/1.37.1/2026-11-06/nitro-sandbox-guest/linux/arm64/nitro-sandbox-guest.eif[nitro-sandbox-guest.eif] and https://amazon-eks.s3.us-west-2.amazonaws.com/1.37.1/2026-11-06/nitro-sandbox-guest/linux/arm64/nitro-sandbox-guest-disk.img[nitro-sandbox-guest-disk.img]
+
 // TODO: Confirm the exact filename and directory the shim expects for the guest disk image relative to the EIF (kernel_path's directory) before publishing.
 
 The agent inside the EIF is built reproducibly, so you can rebuild it from source and confirm it matches the published image before you trust it. For more information, see <<sandboxing-security-model>>.
