@@ -46,7 +46,7 @@ Expanding an EBS volume while a pod is running is not supported. Scale the workl
 [#sandboxing-storage-efs]
 == Amazon EFS
 
-Amazon EFS provides shared read-write persistent storage across pods. It mounts through the EFS CSI driver (`efs.csi.aws.com`). Install the `aws-efs-csi-driver` EKS add-on on your cluster before creating EFS volumes.
+Amazon EFS provides shared read-write persistent storage across pods. It mounts through the EFS CSI driver (`efs.csi.aws.com`). Install the `aws-efs-csi-driver` EKS add-on, version 3.5.0 or later, on your cluster before creating EFS volumes.
 
 The NFS mount is performed inside the Nitro Sandbox and TLS is terminated there, so the parent instance does not sit on the data path.
 

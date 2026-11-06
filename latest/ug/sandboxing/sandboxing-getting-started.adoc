@@ -12,6 +12,8 @@ Set up isolated and confidential pods and control the host resources each Nitro 
 
 Get started by running your first isolated pod, then move to confidential pods when you need to protect workload data from the node. Use resource isolation to cap the host resources a single sandbox consumes.
 
+To learn more about getting started, see https://aws-samples.github.io/sample-eks-nitro-sandbox[Sandboxing blueprints]. They are runnable, end-to-end examples for AI coding agents, warm pools, CI/CD runners, storage, network policy, and confidential pods. Each one includes the manifests, scripts, and step-by-step instructions to run it in your own cluster.
+
 [.topiclist]
 [[Topic List]]
 

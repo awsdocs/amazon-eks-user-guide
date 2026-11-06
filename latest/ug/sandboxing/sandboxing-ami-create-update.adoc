@@ -41,7 +41,7 @@ A node that runs isolated and confidential pods needs the following components i
 |An Amazon S3 location that {aws} publishes. Download both files; {aws} publishes them together as a matched set. See <<sandboxing-ami-guest-image>>.
 
 |Firecracker and jailer
-|The open source https://github.com/firecracker-microvm/firecracker[Firecracker] project on GitHub, *[PLACEHOLDER: required Firecracker and jailer release version]*. `jailer` ships with Firecracker.
+|The open source https://github.com/firecracker-microvm/firecracker[Firecracker] project on GitHub, https://github.com/firecracker-microvm/firecracker/releases/tag/v1.18.0[release v1.18.0] or later. `jailer` ships with Firecracker.
 
 |`containerd`
 |Version 2.0 or later, from your operating system's package repository, configured with `discard_unpacked_layers = false`. See <<sandboxing-ami-runtime>>.
@@ -49,8 +49,6 @@ A node that runs isolated and confidential pods needs the following components i
 |The `isolated-sandbox` and `confidential-sandbox` `RuntimeClass` objects
 |Applied to the cluster once, not baked into the AMI. See <<sandboxing-ami-runtimeclass>>.
 |===
-
-// TODO: Set the Firecracker and jailer version once the Firecracker release that includes the required Nitro Sandbox patches is published (firecracker-microvm/firecracker PRs 6392 and 6393). Do not cite 1.14; it predates those patches.
 
 [#sandboxing-ami-kernel]
 == Host kernel
@@ -110,7 +108,7 @@ The agent inside the EIF is built reproducibly, so you can rebuild it from sourc
 == Nitro Sandbox runtime and Firecracker
 
 . Download and verify the signed Nitro Sandboxes runtime release, and place the shim (`containerd-shim-nitro-sandbox-v2`) on the node's `PATH` so that `containerd` can find it. You run `eks-nitro-sandbox-genpolicy` on your workstation or in your build pipeline, not on the node, so you do not install it in the AMI. For the download and verification steps, see <<sandboxing-download-binaries>>.
-. Install Firecracker and `jailer` from the https://github.com/firecracker-microvm/firecracker[Firecracker] project (*[PLACEHOLDER: required Firecracker and jailer release version]*), and place both on the node's `PATH`.
+. Install Firecracker and `jailer` v1.18.0 or later from the https://github.com/firecracker-microvm/firecracker[Firecracker] project, and place both on the node's `PATH`. For Firecracker's own setup documentation, see https://github.com/firecracker-microvm/firecracker/blob/main/docs/nitro-sandboxes/README.md[the Nitro Sandboxes documentation] in the Firecracker repository.
 . Install `containerd` 2.0 or later from your operating system's package repository. In the containerd configuration file (`/etc/containerd/config.toml`, under the CRI plugin configuration), set `discard_unpacked_layers = false` so that compressed image layers remain available for the shim to load into the sandbox.
 . Write the shim configuration to `/etc/containerd/nitro-sandbox.toml`, pointing `kernel_path` at the staged guest image EIF. The full file looks like this:
 +
