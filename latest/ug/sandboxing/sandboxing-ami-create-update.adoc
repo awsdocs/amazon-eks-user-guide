@@ -10,8 +10,8 @@ include::../attributes.txt[]
 Build a custom AMI from the Nitro Sandbox binaries that {aws} publishes as a signed release, or use a supported AMI, and update it when {aws} publishes a new release.
 --
 
-EKS Auto Mode includes Nitro Sandbox support with no additional configuration. If you run managed node groups or self-managed nodes outside of Auto Mode, you build a custom AMI that contains the components in this topic, then join nodes built from that AMI to your cluster. For a scripted alternative to the manual steps that follow, use the Packer template that {aws} publishes: *[PLACEHOLDER: link to the Nitro Sandbox AMI Packer template]*.
-// TODO: Add the public link to the Nitro Sandbox AMI Packer template (the easier, scripted path), or remove this sentence if no public template is published at GA.
+EKS Auto Mode includes Nitro Sandbox support with no additional configuration. If you run managed node groups or self-managed nodes outside of Auto Mode, you build a custom AMI that contains the components in this topic, then join nodes built from that AMI to your cluster. For a scripted alternative to the manual steps that follow, use the pod-isolation provisioner in the https://github.com/awslabs/amazon-eks-ami[Amazon EKS AMI] repository, which builds the AMI with Packer: https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2023/provisioners/install-pod-isolation.sh[install-pod-isolation.sh].
+// TODO: This provisioner link is not live yet. The pod-isolation Packer change is gated on the Firecracker v1.18.0 release and is expected to go live the week of November 9, 2026; it returns 404 until then. Confirm the link resolves before publishing.
 
 [NOTE]
 .Before you begin
