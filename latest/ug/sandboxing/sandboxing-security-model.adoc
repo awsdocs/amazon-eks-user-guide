@@ -58,7 +58,7 @@ Always configure `kms:RecipientAttestation:PCR<PCR_ID>` conditions on any KMS ke
 [#sandboxing-parent-cannot]
 == What the parent instance cannot do
 
-The Nitro hypervisor enforces the following guarantees:
+The Nitro Isolation Engine, a minimal, formally proven hypervisor, protects Nitro Sandboxes on instances that support it. The {aws} Nitro hypervisor and the Nitro Sandbox runtime together enforce the following guarantees:
 
 * The parent instance cannot read or write guest memory.
 * The parent instance cannot access CPU register state inside the sandbox.
@@ -66,8 +66,6 @@ The Nitro hypervisor enforces the following guarantees:
 * The parent instance cannot decrypt encrypted image layers (decryption keys exist only inside the sandbox).
 * In confidential mode, the parent instance cannot read the container writable layer or `emptyDir` volumes. These are stored on an encrypted overlay (dm-crypt over dm-integrity) inside the sandbox. Authentication tags are held in guest memory rather than on the overlay disk, so the parent instance cannot roll the layer back by restoring an earlier snapshot.
 * The parent instance cannot read or modify NFS traffic between the sandbox and Amazon EFS mount targets. The guest terminates TLS to the mount target and verifies the server certificate.
-
-On instances that support the Nitro Isolation Engine, Nitro Sandboxes gain additional assurance. The Nitro Isolation Engine is a formally verified implementation of the Nitro hypervisor, currently available on select {aws} instance types. For more information, see https://aws.amazon.com/blogs/compute/aws-nitro-isolation-engine-formally-verifying-the-hypervisor-in-the-aws-nitro-system/[Formally verifying the hypervisor in the {aws} Nitro System].
 
 [#sandboxing-parent-can]
 == What the parent instance can do
