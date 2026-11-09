@@ -21,10 +21,10 @@ _Hugepages_ let the kernel map memory in much larger units: 2 MiB or 1 GiB on x8
 
 Consider hugepages for the following workloads:
 
-* *Required by the runtime* — Some workloads do not start without hugepages. link:enclaves/latest/user/kubernetes.html[{aws} Nitro Enclaves on Amazon EKS,type="documentation"] requires Pods to request `hugepages-2Mi` or `hugepages-1Gi` for enclave memory. Data plane frameworks built on DPDK have the same requirement.
-* *High-performance inter-node communication* — Pods that use Elastic Fabric Adapter (EFA) with NVIDIA Collective Communications Library (NCCL) request `hugepages-2Mi` alongside the `vpc.amazonaws.com/efa` resource, so that the pinned buffers used for RDMA transfers are backed by hugepages. For an example, see <<device-management-efa>>.
-* *Large in-memory datasets* — Vector databases, in-memory caches, feature stores, and analytics engines that scan large contiguous regions benefit from the reduced TLB pressure.
-* *Latency-sensitive serving* — Workloads with strict tail-latency targets benefit because page table walks are a source of unpredictable memory-access latency.
+* *Required by the runtime*: Some workloads do not start without hugepages. link:enclaves/latest/user/kubernetes.html[{aws} Nitro Enclaves on Amazon EKS,type="documentation"] requires Pods to request `hugepages-2Mi` or `hugepages-1Gi` for enclave memory. Data plane frameworks built on DPDK have the same requirement.
+* *High-performance inter-node communication*: Pods that use Elastic Fabric Adapter (EFA) with NVIDIA Collective Communications Library (NCCL) request `hugepages-2Mi` alongside the `vpc.amazonaws.com/efa` resource, so that the pinned buffers used for RDMA transfers are backed by hugepages. For an example, see <<device-management-efa>>.
+* *Large in-memory datasets*: Vector databases, in-memory caches, feature stores, and analytics engines that scan large contiguous regions benefit from the reduced TLB pressure.
+* *Latency-sensitive serving*: Workloads with strict tail-latency targets benefit because page table walks are a source of unpredictable memory-access latency.
 
 Hugepages are not a universal win. They are pre-allocated and pinned, so the memory is unavailable to any workload that does not request it, and a workload that cannot use hugepages sees only the reduced conventional memory. Benchmark your workload before you reserve hugepages in production.
 
@@ -33,20 +33,20 @@ Hugepages are not a universal win. They are pre-allocated and pinned, so the mem
 
 Amazon EKS supports two independent mechanisms. You can use them separately or together.
 
-* *Static hugepages* — The node pre-allocates a fixed number of pages of a given size at boot. kubelet advertises them as the schedulable node resources `hugepages-2Mi` and `hugepages-1Gi`, and Pods must explicitly request them. Static hugepages are never overcommitted or swapped. For more information, see https://kubernetes.io/docs/tasks/manage-hugepages/scheduling-hugepages/[Manage HugePages] in the Kubernetes documentation.
-* *Transparent hugepages (THP)* — The kernel promotes eligible memory regions to hugepages automatically, with no change to the workload. THP is a kernel-wide policy, not an allocatable resource, so it does not affect scheduling or node capacity and Pods do not request it. For more information, see https://docs.kernel.org/admin-guide/mm/transhuge.html[Transparent Hugepage Support] in the Linux kernel documentation.
+* *Static hugepages*: The node pre-allocates a fixed number of pages of a given size at boot. kubelet advertises them as the schedulable node resources `hugepages-2Mi` and `hugepages-1Gi`, and Pods must explicitly request them. Static hugepages are never overcommitted or swapped. For more information, see https://kubernetes.io/docs/tasks/manage-hugepages/scheduling-hugepages/[Manage HugePages] in the Kubernetes documentation.
+* *Transparent hugepages (THP)*: The kernel promotes eligible memory regions to hugepages automatically, with no change to the workload. THP is a kernel-wide policy, not an allocatable resource, so it does not affect scheduling or node capacity and Pods do not request it. For more information, see https://docs.kernel.org/admin-guide/mm/transhuge.html[Transparent Hugepage Support] in the Linux kernel documentation.
 
 Use static hugepages when a workload requires an explicit, guaranteed reservation. Use THP when you want the kernel to opportunistically use hugepages for a workload that is not written to request them. Some databases recommend disabling THP, which you can also do through these settings.
 
 == Considerations
 
-* *Memory accounting* — Static hugepages count against the instance's total memory and are not available to workloads that do not request them. On EKS Auto Mode, Amazon EKS marks instance types as incompatible with the `NodeClass` when the combined reservation would exceed 80% of total memory.
-* *Requests must equal limits* — Kubernetes requires that a container's hugepage request and limit match. Hugepages cannot be overcommitted.
-* *Hugepages are not swappable and not shared* — Pages reserved but unused by a Pod stay idle for the Pod's lifetime. Size reservations to actual workload demand.
-* *EFA and static hugepages on EKS Auto Mode* — Elastic Fabric Adapter and static hugepages cannot coexist on the same EKS Auto Mode `NodeClass`. Use a separate `NodeClass` for EFA workloads. Transparent hugepages do not conflict with EFA. For more information, see <<hugepages-considerations,Hugepages considerations>>.
-* *1 GiB pages need contiguous memory* — Reserve 1 GiB pages at boot. Allocating them on a long-running node often fails because physical memory has fragmented.
-* *Keep the NodeOverlay in sync* — On self-managed Karpenter, the `NodeOverlay` capacity and the `userData` reservation are two independent declarations of the same thing. If you change one, change the other. An overlay that claims more than the node allocates causes Karpenter to schedule Pods onto nodes that cannot run them. EKS Auto Mode has a single source of truth in the `NodeClass`, so it is not affected.
-* *Dedicate NodePools* — Put hugepages workloads on their own `NodePool` so that the reservation does not reduce usable memory for the rest of your cluster.
+* *Memory accounting*: Static hugepages count against the instance's total memory and are not available to workloads that do not request them. On EKS Auto Mode, Amazon EKS marks instance types as incompatible with the `NodeClass` when the combined reservation would exceed 80% of total memory.
+* *Requests must equal limits*: Kubernetes requires that a container's hugepage request and limit match. Hugepages cannot be overcommitted.
+* *Hugepages are not swappable and not shared*: Pages reserved but unused by a Pod stay idle for the Pod's lifetime. Size reservations to actual workload demand.
+* *EFA and static hugepages on EKS Auto Mode*: Elastic Fabric Adapter and static hugepages cannot coexist on the same EKS Auto Mode `NodeClass`, because the EFA software already reserves 2 MiB hugepages at boot on instances that have an EFA device attached. For more information about that reservation, see <<device-management-efa>>. Use a separate `NodeClass` for EFA workloads. Transparent hugepages do not conflict with EFA. For more information, see <<hugepages-considerations,Hugepages considerations>>.
+* *1 GiB pages need contiguous memory*: Reserve 1 GiB pages at boot. Allocating them on a long-running node often fails because physical memory has fragmented.
+* *Keep the NodeOverlay in sync*: On self-managed Karpenter, the `NodeOverlay` capacity and the `userData` reservation are two independent declarations of the same thing. If you change one, change the other. An overlay that claims more than the node allocates causes Karpenter to schedule Pods onto nodes that cannot run them. EKS Auto Mode has a single source of truth in the `NodeClass`, so it is not affected.
+* *Dedicate NodePools*: Put hugepages workloads on their own `NodePool` so that the reservation does not reduce usable memory for the rest of your cluster.
 
 == Prerequisites
 

@@ -46,6 +46,10 @@ include::getting-started/getting-started.adoc[leveloffset=+1]
 
 include::automode/automode.adoc[leveloffset=+1]
 
+include::capabilities/capabilities.adoc[leveloffset=+1]
+
+include::ml/ml-on-eks.adoc[leveloffset=+1]
+
 include::clusters/clusters.adoc[leveloffset=+1]
 
 include::manage-access/cluster-auth.adoc[leveloffset=+1]
@@ -60,8 +64,6 @@ include::workloads/eks-workloads.adoc[leveloffset=+1]
 
 include::sandboxing/sandboxing.adoc[leveloffset=+1]
 
-include::capabilities/capabilities.adoc[leveloffset=+1]
-
 include::cluster-management/eks-managing.adoc[leveloffset=+1]
 
 include::security/security.adoc[leveloffset=+1]
@@ -73,8 +75,6 @@ include::integrations/eks-integrations.adoc[leveloffset=+1]
 include::connector/eks-connector.adoc[leveloffset=+1]
 
 include::outposts/eks-outposts.adoc[leveloffset=+1]
-
-include::ml/ml-on-eks.adoc[leveloffset=+1]
 
 include::tools/eks-tools.adoc[leveloffset=+1]
 

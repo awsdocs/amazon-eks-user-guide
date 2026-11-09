@@ -12,7 +12,11 @@ Learn how to manage specialized hardware devices such as NVIDIA GPUs, {aws} Trai
 
 Amazon EKS supports two Kubernetes mechanisms for managing specialized hardware devices in EKS clusters: _Dynamic Resource Allocation (DRA)_ and _device plugins_. Both mechanisms enable workloads to access hardware accelerators such as NVIDIA GPUs and {aws} Trainium chips, and high-performance network devices such as Elastic Fabric Adapter (EFA). 
 
-We recommend using DRA drivers for new deployments with Kubernetes versions 1.34 and later on Karpenter, EKS managed node groups, or self-managed nodes. Karpenter supports DRA with both dynamic and static capacity provisioning as of Karpenter version 1.15, though dynamic provisioning requires enabling Karpenter feature gates. For more information, see <<dra-karpenter>>. DRA is not currently supported with EKS Auto Mode. DRA provides richer device selection, topology-aware scheduling, and device sharing capabilities that are not possible with device plugins.
+We recommend using DRA drivers for new deployments with Kubernetes versions 1.34 and later. DRA provides richer device selection, topology-aware scheduling, and device sharing capabilities that are not possible with device plugins. DRA is supported with EKS Auto Mode, Karpenter, EKS managed node groups, and self-managed nodes.
+
+* *EKS Auto Mode*: Includes the NVIDIA DRA driver and the EFA DRA driver (DRANET) in the node runtime, so there is nothing for you to install or manage. EKS Auto Mode also prevents a DRA driver and a device plugin from managing the same device type on the same node. Requires Kubernetes version 1.36 or later. For more information, see <<dra-auto-mode>>.
+* *Karpenter*: Karpenter supports DRA with both dynamic and static capacity provisioning as of Karpenter version 1.15. Dynamic provisioning requires enabling Karpenter feature gates. You install and manage the DRA drivers, and you are responsible for keeping DRA drivers and device plugins off the same node. For more information, see <<dra-karpenter>>.
+* *EKS managed node groups and self-managed nodes*: You install and manage the DRA drivers, and you are responsible for keeping DRA drivers and device plugins off the same node.
 
 Reference the Kubernetes documentation for link:https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/[Dynamic Resource Allocation] and link:https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/[device plugins] for general information about these two Kubernetes features.
 
@@ -31,7 +35,7 @@ DRA enables:
 
 * Attribute-based device selection using https://kubernetes.io/docs/reference/using-api/cel/[Common Expression Language (CEL)] expressions.
 * Topology-aware allocation that ensures devices are co-located on the same PCIe switch or NUMA domain.
-* Device sharing between multiple containers or Pods through shared `ResourceClaim` references.
+* Device sharing between multiple containers or Pods through shared `ResourceClaim` references, for device types whose driver supports it.
 * Dynamic partitioning and sharing of NVIDIA GPUs when using MIG or time-slicing
 
 == DRA drivers for Amazon EKS
@@ -40,7 +44,7 @@ The following DRA drivers are commonly used for managing specialized hardware de
 
 NVIDIA DRA driver:: The link:https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu[NVIDIA DRA driver for GPUs] on GitHub enables flexible allocation and dynamic configuration of NVIDIA GPUs. See <<device-management-nvidia-dra-device-plugin>> for information on managing GPUs with the NVIDIA DRA driver and <<ml-eks-nvidia-ultraserver>> for information on using `ComputeDomains` for Multi-Node NVLink (MNNVL) workloads with EC2 Grace-Blackwell instances.
 
-EFA DRA driver:: The EFA DRA driver (link:https://github.com/kubernetes-sigs/dranet[DRANET] on GitHub) manages Elastic Fabric Adapter (EFA) device allocation with topology-aware scheduling that pairs EFA interfaces with their topologically-local GPUs or Neuron devices, and supports device sharing between Pods. For more information, see <<device-management-efa>>.
+EFA DRA driver:: The EFA DRA driver (link:https://github.com/kubernetes-sigs/dranet[DRANET] on GitHub) manages Elastic Fabric Adapter (EFA) device allocation with topology-aware scheduling that pairs EFA interfaces with their topologically-local GPUs or Neuron devices. EFA devices are allocated to one Pod at a time and cannot be shared between Pods. For more information, see <<device-management-efa>>.
 
 Neuron DRA driver:: The Neuron DRA driver manages {aws} Trainium and {aws} Inferentia2 device allocation with topology-aware scheduling, connected device subset allocation, and Logical NeuronCore (LNC) configuration, without requiring custom scheduler extensions. For more information, see <<device-management-neuron>>.
 
@@ -59,31 +63,102 @@ Neuron device plugin:: The https://awsdocs-neuron.readthedocs-hosted.com/en/late
 Before using DRA drivers on Amazon EKS, review the following considerations:
 
 * DRA is available on Amazon EKS with Kubernetes version 1.33 and above, but it is recommended for Kubernetes versions 1.34 and later because of an upstream link:https://github.com/kubernetes/kubernetes/issues/133920[Kubernetes issue] on GitHub. Your cluster control plane and nodes must be running a Kubernetes version that supports DRA.
-* DRA is not currently compatible with EKS Auto Mode.
-* Karpenter supports DRA with both dynamic and static capacity provisioning as of Karpenter version 1.15. Dynamic provisioning requires enabling Karpenter's DRA feature gates and has additional limitations. For more information, see <<dra-karpenter>>.
-* DRA drivers and device plugins for the same device type **must** not run simultaneously on the same node. Uninstall the device plugin before installing the corresponding DRA driver, or deploy them on separate nodes. Running both DRA driver and device plugin for the same device on the same node can cause silent oversubscription of the underlying hardware devices.
+* EKS Auto Mode supports DRA for NVIDIA GPUs and EFA devices on Kubernetes version 1.36 and later. GPU sharing through DRA, including time-slicing and MIG, is not available in EKS Auto Mode. For more information, see <<dra-auto-mode>>.
+* Karpenter supports DRA with both dynamic and static capacity provisioning as of Karpenter version 1.15. Dynamic provisioning requires enabling Karpenter feature gates and has additional limitations. For more information, see <<dra-karpenter>>.
+* DRA drivers and device plugins for the same device type **must** not run simultaneously on the same node. Running both a DRA driver and a device plugin for the same device on the same node can cause silent oversubscription of the underlying hardware devices, because each mechanism allocates the device independently of the other. EKS Auto Mode enforces this separation for you. On Karpenter, EKS managed node groups, and self-managed nodes, uninstall the device plugin before installing the corresponding DRA driver, or deploy them on separate nodes.
 * DRA uses different Kubernetes API resources (`ResourceClaim`, `ResourceClaimTemplate`, `DeviceClass`) than device plugins (`resource.limits`, `resource.requests`). You can use DRA to manage the device plugin extended resources without changing your workload specifications. For more information about extended resources in DRA, see the link:https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#extended-resource[Kubernetes documentation] on the Kubernetes website.
 * The DRA drivers for NVIDIA, EFA, and Neuron are compatible with both the EKS-optimized AL2023 AMIs and the Bottlerocket AMIs. If you are using the NVIDIA DRA driver with Bottlerocket, disable the NVIDIA device plugin that is included in the Bottlerocket NVIDIA variants.
 * Device plugins remain fully supported for all Kubernetes versions.
+
+[#dra-auto-mode]
+== Using DRA with EKS Auto Mode
+
+EKS Auto Mode includes the NVIDIA DRA driver and the EFA DRA driver (DRANET) in the node runtime, alongside the NVIDIA, EFA, and Neuron device plugins. You do not install, configure, or upgrade any of these components. To use DRA, you create the `DeviceClass` objects for the devices you want to claim, then create `ResourceClaim` or `ResourceClaimTemplate` objects and reference them from your workloads. EKS Auto Mode then launches an instance whose devices satisfy the claim and enables the matching DRA driver on the node.
+
+DRA with EKS Auto Mode requires Kubernetes version 1.36 or later.
+
+[#dra-auto-mode-considerations]
+=== Considerations
+
+Review the following considerations before you use DRA with EKS Auto Mode:
+
+* *Kubernetes version*: Requires Kubernetes version 1.36 or later. On earlier versions, use device plugins.
+* *You create the `DeviceClass` objects*: EKS Auto Mode provides the DRA drivers but does not create their `DeviceClass` objects. Create them before your workloads claim devices. For more information, see <<dra-auto-mode-deviceclass>>.
+* *Supported device types*: DRA is supported for NVIDIA GPUs and EFA devices. Use the Neuron device plugin for {aws} Trainium and {aws} Inferentia devices.
+* *`g7e` is not supported*: EKS Auto Mode does not have DRA device metadata for the `g7e` instance family, so dynamic capacity provisioning does not launch `g7e` nodes for DRA claims. Use the NVIDIA device plugin for `g7e` GPUs. For more information, see <<eks-nvidia-device-plugin>>.
+* *No GPU sharing through DRA*: Time-slicing and MIG through the NVIDIA DRA driver are not available in EKS Auto Mode, because these capabilities are alpha in the upstream NVIDIA DRA driver. To share GPUs on EKS Auto Mode, use a `ResourceClaim` that several Pods reference, which allocates the same device to each of them. For GPU sharing through time-slicing, use Karpenter. For more information, see <<device-management-nvidia-time-slicing>>.
+* *`ComputeDomains` are not supported*: Multi-Node NVLink workloads that use `ComputeDomain` resources require Karpenter static capacity provisioning, EKS managed node groups, or self-managed nodes. For more information, see <<ml-eks-nvidia-ultraserver>>.
+* *All EFA interfaces assumed*: EKS Auto Mode's device metadata assumes that each node is configured with an EFA interface on every EFA-capable network card the instance type supports. EKS Auto Mode evaluates pending EFA claims, including PCIe alignment constraints, against that assumption. If a node is launched with fewer EFA interfaces than its instance type supports, EKS Auto Mode overestimates the EFA devices the node will offer and can launch a node that cannot satisfy the claim. Leave `advancedNetworking.networkInterfaces` unset so that EKS Auto Mode attaches an EFA interface on every EFA-capable network card for you.
+* *EFA nodes need a routable subnet*: With dynamic capacity provisioning, EKS Auto Mode attaches an EFA interface on every EFA-capable network card by default, so the node is launched with several network interfaces and Amazon EC2 does not assign it a public IP address. In a public subnet the node joins the cluster but cannot pull images. Run EFA workloads on private subnets with a NAT gateway, or on subnets with the {aws} PrivateLink endpoints your workloads need. For more information, see <<eks-efa-auto-mode>>.
+* *Static network interface configuration*: Don't use dynamic capacity provisioning, static network interface configuration (`advancedNetworking.networkInterfaces` on a `NodeClass`), and topology-aligned GPU and EFA allocation together. The behavior is undefined: EKS Auto Mode launches a node, but the Pod can then fail to schedule onto it and remain `Pending`, with no error at provisioning time. Static network interface configuration is intended for static capacity provisioning. For more information, see <<device-management-efa>>.
+* *Node role is permanent*: A node is a DRA node or a device plugin node per device type for its whole lifetime. Migration requires replacing nodes. For more information, see <<dra-auto-mode-exclusivity>>.
+
+[#dra-auto-mode-deviceclass]
+=== DeviceClass objects on EKS Auto Mode
+
+A `DeviceClass` names a category of devices and defines the expression that selects them. Every `ResourceClaim` and `ResourceClaimTemplate` references one by name.
+
+When you install a DRA driver yourself with Helm, the driver's chart creates its `DeviceClass` objects for you. EKS Auto Mode runs the drivers from the node runtime rather than from a Helm chart, so *you create the `DeviceClass` objects yourself*. A claim that references a `DeviceClass` that does not exist is never allocated, and the Pod stays in the `Pending` state.
+
+Create only the classes for the device types you use, and give them the same names that the upstream driver charts use so that your claims remain portable between EKS Auto Mode and clusters where you manage the drivers yourself. For the NVIDIA GPU `DeviceClass` definition, see <<eks-nvidia-dra-deviceclass>>. For the EFA `DeviceClass` definition, see <<efa-dra-deviceclass>>. For a walkthrough that creates one and runs a GPU workload against it, see <<auto-accelerated-dra>>.
+
+[#dra-auto-mode-exclusivity]
+=== How EKS Auto Mode keeps DRA and device plugins apart
+
+A DRA driver and a device plugin for the same device type cannot safely share a node, because each allocates the device without knowledge of the other. EKS Auto Mode prevents this. EKS Auto Mode chooses the device manager for each device type when it launches a node, based on the workloads it launches the node for. Every EKS Auto Mode node is either a _DRA node_ or a _device plugin node_ for each device type, and it keeps that role for its entire lifetime:
+
+* When EKS Auto Mode launches a node for Pods that claim a device type through DRA, it enables the DRA driver for that device type on the node and disables the corresponding device plugin. Pods that request the device plugin extended resource for that device type, such as `nvidia.com/gpu` or `vpc.amazonaws.com/efa`, never schedule to that node.
+* When EKS Auto Mode launches a node for Pods that request the device plugin extended resource, the node becomes a device plugin node for that device type, and Pods that claim the device type through DRA never schedule to it.
+
+A node keeps its role even when no Pods run on it. A node that EKS Auto Mode launched for a DRA workload doesn't accept device plugin Pods for that device type later in its life.
+
+A node's role is set per device type, so a single node can use the NVIDIA DRA driver for GPUs and the EFA device plugin for EFA devices. However, topology-aligned allocation of a GPU and an EFA device requires DRA for both device types, because the EFA device plugin does not publish the PCIe topology attributes that the alignment constraint matches on.
+
+You cannot change a node's role in place. To move a workload from device plugins to DRA, you must replace the nodes. If your capacity comes from a Capacity Reservation or Capacity Block, this means scaling down before scaling up.
+
+[#dra-auto-mode-labels]
+=== Selecting the device manager explicitly
+
+EKS Auto Mode applies a label that records the device manager in effect for each device family the node has: `eks.amazonaws.com/device-manager-nvidia` and `eks.amazonaws.com/device-manager-efa`, each set to either `dra` or `device-plugin`. A node carries only the labels for the device families its instance type provides, so a GPU instance without an EFA device has the NVIDIA label and not the EFA label, and a node with neither device has neither label. You can also set these labels on a `NodePool` to choose the device manager for every node the `NodePool` launches, rather than letting EKS Auto Mode infer it from your workloads.
+
+Set these labels in the following cases:
+
+* *Static capacity provisioning*: Required for DRA. A static `NodePool` maintains a fixed node count through `spec.replicas` and never evaluates pending Pods, so there is no workload intent to infer the device manager from. A static `NodePool` without the label uses the device plugin.
+* *Dynamic capacity provisioning*: Not required. EKS Auto Mode infers the device manager from the Pods it launches each node for, so one `NodePool` can serve both DRA Pods and device plugin Pods and still launch the right kind of node for each. You don't need the label to migrate a workload from device plugins to DRA. Set it when you want to require one device manager for workloads you don't control, such as manifests that other teams apply to the cluster directly.
+
+Because these are node labels, you can also use them in a `nodeSelector` or node affinity rule to keep a workload on nodes that use the device manager the workload expects.
+
+For example `NodePool` definitions that set these labels, see <<auto-accelerated-dra>> and <<auto-accelerated-capacity-block-static>>.
 
 [#dra-karpenter]
 == Using DRA with Karpenter
 
 Karpenter must account for the devices a Pod claims in order to decide which instance type to launch. Because DRA requests devices through `ResourceClaim` objects rather than extended resources, Karpenter needs explicit support to read them.
 
-* *Static capacity provisioning* — Works with DRA on any Karpenter version that supports static NodePools. Because a static NodePool maintains a fixed node count through `spec.replicas` rather than scaling in response to pending Pods, Karpenter never simulates the device claim. The nodes exist first and the DRA driver publishes its `ResourceSlice` objects from them. For more information, see the link:https://karpenter.sh/docs/concepts/nodepools/#static-nodepool[Karpenter static NodePool documentation].
-* *Dynamic capacity provisioning* — Supported as of Karpenter version 1.15, where Karpenter ships device metadata for supported instance types and evaluates pending `ResourceClaim` objects against it. This means scale-from-zero works for DRA workloads: no node with the device needs to exist first. This support is Alpha and off by default.
+* *Static capacity provisioning*: Works with DRA on any Karpenter version that supports static NodePools. Because a static NodePool maintains a fixed node count through `spec.replicas` rather than scaling in response to pending Pods, Karpenter never simulates the device claim. The nodes exist first and the DRA driver publishes its `ResourceSlice` objects from them. For more information, see the link:https://karpenter.sh/docs/concepts/nodepools/#static-nodepool[Karpenter static NodePool documentation].
+* *Dynamic capacity provisioning*: Supported as of Karpenter version 1.15, where Karpenter ships device metadata for supported instance types and evaluates pending `ResourceClaim` objects against it. This means scale-from-zero works for DRA workloads: no node with the device needs to exist first. This support is Alpha and off by default.
 
-To enable dynamic provisioning for DRA workloads, set `settings.enableDRA: true` on the Karpenter Helm chart. This turns on the `DRANVIDIAGPU` and `DRAEFA` {aws} feature gates and sets `IGNORE_DRA_REQUESTS` to `false`. You can instead enable a single gate through `settings.awsFeatureGates.draNVIDIAGPU` or `settings.awsFeatureGates.draEFA` if you run only one of the drivers. Do not combine `settings.enableDRA` with the individual gate values, because the chart fails to render.
+To enable dynamic provisioning for DRA workloads, set `settings.enableDRA: true` on the Karpenter Helm chart. This turns on the `DRANVIDIAGPU` and `DRAEFA` {aws} feature gates and sets `settings.ignoreDRARequests` to `false`. You can instead enable a single gate through `settings.awsFeatureGates.draNVIDIAGPU` or `settings.awsFeatureGates.draEFA` if you run only one of the drivers. Do not combine `settings.enableDRA` with the individual gate values, because the chart fails to render.
+
+[NOTE]
+.Upgrading an existing Karpenter release
+====
+If you upgrade an existing Karpenter release with `helm upgrade --reuse-values`, setting `settings.enableDRA` fails, because earlier chart versions default `settings.ignoreDRARequests` to `true`. Use `--reset-then-reuse-values` instead, which requires Helm version 3.14 or later.
+====
+
+Karpenter also supports system-mediated GPU time-slicing for dynamic provisioning, built on Kubernetes consumable capacity. This lets Karpenter pack a fixed number of claims onto each GPU and launch a new node only when the existing GPUs run out of shares. This support is alpha. For more information, see <<eks-time-slicing-karpenter-consumable-capacity>>.
 
 Review the following limitations before enabling dynamic provisioning for DRA workloads:
 
-* *Both drivers assumed* — `settings.enableDRA` assumes that both the NVIDIA and EFA DRA drivers run on your DRA nodes. If one does not, Karpenter launches nodes for claims that can never be satisfied. Enable only the gate for each driver you actually run.
-* *Instance type coverage* — Karpenter evaluates claims only against instance types it ships metadata for. Support for a new instance type requires a new Karpenter release.
-* *EFA network interface configuration* — Configuring `spec.networkInterfaces` on an `EC2NodeClass` for EFA DRA workloads is currently unsupported and results in undefined behavior. This conflicts with the `efa-only` interface configuration recommended in <<eks-efa-interfaces>>, so use static capacity provisioning when you need both EFA DRA and a custom interface layout.
-* *ComputeDomains* — Karpenter does not support dynamic provisioning for `ComputeDomains`, so it does not launch nodes for those claims. Multi-Node NVLink workloads that use `ComputeDomains` still require static capacity provisioning, EKS managed node groups, or self-managed nodes. For more information, see <<ml-eks-nvidia-ultraserver>>.
-* *Extended resource requests are not DRA requests* — A Pod that requests `nvidia.com/gpu` as an extended resource is not treated as a DRA Pod, even if a DRA driver serves that resource.
-* *Keep DRA and device plugin nodes separate* — Karpenter's device metadata applies to every NodePool that allows a supported instance type. Use labels and node selectors to keep DRA Pods on DRA nodes, so that a DRA driver and a device plugin never manage the same device on the same node.
+* *Both drivers assumed*: `settings.enableDRA` assumes that both the NVIDIA and EFA DRA drivers run on your DRA nodes. If one does not, Karpenter launches nodes for claims that can never be satisfied. Enable only the gate for each driver you actually run.
+* *Instance type coverage*: Karpenter evaluates claims only against instance types it ships metadata for. Support for a new instance type requires a new Karpenter release.
+* *`g7e` is not supported*: Karpenter does not ship DRA device metadata for the `g7e` instance family, so dynamic capacity provisioning does not launch `g7e` nodes for DRA claims. Use the NVIDIA device plugin for `g7e` GPUs. For more information, see <<eks-nvidia-device-plugin>>.
+* *All EFA interfaces assumed*: Karpenter's device metadata assumes that each node is configured with an EFA interface on every EFA-capable network card the instance type supports. Karpenter evaluates pending EFA claims, including PCIe alignment constraints, against that assumption. If a node is launched with fewer EFA interfaces than its instance type supports, Karpenter overestimates the EFA devices the node will offer and can launch a node that cannot satisfy the claim. Leave the interface configuration unset so that Karpenter attaches an EFA interface on every EFA-capable network card for you.
+* *EFA network interface configuration*: Don't use dynamic capacity provisioning, static network interface configuration (`spec.networkInterfaces` on an `EC2NodeClass`), and topology-aligned GPU and EFA allocation together. The behavior is undefined: Karpenter launches a node, but the Pod can then fail to schedule onto it and remain `Pending`, with no error at provisioning time. This conflicts with the `efa-only` interface configuration recommended in <<eks-efa-interfaces>>, so use static capacity provisioning when you need both EFA DRA and a custom interface layout.
+* *ComputeDomains*: Karpenter does not support dynamic provisioning for `ComputeDomains`, so it does not launch nodes for those claims. Multi-Node NVLink workloads that use `ComputeDomains` still require static capacity provisioning, EKS managed node groups, or self-managed nodes. For more information, see <<ml-eks-nvidia-ultraserver>>.
+* *MIG*: Karpenter's device metadata describes whole GPUs only, so Karpenter does not launch nodes for claims against the `mig.nvidia.com` `DeviceClass`. MIG workloads require static capacity provisioning, EKS managed node groups, or self-managed nodes. For more information, see <<device-management-nvidia-mig>>.
+* *Extended resource requests are not DRA requests*: A Pod that requests `nvidia.com/gpu` as an extended resource is not treated as a DRA Pod, even if a DRA driver serves that resource.
+* *Keep DRA and device plugin nodes separate*: Karpenter's device metadata applies to every NodePool that allows a supported instance type. Use labels and node selectors to keep DRA Pods on DRA nodes, so that a DRA driver and a device plugin never manage the same device on the same node.
 
 For the current gate names, defaults, and supported instance types, see link:https://karpenter.sh/docs/tasks/dra/[Utilizing GPUs and EFAs with Dynamic Resource Allocation] in the Karpenter documentation.
 
@@ -131,7 +206,7 @@ The following table summarizes the differences between `ResourceClaim` and `Reso
 | `resourceClaimTemplateName`
 |===
 
-For examples of using `ResourceClaim` objects to share EFA devices between Pods, see <<efa-dra-share>>. For examples of using `ResourceClaimTemplate` objects with topology-aware allocation, see <<efa-dra-topology-aware>>.
+Not every device type can be shared between Pods. EFA devices are allocated to one Pod at a time, so EFA workloads use a `ResourceClaimTemplate`. For more information, see <<efa-dra-share>>. For examples of using `ResourceClaimTemplate` objects with topology-aware allocation, see <<efa-dra-topology-aware>>.
 
 == Topics
 

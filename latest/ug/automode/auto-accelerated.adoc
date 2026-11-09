@@ -8,7 +8,7 @@ include::../attributes.txt[]
 
 This tutorial demonstrates how Amazon EKS Auto Mode simplifies launching hardware-accelerated workloads. Amazon EKS Auto Mode streamlines operations beyond the cluster itself by automating key infrastructure components providing compute, networking, load balancing, storage, and Identity and Access Management capabilities out of the box. 
 
-Amazon EKS Auto Mode includes the drivers and device plugins required for certain instance types, such as NVIDIA and {aws} Neuron drivers. You do not have to install or update these components. 
+Amazon EKS Auto Mode includes the drivers and device plugins required for certain instance types, such as NVIDIA and {aws} Neuron drivers, along with the components that manage Elastic Fabric Adapter (EFA) network devices. You do not have to install or update these components.
 
 EKS Auto Mode automatically manages drivers for these accelerators:
 
@@ -16,13 +16,40 @@ EKS Auto Mode automatically manages drivers for these accelerators:
 * link:ai/machine-learning/inferentia/[{aws} Inferentia, type="marketing"]
 * link:ec2/latest/instancetypes/ac.html[NVIDIA GPUs on Amazon EC2 accelerated instances, type="documentation"]
 
-NOTE: EKS Auto Mode includes the NVIDIA device plugin for Kubernetes. This plugin runs automatically and isn't visible as a daemon set in your cluster.
-
-Additional networking support:
+EKS Auto Mode also manages the high-performance network devices that distributed training and inference workloads depend on:
 
 * link:hpc/efa/[Elastic Fabric Adapter (EFA), type="marketing"] — For information on managing EFA devices in your EKS cluster, see <<device-management-efa>>.
 
-Amazon EKS Auto Mode eliminates the toil of accelerator driver and device plugin management. 
+To expose these accelerators and network devices to your workloads, the EKS Auto Mode node runtime includes the following device management components. Each runs automatically and isn't visible as a daemon set in your cluster, and you don't install, configure, or upgrade any of them.
+
+[cols="1,1,1,1", options="header"]
+|===
+| Device type
+| Device plugin
+| DRA driver
+| Learn more
+
+| NVIDIA GPUs
+| NVIDIA device plugin
+| NVIDIA DRA driver (Kubernetes 1.36 and later)
+| <<device-management-nvidia>>
+
+| EFA
+| EFA device plugin
+| EFA DRA driver (DRANET) (Kubernetes 1.36 and later)
+| <<device-management-efa>>
+
+| {aws} Trainium and {aws} Inferentia
+| Neuron device plugin
+| Not available
+| <<device-management-neuron>>
+|===
+
+For a comparison of DRA and device plugins, guidance on which to choose, and the full set of considerations for each, see <<device-management>>.
+
+Amazon EKS Auto Mode eliminates the toil of accelerator driver and device plugin management.
+
+On Kubernetes version 1.36 and later, you can use Dynamic Resource Allocation (DRA) instead of device plugins for NVIDIA GPUs and EFA devices. With DRA, you select devices by attribute, allocate topology-aligned GPU and EFA devices, and share a GPU across Pods, while EKS Auto Mode scales instances to match your claims. EKS Auto Mode keeps a DRA driver and a device plugin from managing the same device type on one node. For more information, see <<auto-accelerated-dra>> and <<dra-auto-mode>>.
 
 You can also benefit from cost savings by scaling the cluster to zero. You can configure EKS Auto Mode to terminate instances when no workloads are running. This is useful for batch based inference workloads.
 
@@ -168,7 +195,7 @@ Sample output:
 [source,bash]
 ----
 +---------------------------------------------------------------------------------------+
-| NVIDIA-SMI 535.230.02             Driver Version: 535.230.02   CUDA Version: 12.2     |
+| NVIDIA-SMI 580.178.04             Driver Version: 580.178.04   CUDA Version: 13.0     |
 |-----------------------------------------+----------------------+----------------------+
 | GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
 | Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
@@ -199,6 +226,232 @@ kubectl delete -f nodepool-gpu.yaml
 kubectl delete -f pod.yaml
 ----
 
+
+[#auto-accelerated-dra]
+== Deploy an accelerated workload with Dynamic Resource Allocation
+
+The walkthrough in <<auto-accelerated>> requests a GPU as the `nvidia.com/gpu` extended resource, which the NVIDIA device plugin advertises. On Kubernetes version 1.36 and later, you can instead request devices through Dynamic Resource Allocation (DRA). DRA lets you select devices by attributes such as GPU model or memory, constrain a GPU and an EFA device to the same PCIe root for distributed training, and share one GPU across several Pods.
+
+EKS Auto Mode includes the NVIDIA DRA driver and the EFA DRA driver (DRANET) in the node runtime, so there are no drivers to install. You do need to create the `DeviceClass` objects that your claims reference, which a driver's Helm chart would otherwise create for you.
+
+EKS Auto Mode keeps DRA and device plugins from managing the same device type on one node. EKS Auto Mode chooses the device manager for each device type when it launches a node, based on the workloads it launches the node for, and the node keeps that role for its lifetime. With dynamic capacity provisioning, as in this walkthrough, you don't configure anything for this. Static capacity provisioning requires the device manager label on the `NodePool`, because a static `NodePool` has no pending Pods to infer the choice from. For more information, see <<dra-auto-mode>>.
+
+=== Prerequisites
+
+* A Kubernetes cluster with Amazon EKS Auto Mode configured, running *Kubernetes version 1.36 or later*. DRA is not available on EKS Auto Mode clusters running earlier versions. To check your cluster version, run `kubectl version`. For information about updating a cluster, see <<update-cluster>>.
+* A `default` EKS Node class as created when the `general-purpose` or `system` Managed Node Pools are enabled.
+* `kubectl` configured to communicate with your cluster, see <<kubectl-install-update>> for more information.
+* A GPU instance family that EKS Auto Mode has DRA device metadata for. The `g7e` instance family is not supported with DRA and dynamic capacity provisioning. Use the NVIDIA device plugin for `g7e` GPUs, as shown in <<auto-accelerated>>.
+
+=== Step 1: Create the DeviceClass
+
+A `DeviceClass` names a category of devices and defines the expression that selects them. Your `ResourceClaimTemplate` references it by name. EKS Auto Mode does not create these objects, so create the one for NVIDIA GPUs before you deploy the workload.
+
+[source,bash,subs="verbatim,attributes"]
+----
+cat <<EOF | kubectl apply -f -
+apiVersion: resource.k8s.io/v1
+kind: DeviceClass
+metadata:
+  name: gpu.nvidia.com
+spec:
+  selectors:
+  - cel:
+      expression: "device.driver == 'gpu.nvidia.com' && device.attributes['gpu.nvidia.com'].type == 'gpu'"
+EOF
+----
+
+Confirm that it exists:
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get deviceclass
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+NAME             AGE
+gpu.nvidia.com   5s
+----
+
+The name and selector match the `DeviceClass` that the upstream NVIDIA DRA driver Helm chart installs, so the same claims work on clusters where you manage the driver yourself. For the EFA `DeviceClass`, the optional `extendedResourceName` field, and more information, see <<eks-nvidia-dra-deviceclass>> and <<dra-auto-mode-deviceclass>>.
+
+=== Step 2: Deploy a GPU workload with DRA
+
+In this example, you create a `NodePool` for NVIDIA based workloads, a `ResourceClaimTemplate` that requests one GPU, and a Pod that references the template.
+
+The `NodePool` doesn't set a device manager label. EKS Auto Mode sees that the pending Pod claims a GPU through DRA and launches a node that uses the NVIDIA DRA driver, and it labels the node accordingly. You confirm that label in Step 3.
+
+To deploy the `NodePool`, `ResourceClaimTemplate`, and sample workload, review the following definitions and save them as `nodepool-gpu-dra.yaml` and `pod-dra.yaml`:
+
+*nodepool-gpu-dra.yaml*
+
+[source,yaml]
+----
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: gpu-dra
+spec:
+  disruption:
+    budgets:
+    - nodes: 10%
+    consolidateAfter: 1h
+    consolidationPolicy: WhenEmpty
+  template:
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: default
+      requirements:
+        - key: "karpenter.sh/capacity-type"
+          operator: In
+          values: ["on-demand"]
+        - key: "kubernetes.io/arch"
+          operator: In
+          values: ["amd64"]
+        - key: "eks.amazonaws.com/instance-family"
+          operator: In
+          values:
+          - g6e
+          - g6
+      taints:
+        - key: nvidia.com/gpu
+          effect: NoSchedule
+      terminationGracePeriod: 5m
+----
+
+*pod-dra.yaml*
+
+[source,yaml]
+----
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: single-gpu
+spec:
+  spec:
+    devices:
+      requests:
+      - name: gpu
+        exactly:
+          deviceClassName: gpu.nvidia.com
+          count: 1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nvidia-smi-dra
+spec:
+  nodeSelector:
+    eks.amazonaws.com/compute-type: auto
+  restartPolicy: OnFailure
+  containers:
+  - name: nvidia-smi
+    image: public.ecr.aws/amazonlinux/amazonlinux:2023-minimal
+    args:
+    - "nvidia-smi"
+    resources:
+      claims:
+      - name: gpu
+  resourceClaims:
+  - name: gpu
+    resourceClaimTemplateName: single-gpu
+  tolerations:
+  - key: nvidia.com/gpu
+    effect: NoSchedule
+    operator: Exists
+----
+
+Note that the Pod requests the GPU through `resources.claims` and `resourceClaims`, rather than through the `nvidia.com/gpu` extended resource used in <<auto-accelerated>>. The `NodePool` also sets a taint that only allows Pods with tolerations for NVIDIA GPUs to be scheduled.
+
+Apply the `NodePool` and workload to your cluster.
+
+[source,bash]
+----
+kubectl apply -f nodepool-gpu-dra.yaml
+kubectl apply -f pod-dra.yaml
+----
+
+You should see the following output:
+
+[source,bash]
+----
+nodepool.karpenter.sh/gpu-dra created
+resourceclaimtemplate.resource.k8s.io/single-gpu created
+pod/nvidia-smi-dra created
+----
+
+Wait a few seconds, and check the nodes in your cluster. EKS Auto Mode launches an instance whose GPUs satisfy the claim, enables the NVIDIA DRA driver on that node, and disables the NVIDIA device plugin on it.
+
+=== Step 3: Validate
+
+Confirm that the node is a DRA node for NVIDIA GPUs by checking the device manager label:
+
+[source,bash]
+----
+kubectl get nodes -L eks.amazonaws.com/device-manager-nvidia
+----
+
+An example output is as follows.
+
+[source,bash]
+----
+NAME                  STATUS   ROLES    AGE   VERSION   DEVICE-MANAGER-NVIDIA
+i-02315c7d7643cdee6   Ready    <none>   76s   v1.36.0   dra
+----
+
+Look at the container's logs by running the following command:
+
+[source,bash]
+----
+kubectl logs nvidia-smi-dra
+----
+
+The output shows the GPU that the DRA driver allocated to the container, and confirms that you did not have to install any device drivers or a DRA driver, as this is managed by Amazon EKS Auto Mode.
+
+You can also confirm that the claim was allocated. Kubernetes generates a `ResourceClaim` for each Pod that uses a `ResourceClaimTemplate`, named after the Pod and the claim name in the Pod's `resourceClaims` list. For the preceding Pod, that is `nvidia-smi-dra-gpu-` followed by a random suffix.
+
+[source,bash]
+----
+kubectl get resourceclaims
+----
+
+An example output is as follows.
+
+[source,bash]
+----
+NAME                       STATE                AGE
+nvidia-smi-dra-gpu-h4gff   allocated,reserved   12s
+----
+
+[NOTE]
+.The generated claim exists only while the Pod does
+====
+This Pod runs `nvidia-smi` once and then completes, and Kubernetes deletes the generated `ResourceClaim` with it. If `kubectl get resourceclaims` reports `No resources found`, the Pod has already finished. Run the command while the Pod is still running, or deploy a long-running Pod to inspect the claim at your own pace.
+====
+
+=== Step 4: Clean-up
+
+To remove all objects created, use `kubectl` to delete the sample workload and NodePool so the node is terminated:
+
+[source,bash]
+----
+kubectl delete -f pod-dra.yaml
+kubectl delete -f nodepool-gpu-dra.yaml
+----
+
+You can leave the `gpu.nvidia.com` `DeviceClass` in place for future workloads. To remove it as well, run the following command:
+
+[source,bash]
+----
+kubectl delete deviceclass gpu.nvidia.com
+----
+
+For topology-aligned GPU and EFA allocation, device sharing, and the full set of considerations, see <<device-management>>.
 
 == Example NodePools Reference
 
@@ -273,6 +526,130 @@ The following NodePool has an `eks.amazonaws.com/instance-category` set that say
         - key: "eks.amazonaws.com/instance-category"
           operator: In
           values:
-            - inf  
+            - inf
             - trn
 ----
+
+[#auto-accelerated-capacity-block-static]
+=== Create a static NodePool with P instances from a Capacity Block
+
+link:AWSEC2/latest/UserGuide/ec2-capacity-blocks.html[Capacity Blocks for ML,type="documentation"] reserve GPU accelerated instances for a defined window, placed close together in an Amazon EC2 UltraCluster for low-latency networking. Because you pay for the block for its whole duration whether or not the instances are running, pair a Capacity Block with a <<auto-static-capacity,static capacity node pool>> rather than a dynamic one. A static node pool maintains a fixed node count through `spec.replicas` instead of scaling in response to pending Pods, so your reserved instances come up and stay up for the life of the block.
+
+This combination suits distributed training runs, pre-warmed inference fleets, and any workload where you want the reserved GPUs available before the Pods arrive.
+
+The following example reserves eight `p5.48xlarge` nodes from a Capacity Block.
+
+*Example NodeClass referencing a Capacity Block*
+
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: gpu-capacity-block
+spec:
+  role: [.replaceable]`AmazonEKSNodeRole`
+  subnetSelectorTerms:
+    - tags:
+        kubernetes.io/cluster/[.replaceable]`my-cluster`: "owned"
+  securityGroupSelectorTerms:
+    - tags:
+        kubernetes.io/cluster/[.replaceable]`my-cluster`: "owned"
+  capacityReservationSelectorTerms:
+    - id: [.replaceable]`cr-56fac701cc1951b03`
+----
+
+Replace [.replaceable]`cr-56fac701cc1951b03` with your Capacity Block reservation ID, which you can find in the Amazon EC2 console. Unlike open On-Demand Capacity Reservations, EKS Auto Mode never uses a Capacity Block automatically — you must select it with `capacityReservationSelectorTerms`.
+
+[IMPORTANT]
+.Selecting a Capacity Block disables automatic Capacity Reservation use
+====
+Configuring `capacityReservationSelectorTerms` on any `NodeClass` in a cluster stops EKS Auto Mode from automatically using open On-Demand Capacity Reservations for *every* `NodeClass` in that cluster. To restore the automatic behavior, remove the selector terms. For more information, see <<auto-odcr>>.
+====
+
+*Example static NodePool using the Capacity Block*
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: gpu-capacity-block
+spec:
+  replicas: 8
+  limits:
+    nodes: 10
+  template:
+    metadata:
+      labels:
+        eks.amazonaws.com/device-manager-nvidia: dra
+        eks.amazonaws.com/device-manager-efa: dra
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: gpu-capacity-block
+      requirements:
+        - key: "karpenter.sh/capacity-type"
+          operator: In
+          values: ["reserved"]
+        - key: "node.kubernetes.io/instance-type"
+          operator: In
+          values: ["p5.48xlarge"]
+      taints:
+        - key: nvidia.com/gpu
+          effect: NoSchedule
+      terminationGracePeriod: 5m
+----
+
+Note the following about this configuration:
+
+* *`replicas: 8`* makes this a static capacity node pool. EKS Auto Mode maintains exactly eight nodes and does not consolidate them. Once you set `replicas`, you cannot remove it — a node pool cannot switch between static and dynamic modes. To change the node count later, run `kubectl scale nodepool gpu-capacity-block --replicas=4`.
+* *`limits.nodes: 10`* is set higher than `replicas` so that EKS Auto Mode can temporarily exceed eight nodes while replacing a node, for example during an AMI update. Set `limits.nodes` above `replicas` whenever you can spare the headroom in the reservation.
+* *`karpenter.sh/capacity-type: reserved`* restricts the node pool to reserved capacity, so it never falls back to on-demand or Spot instances if the block is exhausted.
+* *A single instance type* is pinned, because a Capacity Block reserves one instance type in one Availability Zone. Listing an instance family rather than a type lets EKS Auto Mode pick a type the reservation does not cover.
+* *The device manager labels* select Dynamic Resource Allocation for NVIDIA GPUs and EFA devices. These labels are *required* on a static capacity node pool if you want to use DRA, because a static node pool never evaluates pending Pods and so has no workload intent to infer the device manager from. A static node pool without them uses the device plugins. Omit the labels if your workloads request `nvidia.com/gpu` and `vpc.amazonaws.com/efa` instead. For more information, see <<dra-auto-mode>>.
+* *`terminationGracePeriod: 5m`* is set to less than the 10-minute window that EKS Auto Mode has to drain nodes in an expiring Capacity Block, described in <<auto-accelerated-capacity-block-expiry>>. The default of 24 hours is far longer than that window, so a drain would still be in progress when Amazon EC2 terminates the instances.
+
+[#auto-accelerated-capacity-block-expiry]
+==== What happens when the Capacity Block ends
+
+A Capacity Block has a fixed end time, and Amazon EC2 terminates the instances before it is reached: 30 minutes before the end time for most instance types, or 60 minutes before for UltraServer instance types. EKS Auto Mode begins draining the nodes in the block 10 minutes before EC2 starts terminating them, which gives your workloads a 10-minute window to checkpoint and shut down.
+
+Those nodes are drained rather than terminated abruptly. EKS Auto Mode cordons each node and evicts its Pods, respecting `PodDisruptionBudgets` and the `karpenter.sh/do-not-disrupt` annotation until the node's `terminationGracePeriod` is reached. This applies to static and dynamic capacity node pools alike. Scaling a static capacity node pool down with `kubectl scale` drains the removed nodes the same way, though scale operations bypass NodePool disruption budgets.
+
+Because the drain has to finish inside that 10-minute window, note the following:
+
+* Set `terminationGracePeriod` on the node pool to well under 10 minutes. The `NodePool` in <<auto-accelerated-capacity-block-static>> uses `5m`. If the drain is still running when EC2 terminates the instances, the remaining Pods are stopped without completing their own grace period.
+* Checkpoint long-running training jobs, and make sure your Pods handle `SIGTERM` within the grace period you set.
+* A `PodDisruptionBudget` that blocks eviction does not extend the window. It delays eviction only until `terminationGracePeriod` elapses, after which the Pods are deleted anyway.
+* A Pod that uses a strict `nodeSelector` for a specific `capacity-reservation-id` goes `Pending` when the block expires and does not reschedule elsewhere.
+
+This early drain is specific to Capacity Blocks. On-Demand Capacity Reservations do not get it, because their expiry semantics are softer: when an instance leaves an ODCR, EKS Auto Mode relabels the node from `reserved` to `on-demand` and the Pods keep running.
+
+For more information, see <<eks-aiml-node-pools-expiration>>, <<auto-odcr>>, and link:AWSEC2/latest/UserGuide/capacity-blocks-purchase.html[Find and purchase Capacity Blocks,type="documentation"] in the _Amazon EC2 User Guide_.
+
+[#auto-accelerated-related]
+== Related resources
+
+This tutorial covers launching accelerated workloads on EKS Auto Mode. To go deeper on managing the devices themselves, see the following topics.
+
+Device management:
+
+* <<device-management>> — Compare Dynamic Resource Allocation (DRA) and device plugins, and choose between them.
+* <<dra-auto-mode>> — How DRA works on EKS Auto Mode, including how EKS Auto Mode keeps DRA drivers and device plugins apart and how to select the device manager for a `NodePool`.
+* <<device-management-nvidia>> — Manage NVIDIA GPUs, including GPU sharing strategies.
+* <<device-management-efa>> — Manage EFA devices, including topology-aware allocation that pairs EFA interfaces with their local GPUs.
+* <<device-management-neuron>> — Manage {aws} Trainium and {aws} Inferentia devices.
+
+Compute configuration:
+
+* <<auto-static-capacity>> — Maintain a fixed number of nodes with a static capacity node pool.
+* <<auto-odcr>> — Control deployment of workloads into Capacity Reservations and Capacity Blocks for ML.
+* <<create-node-pool>> and <<create-node-class>> — The full `NodePool` and `NodeClass` configuration reference.
+* <<auto-supported-labels>> — Well-known labels that influence scheduling, including the accelerator labels used in this tutorial.
+
+AI/ML on Amazon EKS:
+
+* <<ml-compute-management>> — Manage and optimize compute resources for machine learning workloads.
+* <<ml-eks-nvidia-ultraserver>> — Run Multi-Node NVLink workloads on P6e-GB200 UltraServers.

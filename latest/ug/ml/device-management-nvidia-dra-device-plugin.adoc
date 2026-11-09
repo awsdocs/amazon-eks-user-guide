@@ -12,9 +12,17 @@ Learn how to manage NVIDIA GPUs on Amazon EKS with the NVIDIA DRA driver or devi
 
 Amazon EKS supports two mechanisms for managing NVIDIA GPU devices in your EKS clusters: the _NVIDIA DRA driver for GPUs_ and the _NVIDIA Kubernetes device plugin_. 
 
-We recommend using the NVIDIA DRA driver for new deployments with Kubernetes versions 1.34 and later on Karpenter, EKS managed node groups, or self-managed nodes. Karpenter supports DRA with both dynamic and static capacity provisioning as of Karpenter version 1.15, though dynamic provisioning requires enabling Karpenter feature gates. For more information, see <<dra-karpenter>>. The NVIDIA DRA driver is not currently supported with EKS Auto Mode. Use the <<eks-nvidia-device-plugin, NVIDIA device plugin>> with EKS Auto Mode, or with Karpenter when you use dynamic capacity provisioning. The NVIDIA device plugin also remains supported for EKS managed node groups and self-managed nodes. 
+We recommend using the NVIDIA DRA driver for new deployments with Kubernetes versions 1.34 and later. The NVIDIA DRA driver is supported with EKS Auto Mode, Karpenter, EKS managed node groups, and self-managed nodes. The <<eks-nvidia-device-plugin, NVIDIA device plugin>> remains fully supported on all of these for all Kubernetes versions.
 
-If you are using GPU sharing features such as multi-instance GPUs (MIG) or time-slicing, we recommend using static configuration with the DRA driver or using the NVIDIA device plugin. Dynamic MIG and time-slicing are in alpha state in the NVIDIA DRA driver. See the link:https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/releases[NVIDIA DRA driver releases] on GitHub for the latest updates.
+EKS Auto Mode includes the NVIDIA DRA driver in the node runtime on Kubernetes version 1.36 and later. You do not install or manage the driver, and EKS Auto Mode prevents the DRA driver and the device plugin from managing GPUs on the same node. For more information, see <<dra-auto-mode>>. With Karpenter, EKS managed node groups, or self-managed nodes, you install the driver as described in <<eks-nvidia-dra-driver>>. Karpenter supports DRA with both dynamic and static capacity provisioning as of Karpenter version 1.15. Dynamic provisioning requires enabling Karpenter feature gates. For more information, see <<dra-karpenter>>.
+
+[IMPORTANT]
+.The g7e instance family is not supported with DRA
+====
+The `g7e` instance family is not supported with DRA and dynamic capacity provisioning. Neither EKS Auto Mode nor Karpenter has DRA device metadata for `g7e`, so dynamic capacity provisioning does not launch `g7e` nodes for DRA claims. Use the <<eks-nvidia-device-plugin, NVIDIA device plugin>> for `g7e` GPUs.
+====
+
+If you are using GPU sharing features such as multi-instance GPUs (MIG) or time-slicing, we recommend using static configuration with the DRA driver or using the NVIDIA device plugin. Dynamic MIG and user-mediated time-slicing are in alpha state in the NVIDIA DRA driver, and are not available in EKS Auto Mode. See the link:https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/releases[NVIDIA DRA driver releases] on GitHub for the latest updates.
 
 [#eks-nvidia-dra-vs-plugin]
 == NVIDIA DRA driver vs. NVIDIA device plugin
@@ -30,7 +38,7 @@ If you are using GPU sharing features such as multi-instance GPUs (MIG) or time-
 | All EKS-supported Kubernetes versions
 
 | EKS Compute
-| Karpenter, managed node groups, self-managed nodes
+| EKS Auto Mode (Kubernetes 1.36 and later), Karpenter, managed node groups, self-managed nodes
 | EKS Auto Mode, Karpenter, managed node groups, self-managed nodes
 
 | EKS-optimized AMIs
@@ -42,8 +50,8 @@ If you are using GPU sharing features such as multi-instance GPUs (MIG) or time-
 | Integer count of `nvidia.com/gpu` extended resources
 
 | GPU sharing
-| (Alpha) Dynamic MIG, MPS, time-slicing
-| (GA) Static MIG, MPS, time-slicing
+| (Alpha) Dynamic MIG, MPS, time-slicing. Not available in EKS Auto Mode.
+| (GA) Static MIG, MPS, time-slicing. Not configurable in EKS Auto Mode.
 
 | ComputeDomains
 | Manages Multi-Node NVLink (MNNVL) through `ComputeDomain` resources for secure multi-node GPU communication
@@ -130,6 +138,12 @@ The MIG Manager is an operand of the NVIDIA GPU Operator. It applies the followi
 == Install the NVIDIA DRA driver
 
 The NVIDIA DRA driver for GPUs manages two types of resources: GPUs and ComputeDomains. It runs two DRA kubelet plugins: `gpu-kubelet-plugin` and `compute-domain-kubelet-plugin`. Each can be enabled or disabled separately during installation. This guide focuses on GPU allocation. For using ComputeDomains, see <<ml-eks-nvidia-ultraserver>>.
+
+[NOTE]
+.EKS Auto Mode includes this driver
+====
+Skip this section if you use EKS Auto Mode. EKS Auto Mode includes the NVIDIA DRA driver in the node runtime on Kubernetes version 1.36 and later. You do need to create the `DeviceClass` object, as described in <<eks-nvidia-dra-deviceclass>>. For more information, see <<dra-auto-mode>>.
+====
 
 === Prerequisites
 
@@ -254,6 +268,56 @@ spec:
     operator: "Exists"
     effect: "NoSchedule"
 ----
+
+[#eks-nvidia-dra-deviceclass]
+== Create the NVIDIA GPU DeviceClass
+
+A `DeviceClass` names a category of devices and defines the expression that selects them. Every `ResourceClaim` and `ResourceClaimTemplate` references one by name, so the `gpu.nvidia.com` `DeviceClass` must exist before a GPU claim can be allocated. A claim that references a `DeviceClass` that does not exist is never allocated, and the Pod stays in the `Pending` state.
+
+When you install the NVIDIA DRA driver with Helm, as described in <<eks-nvidia-dra-driver>>, the chart creates this object for you and there is nothing more to do. EKS Auto Mode runs the driver from the node runtime rather than from a Helm chart, so on EKS Auto Mode you create it yourself.
+
+[source,bash,subs="verbatim,attributes"]
+----
+cat <<EOF | kubectl apply -f -
+apiVersion: resource.k8s.io/v1
+kind: DeviceClass
+metadata:
+  name: gpu.nvidia.com
+spec:
+  selectors:
+  - cel:
+      expression: "device.driver == 'gpu.nvidia.com' && device.attributes['gpu.nvidia.com'].type == 'gpu'"
+EOF
+----
+
+Confirm that it exists.
+
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl get deviceclass
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+NAME             AGE
+gpu.nvidia.com   5s
+----
+
+The name and selector match the `DeviceClass` that the driver's Helm chart installs, so the same claims work on EKS Auto Mode and on clusters where you manage the driver yourself.
+
+[IMPORTANT]
+.Requesting GPUs as an extended resource through DRA
+====
+On Kubernetes version 1.34 and later, the driver's Helm chart also sets `extendedResourceName: nvidia.com/gpu` on this `DeviceClass`. That field makes DRA satisfy plain `nvidia.com/gpu` extended resource requests, so existing Pods can use DRA without changing their specifications. For more information, see link:https://github.com/kubernetes/enhancements/tree/master/keps/sig-scheduling/5004-dra-extended-resource[KEP-5004] on GitHub.
+
+The preceding definition omits that field, because adding it changes how every GPU Pod in the cluster is treated, not only the Pods you migrate. A Pod that requests `nvidia.com/gpu` becomes a DRA Pod, and on EKS Auto Mode that also determines whether a node becomes a DRA node or a device plugin node. Add `extendedResourceName` only when you intend to move all of your `nvidia.com/gpu` workloads to DRA at once, and review <<dra-auto-mode-exclusivity>> first.
+
+Karpenter doesn't support this field. Karpenter doesn't treat a plain `nvidia.com/gpu` request as a DRA request, even when the `DeviceClass` sets `extendedResourceName`, so dynamic capacity provisioning doesn't launch nodes for those Pods as DRA Pods. For more information, see <<dra-karpenter>>.
+====
+
+For more information about DRA on EKS Auto Mode, see <<dra-auto-mode>>.
 
 [#eks-nvidia-device-plugin]
 == Install the NVIDIA Kubernetes device plugin

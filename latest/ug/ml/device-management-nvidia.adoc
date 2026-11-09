@@ -12,7 +12,9 @@ Learn how to manage NVIDIA GPUs on Amazon EKS for artificial intelligence (AI) t
 
 NVIDIA GPUs are widely used for machine learning training, inference, and high-performance computing workloads. Amazon EKS supports two mechanisms for managing NVIDIA GPU devices in your EKS clusters: the _NVIDIA DRA driver for GPUs_ and the _NVIDIA Kubernetes device plugin_. 
 
-We recommend using DRA drivers for new deployments with Kubernetes versions 1.34 and later on Karpenter, EKS managed node groups, or self-managed nodes. Karpenter supports DRA with both dynamic and static capacity provisioning as of Karpenter version 1.15, though dynamic provisioning requires enabling Karpenter feature gates. For more information, see <<dra-karpenter>>. DRA is not currently supported with EKS Auto Mode. The NVIDIA DRA driver enables flexible GPU allocation and GPU sharing between containers. 
+We recommend using the NVIDIA DRA driver for new deployments with Kubernetes versions 1.34 and later. The NVIDIA DRA driver enables flexible GPU allocation and GPU sharing between containers.
+
+EKS Auto Mode includes the NVIDIA DRA driver in the node runtime on Kubernetes version 1.36 and later, so you do not install or manage it. For more information, see <<dra-auto-mode>>. With Karpenter, EKS managed node groups, or self-managed nodes, you install the NVIDIA DRA driver yourself. Karpenter supports DRA with both dynamic and static capacity provisioning as of Karpenter version 1.15. Dynamic provisioning requires enabling Karpenter feature gates. For more information, see <<dra-karpenter>>.
 
 For the availability of DRA features in EKS, see the <<kubernetes-versions-standard, Release notes for Kubernetes versions>> for EKS. For more information on using the NVIDIA DRA driver and device plugin with EKS, see <<device-management-nvidia-dra-device-plugin>>.
 
@@ -32,6 +34,8 @@ For more information and steps for using MIG with NVIDIA GPUs and EKS, see <<dev
 Time-slicing lets multiple Pods share a single physical NVIDIA GPU by configuring the NVIDIA device plugin or DRA driver to advertise more than one schedulable slot per GPU. The Kubernetes scheduler places multiple Pods on the same GPU, and the GPU's CUDA scheduler time-multiplexes the workloads.
 
 Time-slicing is the simplest GPU-sharing strategy. It uses software only, requires no special hardware, and works on every NVIDIA GPU instance type on {aws}. Time-slicing does not offer memory or compute isolation between Pods that share a GPU. It is best for workloads with low GPU utilization, such as inference services that idle between requests or development environments where several users share a GPU. For workloads that require hardware-level memory and compute isolation, use MIG instead.
+
+Time-slicing is available with Karpenter, EKS managed node groups, and self-managed nodes. It is not available in EKS Auto Mode.
 
 For more information and steps for using time-slicing with NVIDIA GPUs and EKS, see <<device-management-nvidia-time-slicing>>.
 
