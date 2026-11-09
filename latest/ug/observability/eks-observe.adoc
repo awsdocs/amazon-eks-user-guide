@@ -16,7 +16,7 @@ After selecting *Clusters* in the left navigation pane of the Amazon EKS console
 [NOTE]
 .Monitoring Nitro Sandboxes
 ====
-Agents that run on the node cannot observe activity inside isolated or confidential pods that run in Nitro Sandboxes, because the sandbox isolates the pod from the node. This includes the Amazon CloudWatch Observability agent and the Amazon GuardDuty agent. For what you can observe, see <<sandboxing-observability>>.
+The Amazon CloudWatch Observability agent can collect logs and metrics from isolated and confidential pods that run in Nitro Sandboxes. Container logs and metrics surface through the standard kubelet location. The Amazon GuardDuty agent, whose runtime monitoring inspects host processes and cgroups, cannot observe activity inside a sandbox. For what you can observe, see <<sandboxing-observability>>.
 ====
 
 Monitoring is an important part of maintaining the reliability, availability, and performance of Amazon EKS and your {aws} solutions. We recommend that you collect monitoring data from all of the parts of your {aws} solution. That way, you can more easily debug a multi-point failure if one occurs. Before you start monitoring Amazon EKS, make sure that your monitoring plan addresses the following questions.

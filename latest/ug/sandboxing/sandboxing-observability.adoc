@@ -25,4 +25,4 @@ Running a pod inside a Nitro Sandbox changes what you can observe and how. What 
 [#sandboxing-observability-agents]
 == Node-level monitoring agents
 
-Monitoring agents that run on the node cannot observe activity inside a Nitro Sandbox, because the sandbox isolates the pod from the node. This includes the Amazon CloudWatch Observability agent and the Amazon GuardDuty agent. Both continue to monitor standard pods and node-level activity on the same node. For more information, see <<cloudwatch>> and <<integration-guardduty>>.
+The Amazon CloudWatch Observability agent can collect container logs and metrics from sandboxed pods. These logs and metrics surface through the standard kubelet location, which the agent reads. The Amazon GuardDuty agent, whose runtime monitoring inspects host processes and cgroups, cannot observe activity inside a Nitro Sandbox. The sandbox isolates the pod from the node. GuardDuty continues to monitor standard pods and node-level activity on the same node. For more information, see <<cloudwatch>> and <<integration-guardduty>>.

@@ -67,7 +67,7 @@ The Nitro hypervisor enforces the following guarantees:
 * In confidential mode, the parent instance cannot read the container writable layer or `emptyDir` volumes. These are stored on an encrypted overlay (dm-crypt over dm-integrity) inside the sandbox. Authentication tags are held in guest memory rather than on the overlay disk, so the parent instance cannot roll the layer back by restoring an earlier snapshot.
 * The parent instance cannot read or modify NFS traffic between the sandbox and Amazon EFS mount targets. The guest terminates TLS to the mount target and verifies the server certificate.
 
-On instances that support the Nitro Isolation Engine, Nitro Sandboxes gain additional assurance. The Nitro Isolation Engine is a formally verified implementation of the Nitro hypervisor, currently available on {aws} Graviton5-based instances. For more information, see https://aws.amazon.com/blogs/compute/aws-nitro-isolation-engine-formally-verifying-the-hypervisor-in-the-aws-nitro-system/[Formally verifying the hypervisor in the {aws} Nitro System].
+On instances that support the Nitro Isolation Engine, Nitro Sandboxes gain additional assurance. The Nitro Isolation Engine is a formally verified implementation of the Nitro hypervisor, currently available on select {aws} instance types. For more information, see https://aws.amazon.com/blogs/compute/aws-nitro-isolation-engine-formally-verifying-the-hypervisor-in-the-aws-nitro-system/[Formally verifying the hypervisor in the {aws} Nitro System].
 
 [#sandboxing-parent-can]
 == What the parent instance can do
