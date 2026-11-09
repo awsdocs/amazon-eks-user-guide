@@ -180,8 +180,8 @@ You should see output similar to the following:
 
 [source,bash]
 ----
-NAME                  STATUS   ROLES    AGE   VERSION               INSTANCE-TYPE
-i-02315c7d7643cdee6   Ready    <none>   76s   v1.37.0-eks-29d7970   g6e.2xlarge
+NAME                  STATUS   ROLES    AGE   VERSION   INSTANCE-TYPE
+i-02315c7d7643cdee6   Ready    <none>   76s   v1.36.0   g6e.2xlarge
 ----
 
 == Step 2: Validate
