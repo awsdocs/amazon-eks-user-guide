@@ -169,6 +169,21 @@ NAME        TYPE          CAPACITY    ZONE         NODE                  READY  
 gpu-dnknr   g6e.2xlarge   on-demand   us-west-2b   i-02315c7d7643cdee6   True    76s
 ----
 
+Confirm that the node joined the cluster:
+
+[source,bash]
+----
+kubectl get nodes -L node.kubernetes.io/instance-type
+----
+
+You should see output similar to the following:
+
+[source,bash]
+----
+NAME                  STATUS   ROLES    AGE   VERSION               INSTANCE-TYPE
+i-02315c7d7643cdee6   Ready    <none>   76s   v1.37.0-eks-29d7970   g6e.2xlarge
+----
+
 == Step 2: Validate
 
 You can see Amazon EKS Auto Mode launched a `g6e.2xlarge` rather than a `g6.2xlarge` as the workload required an instance with an L40S `GPU`, according to the following Kubernetes scheduling constraints:
