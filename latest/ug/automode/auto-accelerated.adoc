@@ -154,12 +154,17 @@ nodepool.karpenter.sh/gpu created
 pod/nvidia-smi created
 ----
 
-Wait a few seconds, and check the nodes in your cluster. You should now see a new node provisioned in your Amazon EKS Auto Mode cluster:
+Wait a few seconds, and check the NodeClaims in your cluster. You should now see a new node provisioned in your Amazon EKS Auto Mode cluster:
 
 [source,bash]
 ----
-> kubectl get nodes
+kubectl get nodeclaims
+----
 
+You should see output similar to the following:
+
+[source,bash]
+----
 NAME        TYPE          CAPACITY    ZONE         NODE                  READY   AGE
 gpu-dnknr   g6e.2xlarge   on-demand   us-west-2b   i-02315c7d7643cdee6   True    76s
 ----
