@@ -56,7 +56,7 @@ Both actions are required. If either call fails, or returns a permission error, 
 [#sandboxing-iam-kms-attestation]
 == KMS attestation conditions
 
-To release KMS-protected secrets only to attested sandboxes, add `kms:RecipientAttestation:PCR<PCR_ID>` conditions to your KMS key policy. Gate on PCR17 (the Cedar policy hash) set to the predicted value from `eks-nitro-sandbox-genpolicy`, and also add a `kms:RecipientAttestation:PCR8:ServiceName` condition set to `eks.amazonaws.com` so that only attestations from the EKS Nitro Sandbox service are accepted. Gating on PCR17 alone is not sufficient:
+To release KMS-protected secrets only to attested sandboxes, add `kms:RecipientAttestation:PCR<PCR_ID>` conditions to your KMS key policy. Gate on PCR17 (the Cedar policy hash) set to the predicted value from `eks-nitro-sandbox-genpolicy` (included in the signed runtime binaries; see <<sandboxing-download-binaries>>), and also add a `kms:RecipientAttestation:PCR8:ServiceName` condition set to `eks.amazonaws.com` so that only attestations from the EKS Nitro Sandbox service are accepted. Gating on PCR17 alone is not sufficient:
 
 [source,json,subs="verbatim,attributes"]
 ----
@@ -78,4 +78,4 @@ To release KMS-protected secrets only to attested sandboxes, add `kms:RecipientA
 
 The `eks-nitro-sandbox-genpolicy` command prints the predicted PCR17 value when it generates a policy. Use this value to configure your KMS key policy before deploying, without needing a running sandbox.
 
-For more information, see the {aws} KMS documentation on recipient attestation conditions and the Nitro Sandbox security model in <<sandboxing-security-model>>.
+For more information, see link:kms/latest/developerguide/conditions-nitro-enclave.html[{aws} KMS condition keys for {aws} Nitro Enclaves,type="documentation"] and the Nitro Sandbox security model in <<sandboxing-security-model>>.

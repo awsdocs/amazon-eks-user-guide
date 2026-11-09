@@ -47,7 +47,7 @@ When you use confidential mode to protect sensitive data, you are responsible fo
 
 The Cedar policy is authored by the cluster operator and delivered to the sandbox as a pod annotation. The Nitro Sandbox measures the policy into PCR17, but measurement alone is passive: no component inside the sandbox or on the parent instance verifies the measurement against an expected value. The trust loop is closed only when an external service checks the attestation document before releasing secrets. {aws} KMS serves this role.
 
-When you configure a KMS key policy with `kms:RecipientAttestation:PCR<PCR_ID>` conditions on PCR values, KMS validates the attestation document attached to each Decrypt request and releases the data key only if the measurements match. A modified policy produces a different PCR17 value, so KMS refuses to decrypt.
+When you configure a KMS key policy with `kms:RecipientAttestation:PCR<PCR_ID>` conditions on PCR values, KMS validates the attestation document attached to each Decrypt request and releases the data key only if the measurements match. A modified policy produces a different PCR17 value, so KMS refuses to decrypt. For more information, see link:kms/latest/developerguide/conditions-nitro-enclave.html[{aws} KMS condition keys for {aws} Nitro Enclaves,type="documentation"].
 
 [IMPORTANT]
 .Configure attestation conditions

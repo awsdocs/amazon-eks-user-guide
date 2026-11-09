@@ -15,7 +15,7 @@ Confidential mode requires a Cedar policy. The policy pins every container admis
 [#sandboxing-confidential-generate]
 == Step 1: Generate a Cedar policy
 
-Use `eks-nitro-sandbox-genpolicy` to generate a policy from your Kubernetes manifest:
+Use `eks-nitro-sandbox-genpolicy`, which is included in the signed runtime binaries (see <<sandboxing-download-binaries>>), to generate a policy from your Kubernetes manifest:
 
 [source,bash,subs="verbatim,attributes"]
 ----

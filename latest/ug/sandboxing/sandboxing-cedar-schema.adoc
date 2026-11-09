@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Reference for the fixed Cedar schema that the Nitro Sandbox agent and eks-nitro-sandbox-genpolicy evaluate every gated operation against.
 --
 
-The agent inside a Nitro Sandbox evaluates every gated operation against a Cedar policy that targets a fixed schema. `eks-nitro-sandbox-genpolicy` and the agent both embed this schema. A policy that references an unknown entity, action, or context field is rejected at generation time and at agent load time.
+The agent inside a Nitro Sandbox evaluates every gated operation against a Cedar policy that targets a fixed schema. `eks-nitro-sandbox-genpolicy`, which is included in the signed runtime binaries (see <<sandboxing-download-binaries>>), and the agent both embed this schema. A policy that references an unknown entity, action, or context field is rejected at generation time and at agent load time.
 
 [#sandboxing-cedar-entities]
 == Entity types

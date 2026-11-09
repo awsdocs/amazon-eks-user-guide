@@ -86,7 +86,7 @@ Pods can mount Amazon EFS volumes through the EFS CSI driver (`efs.csi.aws.com`)
 |A Kubernetes `RuntimeClass` object that tells kubelet which container runtime to use for a pod. Isolated pods use the `isolated-sandbox` runtime class; confidential pods use the `confidential-sandbox` runtime class.
 
 |Cedar policy
-|A declarative policy written in the Cedar language that controls what a pod is allowed to do. Policies are generated from the pod spec using `eks-nitro-sandbox-genpolicy` and attached to the pod as an annotation.
+|A declarative policy written in the Cedar language that controls what a pod is allowed to do. Policies are generated from the pod spec using `eks-nitro-sandbox-genpolicy` (included in the signed runtime binaries; see <<sandboxing-download-binaries>>) and attached to the pod as an annotation.
 
 |Policy envelope
 |The serialized form of the Cedar policy that is stored in a pod annotation and delivered to both the shim on the parent instance and the agent in the guest.

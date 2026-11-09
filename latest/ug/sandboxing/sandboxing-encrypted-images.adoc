@@ -15,7 +15,7 @@ Container image layers are visible to the parent instance unless encrypted. Encr
 [IMPORTANT]
 .Encrypt every layer
 ====
-Every layer of the image must be encrypted. Isolated and confidential pods do not support an image that mixes encrypted and plaintext layers. The image pull fails with an error naming the unencrypted layers, and `eks-nitro-sandbox-genpolicy` fails to generate a policy for such an image. Encrypt the whole image as described in this section.
+Every layer of the image must be encrypted. Isolated and confidential pods do not support an image that mixes encrypted and plaintext layers. The image pull fails with an error naming the unencrypted layers, and `eks-nitro-sandbox-genpolicy` (included in the signed runtime binaries; see <<sandboxing-download-binaries>>) fails to generate a policy for such an image. Encrypt the whole image as described in this section.
 ====
 
 [#sandboxing-encrypted-prerequisites]

@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Build a compatible AMI for Nitro Sandboxes to run isolated and confidential pods on self-managed or managed node groups outside of EKS Auto Mode.
 --
 
-Pods running in Nitro Sandboxes are available on EKS Auto Mode clusters without additional configuration. For self-managed or managed node groups outside of Auto Mode, build a compatible AMI using the Nitro Sandboxes binaries provided by {aws}. See the AMI build guide.
+Pods running in Nitro Sandboxes are available on EKS Auto Mode clusters without additional configuration. For self-managed or managed node groups outside of Auto Mode, build a compatible AMI using the Nitro Sandboxes binaries provided by {aws}. For instructions, see <<sandboxing-ami-create-update>>.
 
 [.topiclist]
 [[Topic List]]
