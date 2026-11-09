@@ -67,6 +67,8 @@ The Nitro hypervisor enforces the following guarantees:
 * In confidential mode, the parent instance cannot read the container writable layer or `emptyDir` volumes. These are stored on an encrypted overlay (dm-crypt over dm-integrity) inside the sandbox. Authentication tags are held in guest memory rather than on the overlay disk, so the parent instance cannot roll the layer back by restoring an earlier snapshot.
 * The parent instance cannot read or modify NFS traffic between the sandbox and Amazon EFS mount targets. The guest terminates TLS to the mount target and verifies the server certificate.
 
+On instances that support the Nitro Isolation Engine, Nitro Sandboxes gain additional assurance. The Nitro Isolation Engine is a formally verified implementation of the Nitro hypervisor, currently available on {aws} Graviton5-based instances. For more information, see https://aws.amazon.com/blogs/compute/aws-nitro-isolation-engine-formally-verifying-the-hypervisor-in-the-aws-nitro-system/[Formally verifying the hypervisor in the {aws} Nitro System].
+
 [#sandboxing-parent-can]
 == What the parent instance can do
 
@@ -83,7 +85,7 @@ The parent instance controls the resources that the sandbox depends on. A malici
 |Region, availability zone, and availability zone ID are provided by the parent instance and can be faked. Do not make security decisions based on placement metadata.
 
 |Manipulate network traffic
-|The parent instance can observe, delay, drop, or modify unencrypted network traffic, including DNS. The parent instance also writes the pod's `/etc/hosts`, so it can point `localhost` at an address outside the pod. Use `127.0.0.1` rather than `localhost` for communication within the pod. Always use TLS for all sensitive communication and verify server certificates.
+|Network policies and security groups are enforced on the parent instance, outside the sandbox. A compromised workload inside the sandbox cannot disable them, which protects the node and the VPC from the sandbox. A compromised parent instance can still observe, delay, drop, or modify unencrypted network traffic, including DNS. The parent instance also writes the pod's `/etc/hosts`, so it can point `localhost` at an address outside the pod. Use `127.0.0.1` rather than `localhost` for communication within the pod. Always use TLS for all sensitive communication and verify server certificates.
 
 |Read or write shared NFS storage
 |The parent instance has network access to the VPC and its own IAM identity. It can mount any EFS filesystem that its credentials permit. TLS prevents reading traffic in flight but does not prevent out-of-band access.

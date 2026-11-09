@@ -76,3 +76,8 @@ Tmpfs-backed CSI volumes are visible to the parent instance. The CSI driver fetc
 == emptyDir and ConfigMap/Secret volumes
 
 Standard Kubernetes volume types (`emptyDir`, `configMap`, `secret`, `projected`, `downwardAPI`) work without changes. Their contents are delivered into the Nitro Sandbox at pod startup and refreshed when the source changes on the parent instance.
+
+[#sandboxing-storage-ephemeral]
+== Ephemeral scratch storage
+
+A Nitro Sandbox's ephemeral scratch space — the overlay (ephemeral scratch) disk that backs the container writable layer and `emptyDir` volumes — comes from the node's local instance store. This storage is ephemeral and is not persisted: its contents are lost when the sandbox stops.

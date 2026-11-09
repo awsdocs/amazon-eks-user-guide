@@ -57,7 +57,7 @@ Running a pod inside a Nitro Sandbox changes the behavior of some Kubernetes fea
 |Re-encrypt the image ensuring all layers are encrypted.
 
 |Pod density
-|Up to 5 times the instance vCPU count in total vCPU allocation across all sandboxes on a node. On a 4-vCPU instance: 20 sandboxes x 1 vCPU, 10 sandboxes x 2 vCPUs, or 5 sandboxes x 4 vCPUs (or a mix).
+|Two separate caps apply. First, the total vCPUs allocated across all sandboxes on a node cannot exceed 5 times the node's vCPU count. On a 4-vCPU instance: 20 sandboxes x 1 vCPU, 10 sandboxes x 2 vCPUs, or 5 sandboxes x 4 vCPUs (or a mix). Second, the number of sandboxes on a node cannot exceed 5 times the node's vCPU count, and on CPU-overcommit instance types this maximum count is halved.
 |Right-size vCPU and memory requests. Memory limits are typically the binding constraint before vCPU oversubscription.
 
 |CPU on SMT instances
