@@ -78,3 +78,18 @@ Running a pod inside a Nitro Sandbox changes the behavior of some Kubernetes fea
 |===
 
 Nitro Sandboxes on Amazon EKS build on the Amazon EC2 Nitro Sandboxes primitive. Some constraints come from that primitive and apply to any workload, such as supported instance types, the maximum number of attached devices, and the absence of GPU passthrough, snapshot and restore, and live migration. For the full list, see link:AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html#nitro-sandboxes-considerations[Considerations and limitations,type="documentation"] in the _Amazon EC2 User Guide_.
+
+[#sandboxing-limitations-automode-provisioning]
+== Auto Mode sandbox provisioning constraints
+
+When Auto Mode cannot provision a Nitro Sandbox node, sandbox pods stay in the `Pending` state. Auto Mode does not provision a Nitro Sandbox node in the following cases:
+
+* The NodeClass uses FIPS AMIs.
+* The instance type's matching AMI is a GPU or Neuron variant.
+* The instance type is a multi-NUMA instance type, or an instance type that has not yet been measured and validated.
+
+[NOTE]
+.Temporary instance type restriction
+====
+At launch, the `r5a`, `r5ad`, and `m5ad` instance types are not available for Nitro Sandboxes on EKS Auto Mode, pending a Nitro fix. This restriction is temporary and we expect to remove it in a future update.
+====
