@@ -215,6 +215,22 @@ Label your sandbox-capable nodes with `eks.amazonaws.com/nitro-sandbox=true` (fo
 
 When {aws} publishes a new release, rebuild your AMI. Each release is versioned, and a newer version replaces the previous one. The release notes list which components changed and whether a host-kernel rebuild is required.
 
+Three version identifiers appear across these steps, and {aws} tracks them independently. Each one identifies a different artifact.
+
+[%header,cols="2,3"]
+|===
+|Identifier |What it identifies
+
+|Runtime release version (for example, `0.1.4274.0`)
+|The signed runtime binaries release (the shim, which also runs as the CRI proxy). See <<sandboxing-download-binaries>>.
+
+|Guest image release date (for example, `2026-11-06`)
+|The matched EIF and guest disk image set, published in the Amazon S3 path keyed by Kubernetes version and release date. See <<sandboxing-ami-guest-image>>.
+
+|Bundle tag (for example, `nitro-sandbox-ga-20260929-r2`)
+|The identifier you tag each AMI with, so you can track which bundle a node group runs.
+|===
+
 [%header,cols="2,3,1"]
 |===
 |Category |What to repeat |Reboot

@@ -73,7 +73,7 @@ Running a pod inside a Nitro Sandbox changes the behavior of some Kubernetes fea
 |Bind the server to all interfaces (`0.0.0.0` or `::`), or use `kubectl exec` to reach it from inside the pod.
 
 |GPU and device passthrough
-|GPU and other device passthrough is not available. The Nitro Sandbox runs on Firecracker, which does not support passing host devices into the guest.
+|GPU and other device passthrough are not supported at launch. The Nitro Sandbox runs on Firecracker, which does not support passing host devices into the guest.
 |Run pods that require GPUs or passthrough devices without a sandbox runtime class.
 
 |`emptyDir` and ephemeral storage usage

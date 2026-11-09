@@ -74,6 +74,12 @@ An unrecognized value is logged and replaced with the built-in default. A value 
 |Connections the pod may hold in the node's connection-tracking table, per address family. Values are clamped into `64`–`65536`. This limit protects the node from a single pod and cannot be turned off: both `0` and `disabled` fail the pod.
 |===
 
+[NOTE]
+.Raise network limits before benchmarking
+====
+The default network limits cap request-heavy services: inbound and outbound bandwidth default to 100 Mbps, and the inbound and outbound packet rate defaults to 1500 packets per second. Before you benchmark a workload, raise both the bandwidth and the packet-rate annotations, or disable the limits. Raising only one has no effect, because bandwidth and packet rate are enforced by independent token buckets. For more information, see <<sandboxing-raise-bandwidth>>.
+====
+
 [#sandboxing-raise-bandwidth]
 == Raising network bandwidth
 

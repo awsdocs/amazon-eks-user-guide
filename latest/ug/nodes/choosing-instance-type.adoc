@@ -22,7 +22,7 @@ Amazon EC2 provides a wide selection of instance types for worker nodes. Each in
 [NOTE]
 .Instance types for Nitro Sandboxes
 ====
-To run isolated or confidential pods with Nitro Sandboxes, choose an instance type that supports Nitro Enclaves. For the list of instance types that support Nitro Enclaves, see link:enclaves/latest/user/nitro-enclave.html#nitro-enclave-reqs[Nitro Enclaves requirements,type="documentation"] in the _{aws} Nitro Enclaves User Guide_. For more information about Nitro Sandboxes, see <<sandboxing>>.
+To run isolated or confidential pods with Nitro Sandboxes, choose a supported instance type. Nitro Sandboxes run on a subset of the instance types that support Nitro Enclaves. For the list of supported instance types, see link:AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html#nitro-sandboxes-considerations[supported instance types,type="documentation"] in the _Amazon EC2 User Guide_. For more information about Nitro Sandboxes, see <<sandboxing>>.
 ====
 
 When choosing between instance types that are supported by Amazon EKS, consider the following capabilities of each type.

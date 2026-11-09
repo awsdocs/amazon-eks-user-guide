@@ -22,7 +22,7 @@ The pod spec and the Cedar policy generated from it are trusted inputs. This inc
 [IMPORTANT]
 .Restrict pod spec authorship
 ====
-Restrict who can create or modify pods that use the `isolated-sandbox` runtime class with Kubernetes RBAC and admission control. An actor who can author a pod spec chooses the image, the mounts, and (in isolated mode) the container admission fields. Treat pod spec submission as a privileged operation.
+Restrict who can create or modify pods that use the `isolated-sandbox` or `confidential-sandbox` runtime class with Kubernetes RBAC and admission control. An actor who can author a pod spec chooses the image, the mounts, and (in isolated mode) the container admission fields. Treat pod spec submission as a privileged operation.
 ====
 
 [#sandboxing-workload-boundary]

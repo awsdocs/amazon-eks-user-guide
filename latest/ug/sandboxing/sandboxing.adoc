@@ -112,7 +112,7 @@ The runtime class is the authoritative selector: the system derives the isolatio
 [#sandboxing-network-isolated-overview]
 == Removing network access
 
-To run untrusted or generated code that must not communicate over the network, set `sandbox.amazonaws.com/network-isolated: "true"` on the pod. The Nitro Sandbox boots with no network device — no TAP, no virtio-net, no DNS, no NTP, no IMDS, and no Pod Identity credentials. Because the device is absent rather than filtered, the pod is isolated in both directions.
+To run untrusted or generated code that must not communicate over the network, set `sandbox.amazonaws.com/network-isolated: "true"` on the pod. The Nitro Sandbox boots with no network device — no TAP, no virtio-net, no DNS, no NTP, no IMDS, and no Pod Identity credentials. Because the device is absent rather than filtered, the pod has no network device in either direction. The vsock channel inside the guest can still reach guest-bound ports, which bypasses the absent network device, so this is not absolute isolation. For more information, see <<sandboxing-network-isolation>>.
 
 `kubectl port-forward` does not work, and kubelet HTTP or TCP probes cannot succeed. Use exec probes for pods with this annotation. Logs, `exec`, `stdin`, and stats continue to work over the vsock channel. For details, see <<sandboxing-network-isolation>>.
 
