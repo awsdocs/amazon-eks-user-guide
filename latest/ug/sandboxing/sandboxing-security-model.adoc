@@ -58,7 +58,7 @@ Always configure `kms:RecipientAttestation:PCR<PCR_ID>` conditions on any KMS ke
 [#sandboxing-parent-cannot]
 == What the parent instance cannot do
 
-The Nitro Isolation Engine, a minimal, formally proven hypervisor, protects Nitro Sandboxes on instances that support it. The {aws} Nitro hypervisor and the Nitro Sandbox runtime together enforce the following guarantees:
+The {aws} Nitro hypervisor and the Nitro Sandbox runtime together enforce the following guarantees:
 
 * The parent instance cannot read or write guest memory.
 * The parent instance cannot access CPU register state inside the sandbox.
