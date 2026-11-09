@@ -60,6 +60,14 @@ Running a pod inside a Nitro Sandbox changes the behavior of some Kubernetes fea
 |Up to 5 times the instance vCPU count in total vCPU allocation across all sandboxes on a node. On a 4-vCPU instance: 20 sandboxes x 1 vCPU, 10 sandboxes x 2 vCPUs, or 5 sandboxes x 4 vCPUs (or a mix).
 |Right-size vCPU and memory requests. Memory limits are typically the binding constraint before vCPU oversubscription.
 
+|CPU on SMT instances
+|On instance types with two threads per physical core (most Intel and SMT-enabled AMD instances), core scheduling keeps two different sandboxes from running on the sibling threads of one core at the same time. Compute available to sandboxed pods is bounded by physical cores, roughly half the advertised vCPUs. Graviton instances have one thread per core and are not affected. Check `DefaultThreadsPerCore` in the output of `DescribeInstanceTypes`.
+|Request CPU in multiples of two vCPUs on SMT instances so each sandbox owns whole cores, or use an instance type with one thread per core.
+
+|Usable memory
+|Each unique container image in a pod reserves 16 MiB of the fixed `RuntimeClass` memory overhead. Pods that request more than 1 GiB see usable memory about 1–2% below `resources.requests.memory`, because the Linux kernel running inside the Nitro Sandbox uses that share for its own bookkeeping (page tables and kernel data structures).
+|Add headroom to `resources.requests.memory` for pods with many distinct images or large memory requests.
+
 |`kubectl port-forward` to loopback-only servers
 |`kubectl port-forward` can't reach a server that listens only on `127.0.0.1` or `::1` inside the pod. The forward is established, but connections close without returning data. Port-forward traffic is delivered to the pod IP rather than to the loopback interface inside the Nitro Sandbox, so only servers that listen on the pod IP or on all interfaces are reachable.
 |Bind the server to all interfaces (`0.0.0.0` or `::`), or use `kubectl exec` to reach it from inside the pod.

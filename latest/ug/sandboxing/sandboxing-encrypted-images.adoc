@@ -39,7 +39,7 @@ Every layer of the image must be encrypted. Isolated and confidential pods do no
   }
 }
 ----
-* The pod's IAM role (through EKS Pod Identity or IRSA) must have `kms:Decrypt` permission on the KMS key.
+* The pod's IAM role (through EKS Pod Identity) must have `kms:Decrypt` permission on the KMS key. IRSA credentials are not used for image decryption.
 
 [#sandboxing-encrypt-image]
 == Encrypt an image
@@ -64,11 +64,11 @@ OCICRYPT_KEYPROVIDER_CONFIG=/etc/ocicrypt.json \
 [#sandboxing-encrypted-genpolicy]
 == Generate a policy for an encrypted image
 
-Generate a Cedar policy the same way as for unencrypted images:
+Generate a Cedar policy the same way as for unencrypted images. Pass `--with-pod-identity` so the sandbox receives the Pod Identity token it uses to call {aws} KMS:
 
 [source,bash,subs="verbatim,attributes"]
 ----
-eks-nitro-sandbox-genpolicy manifest.yaml
+eks-nitro-sandbox-genpolicy --with-pod-identity manifest.yaml
 ----
 
 `genpolicy` detects encrypted layers from the manifest and adjusts the generated policy accordingly.
@@ -120,7 +120,7 @@ spec:
 kubectl apply -f manifest.yaml
 ----
 
-The Nitro Sandbox calls `kms:Decrypt` through EKS Pod Identity or IRSA to unwrap the layer encryption key, then decrypts and unpacks each layer inside the sandbox.
+The Nitro Sandbox calls `kms:Decrypt` through EKS Pod Identity to unwrap the layer encryption key, then decrypts and unpacks each layer inside the sandbox.
 
 [#sandboxing-encrypted-image-identity]
 == Image identity in operator tooling

@@ -53,7 +53,7 @@ The NFS mount is performed inside the Nitro Sandbox and TLS is terminated there,
 IAM requirements depend on the mount type:
 
 * EFS access-point mounts without the `iam` mount option: No IAM credentials required. The guest authenticates to EFS using the filesystem ID and access point ID in its client certificate.
-* EFS mounts with the `iam` mount option: The runtime authenticates with a SigV4 signature using {aws} credentials resolved from the EFS CSI Node DaemonSet's service account through EKS Pod Identity.
+* EFS mounts with the `iam` mount option: The runtime authenticates with a SigV4 signature using {aws} credentials resolved from the EFS CSI Node DaemonSet's service account through EKS Pod Identity, falling back to the parent EC2 instance role when the DaemonSet has no Pod Identity association. The workload pod's own service account is not used for the mount.
 
 [NOTE]
 .EFS not available with network isolation

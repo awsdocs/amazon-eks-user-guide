@@ -15,7 +15,7 @@ The following IAM permissions are required for specific Nitro Sandboxes features
 [#sandboxing-iam-encrypted-images]
 == Encrypted container images
 
-The pod's IAM role (through EKS Pod Identity or IRSA) must have `kms:Decrypt` permission on the KMS key used to encrypt the image layers:
+The pod's IAM role (through EKS Pod Identity) must have `kms:Decrypt` permission on the KMS key used to encrypt the image layers. The Nitro Sandbox does not use IRSA credentials for this call:
 
 [source,json,subs="verbatim,attributes"]
 ----
@@ -34,7 +34,7 @@ The pod's IAM role (through EKS Pod Identity or IRSA) must have `kms:Decrypt` pe
 [#sandboxing-iam-signature]
 == Image signature verification
 
-For image signature verification, the pod's IAM role must have the following {aws} Signer permissions:
+For image signature verification, the pod's IAM role (through EKS Pod Identity) must have the following {aws} Signer permissions:
 
 [%header,cols="2,3"]
 |===

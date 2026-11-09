@@ -61,7 +61,7 @@ Container image layers can be encrypted following the OCI image encryption speci
 Container images can be signed with {aws} Signer. The Nitro Sandbox verifies the image's {aws} Signer signature (in the Notation format) and checks revocation status before allowing a container to start. The Cedar policy controls which signing profiles are trusted.
 
 *Attestation*::
-Attestation lets you prove that a Nitro Sandbox is running exactly the code and policy you expect before releasing secrets to it. The Nitro Sandbox includes a Nitro Security Module (NSM) whose platform configuration registers (PCRs) measure the system image and the workload policy. You write KMS key policies with `kms:RecipientAttestation:PCR<PCR_ID>` conditions that gate decryption on specific PCR values. When the sandbox calls `kms:Decrypt`, KMS validates the attestation document and releases the key only if the measurements match.
+Attestation lets you prove that a Nitro Sandbox is running exactly the code and policy you expect before releasing secrets to it. The Nitro Sandbox includes a Nitro Secure Module (NSM) whose platform configuration registers (PCRs) measure the system image and the workload policy. You write KMS key policies with `kms:RecipientAttestation:PCR<PCR_ID>` conditions that gate decryption on specific PCR values. When the sandbox calls `kms:Decrypt`, KMS validates the attestation document and releases the key only if the measurements match.
 +
 [IMPORTANT]
 .Verify attestation before releasing secrets
@@ -89,7 +89,7 @@ Pods can mount Amazon EFS volumes through the EFS CSI driver (`efs.csi.aws.com`)
 |A declarative policy written in the Cedar language that controls what a pod is allowed to do. Policies are generated from the pod spec using `eks-nitro-sandbox-genpolicy` and attached to the pod as an annotation.
 
 |Policy envelope
-|The signed, serialized form of the Cedar policy that is stored in a pod annotation and delivered to both the shim on the parent instance and the agent in the guest.
+|The serialized form of the Cedar policy that is stored in a pod annotation and delivered to both the shim on the parent instance and the agent in the guest.
 
 |Isolated pod
 |A pod with `runtimeClassName: isolated-sandbox`. The parent instance is trusted. Use this to protect the node and other pods from a compromised container.
