@@ -258,9 +258,7 @@ price to performance ratio, and is the recommended option for the vast majority 
 from the Standard control plane to a higher https://aws.amazon.com/eks/pricing/[priced] EKS Provisioned
 Control Plane tier. You must explicitly opt in to one of the new EKS
 Provisioned Control Plane scaling tiers.
-* *Exit restriction* – Standard control plane mode supports up to 8 GB of cluster database (etcd) size. If your cluster's database size exceeds 8 GB while using Provisioned mode, you cannot switch back to Standard mode until you reduce the database size to below 8 GB. For example, if your cluster database size is 14 GB in Provisioned mode, you must first reduce it to less than 8 GB before returning to Standard mode.
-+
-On EKS v1.34 and later, the 4XL and 8XL tiers support up to 24 GB of cluster database size. The XL and 2XL tiers support up to 16 GB. If your 4XL or 8XL cluster's database size exceeds 16 GB, reduce it below 16 GB before moving to the XL or 2XL tier. To switch to Standard mode, reduce it below 8 GB.
+* *Exit restriction* – You can move a cluster to a smaller Provisioned tier or back to Standard mode only if its cluster database (etcd) size is within the limit of the tier or mode you're moving to. Standard mode supports up to 8 GB. On EKS v1.34 and later, the XL and 2XL tiers support up to 16 GB, and the 4XL and 8XL tiers support up to 24 GB. If your database is over that limit, reduce it below the limit before you switch. For example, a 4XL cluster with a 20 GB database must get below 16 GB to move to XL or 2XL, and below 8 GB to return to Standard mode.
 * *No automatic tier scaling* – EKS Provisioned Control Plane does not
 automatically scale between tiers. Once you select a scaling tier, your
 cluster's control plane remains pinned to that tier, ensuring consistent
@@ -294,6 +292,7 @@ Provisioned mode.
 * *Larger scaling tier* – If you intend to run your cluster on scaling tier larger than 8XL, contact your Amazon Web Services account team for additional pricing information.
 * *Kubernetes version and region support* – EKS Provisioned Control Plane is supported in all Amazon Web Services commercial, GovCloud, and China regions. Provisioned Control Plane works on EKS v1.28 and higher.
 * *Higher SLA* - EKS Provisioned Control Plane offers higher EKS SLA than Standard Control Plane. Learn more in https://aws.amazon.com/eks/sla/[EKS SLA page].
+* *Cluster database size by version* – On EKS v1.34 and later, the 4XL and 8XL tiers support up to 24 GB of cluster database (etcd) size. On earlier versions, all Provisioned tiers support up to 16 GB.
 
 
 include::eks-provisioned-control-plane-getting-started.adoc[leveloffset=+1]
