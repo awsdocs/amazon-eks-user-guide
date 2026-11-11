@@ -352,6 +352,11 @@ Cluster insights are evaluated at the time rollback is triggered. If you make ch
 
 Amazon EKS preserves etcd data during rollback. Incompatible resources bypassed by using the `--force` flag remain persisted and are not garbage collected.
 
+[#rollback-pcp-large-database]
+=== Rolling back Provisioned Control Plane clusters with a large cluster database
+
+Rolling back a 4XL or 8XL Provisioned Control Plane cluster from version 1.34 to 1.33 isn't supported when its cluster database (etcd) size is larger than 16 GB. On version 1.33, Provisioned Control Plane tiers support up to 16 GB of cluster database size. Before you roll back, reduce the database size below 16 GB.
+
 [#rollback-extended-support-charges]
 === Extended support charges
 
