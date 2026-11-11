@@ -292,6 +292,9 @@ Provisioned mode.
 * *Larger scaling tier* – If you intend to run your cluster on scaling tier larger than 8XL, contact your Amazon Web Services account team for additional pricing information.
 * *Kubernetes version and region support* – EKS Provisioned Control Plane is supported in all Amazon Web Services commercial, GovCloud, and China regions. Provisioned Control Plane works on EKS v1.28 and higher.
 * *Higher SLA* - EKS Provisioned Control Plane offers higher EKS SLA than Standard Control Plane. Learn more in https://aws.amazon.com/eks/sla/[EKS SLA page].
+* *Continued scaling under Provisioned mode* – Provisioned Control Plane is designed for specialized workloads that can not tolerate any performance variability due to control plane scaling, or those requiring very high amounts of control plane capacity. If the control plane scales up or down more frequently while using Provisioned mode, it is a sign that the selected tier is not adequate for the workload. Consider changing the tier.
 
+
+* 
 
 include::eks-provisioned-control-plane-getting-started.adoc[leveloffset=+1]
