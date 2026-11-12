@@ -11,37 +11,83 @@ Use {ro-name} to set CPU and memory requests for workloads in EKS Auto Mode clus
 --
 
 ////
-OWNER: kestnera (PM), with ramaliar (Aravind, SME)
-STATUS: Stub. MUST-HAVE for Road to re:Invent (FLC). First draft by Nov 10, content final by Nov 13.
-SOURCES: ERO Preview API Spec (chorus WNMYDWOPOOsV); ERO Product Open Decisions (chorus X1YjOohTWSFo);
-         What's New post draft (chorus WhSxiBVMVo2z) - title must match the WNP link text "Rightsize workloads with resource optimization"
-
-REQUIRED CONTENT (concept topic):
-[ ] Preview notice (use the standard preview disclaimer).
-[ ] What it does: collects CPU and memory usage, produces recommendations, and in Apply mode resizes running Pods in place.
-[ ] Requirements: EKS Auto Mode, Kubernetes 1.36 or later. No cluster update or EKS API call needed; the CRDs are installed on every Auto Mode cluster at 1.36+.
-[ ] Supported workloads: Deployments and StatefulSets. Resources: CPU and memory only (no GPU, no ephemeral storage).
-[ ] Modes: Recommend (default, changes nothing) and Apply. Changing a workload is a second, explicit decision.
-[ ] How changes are applied: in place through the Pod resize subresource. ERO never edits the Deployment or StatefulSet template, so GitOps tools (Argo CD, Flux, kro) have nothing to revert.
-[ ] New Pods (scale-out, consolidation, deploys) are sized at admission rather than starting at template size.
-[ ] Profile: Balanced only in Preview (p95 utilization ceiling of 70%; floor 0.5x declared request; ceiling 2x declared limit).
-[ ] Warm-up: about 12 hours of usage history before the first recommendation for a container.
-[ ] Preview considerations (must be documented, not discovered):
-    - No automatic rollback in Apply mode. Recovery is the opt-out annotation or Recommend mode.
-    - Disabling or opting out stops future changes only; resource values already applied stay in place.
-    - No savings figures in status or the console in Preview.
-    - System namespaces (kube-system, kube-public, kube-node-lease) are never managed.
-[ ] Regions: WNP lists 6 (us-east-1, us-east-2, us-west-2, eu-central-1, eu-west-1, ap-northeast-1), but the ALA launch lists 34
-    commercial Regions. Resolve with PMM (ramadit) before publishing; the docs must match the WNP.
-[ ] Pricing: WNP says "at no additional charge" - include only if PMM confirms the docs should state it.
-[ ] Console: no new console experience for Preview. ClusterResourceOptimizationPolicy and ResourceOptimization objects are visible read-only through the existing Kubernetes resource viewer; link <<view-kubernetes-resources>>.
-[ ] Links to each child topic.
-
-DO NOT include: "machine learning-powered" or "up to 40%" claims (not supported by Preview behavior; check with PMM).
-NAMING: "Amazon EKS Auto Mode resource optimization" on first mention, "resource optimization" after (lowercase, per WNP). Use :ro-name: / :ro-short:.
+CONFIRM BEFORE PUBLISHING (delete this block in the final revision):
+- Balanced band for Pods with several containers (Decision 36: shared band, min of mins to max of maxes). Confirm the reference topic explains it.
 ////
 
-// TODO(kestnera): Overview content.
+[NOTE]
+====
+{ro-name} is in preview release for Amazon EKS and is subject to change.
+====
+
+Teams usually set CPU and memory requests when they first deploy a workload and rarely revisit them. EKS Auto Mode provisions EC2 instances to fit those requests. When requests are higher than a workload needs, the cluster runs more or larger instances than the workload uses.
+
+With {ro-short}, EKS Auto Mode observes the CPU and memory that each container uses and produces a recommended request for it. You choose, per workload, whether {ro-short} only reports recommendations or also applies them to running Pods.
+
+[#auto-ro-how-it-works]
+== How {ro-short} works
+
+You turn on {ro-short} by creating a `ClusterResourceOptimizationPolicy` in your cluster. The policy selects which namespaces and workloads {ro-short} manages, and sets a mode for them:
+
+`Recommend` (default)::
+{ro-short-cap} collects usage and produces recommendations. It doesn't change any Pod.
+
+`Apply`::
+{ro-short-cap} also resizes running Pods to match its recommendations.
+
+A policy that doesn't set `mode` uses `Recommend`. Creating a policy doesn't change any Pod until you set `mode: Apply`.
+
+For each workload that a policy selects, {ro-short} creates a `ResourceOptimization` object (short name `ro`) in the workload's namespace. This object holds the workload's recommendations, its status, and the policy that supplied each setting. You don't create or edit these objects. {ro-short-cap} removes them when no policy selects the workload.
+
+[#auto-ro-how-changes-apply]
+=== How changes are applied
+
+In `Apply` mode, {ro-short} resizes Pods in place through the Kubernetes Pod `resize` subresource, without recreating them. It never edits the Deployment or StatefulSet Pod template. The Pod template in your cluster matches the one in your source repository, so GitOps tools such as Argo CD and Flux don't detect drift and have nothing to revert.
+
+New Pods that the workload creates, for example during a scale-out, a node consolidation, or a rollout, start at the recommended size rather than the size in the Pod template.
+
+For more information about how {ro-short} handles resizes that don't fit on the current node, see <<auto-ro-resize>>.
+
+[#auto-ro-profile]
+=== How recommendations are sized
+
+Recommendations follow an optimization profile. This preview includes one profile, `Balanced`:
+
+* For CPU, {ro-short} sizes the request so that the 95th percentile of the container's observed usage is about 70% of the request.
+* For memory, recommendations account for the container's peak usage. A container that exceeds its memory limit is stopped, while a container that uses more CPU than its limit is only throttled.
+* Each recommendation stays between half of the request declared in the Pod template and twice the declared limit.
+
+{ro-short-cap} needs about 12 hours of usage history for a container before it produces the first recommendation. Until then, the container keeps the request declared in its Pod template.
+
+[#auto-ro-requirements]
+== Requirements and scope
+
+* *Cluster*: An EKS Auto Mode cluster running Kubernetes version 1.36 or later. {ro-short-cap} is available on every such cluster, including existing ones. You don't need to update the cluster or call an EKS API to use it.
+* *Workloads*: Deployments and StatefulSets.
+* *Resources*: CPU and memory. {ro-short-cap} doesn't size GPUs or ephemeral storage, and it doesn't change replica counts.
+* *Namespaces*: {ro-short-cap} never manages workloads in the `kube-system`, `kube-public`, or `kube-node-lease` namespaces, even if a policy selects them.
+* *Pricing*: {ro-short-cap} is available at no additional charge.
+* *{aws} Regions*: US East (N. Virginia), US East (Ohio), US West (Oregon), Europe (Frankfurt), Europe (Ireland), Asia Pacific (Seoul), and Asia Pacific (Tokyo).
+
+[#auto-ro-considerations]
+== Preview considerations
+
+Review these behaviors before you set `mode: Apply` on production workloads:
+
+* *No automatic rollback*: If an applied recommendation degrades a workload, {ro-short} doesn't revert it. To stop further changes to that workload, opt it out or set its policy to `Recommend`. For instructions, see <<auto-ro-enable-opt-out>> and <<auto-ro-enable-pause>>.
+* *Applied values stay in place*: Deleting a policy, switching to `Recommend`, or opting a workload out stops future changes only. Running Pods keep the CPU and memory that {ro-short} last applied. To return Pods to the values in the Pod template, restart the workload, for example with `kubectl rollout restart`. For StatefulSets that use the `OnDelete` update strategy, see <<auto-ro-enable-opt-out>>.
+* *No cost or savings figures*: {ro-short-cap} doesn't report estimated savings in this preview. To measure the cost effect of rightsizing, use {aws} Cost Explorer or your existing cost tools.
+* *Console access*: There is no {ro-short} page in the Amazon EKS console. The Kubernetes resource viewer shows `ClusterResourceOptimizationPolicy` and `ResourceOptimization` objects as read-only. For more information, see <<view-kubernetes-resources>>.
+
+[#auto-ro-topics]
+== Topics
+
+* <<auto-ro-enable>>
+* <<auto-ro-policies>>
+* <<auto-ro-workloads>>
+* <<auto-ro-resize>>
+* <<auto-ro-reference>>
+* <<auto-ro-troubleshoot>>
 
 include::auto-ro-enable.adoc[leveloffset=+1]
 

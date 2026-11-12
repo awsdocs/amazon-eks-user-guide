@@ -11,24 +11,232 @@ Create a `ClusterResourceOptimizationPolicy` to turn on {ro-short}, choose which
 --
 
 ////
-OWNER: kestnera (PM)
-STATUS: Stub. MUST-HAVE. First draft by Nov 10, content final by Nov 13. This kubectl how-to replaces the FLC "console how-to" must-have; there is no new console flow for Preview.
-SOURCES: ERO Preview API Spec (chorus WNMYDWOPOOsV)
-
-REQUIRED CONTENT (task topic):
-[ ] Prerequisites: Auto Mode cluster on Kubernetes 1.36+, kubectl access.
-[ ] Turn on with defaults: apply a policy named `default` with `spec: {}`.
-    Result: Recommend mode for every non-system namespace, Balanced profile.
-[ ] Confirm it took effect: `kubectl get crop` shows the Ready and Selected (count of selected workloads) columns. Do not quote a time.
-[ ] Example: recommendations everywhere except one namespace (namespaceSelector with NotIn on kubernetes.io/metadata.name).
-[ ] Example: Apply for one team's stateless workloads (namespaceSelector + workloadSelector + mode: Apply).
-[ ] Switch to Apply: change `mode` on the policy. (Decision 28: a mode-only change should not restart warm-up; confirm with engineering before stating.)
-[ ] Opt out a single workload: `optimization.eks.amazonaws.com/enabled: "false"` on the workload.
-[ ] Pause changes but keep recommendations: set `mode: Recommend`.
-[ ] Turn off: delete the policy. Deleting the last policy stops collection, recommendations, and resizes cluster-wide. Per-workload objects are garbage-collected. Applied values are not reverted; to revert, roll the workload.
-[ ] View policies and per-workload objects in the console (read-only) with the existing Kubernetes resource viewer: <<view-kubernetes-resources>>. One sentence; no console procedure.
-
-OPEN: How quickly delete / switch-to-Recommend stops in-flight resizes (API spec asks engineering to confirm).
+CONFIRM BEFORE PUBLISHING (delete this block in the final revision):
+- Open question: how quickly deleting a policy or switching to Recommend stops resizes already in progress (Aravind). The text makes no timing statement.
 ////
 
-// TODO(kestnera): Procedures.
+You turn on, configure, and turn off {ro-name} with `ClusterResourceOptimizationPolicy` objects. A policy is a cluster-scoped Kubernetes object that you manage with `kubectl` or your GitOps tooling, like any other manifest. There is no EKS API setting for {ro-short}.
+
+[#auto-ro-enable-prereqs]
+== Prerequisites
+
+* An EKS Auto Mode cluster running Kubernetes version 1.36 or later. For more information, see <<create-auto>>.
+* `kubectl` configured to communicate with your cluster, with permission to create cluster-scoped resources.
+
+[#auto-ro-enable-default]
+== Turn on {ro-short} with default settings
+
+. Save the following manifest as `ro-default-policy.yaml`.
++
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1beta1
+kind: ClusterResourceOptimizationPolicy
+metadata:
+  name: default
+spec: {}
+----
++
+With an empty `spec`, the policy selects every Deployment and StatefulSet in every namespace except the system namespaces, in `Recommend` mode with the `Balanced` profile. The policy doesn't change any Pod.
+. Apply the manifest.
++
+[source,bash]
+----
+kubectl apply -f ro-default-policy.yaml
+----
+. Confirm that the policy is ready.
++
+[source,bash]
+----
+kubectl get crop
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME      MODE        PROFILE    READY   SELECTED   AGE
+default   Recommend   Balanced   True    42         5m
+----
++
+`READY` is `True` when the policy's selectors are valid. `SELECTED` is the number of workloads that the policy currently selects. If `READY` is `False`, run `kubectl describe crop default` and review the conditions. For more information, see <<auto-ro-troubleshoot>>.
+. View the per-workload objects that {ro-short} creates.
++
+[source,bash]
+----
+kubectl get ro --all-namespaces
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAMESPACE   NAME              KIND          TARGET     POLICY    MODE        AGE
+checkout    checkout-deploy   Deployment    checkout   default   Recommend   5m
+data        redis-sts         StatefulSet   redis      default   Recommend   5m
+----
++
+The `POLICY` column shows which policy supplied the workload's mode. Recommendations appear on each object after {ro-short} collects about 12 hours of usage history for the workload's containers. For the fields on these objects, see <<auto-ro-reference>>.
+
+[#auto-ro-enable-examples]
+== Example policies
+
+Use `namespaceSelector` and `workloadSelector` to limit which workloads a policy manages. Both are standard Kubernetes label selectors. `namespaceSelector` matches labels on namespaces. `workloadSelector` matches labels on the Deployment or StatefulSet object, not on its Pod template.
+
+When more than one policy selects a workload, {ro-short} combines them field by field, and the more specific policy takes precedence. For the full rules, see <<auto-ro-policies>>.
+
+To use an example, save it to a file and run `kubectl apply -f` with the file name.
+
+[#auto-ro-enable-example-exclude]
+=== Produce recommendations in every namespace except one
+
+Kubernetes sets the `kubernetes.io/metadata.name` label on every namespace, so you can select or exclude a namespace by name without adding labels. The following policy produces recommendations for every namespace except `payments-prod`:
+
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1beta1
+kind: ClusterResourceOptimizationPolicy
+metadata:
+  name: all-but-payments
+spec:
+  namespaceSelector:
+    matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: NotIn
+        values: [payments-prod]
+----
+
+{ro-short-cap} doesn't manage workloads in `payments-prod` unless another policy selects that namespace. If you also have the `default` policy from the previous procedure, `default` still selects `payments-prod`. Use this policy in place of `default`, not alongside it.
+
+[#auto-ro-enable-example-apply]
+=== Apply recommendations for one team's stateless workloads
+
+The following policy selects namespaces labeled `team: search`, narrows to workloads labeled `tier: stateless`, and sets `mode: Apply`:
+
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1beta1
+kind: ClusterResourceOptimizationPolicy
+metadata:
+  name: team-search
+spec:
+  namespaceSelector:
+    matchLabels:
+      team: search
+  workloadSelector:
+    matchLabels:
+      tier: stateless
+  mode: Apply
+----
+
+If you also have the `default` policy from the previous procedure, both policies select these workloads. `team-search` sets both selectors, so it's more specific, and its `mode: Apply` takes effect. The search team's other workloads stay in `Recommend` mode under `default`.
+
+[#auto-ro-enable-switch-apply]
+== Start applying recommendations
+
+To have {ro-short} resize the Pods that a policy selects, set `mode: Apply` on the policy. You can set the mode in your policy manifest and apply it, or patch the policy directly. Before you do, review the recommendations on the workloads' `ResourceOptimization` objects and <<auto-ro-considerations>>.
+
+. Patch the policy to set `mode: Apply`. Replace `team-search` with the name of your policy.
++
+[source,bash]
+----
+kubectl patch crop team-search --type merge -p '{"spec":{"mode":"Apply"}}'
+----
+. Confirm the new mode.
++
+[source,bash]
+----
+kubectl get crop team-search
+----
++
+An example output is as follows.
++
+[source,bash,subs="verbatim,attributes"]
+----
+NAME          MODE    PROFILE    READY   SELECTED   AGE
+team-search   Apply   Balanced   True    12         2d
+----
+
+Switching modes doesn't reset the usage history that {ro-short} has already collected. Workloads that already have recommendations don't need to collect 12 hours of usage history again.
+
+{ro-short-cap} resizes running Pods in place, and new Pods start at the recommended size. For more information about how it applies changes and what happens when a resize doesn't fit on a node, see <<auto-ro-resize>>.
+
+[#auto-ro-enable-opt-out]
+== Opt out a single workload
+
+To remove one workload from {ro-short} regardless of which policies select it, add the `optimization.eks.amazonaws.com/enabled: "false"` annotation to the Deployment or StatefulSet. Use this annotation to stop changes to one workload without editing your policies, for example during an incident.
+
+When you opt out a workload, {ro-short} deletes its `ResourceOptimization` object and cancels any resize that it requested and the kubelet hasn't applied yet. Resizes that the kubelet already applied stay in place, and new Pods start at the size in the Pod template.
+
+If you manage the workload with a GitOps tool, add the annotation to the workload manifest in your repository instead of running `kubectl annotate`, so that the tool doesn't remove it.
+
+. Annotate the workload. Replace `my-app` and `my-namespace` with your values. For a StatefulSet, replace `deployment` with `statefulset`.
++
+[source,bash]
+----
+kubectl annotate deployment my-app -n my-namespace optimization.eks.amazonaws.com/enabled="false"
+----
+. (Optional) Return the workload's Pods to the CPU and memory in its Pod template. {ro-short-cap} doesn't revert values it already applied.
++
+[source,bash]
+----
+kubectl rollout restart deployment my-app -n my-namespace
+----
++
+A StatefulSet that uses the `OnDelete` update strategy doesn't replace its Pods when you restart it. Delete its Pods instead, and the StatefulSet controller recreates them from the Pod template.
+
+To manage the workload again, remove the annotation.
+
+[source,bash]
+----
+kubectl annotate deployment my-app -n my-namespace optimization.eks.amazonaws.com/enabled-
+----
+
+[#auto-ro-enable-pause]
+== Stop resizing but keep recommendations
+
+To stop {ro-short} from changing Pods while it continues to produce recommendations, set `mode: Recommend` on the policies that set `Apply`. Replace `team-search` with the name of your policy.
+
+[source,bash]
+----
+kubectl patch crop team-search --type merge -p '{"spec":{"mode":"Recommend"}}'
+----
+
+Running Pods keep the values that {ro-short} already applied. New Pods, for example from a scale-out or a rollout, start at the size in the Pod template.
+
+[#auto-ro-enable-turn-off]
+== Turn off {ro-short}
+
+Deleting a policy stops collection, recommendations, and resizes for the workloads that it selects, unless another policy also selects them. Deleting the last policy in the cluster turns off {ro-short} for the whole cluster.
+
+. List the policies in your cluster.
++
+[source,bash]
+----
+kubectl get crop
+----
+. Delete each policy. Replace `default` with the name of each policy.
++
+[source,bash]
+----
+kubectl delete crop default
+----
+. Confirm that {ro-short} removed its per-workload objects.
++
+[source,bash]
+----
+kubectl get ro --all-namespaces
+----
++
+When no policy selects a workload, {ro-short} deletes that workload's `ResourceOptimization` object. After you delete every policy, the command returns `No resources found`.
+. (Optional) Restart workloads to return their Pods to the CPU and memory in their Pod templates. Running Pods keep the values that {ro-short} last applied until they're replaced. New Pods start at the size in the Pod template. Replace `my-app` and `my-namespace` with your values. For StatefulSets that use the `OnDelete` update strategy, see <<auto-ro-enable-opt-out>>.
++
+[source,bash]
+----
+kubectl rollout restart deployment my-app -n my-namespace
+----
+
+[#auto-ro-enable-console]
+== View policies on the console
+
+The Kubernetes resource viewer in the Amazon EKS console shows your policies and per-workload objects as read-only. For more information, see <<view-kubernetes-resources>>.

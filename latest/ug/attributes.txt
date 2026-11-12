@@ -22,3 +22,4 @@
 // EKS Auto Mode resource optimization (Preview). Name matches the What's New post draft; change here only.
 :ro-name: EKS Auto Mode resource optimization
 :ro-short: resource optimization
+:ro-short-cap: Resource optimization
