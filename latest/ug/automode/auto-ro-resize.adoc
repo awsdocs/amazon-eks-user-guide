@@ -95,6 +95,10 @@ The kubelet applies a resize only if the Pod's node has room for it. Kubernetes 
 | A memory decrease would set the limit at or below what the container uses.
 | The memory decrease is held, and the rest of the resize is applied. The memory is lowered once usage allows it.
 | `MemoryDecreaseHeld` is `True` with reason `MemoryInUse`, or `MemoryDecreaseRefused` if the kubelet refused the decrease.
+
+| The Pods run under the `isolated-sandbox` or `confidential-sandbox` RuntimeClass. A sandboxed Pod's CPU and memory are fixed when it starts, so it can't be resized in place.
+| Recommendations are still produced, but none are applied. The Pods aren't resized, new Pods aren't sized at admission, and Pods aren't evicted, including after an out-of-memory kill. To apply a recommendation, set the values in the Pod template yourself.
+| `InPlaceResizeUnsupported` is `True` with reason `SandboxRuntime`.
 |===
 
 To list a workload's conditions:
@@ -193,6 +197,9 @@ Startup boost hands back CPU only when all of the following are true. When one i
 
 | No VerticalPodAutoscaler in a mode other than `Off` targets the workload.
 | `VPAConflict`
+
+| The Pods don't run under the `isolated-sandbox` or `confidential-sandbox` RuntimeClass.
+| `SandboxRuntime`
 |===
 
 Give each container a readiness probe or a startup probe that passes only once the application has started, because a Pod's startup is treated as over when it's Ready. A Pod without either probe is Ready as soon as its containers start, so for such a Pod the CPU is handed back 10 minutes after the Pod was created instead.
