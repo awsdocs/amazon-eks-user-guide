@@ -35,6 +35,7 @@ For more information, see <<sandboxing>>.
 * Device sharing: Multiple Pods can share a device by referencing the same `ResourceClaim`.
 * Automatic exclusivity: EKS Auto Mode prevents workloads that use DRA and workloads that use device plugins for the same device type from running on the same node, which mitigates the risk of silent device oversubscription during migrations. Each node is a DRA node or a device plugin node per device type for its whole lifetime.
 * Optional explicit device manager selection: Set `eks.amazonaws.com/device-manager-nvidia` or `eks.amazonaws.com/device-manager-efa` to `dra` or `device-plugin` on a `NodePool` to choose the device manager explicitly. This is required for static capacity provisioning. With dynamic capacity provisioning, EKS Auto Mode infers the device manager from your workloads, so the label is optional.
+* Instance types for EFA: Dynamic capacity provisioning for EFA DRA claims supports instance types with NVIDIA GPUs. Support for EFA-enabled instance types without GPUs, such as `hpc7a` or `c6in`, is coming soon. For more information, see https://github.com/aws/karpenter-provider-aws/pull/9879[aws/karpenter-provider-aws#9879] on GitHub.
 
 GPU sharing through DRA, including time-slicing and MIG, is not available in EKS Auto Mode.
 

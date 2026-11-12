@@ -145,6 +145,10 @@ When EKS Auto Mode or Karpenter uses dynamic capacity provisioning to launch a n
 
 If a node is launched with fewer EFA interfaces than its instance type supports, EKS Auto Mode and Karpenter overestimate the EFA devices the node will offer, and can launch a node that cannot satisfy the claim. For EFA DRA workloads that use dynamic capacity provisioning, leave the network interface configuration unset and let EKS Auto Mode or Karpenter attach an EFA interface on every EFA-capable network card for you.
 
+Note the following about the device metadata:
+
+* *It covers instance types with NVIDIA GPUs.* EKS Auto Mode and Karpenter don't yet have EFA DRA device metadata for EFA-enabled instance types without GPUs, such as `hpc7a` or `c6in`. As a result, dynamic capacity provisioning can't launch them for an EFA DRA claim. Support for these instance types is coming soon. For more information, see https://github.com/aws/karpenter-provider-aws/pull/9879[aws/karpenter-provider-aws#9879] on GitHub. Until then, use static capacity provisioning, EKS managed node groups, self-managed nodes, or the EFA device plugin for them.
+
 This assumption does not apply to static capacity provisioning, EKS managed node groups, or self-managed nodes. On those, the nodes exist before any claim is evaluated and the EFA DRA driver publishes `ResourceSlice` objects for the interfaces that are actually attached.
 ====
 
