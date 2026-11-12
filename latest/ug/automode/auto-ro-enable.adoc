@@ -26,6 +26,8 @@ You turn on, configure, and turn off {ro-name} with `ClusterResourceOptimization
 [#auto-ro-enable-default]
 == Turn on {ro-short} with default settings
 
+Complete the following steps to turn on {ro-short} with default settings:
+
 . Save the following manifest as `ro-default-policy.yaml`.
 +
 [source,yaml]
@@ -136,17 +138,19 @@ If you also have the `default` policy from the previous procedure, both policies
 
 To have {ro-short} resize the Pods that a policy selects, set `mode: Apply` on the policy. You can set the mode in your policy manifest and apply it, or patch the policy directly. Before you do, review the recommendations on the workloads' `ResourceOptimization` objects and <<auto-ro-considerations>>.
 
-. Patch the policy to set `mode: Apply`. Replace `team-search` with the name of your policy.
+Complete the following steps to switch a policy to `Apply`:
+
+. Patch the policy to set `mode: Apply`. Replace [.replaceable]`team-search` with the name of your policy.
 +
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl patch crop team-search --type merge -p '{"spec":{"mode":"Apply"}}'
+kubectl patch crop [.replaceable]`team-search` --type merge -p '{"spec":{"mode":"Apply"}}'
 ----
 . Confirm the new mode.
 +
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl get crop team-search
+kubectl get crop [.replaceable]`team-search`
 ----
 +
 An example output is as follows.
@@ -166,40 +170,42 @@ Switching modes doesn't reset the usage history that {ro-short} has already coll
 
 To remove one workload from {ro-short} regardless of which policies select it, add the `optimization.eks.amazonaws.com/enabled: "false"` annotation to the Deployment or StatefulSet. Use this annotation to stop changes to one workload without editing your policies, for example during an incident.
 
-When you opt out a workload, {ro-short} deletes its `ResourceOptimization` object and cancels any resize that it requested and the kubelet hasn't applied yet. Resizes that the kubelet already applied stay in place, and new Pods start at the size in the Pod template.
+When you opt out a workload, {ro-short} deletes its `ResourceOptimization` object. It also cancels any resize that it requested and the kubelet hasn't applied yet. Resizes that the kubelet already applied stay in place, and new Pods start at the size in the Pod template.
 
-If you manage the workload with a GitOps tool, add the annotation to the workload manifest in your repository instead of running `kubectl annotate`, so that the tool doesn't remove it.
+If you manage the workload with a GitOps tool, add the annotation to the workload manifest in your repository instead of running `kubectl annotate`. Otherwise, the tool removes the annotation.
 
-. Annotate the workload. Replace `my-app` and `my-namespace` with your values. For a StatefulSet, replace `deployment` with `statefulset`.
+Complete the following steps to opt out a workload with `kubectl`:
+
+. Annotate the workload. Replace [.replaceable]`my-app` and [.replaceable]`my-namespace` with your values. For a StatefulSet, replace `deployment` with `statefulset`.
 +
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl annotate deployment my-app -n my-namespace optimization.eks.amazonaws.com/enabled="false"
+kubectl annotate deployment [.replaceable]`my-app` -n [.replaceable]`my-namespace` optimization.eks.amazonaws.com/enabled="false"
 ----
 . (Optional) Return the workload's Pods to the CPU and memory in its Pod template. {ro-short-cap} doesn't revert values it already applied.
 +
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl rollout restart deployment my-app -n my-namespace
+kubectl rollout restart deployment [.replaceable]`my-app` -n [.replaceable]`my-namespace`
 ----
 +
 A StatefulSet that uses the `OnDelete` update strategy doesn't replace its Pods when you restart it. Delete its Pods instead, and the StatefulSet controller recreates them from the Pod template.
 
 To manage the workload again, remove the annotation.
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl annotate deployment my-app -n my-namespace optimization.eks.amazonaws.com/enabled-
+kubectl annotate deployment [.replaceable]`my-app` -n [.replaceable]`my-namespace` optimization.eks.amazonaws.com/enabled-
 ----
 
 [#auto-ro-enable-pause]
 == Stop resizing but keep recommendations
 
-To stop {ro-short} from changing Pods while it continues to produce recommendations, set `mode: Recommend` on the policies that set `Apply`. Replace `team-search` with the name of your policy.
+To stop {ro-short} from changing Pods while it continues to produce recommendations, set `mode: Recommend` on the policies that set `Apply`. Replace [.replaceable]`team-search` with the name of your policy.
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl patch crop team-search --type merge -p '{"spec":{"mode":"Recommend"}}'
+kubectl patch crop [.replaceable]`team-search` --type merge -p '{"spec":{"mode":"Recommend"}}'
 ----
 
 Running Pods keep the values that {ro-short} already applied. New Pods, for example from a scale-out or a rollout, start at the size in the Pod template.
@@ -207,7 +213,9 @@ Running Pods keep the values that {ro-short} already applied. New Pods, for exam
 [#auto-ro-enable-turn-off]
 == Turn off {ro-short}
 
-Deleting a policy stops collection, recommendations, and resizes for the workloads that it selects, unless another policy also selects them. Deleting the last policy in the cluster turns off {ro-short} for the whole cluster.
+Deleting a policy stops collection, recommendations, and resizes for the workloads that it selects. Workloads that another policy also selects stay managed. Deleting the last policy in the cluster turns off {ro-short} for the whole cluster.
+
+Complete the following steps to turn off {ro-short} for the whole cluster:
 
 . List the policies in your cluster.
 +
@@ -215,11 +223,11 @@ Deleting a policy stops collection, recommendations, and resizes for the workloa
 ----
 kubectl get crop
 ----
-. Delete each policy. Replace `default` with the name of each policy.
+. Delete each policy. Replace [.replaceable]`default` with the name of each policy.
 +
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl delete crop default
+kubectl delete crop [.replaceable]`default`
 ----
 . Confirm that {ro-short} removed its per-workload objects.
 +
@@ -229,11 +237,11 @@ kubectl get ro --all-namespaces
 ----
 +
 When no policy selects a workload, {ro-short} deletes that workload's `ResourceOptimization` object. After you delete every policy, the command returns `No resources found`.
-. (Optional) Restart workloads to return their Pods to the CPU and memory in their Pod templates. Running Pods keep the values that {ro-short} last applied until they're replaced. New Pods start at the size in the Pod template. Replace `my-app` and `my-namespace` with your values. For StatefulSets that use the `OnDelete` update strategy, see <<auto-ro-enable-opt-out>>.
+. (Optional) Restart workloads to return their Pods to the CPU and memory in their Pod templates. Running Pods keep the values that {ro-short} last applied until they're replaced. New Pods start at the size in the Pod template. Replace [.replaceable]`my-app` and [.replaceable]`my-namespace` with your values. For StatefulSets that use the `OnDelete` update strategy, see <<auto-ro-enable-opt-out>>.
 +
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl rollout restart deployment my-app -n my-namespace
+kubectl rollout restart deployment [.replaceable]`my-app` -n [.replaceable]`my-namespace`
 ----
 
 [#auto-ro-enable-console]
