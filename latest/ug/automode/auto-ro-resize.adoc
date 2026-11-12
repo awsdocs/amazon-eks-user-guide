@@ -152,7 +152,7 @@ In Preview, {ro-short} doesn't take LimitRange objects into account. If a recomm
 [#auto-ro-startup-boost]
 == Startup boost
 
-Some applications, such as Java services, need much more CPU while they start than while they run. Startup boost gives a workload extra CPU for startup, and hands it back as soon as each Pod is ready.
+Some applications, such as Java services, need much more CPU while they start than while they run. Startup boost gives a workload extra CPU for startup, and hands it back shortly after each Pod is Ready.
 
 You set the startup CPU yourself, as the container's CPU request in the Pod template. {ro-short} doesn't add CPU. The boost lasts until the Pod is Ready; there's no timer and no multiplier.
 
@@ -163,7 +163,7 @@ Use startup boost when a workload needs noticeably more CPU to start than to run
 . You raise the container's CPU request in the Pod template to what it needs for startup, and add the `optimization.eks.amazonaws.com/startup-boost: "true"` annotation to the workload.
 . A new Pod starts at the template's CPU. Its memory, and the resources of its other containers, are sized at admission as usual.
 . While the Pod starts, its CPU is left alone.
-. When the Pod is Ready, its CPU is resized in place down to the steady-state recommendation.
+. Shortly after the Pod is Ready, its CPU is resized in place down to the steady-state recommendation.
 
 Startup boost also changes two other things for the workload:
 
@@ -263,6 +263,4 @@ An example output is as follows.
 
 === Startup boost and node autoscaling
 
-While a workload has the startup boost annotation, its `ResourceOptimization` lists the CPU that the workload's new Pods start with in `status.newPodSize`. EKS Auto Mode reads it when it plans nodes, so it plans a replacement Pod with the startup CPU, not the lower CPU of the running Pod it replaces. When it consolidates nodes, it leaves room for replacement Pods to start with the startup CPU.
-
-// TODO(chenwany): Karpenter note, 2-4 sentences. Replace the paragraph above.
+While a workload has the startup boost annotation, its `ResourceOptimization` lists the startup CPU from the Pod template in `status.newPodSize`. When EKS Auto Mode moves the workload's Pods off a node, for example when it consolidates or replaces nodes, it plans capacity for those Pods with this CPU instead of the lower CPU the running Pods use after startup.
