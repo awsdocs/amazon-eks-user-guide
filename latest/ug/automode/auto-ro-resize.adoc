@@ -25,13 +25,13 @@ In both modes, {ro-short} never edits a `Deployment` or `StatefulSet`. The Pod t
 To resize a running Pod, {ro-short} uses the Pod's `resize` subresource, the Kubernetes in-place Pod resize API. It changes each container's CPU and memory requests and limits on the Pod.
 
 * *Pods keep running.* A resize doesn't replace the Pod. Whether a container restarts depends on its `resizePolicy`. With the Kubernetes default, `NotRequired`, the container is resized without a restart. A container that sets `restartPolicy: RestartContainer` for a resource restarts when that resource changes.
-* *QoS classes don't change.* Each container keeps its ratio of request to limit. A Guaranteed Pod stays Guaranteed, and a Burstable Pod stays Burstable.
+* *QoS classes don't change.* Each container keeps its ratio of request to limit. A Guaranteed Pod stays Guaranteed, and a Burstable Pod stays Burstable. A container that declares no request for a resource is never resized for it; {ro-short} only recommends a value. For more information, see <<auto-ro-workloads>>.
 * *Pods are resized gradually.* A workload's Pods are resized a few at a time, not all at once.
 * *A change counts as applied only when the kubelet confirms it.* In the `ResourceOptimization` status, a recommendation's `phase` moves from `Pending` to `InProgress` when the resize is sent, and to `Applied` once the Pods report the new size.
 
 === GitOps tools see no drift
 
-Because the Pod template doesn't change, Argo CD, Flux, kro, and other tools that reconcile your manifests have nothing to revert. Your manifests stay the source of truth for the values you declared.
+Because the Pod template doesn't change, Argo CD, Flux, and other tools that manage your manifests, such as kro, have nothing to revert. Your manifests stay the source of truth for the values you declared.
 
 This also means `kubectl get deployment` shows the values you declared, not the values your Pods run with. The following kubectl command shows what a Pod runs with. Replace [.replaceable]`my-pod` with the name of your Pod and [.replaceable]`my-namespace` with its namespace.
 
@@ -41,7 +41,7 @@ kubectl get pod my-pod -n my-namespace \
   -o jsonpath='{range .spec.containers[*]}{.name}{"\t"}{.resources}{"\n"}{end}'
 ----
 
-The following kubectl command shows the recommendation and whether it's applied, from the workload's `ResourceOptimization`. Its name is the workload's name followed by `-deploy` for a `Deployment` or `-sts` for a `StatefulSet`. Replace [.replaceable]`my-app` with the name of your workload and [.replaceable]`my-namespace` with its namespace.
+The following kubectl command shows the recommendation and whether it's applied, from the workload's `ResourceOptimization`. Its name is the workload's name followed by `-deploy` for a `Deployment` or `-sts` for a `StatefulSet`. A very long name is shortened, so if you can't find it, list them with `kubectl get ro -n my-namespace`. Replace [.replaceable]`my-app` with the name of your workload and [.replaceable]`my-namespace` with its namespace.
 
 [source,bash]
 ----
@@ -96,7 +96,7 @@ The kubelet applies a resize only if the Pod's node has room for it. Kubernetes 
 | The memory decrease is held, and the rest of the resize is applied. The memory is lowered once usage allows it.
 | `MemoryDecreaseHeld` is `True` with reason `MemoryInUse`, or `MemoryDecreaseRefused` if the kubelet refused the decrease.
 
-| The Pods run under the `isolated-sandbox` or `confidential-sandbox` RuntimeClass. A sandboxed Pod's CPU and memory are fixed when it starts, so it can't be resized in place.
+| The Pod template sets the `isolated-sandbox` or `confidential-sandbox` RuntimeClass. A sandboxed Pod's CPU and memory are fixed when it starts, so it can't be resized in place.
 | Recommendations are still produced, but none are applied. The Pods aren't resized, new Pods aren't sized at admission, and Pods aren't evicted, including after an out-of-memory kill. To apply a recommendation, set the values in the Pod template yourself.
 | `InPlaceResizeUnsupported` is `True` with reason `SandboxRuntime`.
 |===
@@ -144,6 +144,18 @@ The `AdmissionSizing` condition on the `ResourceOptimization` says whether new P
 
 | `SelectorOverlap`
 | Another workload in the namespace selects the same Pods, so a new Pod can't be matched to one workload.
+
+| `StartupBoost`
+| The workload uses startup boost, and {ro-short} hasn't recorded its startup boost status yet, so new Pods start at the template. This lasts until the next reconcile.
+
+| `RecommendOnly`
+| No container in the workload declares a CPU or memory request or limit, so {ro-short} only recommends values and new Pods start at the template.
+
+| `SandboxRuntime`
+| The Pod template sets the `isolated-sandbox` or `confidential-sandbox` RuntimeClass, so new Pods start at the template.
+
+| `ReconcileFailed`, `AdmissionSizingNotPermitted`, `AdmissionPolicyMissing`, or `WorkloadSelectorUnavailable`
+| {ro-short} couldn't set up sizing for the workload, so new Pods start at the template. The message says why, and {ro-short} retries.
 |===
 
 When you opt a workload out, switch it to `Recommend`, or delete its policy, the workload's binding is removed. From then on, new Pods start at the size in the Pod template.
@@ -171,7 +183,7 @@ Use startup boost when a workload needs noticeably more CPU to start than to run
 
 Startup boost also changes two other things for the workload:
 
-* *The CPU floor is waived.* The `Balanced` profile doesn't normally lower a request below half of its declared value. With startup boost, the declared CPU is the startup value, so the floor is waived for CPU and the request can go as low as the recommendation. The CPU recommendation still has a minimum of 10 millicores. Memory keeps the normal floor. The `CPUFloorWaived` condition is `True` while the waiver applies.
+* *The CPU floor is waived.* The `Balanced` profile doesn't normally lower a request below half of the declared request. With startup boost, the declared CPU is the startup value, so the floor is waived for CPU and the request can go as low as the recommendation. The CPU recommendation still has a minimum of 10 millicores. Memory keeps the normal floor. The `CPUFloorWaived` condition is `True` while the waiver applies.
 * *Startup CPU doesn't count toward the recommendation.* CPU that a Pod uses while it starts is left out of the usage that recommendations come from, so startup spikes don't raise the steady-state recommendation. Memory used during startup still counts.
 
 === Prerequisites
@@ -198,8 +210,11 @@ Startup boost hands back CPU only when all of the following are true. When one i
 | No VerticalPodAutoscaler in a mode other than `Off` targets the workload.
 | `VPAConflict`
 
-| The Pods don't run under the `isolated-sandbox` or `confidential-sandbox` RuntimeClass.
+| The Pod template doesn't set the `isolated-sandbox` or `confidential-sandbox` RuntimeClass.
 | `SandboxRuntime`
+
+| The kubelet can resize the Pod in place on its node.
+| `PodResizeBlocked`. The message gives the number of Pods that couldn't be resized and keep their startup CPU.
 |===
 
 Give each container a readiness probe or a startup probe that passes only once the application has started, because a Pod's startup is treated as over when it's Ready. A Pod without either probe is Ready as soon as its containers start, so for such a Pod the CPU is handed back 10 minutes after the Pod was created instead.
@@ -260,14 +275,14 @@ An example output is as follows.
 
 [source,json]
 ----
-{"eligiblePods":3,"matchingPods":3,"pendingPods":0,"blockedPods":0}
+{"blockedPods":0,"eligiblePods":3,"matchingPods":3,"pendingPods":0}
 ----
 
-* `eligiblePods`: Ready Pods whose startup has ended
+* `eligiblePods`: Ready Pods whose startup CPU is to be handed back. It equals `matchingPods` plus `pendingPods` plus `blockedPods`.
 * `matchingPods`: Pods already at their steady-state CPU
 * `pendingPods`: Pods still being resized to their steady-state CPU. The `StartupShrinkPending` condition is `True` while there are any.
 * `blockedPods`: Pods that keep the startup CPU because they can't be resized. The `StartupShrinkBlocked` condition gives the reason.
 
 === Startup boost and node autoscaling
 
-As long as a workload has the startup boost annotation, its `ResourceOptimization` lists the startup CPU from the Pod template in `status.newPodSize`. When EKS Auto Mode moves the workload's Pods off a node, for example to consolidate or replace nodes, it plans capacity for those Pods with this CPU. It doesn't use the lower CPU that the running Pods use after startup.
+For each container whose startup CPU {ro-short} hands back, the workload's `ResourceOptimization` lists the startup CPU from the Pod template in `status.newPodSize`. When EKS Auto Mode moves the workload's Pods off a node, for example to consolidate or replace nodes, it plans capacity for those Pods with this CPU. It doesn't use the lower CPU that the running Pods use after startup.
