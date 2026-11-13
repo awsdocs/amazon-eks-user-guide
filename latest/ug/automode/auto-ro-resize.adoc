@@ -13,58 +13,58 @@ Learn how {ro-short} resizes running Pods in place, sizes new Pods at admission,
 When a workload's `ResourceOptimization` is in `Apply` mode, {ro-name} changes the CPU and memory of the workload's Pods in two ways:
 
 * It resizes running Pods in place.
-* It sizes new Pods when they're created, so they start at the recommendation instead of the size in the Pod template.
+* It sizes new Pods when they're created, so they start at the recommended size rather than the size in the Pod template.
 
-In `Recommend` mode, you get recommendations and nothing changes.
+In `Recommend` mode, {ro-short} produces recommendations but doesn't change any Pod.
 
-In both modes, {ro-short} never edits a `Deployment` or `StatefulSet`. The Pod template keeps the requests and limits you declared, and the values that {ro-short} applies exist only on the Pods.
+In both modes, {ro-short} never edits a Deployment or StatefulSet. The Pod template keeps the requests and limits you declared, and the values that {ro-short} applies exist only on the Pods.
 
 [#auto-ro-resize-in-place]
 == Resize running Pods in place
 
 To resize a running Pod, {ro-short} uses the Pod's `resize` subresource, the Kubernetes in-place Pod resize API. It changes each container's CPU and memory requests and limits on the Pod.
 
-* *Pods keep running.* A resize doesn't replace the Pod. Whether a container restarts depends on its `resizePolicy`. With the Kubernetes default, `NotRequired`, the container is resized without a restart. A container that sets `restartPolicy: RestartContainer` for a resource restarts when that resource changes.
-* *QoS classes don't change.* Each container keeps its ratio of request to limit. A Guaranteed Pod stays Guaranteed, and a Burstable Pod stays Burstable. A container that declares no request for a resource is never resized for it; {ro-short} only recommends a value. For more information, see <<auto-ro-workloads>>.
-* *Pods are resized gradually.* A workload's Pods are resized a few at a time, not all at once.
-* *A change counts as applied only when the kubelet confirms it.* In the `ResourceOptimization` status, a recommendation's `phase` moves from `Pending` to `InProgress` when the resize is sent, and to `Applied` once the Pods report the new size.
+* *Pods keep running*: A resize doesn't replace the Pod. Whether a container restarts depends on its `resizePolicy`. With the Kubernetes default, `NotRequired`, the container is resized without a restart. A container that sets `restartPolicy: RestartContainer` for a resource restarts when that resource changes.
+* *QoS classes don't change*: Each container keeps its ratio of request to limit. A Guaranteed Pod stays Guaranteed, and a Burstable Pod stays Burstable. A container that declares no request for a resource is never resized for it; {ro-short} only recommends a value. For more information, see <<auto-ro-workloads>>.
+* *Pods are resized gradually*: A workload's Pods are resized a few at a time, not all at once.
+* *A change counts as applied only when the kubelet confirms it*: In the `ResourceOptimization` status, a recommendation's `phase` moves from `Pending` to `InProgress` when the resize is sent, and to `Applied` once the Pods report the new size.
 
 === GitOps tools see no drift
 
 Because the Pod template doesn't change, Argo CD, Flux, and other tools that manage your manifests, such as kro, have nothing to revert. Your manifests stay the source of truth for the values you declared.
 
-This also means `kubectl get deployment` shows the values you declared, not the values your Pods run with. The following kubectl command shows what a Pod runs with. Replace [.replaceable]`my-pod` with the name of your Pod and [.replaceable]`my-namespace` with its namespace.
+This also means `kubectl get deployment` shows the values you declared, not the values your Pods run with. The following command shows what a Pod runs with. Replace [.replaceable]`my-pod` and [.replaceable]`my-namespace` with your values.
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl get pod my-pod -n my-namespace \
+kubectl get pod [.replaceable]`my-pod` -n [.replaceable]`my-namespace` \
   -o jsonpath='{range .spec.containers[*]}{.name}{"\t"}{.resources}{"\n"}{end}'
 ----
 
-The following kubectl command shows the recommendation and whether it's applied, from the workload's `ResourceOptimization`. Its name is the workload's name followed by `-deploy` for a `Deployment` or `-sts` for a `StatefulSet`. A very long name is shortened, so if you can't find it, list them with `kubectl get ro -n my-namespace`. Replace [.replaceable]`my-app` with the name of your workload and [.replaceable]`my-namespace` with its namespace.
+The following command shows the recommendation and whether it's applied, from the workload's `ResourceOptimization`. Its name is the workload's name followed by `-deploy` for a Deployment or `-sts` for a StatefulSet. A very long name is shortened, so if you can't find it, list them with `kubectl get ro --all-namespaces`. Replace [.replaceable]`my-app-deploy` and [.replaceable]`my-namespace` with your values.
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl get ro my-app-deploy -n my-namespace -o yaml
-----
-
-=== Applied values stay after you stop
-
-When you opt a workload out, switch it to `Recommend`, or delete the policy that selects it, {ro-short} stops making changes to it. Pods that were already resized keep their current values; nothing is reverted. A resize that was sent but that the kubelet hasn't applied yet is withdrawn.
-
-To return a workload to the values in its Pod template, replace its Pods after you stop. For example, the following kubectl command restarts a `Deployment`. Replace [.replaceable]`my-app` with the name of your workload and [.replaceable]`my-namespace` with its namespace.
-
-[source,bash]
-----
-kubectl rollout restart deployment/my-app -n my-namespace
+kubectl get ro [.replaceable]`my-app-deploy` -n [.replaceable]`my-namespace` -o yaml
 ----
 
-There's no automatic rollback in Preview. If a change causes a problem, opt the workload out with the `optimization.eks.amazonaws.com/enabled: "false"` annotation, then restart it.
+=== Applied values stay in place
+
+When you opt a workload out, set its policy to `Recommend`, or delete the policy that selects it, {ro-short} stops making changes to it. Running Pods keep the CPU and memory that {ro-short} last applied. {ro-short-cap} cancels any resize that it requested and the kubelet hasn't applied yet.
+
+To return Pods to the values in the Pod template, restart the workload after you stop. For example, the following command restarts a Deployment. Replace [.replaceable]`my-app` and [.replaceable]`my-namespace` with your values. For a StatefulSet, replace `deployment` with `statefulset`.
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl rollout restart deployment [.replaceable]`my-app` -n [.replaceable]`my-namespace`
+----
+
+There's no automatic rollback in this preview. If a change causes a problem, opt the workload out with the `optimization.eks.amazonaws.com/enabled: "false"` annotation, then restart it. A StatefulSet that uses the `OnDelete` update strategy doesn't replace its Pods when you restart it. Delete its Pods instead, and the StatefulSet controller recreates them from the Pod template.
 
 [#auto-ro-resize-blocked]
 == When a resize can't be applied
 
-The kubelet applies a resize only if the Pod's node has room for it. Kubernetes reports this for each Pod, so one Pod can be unable to resize on its node and the workload's other Pods still resize normally. {ro-short} reports each case as a condition on the workload's `ResourceOptimization`. The following table lists each case, what happens, and what you see.
+The kubelet applies a resize only if the Pod's node has room for it. Kubernetes reports this for each Pod, so one Pod can be unable to resize on its node and the workload's other Pods still resize normally. {ro-short-cap} reports each case as a condition on the workload's `ResourceOptimization`. The following table lists each case, what happens, and what you see.
 
 [%header,cols="2,3,2"]
 |===
@@ -101,19 +101,19 @@ The kubelet applies a resize only if the Pod's node has room for it. Kubernetes 
 | `InPlaceResizeUnsupported` is `True` with reason `SandboxRuntime`.
 |===
 
-The following kubectl command lists a workload's conditions. Replace [.replaceable]`my-app` with the name of your workload and [.replaceable]`my-namespace` with its namespace.
+The following command lists a workload's conditions. Replace [.replaceable]`my-app-deploy` and [.replaceable]`my-namespace` with your values.
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl get ro my-app-deploy -n my-namespace \
+kubectl get ro [.replaceable]`my-app-deploy` -n [.replaceable]`my-namespace` \
   -o jsonpath='{range .status.conditions[*]}{.type}{"\t"}{.status}{"\t"}{.reason}{"\t"}{.message}{"\n"}{end}'
 ----
 
-The following kubectl command finds Pods whose node can't hold their resize. Replace [.replaceable]`my-namespace` with your namespace.
+The following command lists the `ResizeInfeasible` events for Pods whose node can never hold their resize. Replace [.replaceable]`my-namespace` with your namespace.
 
-[source,bash]
+[source,bash,subs="verbatim,attributes,quotes"]
 ----
-kubectl get events -n my-namespace --field-selector reason=ResizeInfeasible
+kubectl get events -n [.replaceable]`my-namespace` --field-selector reason=ResizeInfeasible
 ----
 
 [#auto-ro-resize-new-pods]
@@ -155,14 +155,14 @@ The `AdmissionSizing` condition on the `ResourceOptimization` says whether new P
 | The Pod template sets the `isolated-sandbox` or `confidential-sandbox` RuntimeClass, so new Pods start at the template.
 
 | `ReconcileFailed`, `AdmissionSizingNotPermitted`, `AdmissionPolicyMissing`, or `WorkloadSelectorUnavailable`
-| {ro-short} couldn't set up sizing for the workload, so new Pods start at the template. The message says why, and {ro-short} retries.
+| {ro-short-cap} couldn't set up sizing for the workload, so new Pods start at the template. The message says why, and {ro-short} retries.
 |===
 
-When you opt a workload out, switch it to `Recommend`, or delete its policy, the workload's binding is removed. From then on, new Pods start at the size in the Pod template.
+When you opt a workload out, set its policy to `Recommend`, or delete its policy, the workload's binding is removed. From then on, new Pods start at the size in the Pod template.
 
 [IMPORTANT]
 ====
-In Preview, {ro-short} doesn't take LimitRange objects into account. If a recommendation is above a LimitRange maximum in the namespace, the API server rejects new Pods that are sized to it. If you use LimitRanges with maximums, make sure they allow for the recommendations, or opt the affected workloads out.
+In this preview, {ro-short} doesn't take LimitRange objects into account. If a recommendation is above a LimitRange maximum in the namespace, the API server rejects new Pods that are sized to it. If you use LimitRanges with maximums, make sure they allow for the recommendations, or opt the affected workloads out.
 ====
 
 [#auto-ro-startup-boost]
@@ -170,7 +170,7 @@ In Preview, {ro-short} doesn't take LimitRange objects into account. If a recomm
 
 Some applications, such as Java services, need much more CPU while they start than while they run. Startup boost gives a workload extra CPU for startup, and hands it back shortly after each Pod is Ready.
 
-You set the startup CPU yourself, as the container's CPU request in the Pod template. {ro-short} doesn't add CPU. The boost lasts until the Pod is Ready; there's no timer and no multiplier.
+You set the startup CPU yourself, as the container's CPU request in the Pod template. {ro-short-cap} doesn't add CPU. The boost lasts until the Pod is Ready; there's no timer and no multiplier.
 
 Use startup boost when a workload needs noticeably more CPU to start than to run, and a smaller request would make it start slowly or fail its probes. If your workload doesn't need extra CPU to start, don't use it. Without startup boost, a workload with a raised CPU request still comes down, but only as its recommendation updates, which can take hours.
 
@@ -183,8 +183,8 @@ Use startup boost when a workload needs noticeably more CPU to start than to run
 
 Startup boost also changes two other things for the workload:
 
-* *The CPU floor is waived.* The `Balanced` profile doesn't normally lower a request below half of the declared request. With startup boost, the declared CPU is the startup value, so the floor is waived for CPU and the request can go as low as the recommendation. The CPU recommendation still has a minimum of 10 millicores. Memory keeps the normal floor. The `CPUFloorWaived` condition is `True` while the waiver applies.
-* *Startup CPU doesn't count toward the recommendation.* CPU that a Pod uses while it starts is left out of the usage that recommendations come from, so startup spikes don't raise the steady-state recommendation. Memory used during startup still counts.
+* *The CPU floor is waived*: The `Balanced` profile doesn't normally lower a request below half of the declared request. With startup boost, the declared CPU is the startup value, so the floor is waived for CPU and the request can go as low as the recommendation. The CPU recommendation still has a minimum of 10 millicores. Memory keeps the normal floor. The `CPUFloorWaived` condition is `True` while the waiver applies.
+* *Startup CPU doesn't count toward the recommendation*: CPU that a Pod uses while it starts is left out of the usage that recommendations come from, so startup spikes don't raise the steady-state recommendation. Memory used during startup still counts.
 
 === Prerequisites
 
@@ -204,7 +204,7 @@ Startup boost hands back CPU only when all of the following are true. When one i
 | The workload doesn't use Pod-level resources (`resources` in the Pod `spec`).
 | `PodLevelResources`
 
-| No HorizontalPodAutoscaler scales the workload on CPU utilization. {ro-short} doesn't change a CPU request that an HPA's target depends on.
+| No HorizontalPodAutoscaler scales the workload on CPU utilization. {ro-short-cap} doesn't change a CPU request that an HPA's target depends on.
 | `CPUScaledByHPA`
 
 | No VerticalPodAutoscaler in a mode other than `Off` targets the workload.
@@ -260,11 +260,11 @@ spec:
             periodSeconds: 5
 ----
 
-The annotation goes on the `Deployment` or `StatefulSet` itself, not on the Pod template. To turn startup boost off, remove the annotation.
+The annotation goes on the Deployment or StatefulSet itself, not on the Pod template. To turn startup boost off, remove the annotation.
 
 === Check startup boost
 
-The following kubectl command shows the `startupShrink` field in the `ResourceOptimization` status, which counts the workload's Ready Pods:
+The following command shows the `startupShrink` field in the `ResourceOptimization` status, which counts the workload's Ready Pods:
 
 [source,bash]
 ----
