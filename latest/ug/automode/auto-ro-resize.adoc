@@ -33,30 +33,30 @@ To resize a running Pod, {ro-short} uses the Pod's `resize` subresource, the Kub
 
 Because the Pod template doesn't change, Argo CD, Flux, kro, and other tools that reconcile your manifests have nothing to revert. Your manifests stay the source of truth for the values you declared.
 
-This also means `kubectl get deployment` shows the values you declared, not the values your Pods run with. To see what a Pod runs with, read the Pod:
+This also means `kubectl get deployment` shows the values you declared, not the values your Pods run with. The following kubectl command shows what a Pod runs with. Replace [.replaceable]`my-pod` with the name of your Pod and [.replaceable]`my-namespace` with its namespace.
 
 [source,bash]
 ----
-kubectl get pod <pod-name> -n <namespace> \
+kubectl get pod my-pod -n my-namespace \
   -o jsonpath='{range .spec.containers[*]}{.name}{"\t"}{.resources}{"\n"}{end}'
 ----
 
-To see the recommendation and whether it's applied, read the workload's `ResourceOptimization`. Its name is the workload's name followed by `-deploy` for a `Deployment` or `-sts` for a `StatefulSet`.
+The following kubectl command shows the recommendation and whether it's applied, from the workload's `ResourceOptimization`. Its name is the workload's name followed by `-deploy` for a `Deployment` or `-sts` for a `StatefulSet`. Replace [.replaceable]`my-app` with the name of your workload and [.replaceable]`my-namespace` with its namespace.
 
 [source,bash]
 ----
-kubectl get ro <workload-name>-deploy -n <namespace> -o yaml
+kubectl get ro my-app-deploy -n my-namespace -o yaml
 ----
 
 === Applied values stay after you stop
 
 When you opt a workload out, switch it to `Recommend`, or delete the policy that selects it, {ro-short} stops making changes to it. Pods that were already resized keep their current values; nothing is reverted. A resize that was sent but that the kubelet hasn't applied yet is withdrawn.
 
-To return a workload to the values in its Pod template, replace its Pods after you stop. For example:
+To return a workload to the values in its Pod template, replace its Pods after you stop. For example, the following kubectl command restarts a `Deployment`. Replace [.replaceable]`my-app` with the name of your workload and [.replaceable]`my-namespace` with its namespace.
 
 [source,bash]
 ----
-kubectl rollout restart deployment/<workload-name> -n <namespace>
+kubectl rollout restart deployment/my-app -n my-namespace
 ----
 
 There's no automatic rollback in Preview. If a change causes a problem, opt the workload out with the `optimization.eks.amazonaws.com/enabled: "false"` annotation, then restart it.
@@ -64,7 +64,7 @@ There's no automatic rollback in Preview. If a change causes a problem, opt the 
 [#auto-ro-resize-blocked]
 == When a resize can't be applied
 
-The kubelet applies a resize only if the Pod's node has room for it. Kubernetes reports this per Pod, so one Pod can be unable to resize on its node while the workload's other Pods resize normally. {ro-short} reports each case as a condition on the workload's `ResourceOptimization`.
+The kubelet applies a resize only if the Pod's node has room for it. Kubernetes reports this for each Pod, so one Pod can be unable to resize on its node and the workload's other Pods still resize normally. {ro-short} reports each case as a condition on the workload's `ResourceOptimization`. The following table lists each case, what happens, and what you see.
 
 [%header,cols="2,3,2"]
 |===
@@ -101,25 +101,25 @@ The kubelet applies a resize only if the Pod's node has room for it. Kubernetes 
 | `InPlaceResizeUnsupported` is `True` with reason `SandboxRuntime`.
 |===
 
-To list a workload's conditions:
+The following kubectl command lists a workload's conditions. Replace [.replaceable]`my-app` with the name of your workload and [.replaceable]`my-namespace` with its namespace.
 
 [source,bash]
 ----
-kubectl get ro <workload-name>-deploy -n <namespace> \
+kubectl get ro my-app-deploy -n my-namespace \
   -o jsonpath='{range .status.conditions[*]}{.type}{"\t"}{.status}{"\t"}{.reason}{"\t"}{.message}{"\n"}{end}'
 ----
 
-To find Pods whose node can't hold their resize:
+The following kubectl command finds Pods whose node can't hold their resize. Replace [.replaceable]`my-namespace` with your namespace.
 
 [source,bash]
 ----
-kubectl get events -n <namespace> --field-selector reason=ResizeInfeasible
+kubectl get events -n my-namespace --field-selector reason=ResizeInfeasible
 ----
 
 [#auto-ro-resize-new-pods]
 == How new Pods are sized
 
-New Pods start at the recommendation, not at the size in the Pod template. This covers every new Pod a workload creates: rollouts, scale-outs from a HorizontalPodAutoscaler or KEDA, and replacements when EKS Auto Mode consolidates or replaces a node.
+New Pods start at the recommendation, not at the size in the Pod template. This covers every new Pod a workload creates. Examples include rollouts, scale-outs from a HorizontalPodAutoscaler or KEDA, and replacements when EKS Auto Mode consolidates or replaces a node.
 
 New Pods are sized at admission by a Kubernetes `MutatingAdmissionPolicy` named `resource-optimization.eks.amazonaws.com`, with one `MutatingAdmissionPolicyBinding` for each workload that {ro-short} sizes. A workload has a binding only while it's in `Apply` mode and has a recommendation. The policy sizes only the Pods that the workload owns. Other Pods that carry the same labels, such as a Job's Pods or bare Pods, start at their own size.
 
@@ -166,7 +166,7 @@ Use startup boost when a workload needs noticeably more CPU to start than to run
 
 . You raise the container's CPU request in the Pod template to what it needs for startup, and add the `optimization.eks.amazonaws.com/startup-boost: "true"` annotation to the workload.
 . A new Pod starts at the template's CPU. Its memory, and the resources of its other containers, are sized at admission as usual.
-. While the Pod starts, its CPU is left alone.
+. During startup, the Pod's CPU is left alone.
 . Shortly after the Pod is Ready, its CPU is resized in place down to the steady-state recommendation.
 
 Startup boost also changes two other things for the workload:
@@ -176,7 +176,7 @@ Startup boost also changes two other things for the workload:
 
 === Prerequisites
 
-Startup boost hands back CPU only when all of the following are true. When one isn't, Pods keep the template's CPU, and the `StartupShrinkBlocked` condition gives the reason.
+Startup boost hands back CPU only when all of the following are true. When one isn't, Pods keep the template's CPU, and the `StartupShrinkBlocked` condition gives the reason. The following table lists each requirement and the reason shown when it isn't met.
 
 [%header,cols="3,2"]
 |===
@@ -206,7 +206,7 @@ Give each container a readiness probe or a startup probe that passes only once t
 
 === Turn on startup boost
 
-The following example declares 2 CPUs for startup on a Java service that needs about 400 millicores once it's running. Its readiness probe passes only after the application has started. Replace the image and the probe path with your own.
+The following YAML example declares 2 CPUs for startup on a Java service that needs about 400 millicores once it's running. Its readiness probe passes only after the application has started. Replace the image and the probe path with your own.
 
 [source,yaml]
 ----
@@ -249,7 +249,7 @@ The annotation goes on the `Deployment` or `StatefulSet` itself, not on the Pod 
 
 === Check startup boost
 
-The `startupShrink` field in the `ResourceOptimization` status counts the workload's Ready Pods:
+The following kubectl command shows the `startupShrink` field in the `ResourceOptimization` status, which counts the workload's Ready Pods:
 
 [source,bash]
 ----
@@ -263,11 +263,11 @@ An example output is as follows.
 {"eligiblePods":3,"matchingPods":3,"pendingPods":0,"blockedPods":0}
 ----
 
-* `eligiblePods`: Ready Pods whose startup has ended.
-* `matchingPods`: Pods already at their steady-state CPU.
+* `eligiblePods`: Ready Pods whose startup has ended
+* `matchingPods`: Pods already at their steady-state CPU
 * `pendingPods`: Pods still being resized to their steady-state CPU. The `StartupShrinkPending` condition is `True` while there are any.
 * `blockedPods`: Pods that keep the startup CPU because they can't be resized. The `StartupShrinkBlocked` condition gives the reason.
 
 === Startup boost and node autoscaling
 
-While a workload has the startup boost annotation, its `ResourceOptimization` lists the startup CPU from the Pod template in `status.newPodSize`. When EKS Auto Mode moves the workload's Pods off a node, for example when it consolidates or replaces nodes, it plans capacity for those Pods with this CPU instead of the lower CPU the running Pods use after startup.
+As long as a workload has the startup boost annotation, its `ResourceOptimization` lists the startup CPU from the Pod template in `status.newPodSize`. When EKS Auto Mode moves the workload's Pods off a node, for example to consolidate or replace nodes, it plans capacity for those Pods with this CPU. It doesn't use the lower CPU that the running Pods use after startup.
