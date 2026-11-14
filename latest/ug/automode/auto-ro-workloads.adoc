@@ -10,30 +10,217 @@ include::../attributes.txt[]
 Learn how {ro-short} coexists with the Horizontal Pod Autoscaler and KEDA, recovers from out-of-memory events, and handles Java and multi-container workloads.
 --
 
-////
-OWNER: Zaid (SME), reviewer kestnera
-STATUS: Stub. MUST-HAVE. First draft by Nov 6.
-SOURCES: ERO Preview API Spec, "HPA coexistence" (chorus WNMYDWOPOOsV); HPA and KEDA Coexistence (chorus YwTnJdw8WfFf);
-         Open Decisions #7, #13, #16, #20, #26, #27, #29, #30, #32 and follow-ups
+{ro-name} recommends CPU and memory requests for your workloads based on the usage it observes for each container, and in `Apply` mode resizes Pods to match. If you already run autoscalers, Java services, or Pods with sidecars, use this topic to learn what {ro-short} changes for those workloads and what it leaves alone.
 
-GOAL (concept topic): a customer who already runs HPA, KEDA, VPA, Java services, or sidecars knows what
-resource optimization will and won't change for them.
+This topic covers the following sections.
 
-MUST COVER:
-[ ] HPA and KEDA: which configurations make resource optimization leave a resource alone, and what the customer sees.
-[ ] VPA: how to exclude workloads that VPA already manages.
-[ ] Out-of-memory recovery, at the level a customer needs to trust it. Resize mechanics belong in auto-ro-resize.
-[ ] Java heap floors and their Preview limits.
-[ ] Workload shapes that behave differently (missing limits or requests, BestEffort, sidecars and init containers,
-    multi-container Pods).
-[ ] Supported controllers.
+* <<auto-ro-workloads-supported>>
+* <<auto-ro-workloads-hpa>>
+* <<auto-ro-workloads-vpa>>
+* <<auto-ro-workloads-oom>>
+* <<auto-ro-workloads-java>>
+* <<auto-ro-workloads-shapes>>
 
-MESSAGING THIS TOPIC MUST BACK UP (from the WNP): keeps memory above each Java heap; raises memory after an OOM kill;
-doesn't change the CPU or memory that HPA or KEDA scales on; you can exclude VPA-managed workloads.
+For each workload that a policy selects, {ro-short} creates a `ResourceOptimization` object (short name `ro`) in the workload's namespace. Its name is the workload name followed by `-deploy` for a Deployment or `-sts` for a StatefulSet. The behavior in this topic appears as conditions and status fields on that object.
 
-CONFIRM BEFORE PUBLISHING:
-- VPA exclusion is manual. No automatic VPA detection found in controller code (Oct 26).
-- Pending decision #2 (hold memory decreases near the new limit) affects OOM and memory text.
-////
+Run the following `kubectl` command to view the object, replacing [.replaceable]`web-deploy` with the name of your workload's `ResourceOptimization` object and [.replaceable]`shop` with its namespace:
 
-// TODO(Zaid): Content.
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get ro [.replaceable]`web-deploy` -n [.replaceable]`shop` -o yaml
+----
+
+[#auto-ro-workloads-supported]
+== Supported workloads
+
+{ro-short-cap} manages Deployments and StatefulSets. It doesn't manage DaemonSets, Jobs, CronJobs, ReplicaSets that you create directly, Pods without a controller, or custom workload controllers.
+
+{ro-short-cap} never manages workloads in the `kube-system`, `kube-public`, or `kube-node-lease` namespaces, even when a policy selects them.
+
+If a workload's Pod template sets the `isolated-sandbox` or `confidential-sandbox` RuntimeClass, {ro-short} recommends for it. It never changes those Pods. A sandboxed Pod's CPU and memory are fixed when it starts, so it can't be resized in place. For these workloads, {ro-short} doesn't do any of the following:
+
+* Resize running Pods
+* Size new Pods
+* Raise memory after an out-of-memory kill
+* Hand back startup CPU
+
+The `ResourceOptimization` shows the `InPlaceResizeUnsupported` condition as `True` with the reason `SandboxRuntime`. For more information, see <<auto-ro-resize>>.
+
+To exclude a single workload, add the `optimization.eks.amazonaws.com/enabled: "false"` annotation to the Deployment or StatefulSet, not to its Pod template. When you opt out a workload, {ro-short} deletes its `ResourceOptimization` object. It stops making recommendations and cancels any resize that the kubelet hasn't applied yet. Resizes that the kubelet already applied stay in place, and new Pods start at the size in the Pod template. For the procedure, see <<auto-ro-enable-opt-out>>.
+
+[#auto-ro-workloads-hpa]
+== Horizontal Pod Autoscaler and KEDA
+
+{ro-short-cap} doesn't change the CPU or memory that a Horizontal Pod Autoscaler (HPA) scales on. If {ro-short} lowered a request that an HPA measures utilization against, the HPA would read higher utilization and add replicas. The two would then work against each other.
+
+{ro-short-cap} stops managing a resource only when an HPA has a `Resource` or `ContainerResource` metric for `cpu` or `memory` with a target of type `Utilization`. It keeps managing the workload's other resources. The following table shows what {ro-short} does for each type of HPA metric.
+
+[cols="2,3",options="header"]
+|===
+| HPA metric
+| What {ro-short} does
+
+| `Resource` metric on `cpu` with a `Utilization` target
+| Leaves CPU alone for every container in the Pod. Keeps sizing memory.
+
+| `Resource` metric on `memory` with a `Utilization` target
+| Leaves memory alone for every container in the Pod, including out-of-memory recovery. Keeps sizing CPU.
+
+| `ContainerResource` metric with a `Utilization` target
+| Leaves that resource alone for the named container only.
+
+| `Resource` or `ContainerResource` metric with an `AverageValue` target
+| Keeps sizing the resource, but keeps the container's limit above the HPA target so that the Pods can still reach it and the HPA can scale out.
+
+| `External`, `Object`, or `Pods` metric, such as queue depth or requests per second
+| Keeps sizing both CPU and memory.
+|===
+
+KEDA scales workloads through an HPA that it creates for each `ScaledObject`, so the same rules apply to KEDA. A `ScaledObject` that scales on an external event source, such as queue length or consumer lag, leaves CPU and memory to {ro-short}. A KEDA `cpu` or `memory` trigger with the `Utilization` metric type doesn't.
+
+When an HPA owns a resource, the `ResourceOptimization` shows the `HPAResourceConflict` condition as `True`, and `status.resourceOwnership` lists each resource, container, and HPA. The reason is `PartialOwnership` when {ro-short} still manages some of the workload's resources, and `NoEligibleObjectives` when the HPA owns all of them. The `Ready` condition stays `True`. {ro-short-cap} still shows recommendations for the HPA-owned resource so that you can review them, but it never applies them.
+
+Run the following `kubectl` command to view which resources an HPA owns, replacing [.replaceable]`web-deploy` and [.replaceable]`shop` with your values:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl get ro [.replaceable]`web-deploy` -n [.replaceable]`shop` -o jsonpath='{.status.conditions[?(@.type=="HPAResourceConflict")].message}'
+----
+
+An example output is as follows.
+
+[source,bash,subs="verbatim,attributes"]
+----
+cpu (all containers) is scaled by HorizontalPodAutoscaler/web
+----
+
+When you delete the HPA or change it to scale on something else, {ro-short} waits for a short stabilization period before it manages the resource again. If KEDA deletes and recreates its HPA, the wait prevents a resize in between.
+
+If {ro-short} can't read the HPAs for a workload, it doesn't change that workload until it can.
+
+[#auto-ro-workloads-vpa]
+== Vertical Pod Autoscaler
+
+{ro-short-cap} detects Vertical Pod Autoscaler (VPA) objects automatically. You don't need to exclude VPA-managed workloads yourself. How {ro-short} responds depends on the VPA's update mode:
+
+* *`Off`*: The VPA only makes recommendations, so {ro-short} manages the workload as usual.
+* *`Initial`*: {ro-short-cap} doesn't apply usage-based resizes or startup boost to the workload. The `ResourceOptimization` shows the `Ready` condition as `False` with the reason `VPAConflict`. Because this VPA mode doesn't change running Pods, {ro-short} still raises memory after an out-of-memory kill.
+* *Any other mode*: {ro-short-cap} doesn't apply usage-based resizes or startup boost, and shows `VPAConflict` as for `Initial`. It also leaves out-of-memory kills to the VPA for the containers whose memory the VPA controls.
+
+To stop {ro-short} from tracking a VPA-managed workload at all, add the `optimization.eks.amazonaws.com/enabled: "false"` annotation to the workload, or leave the workload out of your policy's selectors. For more information, see <<auto-ro-policies>>.
+
+[#auto-ro-workloads-oom]
+== Out-of-memory recovery
+
+When Kubernetes kills a container because it ran out of memory, the container status shows the reason `OOMKilled`, and {ro-short} raises that container's memory. In `Apply` mode, {ro-short} applies the raise to the running Pods. In `Recommend` mode, it only records the raise as a recommendation.
+
+* *Size of the raise*: The first kill raises the memory request by 20%. A second kill within 24 hours raises it by 50%, and each further kill within 24 hours doubles it. {ro-short-cap} counts each kill once.
+* *Limits*: When the container has a memory limit, {ro-short} raises the limit by the same ratio, so the container keeps its request-to-limit ratio and its quality of service class. {ro-short-cap} doesn't add a limit to a container that doesn't have one.
+* *Caps*: A raise never goes above the `Maximum` that the `Balanced` profile sets, which is twice the largest memory limit in the Pod template. It also never goes above what the largest node in your NodePools can fit. If any container in the Pod has a memory request but no limit, there's no `Maximum`, and only the node cap applies. When memory reaches either cap, the `ResourceOptimization` shows the `OOMAtMaximum` condition with the reason `MemoryCapReached`. If a workload keeps running out of memory at the `Maximum`, raise its memory limit in the Pod template or reduce its memory use. If it's at the node cap, allow larger instance types in a NodePool that the Pod can use, or raise that NodePool's limits.
+* *Node memory pressure*: Sometimes the kernel kills a container that is below its own limit because the node ran low on memory. If that's the only kill in 24 hours, {ro-short} doesn't raise the memory.
+* *Your guardrails*: If one of your own guardrails rejects the raise, the `ResourceOptimization` shows the `OOMRaiseRejected` condition with the reason `RejectedByPolicy`. A guardrail can be a `ResourceQuota`, a `LimitRange`, an admission webhook, or a `ValidatingAdmissionPolicy`. Rejections from webhooks and policies with names that end in `.amazonaws.com` or `.k8s.aws`, or that start with `eks-` or `vpc-resource-`, don't set this condition. EKS and {aws} use these names for the webhooks and policies that they install, so don't use them for your own.
+
+{ro-short-cap} needs a memory request or limit on the container to raise it. It doesn't raise memory that an HPA scales on, or for Pods in a sandbox RuntimeClass. For how raises reach running Pods, see <<auto-ro-resize>>.
+
+[#auto-ro-workloads-memory-decrease]
+=== Memory decreases
+
+You can't lower a container's memory limit below the memory that the container is using. The kubelet refuses the resize. A recommendation applies to every Pod of a workload. A busy Pod can use more memory than the new limit. To avoid a resize that the kubelet would refuse, {ro-short} doesn't lower a Pod's memory if the new limit would be less than 10% above that Pod's recent peak usage. It still applies the CPU change, and it tries the memory decrease again on a later check. If the kubelet refuses a decrease anyway, {ro-short} restores the memory that the Pod is running with.
+
+When any Pod keeps its memory this way, the `ResourceOptimization` shows the `MemoryDecreaseHeld` condition as `True`, with the reason `MemoryInUse` or `MemoryDecreaseRefused`. A held Pod can run above the recommendation until its usage drops or it's replaced.
+
+[#auto-ro-workloads-java]
+== Java workloads
+
+A Java application reserves heap memory that its measured usage might not show. If {ro-short} sized memory from usage alone, the JVM could fail after {ro-short} lowered its memory. To prevent this, {ro-short} keeps each Java container's memory request at or above a floor based on the maximum heap. The floor is the larger of 1.25 times the maximum heap, or the maximum heap plus 256 MiB. The extra memory covers metaspace, code cache, and thread stacks. The floor applies to recommendations and to out-of-memory raises.
+
+{ro-short-cap} reads the maximum heap from the container's spec, in the following order:
+
+. The `JAVA_TOOL_OPTIONS` and `JDK_JAVA_OPTIONS` environment variables
+. The options of a `java` command in the container's `command` and `args`
+. The `_JAVA_OPTIONS` environment variable
+
+The last `-Xmx` or `-XX:MaxHeapSize` setting wins, and it takes precedence over `-XX:MaxRAMPercentage`.
+
+The following example Deployment manifest sets a 1 GiB maximum heap, so {ro-short} never sets the memory request below 1.25 GiB. Replace [.replaceable]`public.ecr.aws/amazoncorretto/amazoncorretto:21` with your application's image, and [.replaceable]`/app/orders.jar` with the path to your application's JAR file:
+
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders
+  namespace: shop
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+      - name: orders
+        image: [.replaceable]`public.ecr.aws/amazoncorretto/amazoncorretto:21`
+        command:
+        - java
+        - -Xmx1g
+        - -jar
+        - [.replaceable]`/app/orders.jar`
+        resources:
+          requests:
+            cpu: "1"
+            memory: 2Gi
+          limits:
+            memory: 2Gi
+----
+
+In this preview, heap floors have the following limits:
+
+* *Java only*: {ro-short-cap} doesn't detect heap settings for other runtimes, such as Node.js, Go, or .NET.
+* *Literal values only*: {ro-short-cap} reads only the values that are written in the Pod template. It can't see a heap set in any of the following ways:
+** A ConfigMap or Secret (`valueFrom` or `envFrom`)
+** A `$(VAR)` reference
+** An `@argfile` or a `-XX:VMOptionsFile`
+** A `java` command that a shell script starts
++
+In those cases, {ro-short} falls back to any `-Xmx` that it can see in the container's environment variables, command, or arguments. This includes `JAVA_OPTS`, which the JVM doesn't read but many startup scripts pass to `java`. If it finds none, it sizes the container from usage only, and the `ResourceOptimization` shows the `HeapUndetected` condition with the reason `NoUnambiguousMaximumHeap`. To get a floor, set `-Xmx` directly in the container's environment variables or arguments.
+* *Memory limit for percentage heaps*: `-XX:MaxRAMPercentage` sets the heap as a share of the container's memory limit. Without a limit, {ro-short} can't know the heap size and applies no floor. With a limit, {ro-short} keeps the limit unchanged so that the heap size stays the same.
+* *Floors above a bound*: If the floor is above the `Maximum` (twice the largest memory limit in the Pod template), the container's memory limit, or what the largest node can fit, the `ResourceOptimization` shows the `HeapFloorInfeasible` condition. The reason names the bound: `MaximumBelowFloor`, `MemoryLimitBelowFloor`, `NodeCapacityBelowFloor`, or `MemoryLimitAboveMaximum`. To fix it, lower the heap or raise the bound.
+
+[#auto-ro-workloads-shapes]
+== How resource settings affect sizing
+
+How you set requests and limits in your Pod template changes what {ro-short} can do. The following table shows how {ro-short} handles each combination of request and limit settings for a resource.
+
+[cols="2,3",options="header"]
+|===
+| Container settings
+| What {ro-short} does
+
+| Request and limit
+| Sizes the request, and the limit by the same ratio.
+
+| Request equal to limit (Guaranteed)
+| Keeps the request and limit equal, so the Pod stays Guaranteed.
+
+| Limit only
+| Kubernetes sets the request equal to the limit when it creates the Pod. {ro-short-cap} sizes the container the same way and keeps the request and limit equal. Your template keeps only the limit, and running Pods show both.
+
+| Request only
+| Sizes the request and doesn't add a limit. The request can grow up to what the largest node in your NodePools can fit.
+
+| Neither
+| Recommends a size from usage but never applies it, in either mode, because a resize can't change a Pod's quality of service class. The recommendation's `reason` field says that it's a recommendation only. A container with no memory request or limit also gets no out-of-memory raise. This includes BestEffort containers, which have no requests at all. In `Apply` mode, if no container in the workload declares CPU or memory, the `ResourceOptimization` shows the `AdmissionSizing` condition as `False` with the reason `RecommendOnly`. To have {ro-short} apply its recommendations, set CPU and memory requests.
+|===
+
+The following workload shapes also affect sizing:
+
+* *Multiple containers*: {ro-short-cap} recommends a size for each container from that container's own usage. The `Balanced` profile's floor and ceiling are shared across the Pod, from half the smallest container request to twice the largest container limit. If any container has a request but no limit for a resource, the resource has no ceiling.
+* *Native sidecars*: {ro-short-cap} sizes init containers with `restartPolicy: Always`, such as service mesh proxies and log shippers, the same way as regular containers, including out-of-memory recovery.
+* *Init containers*: Init containers that run once and exit can't be resized, so {ro-short} leaves them alone.
+* *Pod-level resources*: If the Pod template sets `spec.resources`, {ro-short} sizes the Pod as a whole from the Pod's total usage. An HPA that scales on a resource owns that resource for the whole Pod.
+
+For how {ro-short} chooses which workloads to manage, see <<auto-ro-policies>>. For how it applies changes to running and new Pods, see <<auto-ro-resize>>. For conditions and what to do about them, see <<auto-ro-troubleshoot>>.
