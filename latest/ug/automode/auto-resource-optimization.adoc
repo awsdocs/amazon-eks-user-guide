@@ -10,18 +10,13 @@ include::../attributes.txt[]
 Use {ro-name} to set CPU and memory requests for workloads in EKS Auto Mode clusters based on observed usage.
 --
 
-////
-CONFIRM BEFORE PUBLISHING (delete this block in the final revision):
-- Balanced band for Pods with several containers (Decision 36: shared band, min of mins to max of maxes). Confirm the reference topic explains it.
-////
-
 [NOTE]
 .Preview release
 ====
 {ro-name} is in preview release for Amazon EKS and is subject to change.
 ====
 
-{ro-name} is a capability of EKS Auto Mode. It recommends CPU and memory requests for your workloads based on the usage it observes for each container. For each workload, you choose whether {ro-short} only reports recommendations or also applies them to running Pods. For example, a platform team can rightsize every application namespace without editing Pod templates or creating drift in their GitOps tools.
+{ro-name} is a capability of EKS Auto Mode. It recommends CPU and memory requests for your workloads based on the usage it observes for each container. For each workload, you choose whether {ro-short} only reports recommendations or also applies them to running Pods. For example, you can rightsize every application namespace without editing Pod templates or creating drift in your GitOps tools.
 
 Teams usually set CPU and memory requests when they first deploy a workload and rarely revisit them. EKS Auto Mode provisions EC2 instances to fit those requests. When requests are higher than a workload needs, you run more or larger instances than the workload uses. With {ro-short}, requests follow what each workload actually uses.
 
@@ -45,7 +40,7 @@ For each workload that a policy selects, {ro-short} creates a `ResourceOptimizat
 
 In `Apply` mode, {ro-short} resizes Pods in place through the Kubernetes Pod `resize` subresource, without recreating them. It never edits the Deployment or StatefulSet Pod template. The Pod template in your cluster matches the one in your source repository. GitOps tools such as Argo CD and Flux don't detect drift and have nothing to revert.
 
-New Pods that the workload creates, for example during a scale-out, a node consolidation, or a rollout, start at the recommended size rather than the size in the Pod template.
+New Pods that the workload creates, for example during a scale-out, a node consolidation, or a rollout, start at the recommended size rather than the size in the Pod template. For exceptions, such as workloads with no requests or resources that a Horizontal Pod Autoscaler scales on, see <<auto-ro-workloads>>.
 
 For more information about how {ro-short} handles resizes that don't fit on the current node, see <<auto-ro-resize>>.
 
@@ -54,9 +49,9 @@ For more information about how {ro-short} handles resizes that don't fit on the 
 
 Recommendations follow an optimization profile. This preview includes one profile, `Balanced`:
 
-* For CPU, {ro-short} sizes the request so that the 95th percentile of the container's observed usage is about 70% of the request.
-* For memory, recommendations account for the container's peak usage. A container that exceeds its memory limit is stopped, while a container that uses more CPU than its limit is only throttled.
-* Each recommendation stays between half of the request declared in the Pod template and twice the declared limit.
+* For CPU, {ro-short} sizes the request so that the 95th percentile of the container's observed usage is about 87% of the request.
+* For memory, it sizes the request so that the 95th percentile of observed usage is about 70% of the request. Memory gets more headroom than CPU because a container that runs out of memory is stopped, while a container that runs short of CPU is only throttled.
+* Recommendations stay within a band that's shared across the containers in a Pod: from half of the smallest request declared in the Pod template to twice the largest declared limit. If a container declares no limit, the band has no upper bound, and recommendations can grow to the largest size that your NodePools can fit. For details, see <<auto-ro-reference>> and <<auto-ro-workloads>>.
 
 {ro-short-cap} needs about 12 hours of usage history for a container before it produces the first recommendation. Until then, the container keeps the request declared in its Pod template.
 

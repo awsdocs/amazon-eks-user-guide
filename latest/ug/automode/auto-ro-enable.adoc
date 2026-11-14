@@ -10,11 +10,6 @@ include::../attributes.txt[]
 Create a `ClusterResourceOptimizationPolicy` to turn on {ro-short}, choose which workloads it manages, and turn it off.
 --
 
-////
-CONFIRM BEFORE PUBLISHING (delete this block in the final revision):
-- Open question: how quickly deleting a policy or switching to Recommend stops resizes already in progress (Aravind). The text makes no timing statement.
-////
-
 You turn on, configure, and turn off {ro-name} with `ClusterResourceOptimizationPolicy` objects. A policy is a cluster-scoped Kubernetes object that you manage with `kubectl` or your GitOps tooling, like any other manifest. There is no EKS API setting for {ro-short}.
 
 [#auto-ro-enable-prereqs]
@@ -170,7 +165,7 @@ Switching modes doesn't reset the usage history that {ro-short} has already coll
 
 To remove one workload from {ro-short} regardless of which policies select it, add the `optimization.eks.amazonaws.com/enabled: "false"` annotation to the Deployment or StatefulSet. Use this annotation to stop changes to one workload without editing your policies, for example during an incident.
 
-When you opt out a workload, {ro-short} deletes its `ResourceOptimization` object. It also cancels any resize that it requested and the kubelet hasn't applied yet. Resizes that the kubelet already applied stay in place, and new Pods start at the size in the Pod template.
+When you opt out a workload, {ro-short} deletes its `ResourceOptimization` object. It also cancels any resize that it requested and the kubelet hasn't applied yet. Resizes that the kubelet already applied stay in place, and new Pods start at the size in the Pod template. Opting out also deletes the workload's usage history. If you remove the annotation later, {ro-short} collects about 12 hours of usage history again before it produces recommendations.
 
 If you manage the workload with a GitOps tool, add the annotation to the workload manifest in your repository instead of running `kubectl annotate`. Otherwise, the tool removes the annotation.
 
