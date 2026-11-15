@@ -38,7 +38,7 @@ This also means `kubectl get deployment` shows the values you declared, not the 
 [source,bash,subs="verbatim,attributes,quotes"]
 ----
 kubectl get pod [.replaceable]`my-pod` -n [.replaceable]`my-namespace` \
-  -o jsonpath='{range .spec.containers[*]}{.name}{"\t"}{.resources}{"\n"}{end}'
+  -o jsonpath='{range .status.containerStatuses[*]}{.name}{"\t"}{.resources}{"\n"}{end}'
 ----
 
 The following command shows the recommendation and whether it's applied, from the workload's `ResourceOptimization`. Its name is the workload's name followed by `-deploy` for a Deployment or `-sts` for a StatefulSet. A very long name is shortened, so if you can't find it, list them with `kubectl get ro --all-namespaces`. Replace [.replaceable]`my-app-deploy` and [.replaceable]`my-namespace` with your values.
