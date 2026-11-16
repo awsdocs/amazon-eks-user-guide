@@ -174,6 +174,7 @@ spec:
 
 * `podSelector` and `serviceAccountSelector` -- At least one is required. If you set both, a Pod must match both to be selected by the policy.
 * `nodeSelector` -- Optional. The only label key this field may reference is `karpenter.sh/nodepool`, which scopes the policy to Pods scheduled onto a specific NodePool. Omit this field to apply the policy to matching Pods cluster-wide, regardless of NodePool.
+* `metadata.name` and `metadata.namespace` -- Keep your policy's namespace, a slash, and its name to at most *64 bytes* in total. This is an upstream Kubernetes limit on the length of DRA device attribute values, not an EKS Auto Mode setting. For example, `my-namespace/my-sgp` is 19 bytes. EKS Auto Mode doesn't currently check this limit when you create the policy, and `SecurityGroupsResolved` stays `True` for a longer one. On the nodes the policy applies to, no policy can allocate branch network interfaces, so Pods that match any policy there stay pending with `cannot allocate all claims`. A name can't be changed after you create the policy, so delete the policy and create it again with a shorter name, or in a namespace with a shorter name.
 * `securityGroupSelectorTerms` -- Required, at least one term, maximum 30 terms. Terms are evaluated as OR -- the resolved security group set is the union of every term's matches. Within a single term, `id`, `name`, and `tags` are mutually exclusive. A `tags` term allows a maximum of 20 key-value pairs. The resolved set across all terms can't exceed *16* security groups, the ceiling enforced when the policy resolves. Separately, your account's Amazon VPC *Security groups per network interface* quota, which defaults to *5*, governs how many a Pod's branch network interface can actually carry.
 +
 [IMPORTANT]
@@ -229,7 +230,9 @@ If a Pod matched by a `SecurityGroupPolicy` doesn't get its own security groups,
 An empty result means the Pod's labels didn't match any `SecurityGroupPolicy` in its namespace, or the admission webhook didn't fire.
 . *Did the policy resolve its security groups?* +
 `kubectl get securitygrouppolicies.eks.amazonaws.com <name> -n <namespace> -o jsonpath='{.status}'` +
-Check for `SecurityGroupsResolved: "True"`. `False` usually means zero security groups matched (`no_sgs_matched`) or more than 16 resolved (`sg_quota_exceeded`). If it reads `True` but Pods still get no interface, check your *Security groups per network interface* quota (default 5): exceeding it leaves the condition `True` and surfaces as an `ENICreationFailed` event.
+Check for `SecurityGroupsResolved: "True"`. `False` usually means zero security groups matched (`no_sgs_matched`) or more than 16 resolved (`sg_quota_exceeded`). If it reads `True` but Pods stay pending with `cannot allocate all claims`, check that no policy's namespace and name total more than 64 bytes. This command lists any that do: +
+`kubectl get securitygrouppolicies.eks.amazonaws.com -A -o json | jq -r '.items[] | "\(.metadata.namespace)/\(.metadata.name)" | select(length > 64)'` +
+If it reads `True` but Pods still get no interface, check your *Security groups per network interface* quota (default 5): exceeding it leaves the condition `True` and surfaces as an `ENICreationFailed` event.
 . *Is there a `ResourceClaimTemplate` for the policy?* +
 `kubectl get resourceclaimtemplate -n <namespace>` +
 If missing, the policy hasn't been reconciled yet. Re-apply it to trigger reconciliation.
