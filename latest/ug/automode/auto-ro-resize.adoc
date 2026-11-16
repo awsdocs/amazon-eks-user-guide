@@ -27,7 +27,7 @@ To resize a running Pod, {ro-short} uses the Pod's `resize` subresource, the Kub
 * *Pods keep running*: A resize doesn't replace the Pod. Whether a container restarts depends on its `resizePolicy`. With the Kubernetes default, `NotRequired`, the container is resized without a restart. A container that sets `restartPolicy: RestartContainer` for a resource restarts when that resource changes.
 * *QoS classes don't change*: Each container keeps its ratio of request to limit. A Guaranteed Pod stays Guaranteed, and a Burstable Pod stays Burstable. A container that declares neither a request nor a limit for a resource is never resized for it; {ro-short} only recommends a value. For more information, see <<auto-ro-workloads>>.
 * *Pods are resized gradually*: A workload's Pods are resized a few at a time, not all at once.
-* *A change counts as applied only when the kubelet confirms it*: In the `ResourceOptimization` status, a recommendation's `phase` moves from `Pending` to `InProgress` when the resize is sent, and to `Applied` once the Pods report the new size.
+* *A change counts as applied only when the kubelet confirms it*: In the `ResourceOptimization` status, a recommendation's `phase` moves to `InProgress` while {ro-short} applies it or waits until it can, and to `Applied` once the Pods report the new size.
 
 === GitOps tools see no drift
 
@@ -64,7 +64,7 @@ There's no automatic rollback in this preview. If a change causes a problem, opt
 [#auto-ro-resize-blocked]
 == When a resize can't be applied
 
-The kubelet applies a resize only if the Pod's node has room for it. Kubernetes reports this for each Pod, so one Pod can be unable to resize on its node and the workload's other Pods still resize normally. {ro-short-cap} reports each case as a condition or event on the workload's `ResourceOptimization`. The following table lists each case, what happens, and what you see.
+The kubelet applies a resize only if the Pod's node has room for it. Kubernetes reports this for each Pod, so one Pod can be unable to resize on its node and the workload's other Pods still resize normally. {ro-short-cap} reports each case as a condition on the workload's `ResourceOptimization`, and in one case an event on the Pod. The following table lists each case, what happens, and what you see.
 
 [%header,cols="2,3,2"]
 |===
@@ -92,7 +92,7 @@ The kubelet applies a resize only if the Pod's node has room for it. Kubernetes 
 | The increase is retried on later passes.
 | `OOMRaiseRejected` is `True` with reason `RejectedByPolicy`. The message names what rejected the increase.
 
-| A memory decrease would set the limit at or below what the container uses.
+| A memory decrease would set the limit less than 10% above what the container recently used.
 | The memory decrease is held, and the rest of the resize is applied. The memory is lowered once usage allows it.
 | `MemoryDecreaseHeld` is `True` with reason `MemoryInUse`, or `MemoryDecreaseRefused` if the kubelet refused the decrease.
 
@@ -119,7 +119,7 @@ kubectl get events -n [.replaceable]`my-namespace` --field-selector reason=Resiz
 [#auto-ro-resize-new-pods]
 == How new Pods are sized
 
-New Pods start at the recommendation, not at the size in the Pod template. This covers every new Pod a workload creates. A resource that an HPA holds, or that a container doesn't declare, still starts at the value in the Pod template. Examples include rollouts, scale-outs from a HorizontalPodAutoscaler or KEDA, and replacements when EKS Auto Mode consolidates or replaces a node.
+New Pods start at the recommendation, not at the size in the Pod template. This covers every new Pod a workload creates. Examples include rollouts, scale-outs from a HorizontalPodAutoscaler or KEDA, and replacements when EKS Auto Mode consolidates or replaces a node. A resource that an HPA holds, or that a container doesn't declare, still starts at the value in the Pod template.
 
 New Pods are sized at admission by a Kubernetes `MutatingAdmissionPolicy` named `resource-optimization.eks.amazonaws.com`, with one `MutatingAdmissionPolicyBinding` for each workload that {ro-short} sizes. A workload has a binding only while it's in `Apply` mode and has a recommendation. The policy sizes only the Pods that the workload owns. Other Pods that carry the same labels, such as a Job's Pods or bare Pods, start at their own size.
 
@@ -174,7 +174,7 @@ When you opt a workload out, set its policy to `Recommend`, or delete its policy
 
 [IMPORTANT]
 ====
-In this preview, {ro-short} doesn't take LimitRange objects into account. If a recommendation is above a LimitRange maximum in the namespace, the API server rejects new Pods that are sized to it. If you use LimitRanges with maximums, make sure they allow for the recommendations, or opt the affected workloads out.
+In this preview, {ro-short} doesn't take LimitRange objects into account. If a recommendation doesn't meet a LimitRange in the namespace (its maximum, minimum, or `maxLimitRequestRatio`), the API server rejects new Pods that are sized to it. If you use LimitRanges, make sure they allow for the recommendations, or opt the affected workloads out.
 ====
 
 [#auto-ro-startup-boost]
