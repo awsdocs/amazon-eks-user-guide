@@ -68,6 +68,10 @@ Running a pod inside a Nitro Sandbox changes the behavior of some Kubernetes fea
 |Each unique container image in a pod reserves 16 MiB of the fixed `RuntimeClass` memory overhead. Pods that request more than 1 GiB see usable memory about 1–2% below `resources.requests.memory`, because the Linux kernel running inside the Nitro Sandbox uses that share for its own bookkeeping (page tables and kernel data structures).
 |Add headroom to `resources.requests.memory` for pods with many distinct images or large memory requests.
 
+|Huge pages (`hugepages-<size>` requests)
+|Huge page requests are not supported. If a pod requests `hugepages-2Mi` or `hugepages-1Gi`, kubelet reserves the pages from the node's huge page pool, but the pages are not available inside the Nitro Sandbox. 
+|Configure huge pages inside the Nitro Sandbox instead of requesting `hugepages-<size>`. Add a privileged init container that writes the number of pages to `/proc/sys/vm/nr_hugepages`, for example `echo 128 > /proc/sys/vm/nr_hugepages`. The setting applies only to the kernel inside the Nitro Sandbox, not to the node, and the other containers in the pod can use the pages without being privileged. The pages come from the pod's memory, so account for them in via your Pod memory request.
+
 |`kubectl port-forward` to loopback-only servers
 |`kubectl port-forward` can't reach a server that listens only on `127.0.0.1` or `::1` inside the pod. The forward is established, but connections close without returning data. Port-forward traffic is delivered to the pod IP rather than to the loopback interface inside the Nitro Sandbox, so only servers that listen on the pod IP or on all interfaces are reachable.
 |Bind the server to all interfaces (`0.0.0.0` or `::`), or use `kubectl exec` to reach it from inside the pod.
