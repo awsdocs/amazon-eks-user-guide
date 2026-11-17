@@ -100,6 +100,8 @@ All Amazon EC2 actions support the `aws:RequestedRegion` and `ec2:Region` condit
 
 For a list of Amazon EKS condition keys, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-policy-keys[Conditions defined by Amazon Elastic Kubernetes Service,type="documentation"] in the _Service Authorization Reference_. To learn which actions and resources you can use a condition key with, see link:service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions[Actions defined by Amazon Elastic Kubernetes Service,type="documentation"].
 
+IAM evaluates the `eks:namespaces` value in a request as a literal string, even though Amazon EKS treats that same value as a wildcard pattern in your cluster. As a result, a `Deny` for a namespace doesn't block a wildcard that matches it or a `cluster` access scope. To restrict namespace scope, use an allowlist instead of a denylist, and use `StringLike` so that your policy values match the namespace patterns that you intend to allow. For example policies, see <<access-policies-restrict-namespaces>>.
+
 [#security-iam-service-with-iam-id-based-policies-examples]
 === Examples
 
