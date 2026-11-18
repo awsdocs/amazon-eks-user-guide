@@ -107,6 +107,7 @@ If you are planning to enable EKS Auto Mode on an existing cluster, you may need
 * *{aws} Add-ons:* These add-ons are built and fully supported by {aws}.
 ** Use an {aws} add-on to work with other {aws} services, such as Amazon EFS. 
 ** For more information, see <<workloads-add-ons-available-eks>>.
+** Add-ons for clusters that orchestrate an Amazon SageMaker HyperPod cluster are listed in <<workloads-add-ons-available-sagemaker>>.
 * *{aws} Marketplace Add-ons:* These add-ons are scanned by {aws} and supported by an independent {aws} partner. 
 ** Use a marketplace add-on to add valuable and sophisticated features to your cluster, such as monitoring with Splunk.
 ** For more information, see <<workloads-add-ons-available-vendors>>.
@@ -183,6 +184,8 @@ The following table details the scope of support for each add-on type:
 {aws} Marketplace add-ons can download additional software dependencies from external sources outside of {aws}. These external dependencies are not scanned or validated by {aws}. Consider your security requirements when deploying {aws} Marketplace add-ons that fetch external dependencies.
 
 include::workloads-add-ons-available-eks.adoc[leveloffset=+1]
+
+include::workloads-add-ons-available-sagemaker.adoc[leveloffset=+1]
 
 include::community-addons.adoc[leveloffset=+1]
 

@@ -1,0 +1,194 @@
+include::../attributes.txt[]
+
+[.topic]
+[#workloads-add-ons-available-sagemaker]
+= Amazon SageMaker add-ons
+:info_titleabbrev: SageMaker add-ons
+
+[abstract]
+--
+Learn about the Amazon EKS add-ons from Amazon SageMaker AI for clusters that orchestrate an Amazon SageMaker HyperPod cluster.
+--
+
+Amazon SageMaker AI publishes Amazon EKS add-ons for clusters that orchestrate an Amazon SageMaker HyperPod cluster. When you create a HyperPod cluster with Amazon EKS orchestration, HyperPod adds its nodes to your Amazon EKS cluster, and these add-ons build on those nodes and on the HyperPod cluster itself. They add task governance, observability, training job recovery, model deployment, and interactive development environments.
+
+Except for Amazon SageMaker Spaces, these add-ons need an existing HyperPod cluster. Each one depends on HyperPod nodes in the cluster, the HyperPod Amazon Machine Image (AMI), or the Amazon Resource Name (ARN) of the HyperPod cluster. They aren't supported on Amazon EKS clusters without HyperPod, such as clusters whose nodes are only Amazon EC2 instances, EKS Auto Mode nodes, Fargate, or hybrid nodes. Spaces runs on HyperPod nodes and on Amazon EC2 nodes. For add-ons that run on any Amazon EKS cluster, see <<workloads-add-ons-available-eks>>.
+
+You install these add-ons the same way as other Amazon EKS add-ons. For more information, see <<creating-an-add-on>>. You can also install several of them from the HyperPod cluster page in the SageMaker AI console. To create a HyperPod cluster, see link:sagemaker/latest/dg/sagemaker-hyperpod-eks.html[Orchestrating SageMaker HyperPod clusters with Amazon EKS,type="documentation"] in the _Amazon SageMaker AI Developer Guide_.
+
+[role="no-scroll"]
+[%header,cols="3"]
+|===
+|Description
+|Learn more
+|Compatible compute types
+
+|Set task priorities, compute allocation for each team, and how teams lend and borrow idle compute
+|<<addons-hyperpod>>
+|HyperPod
+
+|Collect cluster, GPU, and training job metrics into Amazon Managed Service for Prometheus
+|<<addons-hyperpod-observability>>
+|HyperPod
+
+|Recover distributed training jobs from faults and hangs without restarting the whole job
+|<<addons-hyperpod-training-operator>>
+|HyperPod
+
+|Deploy, scale, and monitor models for inference
+|<<addons-hyperpod-inference-operator>>
+|HyperPod
+
+|Create and manage JupyterLab and Code Editor applications for interactive ML workloads
+|<<add-ons-amazon-sagemaker-spaces>>
+|HyperPod, EC2
+
+|===
+
+[#addons-hyperpod]
+== Amazon SageMaker HyperPod task governance
+
+SageMaker HyperPod task governance manages how teams and projects share the compute in your Amazon EKS cluster. Administrators can set:
+
+* Priority levels for tasks
+* Compute allocation for each team
+* How each team lends and borrows idle compute
+* Whether a team preempts its own tasks
+
+Task governance also shows cluster capacity in real time, including compute availability and usage, team allocation and utilization, and task run and wait times.
+
+The Amazon EKS add-on name is `amazon-sagemaker-hyperpod-taskgovernance`.
+
+=== Prerequisites
+
+* A HyperPod cluster with Amazon EKS orchestration, with at least one HyperPod node in the Amazon EKS cluster before you install the add-on.
+* Kubernetes version 1.30 or later.
+
+For more information, see link:sagemaker/latest/dg/sagemaker-hyperpod-eks-operate-console-ui-governance-setup-task-governance.html[Task governance setup,type="documentation"] in the _Amazon SageMaker AI Developer Guide_.
+
+=== Required IAM permissions
+
+This add-on doesn't require any permissions.
+
+=== Additional information
+
+To learn more about the add-on, see link:sagemaker/latest/dg/sagemaker-hyperpod-eks-operate-console-ui-governance.html[SageMaker HyperPod task governance,type="documentation"].
+
+[#addons-hyperpod-observability]
+== Amazon SageMaker HyperPod observability
+
+The Amazon SageMaker HyperPod observability add-on deploys and manages monitoring components on your HyperPod cluster, including node exporter, DCGM exporter, kube-state-metrics, and EFA exporter. It forwards metrics to an Amazon Managed Service for Prometheus workspace that you choose, and exposes an OTLP endpoint for custom metrics and events from your training jobs.
+
+The add-on also scrapes metrics from the HyperPod task governance add-on, the HyperPod training operator, Kubeflow, and KEDA. You can view the metrics in Amazon Managed Grafana dashboards to see cluster health, resource utilization, and training job performance.
+
+The Amazon EKS add-on name is `amazon-sagemaker-hyperpod-observability`.
+
+=== Prerequisites
+
+* A HyperPod cluster with Amazon EKS orchestration, with at least one node before you install the add-on.
+
+For more information, see link:sagemaker/latest/dg/hyperpod-observability-addon-setup.html[Setting up the SageMaker HyperPod observability add-on,type="documentation"] in the _Amazon SageMaker AI Developer Guide_.
+
+=== Required IAM permissions
+
+This add-on uses the IAM roles for service accounts capability of Amazon EKS. For more information, see <<iam-roles-for-service-accounts>>. The following managed policies are required:
+
+* `AmazonPrometheusRemoteWriteAccess` - for remote writing metrics from the cluster to Amazon Managed Service for Prometheus
+* `CloudWatchAgentServerPolicy` - for remote writing the logs from the cluster to CloudWatch
+
+=== Additional information
+
+To learn more about the add-on and its capabilities, see link:sagemaker/latest/dg/sagemaker-hyperpod-eks-cluster-observability-cluster.html[SageMaker HyperPod observability,type="documentation"].
+
+[#addons-hyperpod-training-operator]
+== Amazon SageMaker HyperPod training operator
+
+The Amazon SageMaker HyperPod training operator manages distributed training jobs across large GPU clusters. It detects faults and hung jobs and recovers at the process level, so a failure restarts only the affected processes instead of the whole job.
+
+The operator works with HyperPod health monitoring and observability, and monitors training metrics such as loss spikes and throughput degradation. You define recovery policies in YAML, without code changes, to recover jobs that reach an unrecoverable state.
+
+The Amazon EKS add-on name is `amazon-sagemaker-hyperpod-training-operator`.
+
+=== Prerequisites
+
+* A HyperPod cluster with Amazon EKS orchestration that runs the latest HyperPod AMI release. To update the AMI, use the `UpdateClusterSoftware` API.
+* If you install the add-on with Amazon EKS, the HyperPod cluster must have the tag `SageMaker` with the value `true`. Otherwise, the installation fails.
+
+For more information, see link:sagemaker/latest/dg/sagemaker-eks-operator.html[Using the HyperPod training operator,type="documentation"] in the _Amazon SageMaker AI Developer Guide_.
+
+=== Required IAM permissions
+
+This add-on requires IAM permissions, and uses EKS Pod Identity. 
+
+{aws} suggests the `AmazonSageMakerHyperPodTrainingOperatorAccess` link:aws-managed-policy/latest/reference/AmazonSageMakerHyperPodTrainingOperatorAccess.html[managed policy,type="documentation"]. 
+
+For more information, see link:sagemaker/latest/dg/sagemaker-eks-operator-install.html#sagemaker-eks-operator-install-operator[Installing the training operator,type="documentation"] in the _Amazon SageMaker AI Developer Guide_.
+
+=== Additional information
+
+To learn more about the add-on, see link:sagemaker/latest/dg/sagemaker-eks-operator.html[SageMaker HyperPod training operator,type="documentation"].
+
+[#addons-hyperpod-inference-operator]
+== Amazon SageMaker HyperPod inference operator
+
+The Amazon SageMaker HyperPod inference operator deploys, scales, and monitors generative AI models on the same HyperPod compute that you use for training.
+
+You can deploy models with `kubectl`, the Python SDK, Amazon SageMaker Studio, or the HyperPod CLI. The operator scales deployments automatically based on demand, and tracks metrics such as time to first token, latency, and GPU utilization.
+
+The Amazon EKS add-on name is `amazon-sagemaker-hyperpod-inference`.
+
+=== Installation methods
+
+You can install this add-on using one of the following methods:
+
+* *SageMaker AI console*: Creates the IAM roles, Amazon S3 buckets, and dependency add-ons for you, or reuses ones that you already have.
+* *Amazon EKS console or {aws} CLI*: Requires you to install the dependency add-ons listed in the following prerequisites before you install the inference operator.
+
+=== Prerequisites
+
+The inference operator requires a HyperPod cluster with Amazon EKS orchestration. When you install the add-on, you provide the ARN of the HyperPod cluster in the `hyperpodClusterArn` configuration value.
+
+Before installing the inference operator add-on via the EKS Add-ons Console or CLI, ensure the following dependencies are installed.
+
+Required EKS add-ons:
+
+* Amazon S3 Mountpoint CSI Driver (minimum version: v1.14.1-eksbuild.1)
+* Metrics Server (minimum version: v0.7.2-eksbuild.4)
+* Amazon FSx CSI Driver (minimum version: v1.6.0-eksbuild.1)
+* Cert Manager (minimum version: v1.18.2-eksbuild.2)
+
+For detailed installation instructions for each dependency, see link:sagemaker/latest/dg/sagemaker-hyperpod-model-deployment-setup.html[Installing the inference operator,type="documentation"].
+
+=== Required IAM permissions
+
+This add-on requires IAM permissions, and uses OIDC/IRSA.
+
+The following managed policies are recommended as they provide the minimum scoped permissions:
+
+* `AmazonSageMakerHyperPodInferenceAccess` - provides admin privileges required for setting up the inference operator
+* `AmazonSageMakerHyperPodGatedModelAccess` - provides SageMaker HyperPod access to gated models in SageMaker Jumpstart (e.g., Meta Llama, GPT-Neo)
+
+For more information, see link:sagemaker/latest/dg/sagemaker-hyperpod-model-deployment-setup.html[Installing the inference operator,type="documentation"].
+
+=== Additional information
+
+To learn more about the Amazon SageMaker HyperPod inference operator, see link:sagemaker/latest/dg/sagemaker-hyperpod-model-deployment.html[SageMaker HyperPod inference operator,type="documentation"].
+
+For troubleshooting information, see link:sagemaker/latest/dg/sagemaker-hyperpod-model-deployment-ts.html[Troubleshooting SageMaker HyperPod model deployment,type="documentation"].
+
+[#add-ons-amazon-sagemaker-spaces]
+== Amazon SageMaker Spaces
+
+With the Amazon SageMaker Spaces add-on, you can run IDEs and notebooks on Amazon EKS clusters, on HyperPod nodes or on Amazon EC2 nodes. Administrators can use EKS Console to install the add-on on their cluster, and define default space configurations such as images, compute resources, local storage for notebook settings (additional storage to be attached to their spaces), file systems, and initialization scripts.
+
+AI developers can use kubectl to create, update, and delete spaces. They have the flexibility to use default configurations provided by admins or customize settings. AI developers can access their spaces on EKS or HyperPod-EKS using their local VS Code IDEs, and/or their web browser that hosts their JupyterLab or CodeEditor IDE on custom DNS domain configured by their admins. They can also use kubernetes’ port forwarding feature to access spaces in their web browsers.
+
+The Amazon EKS add-on name is `amazon-sagemaker-spaces`.
+
+=== Required IAM permissions
+
+This add-on requires IAM permissions. For more information about the required IAM setup, see link:sagemaker/latest/dg/permission-setup.html[IAM permissions setup,type="documentation"] in the _Amazon SageMaker AI Developer Guide_.
+
+=== Additional information
+
+To learn more about the add-on and its capabilities, see link:sagemaker/latest/dg/sagemaker-hyperpod-eks-cluster-ide.html[SageMaker AI notebooks on HyperPod,type="documentation"] in the _Amazon SageMaker AI Developer Guide_.
