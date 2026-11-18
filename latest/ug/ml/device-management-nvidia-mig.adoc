@@ -491,7 +491,7 @@ The `mig.profile` setting is keyed by GPU model, such as `a100.40gb` or `h100.80
 [#eks-mig-device-plugin-al2023]
 == Use MIG on AL2023 nodes with the NVIDIA device plugin
 
-On AL2023, the following steps use the NVIDIA GPU Operator to install the NVIDIA device plugin and the MIG Manager. The MIG Manager enables MIG mode and partitions the GPUs according to a configuration that you supply. The NVIDIA device plugin then advertises the resulting instances to Kubernetes. The GPU Operator supports both the single and mixed strategies. 
+On AL2023, the following steps use the NVIDIA GPU Operator to install the NVIDIA device plugin and the MIG Manager. By default, the MIG Manager generates a per-hardware profile set, enables MIG mode, and partitions the GPUs according to the profile that you select by labeling the node. The NVIDIA device plugin then advertises the resulting instances to Kubernetes. The GPU Operator supports both the single and mixed strategies. 
 
 Because the EKS-optimized AL2023 NVIDIA AMI already includes the NVIDIA driver and toolkit, disable driver management in the GPU Operator to avoid conflicts with the pre-installed driver. Alternatively, you can install and manage the NVIDIA device plugin and MIG Manager yourself without using the GPU Operator.
 
@@ -565,8 +565,86 @@ helm repo add nvidia https://nvidia.github.io/gpu-operator
 helm repo update
 ----
 +
-. Create a `gpu-operator-values.yaml` file that disables driver management, selects the mixed strategy, and defines the MIG profiles to apply. The following example defines a `p4d-half-balanced` configuration that partitions four of the eight GPUs on a `p4d.24xlarge` node and leaves the rest whole.
+. Create a `gpu-operator-values.yaml` file that disables driver management and selects the mixed strategy. You don't define MIG profiles in this file. By default, the MIG Manager generates a MIG configuration for each node at runtime from the GPUs that it detects, and you select one of the generated profiles by labeling the node in a later step.
 +
+[source,bash,subs="verbatim,attributes"]
+----
+cat <<EOF > gpu-operator-values.yaml
+driver:
+  enabled: false
+toolkit:
+  enabled: false
+devicePlugin:
+  enabled: true
+nfd:
+  enabled: true
+gfd:
+  enabled: true
+mig:
+  strategy: mixed
+migManager:
+  enabled: true
+  env:
+    - name: WITH_REBOOT
+      value: "true"
+EOF
+----
++
+. Install the GPU Operator with the values file.
++
+[source,bash,subs="verbatim,attributes"]
+----
+helm install gpu-operator nvidia/gpu-operator \
+    --namespace gpu-operator \
+    --create-namespace \
+    --values gpu-operator-values.yaml
+----
++
+. After the GPU Operator is running, the MIG Manager discovers the MIG-capable GPUs on each node and writes the available profiles to a ConfigMap for each MIG-capable node, named with the pattern `<node-name>-mig-config`. Each ConfigMap contains a complete set of profiles, including `all-disabled`, `all-balanced`, and per-profile configurations such as `all-1g.5gb`. Inspect the profiles for a node before you label it. Replace [.replaceable]`node-name` with the name of your node.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl -n gpu-operator get cm <node-name>-mig-config -o yaml
+----
++
+. Select one of the generated profiles by labeling your MIG-capable nodes. The MIG Manager component watches for this label and partitions the GPUs accordingly, rebooting the node to apply the change. The most common choice is the `all-balanced` profile.
++
+[source,bash,subs="verbatim,attributes"]
+----
+kubectl label nodes -l node.kubernetes.io/instance-type=p4d.24xlarge \
+    nvidia.com/mig.config=all-balanced --overwrite
+----
++
+. After the GPU Operator partitions the GPUs, Pods request a specific MIG profile by its resource name rather than `nvidia.com/gpu`. The following example runs a Pod that requests one `1g.5gb` instance.
++
+[source,bash,subs="verbatim,attributes"]
+----
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mig-inference
+spec:
+  tolerations:
+    - key: nvidia.com/gpu
+      operator: Exists
+      effect: NoSchedule
+  containers:
+    - name: cuda
+      image: nvidia/cuda:12.6.0-base-ubuntu22.04
+      command: ["nvidia-smi", "-L"]
+      resources:
+        limits:
+          nvidia.com/mig-1g.5gb: 1
+EOF
+----
+
+For complete mixed-strategy configuration examples for P-family instances, including managed node groups with capacity reservations and per-profile workloads, see the MIG section of the link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-compute.html[Amazon EKS Best Practices Guide,type="documentation"].
+
+=== (Optional) Use a custom MIG configuration
+
+By default, the MIG Manager generates the MIG configuration for each node. If you need a partition layout that the generated profiles don't provide, for example partitioning only some of the GPUs on a node and leaving the rest whole, supply a custom MIG configuration instead. Have the Helm chart create the ConfigMap from values when you install the GPU Operator by adding a `config` section to `migManager` in your `gpu-operator-values.yaml` file. The following example defines a `p4d-half-balanced` configuration that partitions four of the eight GPUs on a `p4d.24xlarge` node and leaves the rest whole.
+
 [source,bash,subs="verbatim,attributes"]
 ----
 cat <<EOF > gpu-operator-values.yaml
@@ -609,50 +687,14 @@ migManager:
               mig-enabled: false
 EOF
 ----
-+
-. Install the GPU Operator with the values file.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-helm install gpu-operator nvidia/gpu-operator \
-    --namespace gpu-operator \
-    --create-namespace \
-    --values gpu-operator-values.yaml
-----
-+
-. Label your MIG-capable nodes with the profile configuration to apply. The MIG Manager component watches for this label and partitions the GPUs accordingly, rebooting the node to apply the change.
-+
+
+Install the GPU Operator with this values file, then label your nodes with the custom profile name instead of a generated profile.
+
 [source,bash,subs="verbatim,attributes"]
 ----
 kubectl label nodes -l node.kubernetes.io/instance-type=p4d.24xlarge \
     nvidia.com/mig.config=p4d-half-balanced --overwrite
 ----
-+
-. After the GPU Operator partitions the GPUs, Pods request a specific MIG profile by its resource name rather than `nvidia.com/gpu`. The following example runs a Pod that requests one `1g.5gb` instance.
-+
-[source,bash,subs="verbatim,attributes"]
-----
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: Pod
-metadata:
-  name: mig-inference
-spec:
-  tolerations:
-    - key: nvidia.com/gpu
-      operator: Exists
-      effect: NoSchedule
-  containers:
-    - name: cuda
-      image: nvidia/cuda:12.6.0-base-ubuntu22.04
-      command: ["nvidia-smi", "-L"]
-      resources:
-        limits:
-          nvidia.com/mig-1g.5gb: 1
-EOF
-----
-
-For complete mixed-strategy configuration examples for P-family instances, including managed node groups with capacity reservations and per-profile workloads, see the MIG section of the link:https://docs.aws.amazon.com/eks/latest/best-practices/aiml-compute.html[Amazon EKS Best Practices Guide,type="documentation"].
 
 [#eks-mig-verify]
 == Verify that MIG is active
