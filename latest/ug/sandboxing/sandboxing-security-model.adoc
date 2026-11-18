@@ -28,7 +28,7 @@ Restrict who can create or modify pods that use the `isolated-sandbox` or `confi
 [#sandboxing-workload-boundary]
 == The guest workload is outside the confidentiality boundary
 
-Confidential mode protects the workload's data from the parent instance. It does not protect that data from the workload itself. A workload running inside a confidential sandbox can defeat its own confidentiality guarantees in ways the runtime cannot prevent. For example:
+Confidential mode protects the workload's data from the parent instance. It does not protect that data from the workload itself. A workload running inside a confidential sandbox can defeat its own confidentiality protections in ways the runtime cannot prevent. For example:
 
 * Writing secrets to stdout or stderr when `ReadLogs` is permitted, or to any file the parent instance can otherwise read.
 * Writing plaintext secrets to an Amazon EFS volume. The parent instance can mount the same filesystem directly with its own IAM identity.
@@ -45,7 +45,7 @@ When you use confidential mode to protect sensitive data, you are responsible fo
 [#sandboxing-external-attestation]
 == Why external attestation verification is required
 
-The Cedar policy is authored by the cluster operator and delivered to the sandbox as a pod annotation. The Nitro Sandbox measures the policy into PCR17, but measurement alone is passive: no component inside the sandbox or on the parent instance verifies the measurement against an expected value. The trust loop is closed only when an external service checks the attestation document before releasing secrets. {aws} KMS serves this role.
+The Cedar policy is authored by the cluster administrator and delivered to the sandbox as a pod annotation. The Nitro Sandbox measures the policy into PCR17, but measurement alone is passive: no component inside the sandbox or on the parent instance verifies the measurement against an expected value. The trust loop is closed only when an external service checks the attestation document before releasing secrets. {aws} KMS serves this role.
 
 When you configure a KMS key policy with `kms:RecipientAttestation:PCR<PCR_ID>` conditions on PCR values, KMS validates the attestation document attached to each Decrypt request and releases the data key only if the measurements match. A modified policy produces a different PCR17 value, so KMS refuses to decrypt. For more information, see link:kms/latest/developerguide/conditions-nitro-enclave.html[{aws} KMS condition keys for {aws} Nitro Enclaves,type="documentation"].
 
@@ -58,7 +58,7 @@ Always configure `kms:RecipientAttestation:PCR<PCR_ID>` conditions on any KMS ke
 [#sandboxing-parent-cannot]
 == What the parent instance cannot do
 
-The {aws} Nitro hypervisor and the Nitro Sandbox runtime together enforce the following guarantees:
+The {aws} Nitro hypervisor and the Nitro Sandbox runtime together enforce the following:
 
 * The parent instance cannot read or write guest memory.
 * The parent instance cannot access CPU register state inside the sandbox.

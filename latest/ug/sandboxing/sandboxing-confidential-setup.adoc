@@ -7,7 +7,7 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Generate a Cedar policy, attach it to your pod, and deploy a confidential pod that protects workload data from the node operator or a compromised parent instance.
+Generate a Cedar policy, attach it to your pod, and deploy a confidential pod that protects workload data from cluster administrators, node administrators, or a compromised parent instance.
 --
 
 Confidential mode requires a Cedar policy. The policy pins every container admission field and controls which operations the parent instance can perform. Isolated mode does not require a Cedar policy. Without one, the sandbox applies a permissive built-in default that allows all containers and operations.
