@@ -55,7 +55,7 @@ Reference this Node Class in your Node Pool configuration. For more information,
 
 == Field descriptions
 
-* `fips` (boolean, optional): When set to `true`, provisions nodes using AMIs with FIPS 140-2 validated cryptographic modules. This setting selects FIPS-compliant AMIs; customers are responsible for managing their compliance requirements. For more information, see https://aws.amazon.com/compliance/fips/[{aws} FIPS compliance]. Default: `false`.
+* `fips` (boolean, optional): When set to `true`, provisions nodes using AMIs with FIPS 140-3 validated cryptographic modules. This setting selects FIPS-compliant AMIs; customers are responsible for managing their compliance requirements. For more information, see https://aws.amazon.com/compliance/fips/[{aws} FIPS compliance]. Default: `false`.
 
 * `kernelLockdown` (string, optional): Controls the kernel lockdown security module mode. Accepted values:
 ** `integrity`: Blocks methods for overwriting kernel memory or modifying kernel code. Prevents unsigned kernel modules from loading.

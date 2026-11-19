@@ -131,7 +131,7 @@ a|
 a|
 *Node advanced security*
 
-- Enable FIPS 140-2 validated cryptographic modules
+- Enable FIPS 140-3 validated cryptographic modules
 - Configure kernel lockdown security mode
 |<<auto-advanced-security>>
 
