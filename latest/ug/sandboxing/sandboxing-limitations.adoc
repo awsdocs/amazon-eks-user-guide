@@ -28,6 +28,10 @@ Running a pod inside a Nitro Sandbox changes the behavior of some Kubernetes fea
 |These settings start but scope to the sandbox's namespaces rather than the parent instance's. A container with `hostPID: true` sees only processes inside its own sandbox.
 |Design workloads that do not require observing processes on the parent instance.
 
+|Privileged containers (`privileged: true`)
+|Supported. The privileges apply inside the Nitro Sandbox only: the container gets all capabilities and unrestricted access to the sandbox's own kernel, not the parent instance's. Device nodes on the parent instance are not passed into the sandbox.
+|Run pods that need devices on the parent instance without a sandbox runtime class.
+
 |Shared EBS volumes
 |A single EBS volume cannot be shared by more than one pod. Each pod runs in its own Nitro Sandbox and a block device can only be attached to one sandbox at a time.
 |Use `ReadWriteOncePod` access mode. Use Amazon EFS for shared storage across pods.
