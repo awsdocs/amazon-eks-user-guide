@@ -109,6 +109,8 @@ A profile controls what the generated policy permits and denies. The following b
 |Yes
 |===
 
+When exec is denied, the generated policy still permits each `exec` liveness, readiness, and startup probe in the pod spec. The policy pins the exact probe command, so any other exec command is denied. Regenerate the policy when you change a probe command.
+
 [#sandboxing-customize-policy]
 == Customizing the generated policy
 
