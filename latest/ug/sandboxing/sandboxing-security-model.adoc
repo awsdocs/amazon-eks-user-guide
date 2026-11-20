@@ -15,7 +15,7 @@ Isolated and confidential pods run your workload inside a Nitro Sandbox, which p
 [#sandboxing-trust-boundary]
 == Trust boundary and supported inputs
 
-Isolated and confidential pods treat the Nitro Sandbox as the security boundary. The feature is designed to run untrusted container images. The binaries, libraries, and scripts that execute inside the container can come from an untrusted source, and the sandbox contains them so a compromised workload cannot reach the parent instance or other pods. It is not designed to run untrusted pod specs.
+Isolated and confidential pods treat the Nitro Sandbox as the security boundary. The feature is designed to run untrusted container images. The binaries, libraries, and scripts that execute inside the container can come from an untrusted source, and the sandbox contains them so a compromised workload cannot reach the parent instance or other pods. It is not designed to run untrusted pod specs. `hostPath` volumes resolve against the sandbox's own filesystem, not the parent instance's filesystem, so a pod cannot use them to read or write files on the parent instance.
 
 The pod spec and the Cedar policy generated from it are trusted inputs. This includes the container image references, command and args, environment variables, volumes and mounts, `securityContext`, and resource requests and limits.
 

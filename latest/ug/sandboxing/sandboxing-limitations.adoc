@@ -44,6 +44,10 @@ Running a pod inside a Nitro Sandbox changes the behavior of some Kubernetes fea
 |In-place CPU and memory resize is not supported. The Nitro Sandbox's CPU and memory are allocated at boot and cannot be changed.
 |Delete and recreate the pod with new resource requests.
 
+|`hostPath` volumes
+|`hostPath` paths resolve against the Nitro Sandbox's own filesystem, not the parent instance's filesystem. A pod cannot read parent instance files through `hostPath`. If the path does not exist inside the sandbox, the sandbox creates it empty. The container fails to start if the sandbox cannot create the path.
+|Deliver files the pod needs through a `configMap`, `secret`, or a volume type listed in <<sandboxing-storage>>.
+
 |IMDS paths
 |Only `placement/region`, `placement/availability-zone`, `placement/availability-zone-id`, `services/domain`, and `services/partition` are available. All other IMDS paths return 404.
 |Use EKS Pod Identity for {aws} credentials. IAM credentials are not available through IMDS.
