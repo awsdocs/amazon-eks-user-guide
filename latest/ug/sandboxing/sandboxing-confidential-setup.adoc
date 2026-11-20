@@ -276,7 +276,7 @@ Signature verification requires network access from the Nitro Sandbox to the {aw
 [#sandboxing-kms-attestation]
 == Configure KMS key policies for attestation
 
-In confidential mode, configure {aws} KMS key policies with `kms:RecipientAttestation:PCR<PCR_ID>` conditions to gate decryption on specific PCR values. PCR0 measures the system image; PCR17 measures the Cedar policy hash. A modified policy produces a different PCR17 value, so KMS refuses to release keys gated on the original value.
+In confidential mode, configure {aws} KMS key policies with `kms:RecipientAttestation:PCR<PCR_ID>` conditions to gate decryption on specific PCR values. PCR17 measures the Cedar policy hash. A modified policy produces a different PCR17 value, so KMS refuses to release keys gated on the original value.
 
 Pin the Cedar policy with a `kms:RecipientAttestation:PCR17` condition set to the predicted PCR17 value from Step 1. Also add a `kms:RecipientAttestation:PCR8:ServiceName` condition set to `eks.amazonaws.com`.
 
