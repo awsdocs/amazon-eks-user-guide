@@ -10,7 +10,7 @@ include::../attributes.txt[]
 Learn which storage options work with Nitro Sandboxes, including Amazon EBS, Amazon EFS, tmpfs-backed CSI drivers, and standard Kubernetes volumes.
 --
 
-Pods running in Nitro Sandboxes support several storage options through standard Kubernetes CSI drivers.
+Pods running in Nitro Sandboxes support the storage options on this page. Other in-tree volume types are not supported, and pods that use them fail to start.
 
 [#sandboxing-storage-ebs]
 == Amazon EBS volumes

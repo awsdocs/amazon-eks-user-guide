@@ -36,6 +36,10 @@ Running a pod inside a Nitro Sandbox changes the behavior of some Kubernetes fea
 |Increasing storage on a PVC while a pod is running is not supported. The pod continues to see the original capacity.
 |Scale the workload down, expand the volume, and scale back up.
 
+|Other in-tree volume types
+|Pods that use an in-tree volume type other than those listed in <<sandboxing-storage>>, including through a `subPath`, fail to start. The Nitro Sandbox cannot see the parent instance's disks or mounts directly.
+|Use an Amazon EBS or Amazon EFS PersistentVolumeClaim, or another volume type listed in <<sandboxing-storage>>.
+
 |In-place resource resize
 |In-place CPU and memory resize is not supported. The Nitro Sandbox's CPU and memory are allocated at boot and cannot be changed.
 |Delete and recreate the pod with new resource requests.
