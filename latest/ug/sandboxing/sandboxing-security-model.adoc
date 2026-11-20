@@ -52,7 +52,7 @@ When you configure a KMS key policy with `kms:RecipientAttestation:PCR<PCR_ID>` 
 [IMPORTANT]
 .Configure attestation conditions
 ====
-Always configure `kms:RecipientAttestation:PCR<PCR_ID>` conditions on any KMS key that protects confidential workload data. This is the mechanism that enforces the integrity of the Cedar policy and system image against modification. Attestation without a verifier is a measurement without enforcement.
+Always configure `kms:RecipientAttestation:PCR17` (policy hash) and `kms:RecipientAttestation:PCR8:ServiceName` (system image signer) conditions on any KMS key that protects confidential workload data. This is the mechanism that enforces the integrity of the Cedar policy and system image against modification. Attestation without a verifier is a measurement without enforcement. For more information, see <<sandboxing-confidential-setup>>.
 ====
 
 [#sandboxing-parent-cannot]

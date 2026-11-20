@@ -68,7 +68,7 @@ Attestation lets you verify that a Nitro Sandbox is running exactly the code and
 [IMPORTANT]
 .Verify attestation before releasing secrets
 ====
-Without a KMS key policy (or equivalent external verifier) that checks PCR values, the attestation measurement is recorded but never verified, and the confidentiality protections of confidential mode are incomplete. Always configure `kms:RecipientAttestation:PCR<PCR_ID>` conditions on any KMS key that protects confidential data.
+Without a KMS key policy (or equivalent external verifier) that checks PCR values, the attestation measurement is recorded but never verified, and the confidentiality protections of confidential mode are incomplete. Always configure `kms:RecipientAttestation:PCR17` (policy hash) and `kms:RecipientAttestation:PCR8:ServiceName` (system image signer) conditions on any KMS key that protects confidential data. For more information, see <<sandboxing-confidential-setup>>.
 ====
 
 *Shared persistent storage*::
