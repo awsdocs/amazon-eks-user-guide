@@ -251,9 +251,9 @@ Three version identifiers appear across these steps, and {aws} tracks them indep
 Bake a new AMI with the updated components, update your launch template to the new AMI, and roll out the node group one node at a time.
 
 [IMPORTANT]
-.Update Cedar policies when the guest image changes
+.Cedar policies and KMS conditions when the guest image changes
 ====
-When the guest image changes, PCR0 changes, and existing Cedar policies for confidential pods no longer match. Before rolling out, regenerate the Cedar policies with the new bundle's `eks-nitro-sandbox-genpolicy` and update any KMS key policy conditions that reference the old PCR0 value. Nodes on the old AMI keep serving existing confidential workloads until you drain them. For more information, see <<sandboxing-confidential-setup>>.
+Cedar policies generated with an earlier version of `eks-nitro-sandbox-genpolicy` keep working on a new guest image, so existing confidential pods and their KMS `PCR17` and `PCR8:ServiceName` conditions do not need to change. If a KMS key policy pins a raw `PCR0` or `PCR8` value instead, update it before rolling out, or switch to `PCR8:ServiceName`. For more information, see <<sandboxing-confidential-setup>>.
 ====
 
 Tag each AMI with the bundle identifier (for example, `nitro-sandbox-ga-20260929-r2`) so you can track which bundle version each node group runs.
