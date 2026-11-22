@@ -2,7 +2,7 @@ include::../attributes.txt[]
 
 [.topic]
 [#ml-inferentia]
-= Use {aws} Inferentia instances with Amazon EKS for Machine Learning
+= Use {aws} Inferentia instances with Amazon EKS for machine learning
 :info_titleabbrev: Use {aws} Inferentia
 
 [abstract]
