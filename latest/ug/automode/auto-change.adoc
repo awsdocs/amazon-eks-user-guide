@@ -14,6 +14,16 @@ To receive notifications of all source file changes to this specific documentati
 https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/automode/auto-change.adoc.atom
 ----
 
+== November 23, 2026
+
+**Feature**: Amazon EKS Auto Mode now supports Amazon EC2 G7 instances, which have NVIDIA RTX PRO 4500 Blackwell Server Edition GPUs. G7 instances require NVIDIA driver version 595 or later. EKS Auto Mode nodes select the NVIDIA driver version for their GPU at boot, so G7 nodes use driver 595 and other NVIDIA GPU instances continue to use driver 580. You don't configure the driver version.
+
+To provision G7 instances, use a NodePool whose requirements allow the `g7` instance family. If a NodePool excludes `g7`, such as with an `eks.amazonaws.com/instance-family` `NotIn` requirement, remove that exclusion.
+
+G7 support in EKS Auto Mode is available in all commercial {aws} Regions where G7 instances are available.
+
+For more information, see <<auto-supported-instances>> and <<auto-accelerated>>.
+
 == November 9, 2026
 
 **Feature**: Amazon EKS Auto Mode now supports Nitro Sandboxes, which run isolated and confidential pods inside hardware-isolated virtual machines on the {aws} Nitro System. Auto Mode includes Nitro Sandbox support with no additional configuration. You do not build or manage an AMI. Set `runtimeClassName` to `isolated-sandbox` or `confidential-sandbox` on the pod. Auto Mode then provisions a node on a supported instance type with Nitro Enclaves enabled and runs the pod in a Nitro Sandbox.
