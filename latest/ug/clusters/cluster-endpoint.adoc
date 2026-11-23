@@ -35,6 +35,8 @@ EKS cluster public/private endpoint:
 
 ====
 
+Some `IPv6` clusters in the US East (N. Virginia), US East (Ohio), and US West (Oregon) {aws} Regions use a different dual-stack endpoint naming convention. Their endpoints end in `us-east-1.eks.global.api.aws`, `us-east-2.eks.global.api.aws`, or `us-west-2.eks.global.api.aws`. This is only a difference in the domain name, and both formats are fully supported. If you allow access by domain name, such as in a VPN or proxy allow list, include both formats. To find the endpoint of your cluster, see the `endpoint` value in the output of the `aws eks describe-cluster` {aws} CLI command.
+
 [NOTE]
 ====
 The dual-stack cluster endpoint was introduced in October 2024. For more information about `IPv6` clusters, see <<cni-ipv6>>. Clusters made before October 2024 use the following endpoint format instead.
