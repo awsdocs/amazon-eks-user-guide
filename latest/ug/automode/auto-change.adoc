@@ -20,7 +20,7 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/auto
 
 To provision G7 instances, use a NodePool whose requirements allow the `g7` instance family. If a NodePool excludes `g7`, such as with an `eks.amazonaws.com/instance-family` `NotIn` requirement, remove that exclusion.
 
-G7 support in EKS Auto Mode is available in all commercial {aws} Regions where G7 instances are available.
+G7 support in EKS Auto Mode is available on all Kubernetes versions that EKS Auto Mode supports, in all commercial {aws} Regions where G7 instances are available.
 
 For more information, see <<auto-supported-instances>> and <<auto-accelerated>>.
 
