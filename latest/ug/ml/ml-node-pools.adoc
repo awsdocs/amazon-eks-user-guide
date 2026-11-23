@@ -130,6 +130,10 @@ For the full list, see link:https://docs.aws.amazon.com/eks/latest/userguide/cre
 | `81920`
 | Mebibytes of memory per GPU.
 
+| `nvidia.com/gpu.present`
+| `true`
+| Set to `true` on instance types with NVIDIA GPUs. Not set on other instance types.
+
 | `karpenter.sh/capacity-type`
 | `reserved`
 | Capacity type: `spot`, `on-demand`, or `reserved`.

@@ -201,6 +201,10 @@ NOTE: EKS Auto Mode uses different labels than Karpenter. Labels related to EC2 
 |16384
 |Number of mebibytes of memory on the GPU
 
+|nvidia.com/gpu.present
+|true
+|Whether the instance has NVIDIA GPUs. Present only on instance types with NVIDIA GPUs.
+
 |eks.amazonaws.com/instance-accelerator-name
 |trainium
 |Name of the {aws} accelerator on the instance, if available
