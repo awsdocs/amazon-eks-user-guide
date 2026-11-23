@@ -161,7 +161,7 @@ spec:
         destination: node
 ----
 
-The EKS node monitoring agent writes the bundle to `/var/log/support/[.replaceable]`<node-name>`-logs.tar.gz` on the node, and the `message` field in the capture status reports the path it used. This destination works on all compute types that support the agent, including EKS Auto Mode and EKS managed node groups.
+The EKS node monitoring agent writes the bundle to `/var/log/support/[.replaceable]``<node-name>``-logs.tar.gz` on the node, and the `message` field in the capture status reports the path it used. This destination works on all compute types that support the agent, including EKS Auto Mode and EKS managed node groups.
 
 The EKS node monitoring agent's GitHub repository also includes a `kubectl` plugin that creates the `NodeDiagnostic` resource and retrieves the resulting bundles for you. For more information, see the https://github.com/aws/eks-node-monitoring-agent/blob/main/tools/kubectl-ekslogs/README.md[documentation for the `kubectl ekslogs` plugin].
 

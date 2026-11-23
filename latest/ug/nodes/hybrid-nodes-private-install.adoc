@@ -53,7 +53,7 @@ Create a VPC endpoint for Amazon S3 to enable private access to S3 resources fro
 . In the Amazon VPC console, in the navigation pane, choose *Endpoints*.
 . Choose *Create endpoint*.
 . For *Service category*, select *{aws} services*.
-. For *Service*, search for and select `com.amazonaws.[.replaceable]`REGION`.s3`. Replace `[.replaceable]`REGION`` with your {aws} Region (for example, `us-west-2`).
+. For *Service*, search for and select `com.amazonaws.[.replaceable]``REGION``.s3`. Replace [.replaceable]`REGION` with your {aws} Region (for example, `us-west-2`).
 . For *VPC*, select the same VPC where your EKS cluster is located.
 . For *Route tables*, select the route tables associated with the subnets where your hybrid nodes will access S3.
 . For *Policy*, you can select *Full access* for simplicity, or create a custom policy that restricts access to specific S3 buckets if needed.
@@ -72,7 +72,7 @@ Modify the security group created in Step 1 to allow outbound traffic to the Ama
 .. *Type*: `HTTPS`
 .. *Protocol*: `TCP`
 .. *Port range*: `443`
-.. *Destination*: Select *Prefix list* and then search for `com.amazonaws.[.replaceable]`REGION`.s3`. For example, if you are in the `us-west-2` region, the prefix list ID will be `pl-68a54001`.
+.. *Destination*: Select *Prefix list* and then search for `com.amazonaws.[.replaceable]``REGION``.s3`. For example, if you are in the `us-west-2` region, the prefix list ID will be `pl-68a54001`.
 . Choose *Save rules*.
 
 [NOTE]
@@ -86,7 +86,7 @@ Create an S3 bucket that will store the `nodeadm` artifacts for private installa
 
 . Open the Amazon S3 console at https://console.aws.amazon.com/s3/[].
 . Choose *Create bucket*.
-. For *Bucket name*, enter a unique name such as `[.replaceable]`YOUR-ACCOUNT-ID`-hybrid-nodes-artifacts-[.replaceable]`REGION``.
+. For *Bucket name*, enter a unique name such as `[.replaceable]``YOUR-ACCOUNT-ID``-hybrid-nodes-artifacts-[.replaceable]``REGION```.
 . For *{aws} Region*, select the same region as your EKS cluster.
 . Leave the default settings for *Block Public Access settings for this bucket* (all options should be enabled for security).
 . Choose *Create bucket*.
@@ -100,8 +100,8 @@ Create a bucket policy that restricts access to the S3 bucket to only come throu
 . Choose the *Permissions* tab.
 . In the *Bucket policy* section, choose *Edit*.
 . Enter the following policy, replacing the placeholders:
-.. Replace `[.replaceable]`BUCKET_NAME`` with your bucket name from Step 4.
-.. Replace `[.replaceable]`VPC_ENDPOINT_ID`` with the VPC endpoint ID from Step 2.
+.. Replace [.replaceable]`BUCKET_NAME` with your bucket name from Step 4.
+.. Replace [.replaceable]`VPC_ENDPOINT_ID` with the VPC endpoint ID from Step 2.
 +
 [source,json,subs="verbatim,attributes,quotes"]
 ----
@@ -147,9 +147,9 @@ This step requires internet access to download the artifacts from the public Ama
 ----
 +
 Replace the following values:
-* `[.replaceable]`BUCKET_NAME`` with your bucket name from Step 4
-* `[.replaceable]`K8S_VERSION`` with the Kubernetes minor version of your Amazon EKS cluster (for example, `1.31`)
-* `[.replaceable]`CREDS_PROVIDER`` with your credential provider (`ssm` or `iam-ra`)
+* [.replaceable]`BUCKET_NAME` with your bucket name from Step 4
+* [.replaceable]`K8S_VERSION` with the Kubernetes minor version of your Amazon EKS cluster (for example, `1.31`)
+* [.replaceable]`CREDS_PROVIDER` with your credential provider (`ssm` or `iam-ra`)
 . The command will output a manifest file path. Note this path as you will need it for Step 7.
 
 == Step 7: Install hybrid nodes dependencies using the private artifacts
@@ -169,7 +169,7 @@ The hybrid nodes CLI (`nodeadm`) must be run with a user that has sudo/root acce
 sudo ./nodeadm install --source file://[.replaceable]`MANIFEST_FILE_PATH`
 ----
 +
-Replace `[.replaceable]`MANIFEST_FILE_PATH`` with the path to the manifest file from Step 6.
+Replace [.replaceable]`MANIFEST_FILE_PATH` with the path to the manifest file from Step 6.
 . Verify that the installation completed successfully by checking the output for any error messages.
 
 == Next steps
