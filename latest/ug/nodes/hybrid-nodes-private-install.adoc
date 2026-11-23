@@ -2,8 +2,8 @@ include::../attributes.txt[]
 
 [.topic]
 [#hybrid-nodes-private-install]
-= Private installation for hybrid nodes
-:info_titleabbrev: Private installation
+= Configure private installation for hybrid nodes
+:info_titleabbrev: Configure private installation
 
 [abstract]
 --
@@ -103,7 +103,7 @@ Create a bucket policy that restricts access to the S3 bucket to only come throu
 .. Replace [.replaceable]`BUCKET_NAME` with your bucket name from Step 4.
 .. Replace [.replaceable]`VPC_ENDPOINT_ID` with the VPC endpoint ID from Step 2.
 +
-[source,json,subs="verbatim,attributes,quotes"]
+[source,json,subs="verbatim,attributes"]
 ----
 {
     "Version": "2012-10-17",
@@ -113,10 +113,10 @@ Create a bucket policy that restricts access to the S3 bucket to only come throu
             "Effect": "Deny",
             "Principal": "*",
             "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::[.replaceable]`BUCKET_NAME`/*",
+            "Resource": "{arn-aws}s3:::BUCKET_NAME/*",
             "Condition": {
                 "StringNotEquals": {
-                    "aws:SourceVpce": "[.replaceable]`VPC_ENDPOINT_ID`"
+                    "aws:SourceVpce": "VPC_ENDPOINT_ID"
                 }
             }
         }
