@@ -16,9 +16,7 @@ https://github.com/awsdocs/amazon-eks-user-guide/commits/mainline/latest/ug/auto
 
 == November 23, 2026
 
-**Feature**: Amazon EKS Auto Mode now supports Amazon EC2 G7 instances, which have NVIDIA RTX PRO 4500 Blackwell Server Edition GPUs. G7 instances require NVIDIA driver version 595 or later. EKS Auto Mode nodes select the NVIDIA driver version for their GPU at boot, so G7 nodes use driver 595 and other NVIDIA GPU instances continue to use driver 580. You don't configure the driver version.
-
-To provision G7 instances, use a NodePool whose requirements allow the `g7` instance family. If a NodePool excludes `g7`, such as with an `eks.amazonaws.com/instance-family` `NotIn` requirement, remove that exclusion.
+**Feature**: Amazon EKS Auto Mode now supports Amazon EC2 G7 instances, which have NVIDIA RTX PRO 4500 Blackwell Server Edition GPUs. G7 instances require NVIDIA driver version 595 or later. EKS Auto Mode nodes select the NVIDIA driver version for EC2 GPU instances at boot time.
 
 G7 support in EKS Auto Mode is available on all Kubernetes versions that EKS Auto Mode supports. It is available in all {aws} Regions where G7 instances are available.
 

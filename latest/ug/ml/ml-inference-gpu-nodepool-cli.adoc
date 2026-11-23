@@ -57,7 +57,7 @@ The cluster status is `ACTIVE`, and `kubectl get nodes` shows the nodes that run
 [#gpu-nodepool-cli-create]
 == Step 1: Create a dynamic GPU NodePool
 
-Define a NodePool that dynamically provisions G-family GPU instances with a generation greater than 4, using Spot capacity with On-Demand as a fallback. The EKS Auto Mode and Karpenter paths both use the same NodePool API with the only difference being the NodeClass it points to. In EKS Auto Mode, the bundled `default` NodeClass already selects the right AMI and configures SOCI parallel pull, so the NodePool is the only object you create. In self-managed Karpenter, you also need a custom `EC2NodeClass` that pins the AMI and tunes SOCI. Both paths can provision the `g7` instance family, which requires NVIDIA driver version 595 or later, because each AMI selects the driver version for the node's GPU at boot.
+Define a NodePool that dynamically provisions G-family GPU instances with a generation greater than 4, using Spot capacity with On-Demand as a fallback. The EKS Auto Mode and Karpenter paths both use the same NodePool API with the only difference being the NodeClass it points to. In EKS Auto Mode, the bundled `default` NodeClass already selects the right AMI and configures SOCI parallel pull, so the NodePool is the only object you create. In self-managed Karpenter, you also need a custom `EC2NodeClass` that pins the AMI and tunes SOCI.
 
 [role="tablist",sync-group-id="cluster-path"]
 EKS Auto Mode::

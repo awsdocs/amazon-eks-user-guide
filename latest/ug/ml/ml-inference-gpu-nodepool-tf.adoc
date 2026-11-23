@@ -143,7 +143,7 @@ Immediately after the apply, the `READY` column can show `False` or `Unknown` fo
 
 [NOTE]
 ====
-The `g7` instance family requires NVIDIA driver version 595 or later. EKS Auto Mode and the EKS-optimized AL2023 NVIDIA AMI that the self-managed Karpenter path uses both select driver 595 for `g7` nodes, so `g7` is eligible on both paths. Other generation-7 families, such as `g7e`, run on driver 580 and are eligible on both paths. If a NodePool manifest under `nodepools/` constrains the instance generation or family differently than you need, edit it before you apply. For more information, see <<eks-amis-nvidia,EKS-optimized NVIDIA AMIs>>.
+The `g7` instance family requires NVIDIA driver version 595 or later. EKS Auto Mode and the EKS-optimized AL2023 NVIDIA AMI that the self-managed Karpenter path uses both select driver 595 or later for `g7` nodes, so `g7` is eligible on both paths. Other generation-7 families, such as `g7e`, run on driver 580 and are eligible on both paths. If a NodePool manifest under `nodepools/` constrains the instance generation or family differently than you need, edit it before you apply. For more information, see <<eks-amis-nvidia,EKS-optimized NVIDIA AMIs>>.
 ====
 
 [#gpu-nodepool-tf-test]
