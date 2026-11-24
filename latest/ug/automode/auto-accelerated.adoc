@@ -241,7 +241,6 @@ EKS Auto Mode keeps DRA and device plugins from managing the same device type on
 * A Kubernetes cluster with Amazon EKS Auto Mode configured, running *Kubernetes version 1.36 or later*. DRA is not available on EKS Auto Mode clusters running earlier versions. To check your cluster version, run `kubectl version`. For information about updating a cluster, see <<update-cluster>>.
 * A `default` EKS Node Class as created when the `general-purpose` or `system` managed node pools are enabled.
 * `kubectl` configured to communicate with your cluster, see <<kubectl-install-update>> for more information.
-* For EFA devices with dynamic capacity provisioning, use an instance type with NVIDIA GPUs. EKS Auto Mode doesn't yet have EFA DRA device metadata for EFA-enabled instance types without GPUs. Examples include `hpc7a` and `c6in`. Support for these instance types is coming soon. For more information, see https://github.com/aws/karpenter-provider-aws/pull/9879[aws/karpenter-provider-aws#9879] on GitHub. Until then, use static capacity provisioning or the EFA device plugin for them.
 
 === Step 1: Create the DeviceClass
 
