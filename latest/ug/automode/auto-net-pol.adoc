@@ -108,6 +108,11 @@ When you set `networkPolicy: DefaultDeny` in your NodeClass, the default behavio
 
 Create a `ClusterNetworkPolicy` to allow egress DNS traffic to CoreDNS. The policy takes effect only after you enable the Network Policy Controller in Step 1. Without it, nodes that use `DefaultDeny` still block DNS, and no policy can allow it. Choose the example that matches your cluster's IP family.
 
+[IMPORTANT]
+====
+Apply this policy before you set `networkPolicy: DefaultDeny` in your NodeClass. A node launched with `DefaultDeny` blocks DNS for every pod on it that no policy allows.
+====
+
 [tabs]
 ====
 IPv4::
@@ -169,11 +174,6 @@ spec:
       name: allow-dns
 ----
 <1> Replace with your cluster's CoreDNS IPv6 address, the Service CIDR's network address with `a` appended. EKS Auto Mode runs CoreDNS on each node and doesn't create a `kube-dns` Service. For more information, see <<auto-net-pol-coredns-ip>>. Using the specific CoreDNS IP (`/128`) rather than the entire service CIDR limits port 53 access to only the DNS service.
-====
-
-[IMPORTANT]
-====
-Apply this policy before you set `networkPolicy: DefaultDeny` in your NodeClass. A node launched with `DefaultDeny` blocks DNS for every pod on it that no policy allows.
 ====
 
 [NOTE]
