@@ -106,7 +106,7 @@ kubectl get nodeclass network-policy-config
 
 When you set `networkPolicy: DefaultDeny` in your NodeClass, the default behavior for pods with no network policy applied is to deny all traffic—including DNS queries to the CoreDNS service on port 53. In upstream Kubernetes, pods with no network policy applied allow all traffic by default. With `DefaultDeny` mode, you must explicitly create network policies to allow desired traffic, including DNS resolution.
 
-Create a `ClusterNetworkPolicy` to allow egress DNS traffic to the cluster DNS service. Choose the example that matches your cluster's IP family.
+Create a `ClusterNetworkPolicy` to allow egress DNS traffic to CoreDNS. The policy takes effect only after you enable the Network Policy Controller in Step 1. Without it, nodes that use `DefaultDeny` still block DNS, and no policy can allow it. Choose the example that matches your cluster's IP family.
 
 [tabs]
 ====
@@ -125,18 +125,20 @@ spec:
     namespaces:
       matchLabels: {} # Apply to all namespaces
   egress:
-    - action: Allow
+    - action: Accept
       to:
       - networks:
         - 10.100.0.10/32  # <1>
       ports:
-      - protocol: UDP
-        port: 53
-      - protocol: TCP
-        port: 53
+      - portNumber:
+          protocol: UDP
+          port: 53
+      - portNumber:
+          protocol: TCP
+          port: 53
       name: allow-dns
 ----
-<1> Replace with your cluster's CoreDNS service ClusterIP. You can find this value by running `kubectl get svc kube-dns -n kube-system -o jsonpath='{.spec.clusterIP}'`. Using the specific CoreDNS IP (`/32`) rather than the entire service CIDR limits port 53 access to only the DNS service.
+<1> Replace with your cluster's CoreDNS IP address, the `.10` address of the Service CIDR. EKS Auto Mode runs CoreDNS on each node and doesn't create a `kube-dns` Service. For more information, see <<auto-net-pol-coredns-ip>>. Using the specific CoreDNS IP (`/32`) rather than the entire service CIDR limits port 53 access to only the DNS service.
 
 IPv6::
 +
@@ -153,23 +155,30 @@ spec:
     namespaces:
       matchLabels: {} # Apply to all namespaces
   egress:
-    - action: Allow
+    - action: Accept
       to:
       - networks:
         - fd00:100::a/128  # <1>
       ports:
-      - protocol: UDP
-        port: 53
-      - protocol: TCP
-        port: 53
+      - portNumber:
+          protocol: UDP
+          port: 53
+      - portNumber:
+          protocol: TCP
+          port: 53
       name: allow-dns
 ----
-<1> Replace with your cluster's CoreDNS service IPv6 ClusterIP. You can find this value by running `kubectl get svc kube-dns -n kube-system -o jsonpath='{.spec.clusterIP}'`. Using the specific CoreDNS IP (`/128`) rather than the entire service CIDR limits port 53 access to only the DNS service.
+<1> Replace with your cluster's CoreDNS IPv6 address, the Service CIDR's network address with `a` appended. EKS Auto Mode runs CoreDNS on each node and doesn't create a `kube-dns` Service. For more information, see <<auto-net-pol-coredns-ip>>. Using the specific CoreDNS IP (`/128`) rather than the entire service CIDR limits port 53 access to only the DNS service.
 ====
 
 [IMPORTANT]
 ====
-You must apply this policy before or at the same time as setting `networkPolicy: DefaultDeny` in your NodeClass. Otherwise, existing workloads will immediately lose DNS resolution.
+Apply this policy before you set `networkPolicy: DefaultDeny` in your NodeClass. A node launched with `DefaultDeny` blocks DNS for every pod on it that no policy allows.
+====
+
+[NOTE]
+====
+On IPv6 clusters, network policies don't filter a pod's IPv4 egress. Pods on an IPv6 cluster also have an IPv4 interface for egress to IPv4 destinations. After a policy selects a pod, such as this DNS policy, the pod's IPv4 egress isn't restricted.
 ====
 
 == How does it work?
@@ -243,6 +252,7 @@ At the Kubernetes network level, this would allow egress from any pods in the "g
 
 image::images/eks-auto-to-on-prem.png[Illustration of workload in EKS Auto communicating with applications on prem]
 
+[#auto-net-pol-coredns-ip]
 === Determining the CoreDNS IP address
 
 For your application to resolve DNS, it must be allowed to communicate with CoreDNS, which runs locally on each EKS Auto Mode instance. The CoreDNS IP address is derived from the Service CIDR range configured for the cluster, and it remains fixed for the lifetime of the cluster. You can therefore determine it once and reference it directly in your network policies.
