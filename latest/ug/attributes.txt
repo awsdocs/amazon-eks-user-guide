@@ -3,6 +3,10 @@
 // eksctl version
 :eksctl-min-version: 0.215.0
 
+// AWS Load Balancer Controller versions. Since controller v3.0.0, the Helm chart version matches the controller version.
+:lbc-version: 3.6.3
+:lbc-helm-version: 3.6.3
+
 // EKS Auto Mode versions
 :auto-cli-v2-version: 2.12.3
 :auto-cli-v1-version: 1.27.160

@@ -548,11 +548,11 @@ VPC_ID=$(aws eks describe-cluster \
 +
 Install the controller. The `nodeSelector` and toleration place the controller on the `system` managed node group alongside cluster-critical infrastructure, rather than competing with GPU or general-purpose Karpenter-launched nodes for capacity:
 +
-[source,bash]
+[source,bash,subs="verbatim,attributes"]
 ----
 helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   --namespace kube-system \
-  --version 3.4.2 \
+  --version {lbc-helm-version} \
   --set clusterName=${CLUSTER_NAME} \
   --set region=${AWS_REGION} \
   --set vpcId=${VPC_ID} \

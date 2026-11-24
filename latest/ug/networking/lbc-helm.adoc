@@ -7,23 +7,25 @@ include::../attributes.txt[]
 
 [abstract]
 --
-Learn how to install the {aws} Load Balancer Controller on Amazon EKS using Helm to manage K8s load balancing with {aws} Cloud. Discover the prerequisites and steps for creating an IAM role, installing with Helm, and verifying the controller deployment.
+Learn how to install the {aws} Load Balancer Controller on Amazon EKS with Helm. Create the IAM permissions with EKS Pod Identity or IAM roles for service accounts, install the Helm chart, and verify the controller deployment.
 --
 
 [TIP]
 ====
-https://awsworkshop.io/eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el[Register] for upcoming Amazon EKS workshops. 
+https://awsworkshop.io/eks?trk=4a9b4147-2490-4c63-bc9f-f8a84b122c8c&sc_channel=el[Register] for upcoming Amazon EKS workshops.
 ====
 
 
 [TIP]
 ====
-With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-ons. Auto Mode includes pod networking and load balancing capabilities. 
+With Amazon EKS Auto Mode, you don't need to install or upgrade networking add-ons. Auto Mode includes pod networking and load balancing capabilities.
 
 For more information, see <<automode>>.
 ====
 
-This topic describes how to install the {aws} Load Balancer Controller using Helm, a package manager for Kubernetes, and `eksctl`. The controller is installed with default options. For more information about the controller, including details on configuring it with annotations, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller/[{aws} Load Balancer Controller Documentation] on GitHub.  
+This topic describes how to install the {aws} Load Balancer Controller using Helm, a package manager for Kubernetes, and `eksctl`. The controller is installed with default options. For more information about the controller, including details on configuring it with annotations, see the https://kubernetes-sigs.github.io/aws-load-balancer-controller/[{aws} Load Balancer Controller Documentation] on GitHub.
+
+The controller needs IAM permissions to manage Elastic Load Balancing resources. This topic grants them with EKS Pod Identity, which doesn't need an OpenID Connect (OIDC) provider and lets you reuse one IAM role across clusters without editing its trust policy. If the controller runs on Fargate, use IAM roles for service accounts (IRSA) instead, because EKS Pod Identity doesn't support Fargate. For more information, see <<pod-identities>> and <<iam-roles-for-service-accounts>>.
 
 In the following steps, replace the example values with your own values.
 
@@ -33,9 +35,11 @@ In the following steps, replace the example values with your own values.
 Before starting this tutorial, you must complete the following steps:
 
 * Create an Amazon EKS cluster. To create one, see <<getting-started>>.
-* If you plan to use the Gateway API with the {aws} Load Balancer Controller, install the standard Gateway API CRDs on your cluster. This requires version 2.13.0 or later of the controller. The Helm chart includes the {aws} extension Gateway API CRDs, but not the standard Gateway API CRDs. For installation commands and version requirements, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/gateway/gateway/[Gateway API] on GitHub. If your cluster uses EKS Auto Mode with the Gateway API enabled, check who manages these CRDs before you install them. For more information, see <<lbc-considerations>>.
 * Install https://helm.sh/docs/intro/install/[Helm] on your local machine.
+* Install `eksctl` version `{eksctl-min-version}` or later. For more information, see https://eksctl.io/installation/[Installation] in the `eksctl` documentation.
+* If you use EKS Pod Identity, install the Amazon EKS Pod Identity Agent add-on on your cluster. For more information, see <<pod-id-agent-setup>>.
 * Make sure that your Amazon VPC CNI plugin for Kubernetes, `kube-proxy`, and CoreDNS add-ons are at the minimum versions listed in <<boundserviceaccounttoken-validated-add-on-versions,Service account tokens>>.
+* If you plan to use the Gateway API with the {aws} Load Balancer Controller, install the standard Gateway API CRDs on your cluster. This requires version 2.13.0 or later of the controller. The Helm chart includes the {aws} extension Gateway API CRDs, but not the standard Gateway API CRDs. For installation commands and version requirements, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/gateway/gateway/[Gateway API] on GitHub. If your cluster uses EKS Auto Mode with the Gateway API enabled, check who manages these CRDs before you install them. For more information, see <<lbc-considerations>>.
 * Learn about {aws} Elastic Load Balancing concepts. For more information, see the link:elasticloadbalancing/latest/userguide/[Elastic Load Balancing User Guide,type="documentation"].
 * Learn about Kubernetes https://kubernetes.io/docs/concepts/services-networking/service/[service] and https://kubernetes.io/docs/concepts/services-networking/ingress/[ingress] resources.
 
@@ -45,22 +49,40 @@ Before starting this tutorial, you must complete the following steps:
 Before proceeding with the configuration steps on this page, consider the following:
 
 * The IAM policy and role (`AmazonEKSLoadBalancerControllerRole`) can be reused across multiple EKS clusters in the same {aws} account.
-* If you're installing the controller on the same cluster where the role (`AmazonEKSLoadBalancerControllerRole`) was originally created, go to <<lbc-helm-install,Step 2: Install Load Balancer Controller>> after verifying the role exists.
-* If you're using IAM Roles for Service Accounts (IRSA), IRSA must be set up for each cluster, and the OpenID Connect (OIDC) provider ARN in the role's trust policy is specific to each EKS cluster. Additionally, if you're installing the controller on a new cluster with an existing `AmazonEKSLoadBalancerControllerRole`, update the role's trust policy to include the new cluster's OIDC provider and create a new service account with the appropriate role annotation. To determine whether you already have an OIDC provider, or to create one, see <<enable-iam-roles-for-service-accounts>>.
+* If the role already exists, don't create it again. With EKS Pod Identity, create a Pod Identity association on the new cluster that references the existing role with `--role-arn` instead of `--role-name`. The role's trust policy must allow the `pods.eks.amazonaws.com` service principal. For more information, see <<pod-id-association>>.
+* With IRSA, the OIDC provider ARN in the role's trust policy is specific to each cluster. To install the controller on a new cluster with an existing `AmazonEKSLoadBalancerControllerRole`, update the role's trust policy to include the new cluster's OIDC provider, and create a service account with the role annotation. To determine whether you already have an OIDC provider, or to create one, see <<enable-iam-roles-for-service-accounts>>.
 * EKS Auto Mode supports the Gateway API without the {aws} Load Balancer Controller. If your cluster uses EKS Auto Mode with the Gateway API enabled, the cluster's Gateway API CRD setting decides who owns the Gateway API CRDs. These CRDs are cluster-wide, so only one party owns them at a time. With the *Managed* setting, {aws} installs and owns the standard Gateway API CRDs and the {aws} extension CRDs (`LoadBalancerConfiguration`, `TargetGroupConfiguration`, and `ListenerRuleConfiguration`). Don't install or upgrade these CRDs yourself, including with the commands in the {aws} Load Balancer Controller Gateway API guide. With the *Unmanaged* setting, you own the CRDs, and you install and upgrade them yourself. For more information, see <<auto-configure-gateway-api-crds>>.
 
 [#lbc-helm-iam]
-== Step 1: Create IAM Role using `eksctl`
-The following steps refer to the {aws} Load Balancer Controller *v2.14.1* release version. For more information about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on GitHub.
+== Step 1: Create the IAM role
+The following steps refer to the {aws} Load Balancer Controller *v{lbc-version}* release version. For more information about all releases, see the https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/[{aws} Load Balancer Controller Release Page] on GitHub.
 
-. Download an IAM policy for the {aws} Load Balancer Controller that allows it to make calls to {aws} APIs on your behalf. 
+. Download an IAM policy for the {aws} Load Balancer Controller that allows it to make calls to {aws} APIs on your behalf. Use the command for the partition your cluster is in.
++
+====
+[role="tablist"]
+{aws}:::
 +
 [source,shell,subs="verbatim,attributes"]
 ----
-curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.14.1/docs/install/iam_policy.json
+curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v{lbc-version}/docs/install/iam_policy.json
 ----
-** If you are in a non-standard {aws} partition, such as a Government or China region, https://github.com/kubernetes-sigs/aws-load-balancer-controller/tree/main/docs/install[review the policies on GitHub] and download the appropriate policy for your region.  
-. Create an IAM policy using the policy downloaded in the previous step. 
+
+{aws} GovCloud (US):::
++
+[source,shell,subs="verbatim,attributes"]
+----
+curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v{lbc-version}/docs/install/iam_policy_us-gov.json
+----
+
+China:::
++
+[source,shell,subs="verbatim,attributes"]
+----
+curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v{lbc-version}/docs/install/iam_policy_cn.json
+----
+====
+. Create an IAM policy using the policy downloaded in the previous step.
 +
 [source,shell,subs="verbatim,attributes"]
 ----
@@ -70,34 +92,42 @@ aws iam create-policy \
 ----
 +
 NOTE: If you view the policy in the {aws-management-console}, the console shows warnings for the *ELB* service, but not for the *ELB v2* service. This happens because some of the actions in the policy exist for *ELB v2*, but not for *ELB*. You can ignore the warnings for *ELB*.
-. Replace the values for cluster name, region code, and account ID. 
+. Create the IAM role and the Kubernetes service account for the controller. Replace [.replaceable]`my-cluster` with the name of your cluster, [.replaceable]`111122223333` with your account ID, and [.replaceable]`region-code` with the {aws} Region that your cluster is in.
 +
-[source,shell,subs="verbatim,attributes"]
-----
-eksctl create iamserviceaccount \
-    --cluster=<cluster-name> \
-    --namespace=kube-system \
-    --name=aws-load-balancer-controller \
-    --attach-policy-arn={arn-aws}iam::<AWS_ACCOUNT_ID>:policy/AWSLoadBalancerControllerIAMPolicy \
-    --override-existing-serviceaccounts \
-    --region <aws-region-code> \
-    --approve
-----
-. *Alternative:* If you prefer to use EKS Pod Identity instead of IAM Roles for Service Accounts (IRSA), you can run the following command. This single command creates the IAM role, attaches the policy, creates the Kubernetes service account, and creates the pod identity association in one step.
+====
+[role="tablist"]
+EKS Pod Identity:::
+.. Run the following command. It creates the IAM role with the policy attached, creates the `aws-load-balancer-controller` service account, and creates a Pod Identity association between them.
 +
-[source,shell,subs="verbatim,attributes"]
+[source,shell,subs="verbatim,attributes,quotes"]
 ----
 eksctl create podidentityassociation \
-    --cluster <cluster-name> \
+    --cluster [.replaceable]`my-cluster` \
     --namespace kube-system \
     --service-account-name aws-load-balancer-controller \
-    --permission-policy-arns={arn-aws}iam::<AWS_ACCOUNT_ID>:policy/AWSLoadBalancerControllerIAMPolicy \
+    --permission-policy-arns {arn-aws}iam::[.replaceable]`111122223333`:policy/AWSLoadBalancerControllerIAMPolicy \
     --role-name AmazonEKSLoadBalancerControllerRole \
     --create-service-account \
-    --region <aws-region-code>
+    --region [.replaceable]`region-code`
 ----
+
+IRSA:::
+.. Make sure that your cluster has an IAM OIDC provider. For more information, see <<enable-iam-roles-for-service-accounts>>.
+.. Run the following command. It creates the IAM role with the policy attached and creates the `aws-load-balancer-controller` service account with the role annotation.
 +
-NOTE: You must install the Amazon EKS Pod Identity Agent add-on on your cluster before using this command. For more information, see <<pod-id-agent-setup>>.
+[source,shell,subs="verbatim,attributes,quotes"]
+----
+eksctl create iamserviceaccount \
+    --cluster [.replaceable]`my-cluster` \
+    --namespace kube-system \
+    --name aws-load-balancer-controller \
+    --role-name AmazonEKSLoadBalancerControllerRole \
+    --attach-policy-arn {arn-aws}iam::[.replaceable]`111122223333`:policy/AWSLoadBalancerControllerIAMPolicy \
+    --override-existing-serviceaccounts \
+    --region [.replaceable]`region-code` \
+    --approve
+----
+====
 
 
 [#lbc-helm-install]
@@ -117,44 +147,44 @@ helm repo update eks
 ----
 . Install the {aws} Load Balancer Controller.
 +
-If you're deploying the controller to Amazon EC2 nodes that have https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node[restricted access to the Amazon EC2 instance metadata service (IMDS)], or if you're deploying to Fargate or Amazon EKS Hybrid Nodes, then add the following flags to the `helm` command that follows:
+If you're deploying the controller to Amazon EC2 nodes that have link:eks/latest/best-practices/identity-and-access-management.html#_identities_and_credentials_for_eks_pods_recommendations[restricted access to the Amazon EC2 instance metadata service (IMDS),type="documentation"], or if you're deploying to Fargate or Amazon EKS Hybrid Nodes, then add the following flags to the `helm` command that follows:
 +
-*** `--set region=[.replaceable]``region-code```
-*** `--set vpcId=[.replaceable]``vpc-xxxxxxxx```
+* `--set region=[.replaceable]``region-code```
+* `--set vpcId=[.replaceable]``vpc-xxxxxxxx```
 +
-Replace [.replaceable]`my-cluster` with the name of your cluster. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step.
+Replace [.replaceable]`my-cluster` with the name of your cluster. The command uses the `aws-load-balancer-controller` service account that you created in the previous step, so it sets `serviceAccount.create` to `false`. Since controller v3.0.0, the Helm chart version matches the controller version.
 +
-For more information about configuring the helm chart, see https://github.com/aws/eks-charts/blob/master/stable/aws-load-balancer-controller/values.yaml[values.yaml] on GitHub.
+For more information about configuring the Helm chart, see https://github.com/aws/eks-charts/blob/master/stable/aws-load-balancer-controller/values.yaml[values.yaml] on GitHub.
 +
-[source,shell,subs="verbatim,attributes"]
+[source,shell,subs="verbatim,attributes,quotes"]
 ----
 helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   -n kube-system \
-  --set clusterName=my-cluster \
+  --set clusterName=[.replaceable]`my-cluster` \
   --set serviceAccount.create=false \
   --set serviceAccount.name=aws-load-balancer-controller \
-  --version 1.14.0
+  --version {lbc-helm-version}
 ----
 
 
 [IMPORTANT]
 ====
-The deployed chart doesn't receive security updates automatically. You need to manually upgrade to a newer chart when it becomes available. When upgrading, change [.replaceable]`install` to `upgrade` in the previous command.
+The deployed chart doesn't receive security updates automatically. You need to manually upgrade to a newer chart when it becomes available. To upgrade, change `install` to `upgrade` in the previous command, and set `--version` to the new chart version.
 ====
 
-The `helm install` command automatically installs the custom resource definitions (CRDs) for the controller. The `helm upgrade` command does not. If you use `helm upgrade,` you must manually install the CRDs. Run the following command to install the CRDs:
+The `helm install` command automatically installs the custom resource definitions (CRDs) for the controller. The `helm upgrade` command doesn't. Before you run `helm upgrade`, install the latest CRDs with the following command:
 
 [source,shell,subs="verbatim,attributes"]
 ----
-wget https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml 
+curl -O https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml
 kubectl apply -f crds.yaml
 ----
 
-The `crds.yaml` file does not include the {aws} extension Gateway API CRDs (`LoadBalancerConfiguration`, `TargetGroupConfiguration`, and `ListenerRuleConfiguration`). The Helm chart includes them in a separate `gateway-crds.yaml` file, which `helm install` installs and `helm upgrade` does not. If you use the Gateway API and run `helm upgrade`, also run the following command:
+The `crds.yaml` file doesn't include the {aws} extension Gateway API CRDs (`LoadBalancerConfiguration`, `TargetGroupConfiguration`, and `ListenerRuleConfiguration`). The Helm chart includes them in a separate `gateway-crds.yaml` file, which `helm install` installs and `helm upgrade` doesn't. If you use the Gateway API and run `helm upgrade`, also run the following command:
 
 [source,shell,subs="verbatim,attributes"]
 ----
-wget https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/gateway-crds.yaml
+curl -O https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/gateway-crds.yaml
 kubectl apply -f gateway-crds.yaml
 ----
 
@@ -180,5 +210,4 @@ aws-load-balancer-controller   2/2     2            2           84s
 +
 You receive the previous output if you deployed using Helm. If you deployed using the Kubernetes manifest, you only have one replica.
 . Before using the controller to provision {aws} resources, your cluster must meet specific requirements. For more information, see <<alb-ingress>> and <<network-load-balancing>>.
-
 
