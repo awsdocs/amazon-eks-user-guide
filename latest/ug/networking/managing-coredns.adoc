@@ -92,7 +92,13 @@ topologySpreadConstraints:
       matchLabels:
         k8s-app: kube-dns
 ----
-* *Custom Corefile configurations and add-on updates* — The Amazon EKS add-on fully manages the CoreDNS ConfigMap (`data.Corefile`). If you modify the `Corefile` directly (for example, to add conditional forwarders for on-premises DNS resolution), the add-on overwrites your changes during the next update. To preserve custom `Corefile` configurations across add-on updates, use the `corefile` key in the add-on's `configurationValues` parameter. For more information, see <<kubernetes-field-management>>.
+* If you edit the CoreDNS `ConfigMap` directly, for example with `kubectl edit` to add a conditional forwarder for on-premises DNS resolution, the `--resolve-conflicts` option of your next add-on update determines what happens to your `Corefile`.
++
+** With `OVERWRITE`, Amazon EKS replaces your `Corefile` with the Amazon EKS default.
+** With `PRESERVE`, Amazon EKS keeps your `Corefile`, including when you update the add-on version.
+** If you don't specify `--resolve-conflicts`, Amazon EKS keeps your `Corefile` and the update fails with a `ConfigurationConflict` error for `.data.Corefile`.
++
+To keep a custom `Corefile` through every add-on update, set the `corefile` key in the add-on's configuration values to your complete `Corefile` instead of editing the `ConfigMap`. Amazon EKS applies this value on every update, including updates that use `OVERWRITE`. To get the current `Corefile` to start from, run `kubectl get configmap coredns --namespace kube-system -o jsonpath='{.data.Corefile}'`. For more information, see <<kubernetes-field-management>>.
 
 
 [#coredns-upgrade-1.11]
