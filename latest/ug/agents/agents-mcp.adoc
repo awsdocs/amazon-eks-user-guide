@@ -1,0 +1,459 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-mcp]
+= Give an agent tools with MCP
+:info_titleabbrev: MCP
+
+[abstract]
+--
+Run Model Context Protocol tool servers on the EKS cluster, verify the caller on every tool request, and reach off-cluster tools through the egress gateway.
+--
+
+Agents discover and call tools through the Model Context Protocol (MCP). A tool server differs from most workloads because its caller is a model. The arguments of every tool call come from model output, which a prompt injection can steer, so a tool server has to authenticate every caller, limit which tools each caller can invoke, and treat arguments as untrusted input. Network policy decides which pods can connect to a tool server, but it can't tell a legitimate request from one that an injected prompt produced.
+
+Tools can run as MCP servers in your cluster, as functions such as Lambda that a gateway calls, or as remote MCP servers and SaaS APIs outside your account. Each placement changes who authenticates the caller and which component sees the call.
+
+The following diagrams show each path.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+The following diagram shows an MCP server on the open source path. The agent calls AgentGateway, which aggregates the server as an MCP target. The server's network policy admits only the gateway, so other pods can't reach it.
++
+image::images/agents-mcp-open-source.png["The agent calls AgentGateway, which calls the MCP server as an MCP target. The server runs in a regular pod and admits only the gateway, so other pods, including agents calling directly, can't reach it.",scaledwidth=100%]
+
+{aws} services::
++
+The following diagram shows an MCP server on the {aws} services path. The server runs unsandboxed in `mcp-servers`. The agent calls it directly with a token whose audience is the server's name, and the server returns `401` to a caller without that token. AgentCore Gateway serves the remote tools you declare.
++
+image::images/agents-mcp-aws-services.png["The agent, in a Nitro Sandbox pod in the agent namespace, calls an MCP server in a regular pod in the tool server namespace with a token for that server. The server checks the audience and refuses a caller without one with 401. With its gateway token, the agent reaches AgentCore Gateway outside the cluster for the remote tools you declare: Lambda, OpenAPI, and MCP.",scaledwidth=100%]
+
+[#agents-mcp-paths]
+== Open source and {aws} services paths
+
+The following table compares how each path serves tools to agents. On both paths, the MCP server runs unsandboxed in its own namespace, `mcp-servers`.
+
+[cols="1,2,2",options="header"]
+|===
+|Aspect |Open source |{aws} services
+
+|How an agent reaches an in-cluster server
+|Through AgentGateway, which aggregates the server as an MCP target on one `/mcp` path
+|Directly over the cluster network, because AgentCore Gateway can't reach a ClusterIP Service
+
+|Who authenticates the agent
+|The gateway, on the agent's gateway token
+|The server, on a projected token whose audience is the server's own name
+
+|Server's token check (`MCP_REQUIRE_TOKEN`)
+|`false`. The gateway doesn't forward the agent's token
+|`true`
+
+|`mcpAudience` on the `Agent`
+|Empty
+|The server's name
+
+|Server's network policy admits
+|Only the gateway's namespace
+|The agent namespace
+
+|Which tools a caller can invoke
+|The gateway's tool policy
+|The server's token check for in-cluster servers, and Cedar policy for AgentCore Gateway targets
+
+|Off-cluster tools
+|Through AgentGateway, which attaches the credential
+|AgentCore Gateway targets: Lambda functions, OpenAPI, and remote MCP servers
+|===
+
+[#agents-mcp-where]
+== Tool sources
+
+The following table lists where an agent's tools come from, how the agent reaches each one, and what authorizes the call.
+
+[cols="1,2,2", options="header"]
+|===
+|Tool |How the agent reaches it |What authorizes the call
+
+|MCP server on the cluster
+|The gateway, as a target, on the open source path. A direct call over the cluster network on the {aws} services path.
+|A projected token the server verifies, plus network policy and mesh authorization.
+
+|Off-cluster MCP server or SaaS API
+|The gateway, which attaches the credential
+|The gateway's tool policy, plus whatever the destination enforces.
+
+|Your own function
+|The gateway, as a target
+|The gateway's tool policy and the function's own IAM.
+|===
+
+The two paths aggregate in-cluster servers differently:
+
+* *Open source path.* AgentGateway runs in the cluster and aggregates a ClusterIP Service, so all tool calls go through one endpoint. Put every in-cluster server behind the gateway.
+* *{aws} services path.* AgentCore Gateway runs outside the cluster and can't reach a ClusterIP Service. Calls from an agent to an in-cluster server are east-west traffic, governed by network policy and optionally the mesh. For a tool you write yourself hosted outside of the cluster, use a Lambda function target with AgentCore Gateway. To put an in-cluster MCP server behind AgentCore Gateway, give the server an HTTPS address routable in the VPC, such as an internal load balancer. Then use either a private endpoint on the gateway target, which places the gateway's network interfaces in your subnets, or the ingress Application Load Balancer with a credential for the gateway.
+
+[#agents-mcp-identity]
+== Caller authentication
+
+Without authentication, any pod that network policy admits can call the server's tools, including an agent acting on an injected prompt. The caller can be authenticated at the gateway or at the server, and each needs a different token.
+
+When a gateway sits in front of the server, the gateway authenticates the agent and applies tool policy, and the server trusts only the gateway. The gateway doesn't forward the agent's token, so the server can't tell agents apart, and keeping other callers away from the server becomes a network problem. The server runs outside the agent namespaces, behind a policy that admits only the gateway.
+
+When agents call the server directly, the server authenticates each agent itself, with a projected service account token minted for it. The token's audience names the server, so a token the agent holds for the gateway or for another service doesn't work there, and the server refuses any caller without the right token. Network policy becomes a second layer.
+
+[cols="1,3,2", options="header"]
+|===
+|Property |Through the gateway |Direct from the agent
+
+|Used on
+|The open source path, where AgentGateway aggregates the server as a target
+|The {aws} services path, and any server you don't put behind the gateway
+
+|Authenticates the agent
+|The gateway, on the agent's gateway token. The server can't, because the gateway doesn't forward the caller's token
+|The server, on a projected token whose audience is the server's own name
+
+|Keeps other callers out
+|A namespace outside the agent namespaces, whose network policy admits only the gateway's pods. With the mesh on, an Istio `AuthorizationPolicy` also admits only the gateway's principal
+|The server's token check, with network policy as a second layer
+|===
+
+When the server checks tokens, configure it to fail to start if no OIDC issuer is set. Otherwise a missing value starts the server without authentication, and the deployment appears to work.
+
+[#agents-mcp-scope]
+== Tool scope
+
+Configure each of the following limits separately:
+
+* *Which agents can call the server.* Set by the token audience and the subject allowlist, with network policy and mesh authorization as additional layers.
+* *Which tools a caller can invoke, and with which arguments.* Set by the gateway's tool policy. Check arguments, because a model generates them.
+* *What the tool's identity can do.* A tool that calls {aws} has its own IAM role, which limits the damage a misused tool can do. Scope it as you would an agent's role. See <<agents-identity-agent>>.
+
+Don't let the model supply a tool's target. If the target namespace, pool, or endpoint is a tool argument, the model can redirect the tool. Set those values in the agent's configuration.
+
+[#agents-mcp-sessions]
+== Sessions and replicas
+
+MCP's Streamable HTTP transport can be stateful. A server that assigns a session returns its ID in the `MCP-Session-Id` header, and the client sends that header on every later request. A request routed to a replica that doesn't hold the session fails. Cookie-based load balancer stickiness doesn't fix this, because an MCP client isn't a browser.
+
+Before you deploy more than one replica, choose one of the following:
+
+* Run a single replica.
+* Route on the session ID in front of the server.
+* Store session state outside the pod.
+
+See <<agents-ingress>> and <<agents-session-state>>.
+
+[#agents-mcp-placement]
+== Server placement and token checks
+
+The reference sample places and configure the server differently on each path. Outside these templates, the same split applies. Either the gateway verifies agents and the server admits only the gateway, or the server verifies a token whose audience is its own name.
+
+On both paths the server runs in its own namespace, `mcp-servers`, and isn't sandboxed. It's code that the platform team deploys, not model-generated code. Don't run it in an agent namespace, for two reasons:
+
+* The cluster-scoped policy accepts all traffic within an agent namespace, so a policy on the server that admits only some callers has no effect.
+* Admission sandboxes every pod in an agent namespace, and a sandboxed pod can't receive mesh traffic. With the mesh on, the gateway can't reach the server.
+
+The paths differ in who calls the server.
+
+* *Open source path: the gateway.* The server's network policy admits only the gateway's namespace, so agents reach the tools through the gateway and its tool policy.
+* *{aws} services path: the agents, directly.* AgentCore Gateway runs outside the cluster and can't reach a ClusterIP Service. An `Agent` that sets `mcpAudience` gets a network policy rule to `mcp-servers` on the server's port, and the server's network policy admits the agent namespace. The server's own token check is the access control. An agent that doesn't set `mcpAudience` can't connect.
+
+On the `Agent`, `mcpAudience` names the server for direct calls and projects a second token at `/var/run/secrets/eks-agents/mcp/token`. Leave it empty when the gateway fronts the server, because the agent would present the server's token to the gateway, which rejects it.
+
+`MCP_REQUIRE_TOKEN` on the server sets whether it verifies a projected token on each request. The sample's render script sets it, with the image, the cluster's OIDC issuer, and the server's namespace:
+
+* *Open source path: `false`.* The gateway authenticates the agent and doesn't forward its token. The gateway and network policy control access.
+* *{aws} services path: `true`.* With the check off, the server serves its tools to every agent that network policy lets connect.
+
+On the open source path, each entry under `mcpServers` in the `agentgateway-config` chart's values registers servers with the gateway. An entry selects Services by label in one namespace, and the gateway serves the tools of every matched Service on a single `/mcp` path. A matched Service must also set `appProtocol: agentgateway.dev/mcp` on its port. Without it, or with the wrong namespace, tool calls return `503` while the gateway's objects still report `Accepted`, so check both first.
+
+[#agents-mcp-prerequisites]
+== Prerequisites
+
+* `PAVED_PATH` set to `open-source` or `aws-services`, such as with `export PAVED_PATH=open-source`.
+* A shell with `kubectl` access to the cluster, on the bastion or your workstation, and a clone of the reference sample on your workstation.
+* On the open source path, the gateway, turned on with `enable_gateway = true`. See <<agents-gateway>>.
+* With `mesh_mode = "ambient"`, the mesh installed. See <<agents-mesh>>.
+
+[#agents-mcp-step1]
+== Step 1: Deploy the server
+
+This step deploys the reference sample's reference server, in `gitops/examples/mcp-server`, behind a ClusterIP Service in the `mcp-servers` namespace, with the network policy and token setting that <<agents-mcp-placement>> describes for your path.
+
+From the `agents` directory, render and apply the namespace and the server. The render keeps one ingress rule on the server's network policy, for the caller on your path.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+With `mesh_mode = "ambient"`, also apply the mesh authorization:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/open-source -- bash -c "
+  cd gitops/examples/mcp-server
+  ../../../scripts/render-example.sh namespace.yaml open-source | kubectl apply -f -
+  ../../../scripts/render-example.sh mcp-server.yaml open-source | kubectl apply -f -
+  kubectl -n mcp-servers rollout status deploy/mcp-server"
+
+# with mesh_mode set:
+./scripts/run-stack.sh --root terraform/open-source -- bash -c '
+  cd gitops/examples/mcp-server && ../../../scripts/render-example.sh mesh-authz.yaml open-source | kubectl apply -f -'
+----
++
+The rollout reports `deployment "mcp-server" successfully rolled out`.
++
+Only the gateway's namespace may connect, on port 8080 and on 15008, the ambient mesh's tunnel port, because ztunnel delivers the gateway's traffic through the tunnel.
+
+{aws} services::
++
+The mesh authorization doesn't apply on this path, because the mesh doesn't capture a sandboxed agent's traffic:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/aws-services -- bash -c "
+  cd gitops/examples/mcp-server
+  ../../../scripts/render-example.sh namespace.yaml aws-services | kubectl apply -f -
+  ../../../scripts/render-example.sh mcp-server.yaml aws-services | kubectl apply -f -
+  kubectl -n mcp-servers rollout status deploy/mcp-server"
+----
++
+The rollout reports `deployment "mcp-server" successfully rolled out`.
++
+The agent namespace may connect on 8080.
+
+The following excerpt shows both rules:
+
+[source,yaml]
+----
+apiVersion: networking.k8s.aws/v1alpha1
+kind: ApplicationNetworkPolicy
+metadata:
+  name: mcp-server-ingress
+  namespace: mcp-servers
+spec:
+  podSelector:
+    matchLabels:
+      app: mcp-server
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:                                  # open source path: the gateway only
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: agentgateway-system
+      ports:
+        - protocol: TCP
+          port: 15008
+        - protocol: TCP
+          port: 8080
+    - from:                                  # AWS services path: agents calling directly
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: agents
+      ports:
+        - protocol: TCP
+          port: 8080
+----
+
+The server checks a token on each request unless `MCP_REQUIRE_TOKEN` is `false`, which the render sets on the open source path because the gateway forwards no caller token. The following excerpt from the server shows the check. It verifies the token against the cluster's OIDC issuer, with `mcp-server` as the audience, and returns `401` on any failure:
+
+[source,python]
+----
+def _verify(request):
+    if not REQUIRE_TOKEN:
+        return "gateway"            # network policy admits only the gateway
+    try:
+        caller = verify_cluster_token(
+            bearer_token(dict(request.headers)),
+            audience=INBOUND_AUDIENCE,  # MCP_INBOUND_AUDIENCE, default "mcp-server"
+            issuer=OIDC_ISSUER,         # CLUSTER_OIDC_ISSUER
+            allowed_namespaces=ALLOWED_CALLER_NAMESPACES,
+        )
+    except AuthError as exc:
+        raise HTTPException(status_code=401, detail="unauthenticated") from exc
+    return caller.subject
+----
+
+If callers outside the cluster also need the server, put it behind the ingress Application Load Balancer and do the following:
+
+* Use the workload gate. MCP clients can't follow the browser gate's login redirect.
+* Add the label that the ingress network policy selects on. Without it, the namespace-wide policy drops the load balancer's health checks and traffic.
+
+See <<agents-ingress>>.
+
+[#agents-mcp-step2]
+== Step 2: Verify that unauthenticated calls are refused
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+The server doesn't check tokens, so confirm that an agent can't bypass the gateway. A direct call from the agent's pod to the server's Service must time out:
++
+[source,bash]
+----
+kubectl -n agents exec research -- python -c "
+import json, urllib.request
+req = urllib.request.Request('http://mcp-server.mcp-servers.svc.cluster.local:8080/mcp',
+      data=json.dumps({'jsonrpc':'2.0','id':1,'method':'tools/list'}).encode(),
+      headers={'Content-Type': 'application/json'})
+urllib.request.urlopen(req, timeout=8)
+print('reached: the gateway is bypassed')"
+----
++
+The connection times out. The `tools` phase in Step 4 runs the same check against every MCP server Service.
+
+{aws} services::
++
+Confirm that the server rejects a request without a token. Replace `mcp-server` with the name of your MCP server's Deployment:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl -n mcp-servers exec deploy/[.replaceable]`mcp-server` -- python -c "
+import httpx
+r = httpx.post('http://localhost:8080/mcp',
+               json={'jsonrpc':'2.0','id':1,'method':'tools/list'}, timeout=5)
+print(r.status_code)"
+----
++
+The server returns `401`. If it returns `200`, check that `MCP_REQUIRE_TOKEN` is `true` on the server and that the server's OIDC issuer is reachable. The `tools` phase in Step 4 also confirms that an agent's call without a token returns `401`, and that an agent without `mcpAudience` can't connect. The second check needs another running agent without `mcpAudience`, such as a second `Agent` that you apply. With only one agent, the phase skips it.
+
+[#agents-mcp-step3]
+== Step 3: Make the server reachable to agents
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+Register the server with the gateway as an MCP target, as described in <<agents-mcp-placement>>. The sample registers the reference server by default, so no change is needed for it.
++
+The registration is an entry under `mcpServers` in the `agentgateway-config` chart's values. To add one for your own server, edit the chart in a repository of your own that Argo CD reads, as described in <<agents-capabilities-setup>>. An entry selects Services by label in one namespace, and the gateway serves the tools of every matched Service on its `/mcp` route:
++
+[source,yaml]
+----
+mcpServers:
+  reference:
+    namespace: mcp-servers
+    serviceSelector:
+      app: mcp-server
+----
++
+The gateway speaks MCP only on a Service port that declares the protocol, so the server's Service sets `appProtocol`:
++
+[source,yaml]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  name: mcp-server
+  namespace: mcp-servers
+spec:
+  type: ClusterIP
+  selector:
+    app: mcp-server
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+      appProtocol: agentgateway.dev/mcp
+----
+
+{aws} services::
++
+--
+Point the agent at the server directly, because AgentCore Gateway can't reach a ClusterIP Service. Set two fields on the `Agent`:
+
+* `mcpUrl`: The server's in-cluster address.
+* `mcpAudience`: The server's name. This projects a second token with that audience, which the server verifies.
+
+[source,yaml]
+----
+spec:
+  mcpUrl: http://mcp-server.mcp-servers.svc.cluster.local:8080/mcp
+  mcpAudience: mcp-server
+----
+
+`mcpUrl` replaces the agent's `AGENT_MCP_URL`, so an agent that sets it calls this server instead of the gateway's MCP endpoint and no longer gets the gateway's tool catalog.
+
+From those two fields, the `Agent` resource sets the agent's MCP URL and token path, projects a token whose audience is `mcp-server`, and adds a network policy rule that lets this agent, and no other, connect to the `mcp-servers` namespace on port 8080. The following excerpt shows the result in the agent's pod spec:
+
+[source,yaml]
+----
+env:
+  - name: AGENT_MCP_URL
+    value: http://mcp-server.mcp-servers.svc.cluster.local:8080/mcp
+  - name: AGENT_MCP_TOKEN_FILE
+    value: /var/run/secrets/eks-agents/mcp/token
+volumes:
+  - name: mcp-identity
+    projected:
+      sources:
+        - serviceAccountToken:
+            audience: mcp-server
+            expirationSeconds: 3600
+            path: token
+----
+
+Apply the `Agent`, then recreate its pod so it restarts with the token, because the default runtime doesn't replace a running pod when its `Sandbox` changes. `roll-agents.sh` waits for the `Sandbox` to settle, recreates the pod, and prints what changed, such as `agents/research: recreating (env AGENT_MCP_URL changed; env AGENT_MCP_TOKEN_FILE changed)`. The last command confirms that the `Sandbox` has the variable.
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/aws-services --file my-agent.yaml -- kubectl apply -f my-agent.yaml
+./scripts/run-stack.sh --root terraform/aws-services -- ./scripts/roll-agents.sh research
+./scripts/run-stack.sh --root terraform/aws-services -- bash -c "kubectl -n agents get sandbox research -o yaml | grep AGENT_MCP_TOKEN_FILE"
+----
+
+The new agent pod has `AGENT_MCP_TOKEN_FILE` set. Step 4 confirms that the token works.
+--
+
+[#agents-mcp-step4]
+== Step 4: Verify a tool call from an agent
+
+From the `agents` directory, run the `tools` phase of the reference sample's exercise script. It initializes an MCP session from inside the agent's sandbox with the agent's token and lists the tools.
+
+[source,bash]
+----
+./scripts/exercise.sh --path $PAVED_PATH tools
+----
+
+The phase returns a non-empty tool list. The reference server lists `get_time`, `describe_cluster`, and `lookup_order`. On the {aws} services path with `mcpAudience` set, the phase calls the server directly with the agent's MCP token.
+
+If the call works from a debug pod but fails from the agent, check the following:
+
+* The token audience matches the server's name.
+* The mesh authorization policy admits the caller.
+* Network policy permits the mesh's tunnel port as well as the application port.
+
+[#agents-mcp-cleanup]
+== Clean up
+
+These steps remove the reference server and the agent settings that reach it. Run them from the `agents` directory.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+. Delete the server and its namespace. The namespace holds the server's Deployment, Service, and network policy, so deleting it removes them all:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/open-source -- kubectl delete namespace mcp-servers
+----
+. Remove the server's entry from `mcpServers` in the `agentgateway-config` values if you added one, push the change to your repository, and sync. The reference entry selects no Service once the namespace is gone, so you can leave it.
+
+{aws} services::
++
+. Remove `mcpUrl` and `mcpAudience` from the `Agent`, apply it, and recreate its pod. The `Agent` then stops projecting the server's token and loses its network policy rule to `mcp-servers`.
+. Delete the server and its namespace. The namespace holds the server's Deployment, Service, and network policy, so deleting it removes them all:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/aws-services -- kubectl delete namespace mcp-servers
+----
+
+[#agents-mcp-next]
+== Next steps
+
+* <<agents-gateway>>: Apply budgets and tool policy to the tools the gateway serves.
+* <<agents-identity-acting-for>>: Let a tool answer only for the person a call is for.
+

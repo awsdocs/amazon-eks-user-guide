@@ -1,0 +1,642 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-ingress]
+= Expose an agent through an authenticated Application Load Balancer
+:info_titleabbrev: Ingress
+
+[abstract]
+--
+Put an internal Application Load Balancer in front of the agents that need callers from outside the cluster, choose the authentication that matches the caller, and verify that unauthenticated requests are refused.
+--
+
+An agent acts on its caller's behalf with its own IAM role and tools, so anyone who can reach it can direct it. That's why agents are unreachable from outside the cluster by default. An agent called only by other agents or on a schedule never needs ingress (see `expose` in <<agents-application-setup>>). Add ingress when a person, an application, or an agent outside the cluster must call one.
+
+Three decisions shape ingress for agents:
+
+* *How the caller authenticates.* A person signs in through a browser, and a program presents a token. Each needs a different gate at the load balancer, as described in <<agents-ingress-two-gates>>.
+* *Where the load balancer is reachable.* An internal load balancer limits callers to the VPC and the networks connected to it. See <<agents-ingress-internal>>.
+* *Who signs people in.* The identity provider decides whose claims reach the agent and how many identity systems you operate. See <<agents-ingress-cognito>>.
+
+The load balancer scheme and the identity provider are hard to change after the first deployment, so settle them first. The reference sample exposes ingress as `enable_ingress`, off by default. Start with an internal Application Load Balancer, a workload gate for each agent's API, a browser gate only for a user interface in front of it, and `ingress_idp = "cognito"` unless people already sign in through your own OpenID Connect provider. Both paths use the same load balancer, gates, and identity providers, and render ingress the same way. They differ only in how the `oidc-direct` client secret reaches the load balancer, as described in <<agents-ingress-direct-oidc>>:
+
+* *Open source.* Syncing the secret requires `enable_platform_secrets`, and a rotated secret takes effect after you commit the values file that the apply rewrote.
+* *{aws} services.* The sync installs the Secrets Store CSI driver for that secret, and a rotated secret takes effect with no restart.
+
+The paths' egress differences are in <<agents-networking>>.
+
+The following diagram shows authenticated ingress. An internal Application Load Balancer authenticates the caller through Amazon Cognito or your OIDC provider before the request reaches the agent. An unauthenticated caller gets `401`.
+
+image::images/agents-ingress.png["A caller sends HTTPS to an internal load balancer, which signs people in through Amazon Cognito or an OIDC provider and forwards to the agent. The agent checks its own audience. An unauthenticated caller is refused.",scaledwidth=100%]
+
+[#agents-ingress-shapes]
+== Exposure options
+
+EKS Auto Mode includes the {aws} Load Balancer Controller, so you don't install anything to create a load balancer. You have two options:
+
+* *A Gateway API route backed by an Application Load Balancer.* Use this by default. The ALB authenticates the caller before the request reaches the cluster. See <<auto-configure-gateway-api>>.
+* *A Service of type `LoadBalancer` backed by a Network Load Balancer.* An NLB doesn't authenticate callers, so you must authenticate in the cluster.
+
+Each Gateway is one ALB. A Gateway shared by all exposed agents is one ALB; a Gateway per agent is one ALB per agent.
+
+[#agents-ingress-two-gates]
+== Browser and workload gates
+
+People using a browser and workloads presenting a token need different authentication at the load balancer.
+
+[cols="1,3,2", options="header"]
+|===
+|Property |A person at a browser |A workload
+
+|Load balancer action
+|`authenticate-cognito`, or `authenticate-oidc` when the load balancer calls your provider directly. Either one runs a login flow
+|`jwt-validation`, which verifies the caller's token
+
+|Caller presents
+|Nothing at first. The load balancer redirects to a hosted login, and a cookie holds the session afterward
+|A projected service account token, on every request
+
+|Agent receives
+|Signed claims in the `x-amzn-oidc-data` header
+|The caller's token, unchanged
+
+|Suits
+|A chat interface or any human-facing page
+|An MCP client, a schedule, or a CI job
+|===
+
+Choose the gate per route. Use a browser gate for a page a person opens, and a workload gate for an API that a program calls. An agent that serves both gets two routes.
+
+[IMPORTANT]
+.A browser gate refuses a machine caller
+====
+A workload with a valid projected token receives a `302` redirect to the login page, which it can't follow. If a client that worked before starts receiving redirects, check which gate its route uses.
+====
+
+[#agents-ingress-workload-claims]
+=== Workload gate claims
+
+Require both the subject and the audience. If the gate checks only the subject, it accepts a token issued to the right service account for any audience.
+
+Require the agent's own name as the audience. The agent checks the same audience in process, so one token satisfies both the load balancer and the agent, and the agent's check still applies if a route is misconfigured. See <<agents-identity-agent>>.
+
+[#agents-ingress-browser-401]
+== Browser access to an agent
+
+A browser gate in front of an agent's API returns `401` after sign-in, because the load balancer attaches the person's claims and the agent expects a projected service account token. Put a browser gate in front of a user interface, and a workload gate in front of the agent's API. The interface verifies the load balancer's signature and calls the agent with its own token, naming the person in each request so the agent keeps each person's conversations and memories apart. The agent's own role still bounds what any person can cause. See <<agents-identity-acting-for>>.
+
+The sample's chat interface is this pattern. `enable_chat_ui = true` deploys it from the base chart as a Deployment and Service in the agent namespace, with a browser-gated route in the `ingress` namespace, served at `chat.` followed by your ingress domain, and adds that name to the identity provider's callback list. `chat_ui_agents` lists the agents it offers, `research` by default. The interface calls each agent inside the cluster, at the agent's Service, with its own projected service account token, which the agent verifies. It doesn't go back out through the load balancer. To deploy it, see <<agents-ingress-chat-ui>>.
+
+A workload that verifies these claims needs egress to the load balancer's regional public key endpoint, which is outside the VPC. See <<agents-network-policies>>.
+
+[#agents-ingress-cognito]
+== Choose the identity provider for the browser gate
+
+A browser gate needs an identity provider to sign people in. The choice decides whose claims and tokens the agent receives, and whether a person has one identity or two. The load balancer can sign people in through an Amazon Cognito user pool, through your own OpenID Connect provider federated into that pool, or through your provider directly.
+
+The reference sample exposes the choice as `ingress_idp`, which works the same on both paths. Terraform creates an Amazon Cognito user pool for every value. The following table describes the three values:
+
+[cols="1,2,4", options="header"]
+|===
+|`ingress_idp` |Identity provider |What you manage
+
+|`cognito` (default)
+|The user pool's own directory
+|The pool's users. Self-service sign-up is off, so an administrator or your provisioning process creates each user with `aws cognito-idp admin-create-user`.
+
+|`oidc`
+|An external OpenID Connect provider, such as Okta, Microsoft Entra ID, Auth0, or Keycloak, federated into the user pool
+|The provider's client registration. Terraform makes the provider the app client's only identity provider, so the hosted login page sends people straight to it, and the pool offers no password login. The load balancer runs `authenticate-cognito`, and the agent receives the pool's claims and tokens.
+
+|`oidc-direct`
+|The same provider, called by the load balancer with `authenticate-oidc`, with no pool in the path
+|The provider's client registration. The agent receives the provider's own claims, and its access token in the `x-amzn-oidc-accesstoken` header. The client secret is synced into the EKS cluster, as described in <<agents-ingress-direct-oidc>>.
+|===
+
+With either OIDC value, the provider's assignments for the client control who can sign in.
+
+Use `cognito` when you have no existing provider. Use `oidc` when people sign in through your provider and the agent needs only the pool's claims. With `oidc`, the agent receives the pool's claims and access token, not the provider's. Use `oidc-direct` if any of the following are a problem:
+
+* *Downstream services reject the token.* An API or MCP server that trusts your provider won't accept the pool's token, so the agent needs a token exchange before it can act on a person's behalf.
+* *Claims are limited to what you map.* Group and role claims arrive only if you map them to pool attributes, which have size and count limits.
+* *Each person has a second profile.* Removing a person at the provider doesn't remove their profile in the pool.
+* *Sign-out must end three sessions*, for the load balancer cookie, the pool, and the provider.
+
+[#agents-ingress-direct-oidc]
+=== How direct OIDC works on EKS Auto Mode
+
+`authenticate-oidc` is the only listener rule action whose configuration references a Kubernetes Secret, which holds the provider's client ID and client secret. The Secret must be in the rule's namespace. The EKS Auto Mode load balancer controller runs with a service-linked role that has no access to Secrets, so it needs an RBAC grant before it accepts the rule.
+
+The templates keep the Secret and the grant out of agent namespaces:
+
+* *Browser-gated routes and their listener rule configurations are in the `ingress` namespace*, for each agent and for the chat interface, named `agent-namespace-agent-name`. Cognito-gated routes are there too, so the layout is the same for every provider. The namespace runs no agents, so the sandbox admission policy doesn't apply, and Pod Security Admission enforces the `restricted` profile.
+* *A `ReferenceGrant` next to each exposed agent's Service*, composed by the `Agent` resource, lets the route in `ingress` reach that Service.
+* *The Secret `ingress-oidc`*, with keys `clientID` and `clientSecret`, is written by Terraform to {aws} Secrets Manager and synced into `ingress` by the Secrets Store CSI driver. On the open source path, this requires `enable_platform_secrets = true`, the default. On the {aws} services path, the sync installs the CSI driver only for this Secret.
+* *A `Role` with `get`, `list`, and `watch` on that Secret*, bound to the `eks:managed` group, is the grant described in <<auto-managed-rbac>>. All EKS Auto Mode managed controllers share that group, so the grant is limited to reading one Secret in one namespace.
+
+Workload-gated routes stay in their agent's namespace. `jwt-validation` validates the caller's token against the cluster's OIDC issuer public keys and needs no Secret, so the identity provider choice doesn't affect it.
+
+[#agents-ingress-internal]
+== Use an internal load balancer
+
+Set the load balancer scheme to internal. An agent reachable from the internet is exposed like any public endpoint, and the egress controls don't prevent it.
+
+Enforce this in shared configuration. Set the scheme in the shared Gateway's load balancer configuration, which the platform team owns, so an agent author can't make the load balancer internet-facing by editing their `Agent` object.
+
+Set the identity provider in the stack's values too. When a provider is configured, the templates don't render an unauthenticated route for `expose: route`, so no field on an `Agent` object can bypass authentication.
+
+[#agents-ingress-internet-facing]
+=== Internet-facing load balancer for workstation mode
+
+In workstation mode, you can keep the load balancer internal, because the reference sample's checks then run from a pod in the cluster, as described later in this section. Your workstation can't resolve or reach an internal load balancer's names itself. To reach the load balancer from your workstation, make it internet-facing instead, with `ingress_scheme = "internet-facing"`. That places the load balancer in the public subnets behind a security group that allows HTTPS only from `ingress_allowed_cidrs`, which defaults to the API endpoint's allowlist. The templates refuse `0.0.0.0/0`. The agents' DNS zone becomes a public zone, delegated from the zone in `ingress_public_zone_id`, which is then required, and `ingress_domain_name` must be a subdomain of it. The sign-in gate stays on every route.
+
+This needs a public Route 53 hosted zone for a domain you control. Register a domain with Route 53, or create a hosted zone for a domain or subdomain you own and add its four name server records at your registrar. See link:Route53/latest/DeveloperGuide/domain-register.html[Registering a new domain,type="documentation"] in the _Amazon Route 53 Developer Guide_.
+
+Without a public zone, the load balancer stays internal. The sample's exercise script then runs its `ingress`, `signin`, `people`, and `delegation` checks from a short-lived pod in the cluster when the load balancer's names don't resolve on your machine. Only the manual commands in Step 3 need a pod or a host in the VPC.
+
+[#agents-ingress-components]
+== What authenticated ingress requires
+
+Authenticated ingress for agents needs the following, whatever tools you build it with.
+
+* A certificate that the load balancer serves.
+* DNS for agent names inside the VPC.
+* An identity provider for browser gates.
+* A load balancer configuration that the platform team owns, which fixes the internal scheme.
+* Network policy that admits the load balancer to agent pods. See <<agents-network-policies-ingress>>.
+
+The certificate carries the least obvious trade-off. ACM issues a publicly trusted certificate only after it validates the domain through a public DNS zone, even when the load balancer is internal. Delegating a public zone avoids running a private certificate authority, and browsers trust the certificate without any client setup. Without a public zone, you import a generated certificate and distribute its certificate authority to clients yourself, which works for workloads but not for people who sign in through a browser.
+
+DNS has a timing consequence. Agent names resolve in a private hosted zone inside the VPC, and a controller in the cluster, such as ExternalDNS, writes each record only after the load balancer has an address. A name therefore resolves some time after its route exists. The reference sample sets the zone's negative-caching TTL to 60 seconds, so a name that was looked up before its record existed resolves within about a minute after ExternalDNS writes it.
+
+[#agents-ingress-reachable]
+== Reachability requirements
+
+The sample's templates set each of the following. Set them yourself if you expose an agent with your own manifests.
+
+* *Network policy admits the load balancer's addresses.* With an `ip` target group, the load balancer health-checks and forwards from its network interfaces, which have VPC addresses. See <<agents-network-policies>>.
+* *The target group configuration sets the health check path and the `ip` target type.* The default path `/` returns `404` from most agent APIs. Agent pods use `exec` probes, which the load balancer can't see, so the ALB health check is its only health signal. The health check reaches pods inside a Nitro Sandbox.
+* *The certificate is set in both the listener's TLS block and the load balancer configuration.* The Gateway API schema requires the TLS block, and the controller reads the certificate from the load balancer configuration.
+
+[#agents-ingress-every-rule]
+== Authentication on every route rule
+
+The gate attaches to each route rule through an extension reference filter. In a route with two rules and one filter, the second rule is unauthenticated. To check, send an unauthenticated request to each path.
+
+Before you write a route by hand, note the following:
+
+* *Reference the configuration from the route rule.* The extension object has no field for a route, and a reference written on it is dropped.
+* *Create the configuration with the route.* A rule that references a configuration that doesn't exist leaves the route unresolved.
+
+Routes that the `Agent` resource composes always carry the filter. For routes written by hand, routes that need path rewriting, and routes edited in place, the reference sample adds the validating admission policy `eks-agents-ingress-authenticated` when ingress is on with an identity provider. It rejects a route on the ingress `Gateway` with any rule that has no gate filter. Without an identity provider, the policy isn't rendered, because such a cluster renders an unauthenticated route on purpose. Build the same policy if you manage routes outside these templates.
+
+[#agents-ingress-waf]
+== Web ACL on the load balancer
+
+An {aws} WAF web ACL on the load balancer filters requests before they reach an agent. It adds protections that the gates don't: rules for common exploits and known bad inputs, and a rate limit for each source address. With `enable_ingress_waf`, which is off by default on both paths, the reference sample attaches a web ACL with the {aws} managed rule groups for common exploits, known bad inputs, and SQL injection, and a rule that blocks a source address after `ingress_waf_rate_limit_per_ip` requests in any 5-minute window, 2000 by default.
+
+An agent's request body is a prompt, and a prompt that discusses SQL or HTML matches the managed rules that inspect the body. Those rules count matches instead of blocking them, so prompts reach the agent. The reference agent limits the size of each turn itself. It refuses a prompt over 20,000 characters, or a larger body, with `413` before it parses the body or calls a model. Prompt injection is a separate problem that signature rules don't solve. See <<agents-gateway>>.
+
+The web ACL inspects a request before the browser gate's sign-in runs. On an agent route that validates a token at the load balancer, a request without a valid token gets `401` from the load balancer before the web ACL evaluates it, so on those routes the web ACL and its rate rule inspect only requests that carry a valid token. {aws} WAF is billed per web ACL, per rule, and per request.
+
+[#agents-ingress-affinity]
+== MCP session affinity
+
+The MCP server returns a session identifier in a header, and the client sends it on later requests. A request that reaches a replica without that session fails. Load balancer stickiness doesn't help, because MCP clients aren't browsers and don't necessarily send cookies.
+
+The options, from least to most durable:
+
+. Run a single replica and accept lower availability.
+. Route on the session identifier. The in-cluster gateway does this by default for streamable HTTP.
+. Store session state outside the pod. Hosted MCP services work this way and need no affinity. Turn on session state before an MCP server or an agent runs more than one replica. See <<agents-session-state>>.
+
+[#agents-ingress-lifetime]
+== Connection lifetime
+
+The ALB idle timeout defaults to 60 seconds, which is shorter than many agent turns. HTTP/2 PING frames don't count as activity for this timeout. The base setup raises it to 900 seconds in the shared load balancer configuration. Raise it further if a turn can be silent for longer.
+
+Use a streaming transport. A stream that emits text, tool calls, and progress as they happen keeps the connection active. A request that is silent while the agent works can time out. Agent chat uses a streaming transport for this reason.
+
+Long turns also affect rolling updates. The default termination grace period is 30 seconds, after which Kubernetes sends `SIGKILL` to turns still in progress. Set `terminationGracePeriodSeconds` above your longest turn, and add a `preStop` sleep. The load balancer learns of a pod's deletion at the same time the container is signaled, so without the delay, new requests keep arriving at a pod that is shutting down.
+
+An ALB supports HTTP, the streaming responses MCP uses, WebSocket, mutual TLS from the caller, and gRPC with bidirectional streaming. Use the same protocol on the listener, the target group, and the agent. A mismatch causes errors.
+
+[#agents-ingress-prerequisites]
+== Prerequisites
+
+The following steps create the certificate, DNS, and identity provider, expose one agent, and verify that the gate refuses unauthenticated callers. You need:
+
+* A shell with `kubectl` access to the cluster, on the bastion or your workstation.
+* `PAVED_PATH` set to `open-source` or `aws-services`, such as with `export PAVED_PATH=open-source`.
+* A public hosted zone you own, passed by ID, to validate the certificate. For an internal load balancer without a public zone, you can use a generated certificate instead. See <<agents-ingress-step1>>.
+* A domain for your agents. Each agent's route uses `agent-name.your-domain` unless the agent sets its own host name, and the certificate must cover it.
+* For `oidc` or `oidc-direct`, a client registration in your OpenID Connect provider, with its client secret in {aws} Secrets Manager. `cognito` needs nothing here, because the templates create the user pool. Workload gates don't use a provider.
+* The `gateway.k8s.aws` extension CRDs. With ingress on, the `eks-agents-base` Application installs them before the objects that use them.
+
+[#agents-ingress-step1]
+== Step 1: Create the certificate, the name, and the identity provider
+
+Terraform creates all three, on either path. Set these variables:
+
+[source,hcl,subs="verbatim,attributes"]
+----
+enable_ingress         = true
+ingress_domain_name    = "agents.example.com"
+ingress_public_zone_id = "Z0123456789ABCDEFGHIJ"
+ingress_idp            = "cognito"   # or "oidc" or "oidc-direct"; see below
+enable_ingress_waf     = true        # optional; see Web ACL on the load balancer
+----
+
+Then apply and sync. Terraform creates a wildcard ACM certificate validated through the zone that `ingress_public_zone_id` names, a hosted zone for `ingress_domain_name`, which is private, or public and delegated from `ingress_public_zone_id` with an internet-facing load balancer, an Amazon Cognito user pool with an app client and login domain, and an EKS Pod Identity role for ExternalDNS scoped to that zone. The sync installs the `gateway.k8s.aws` extension CRDs, and the Gateway API CRDs if the gateway didn't already. The base chart then renders a `GatewayClass`, a shared `LoadBalancerConfiguration`, the admission policy from <<agents-ingress-every-rule>>, and the load balancer's network policy rules. The `LoadBalancerConfiguration` sets the internal scheme, the certificate, a 900-second idle timeout, dropping of invalid header fields, and access logs to Amazon S3. Outside these templates, create the same pieces listed in <<agents-ingress-components>>.
+
+[NOTE]
+====
+The first apply waits for the certificate to validate through the public zone.
+====
+
+[source,bash]
+----
+./scripts/apply.sh --root terraform/$PAVED_PATH -var-file=my.tfvars
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/bootstrap-gitops.sh --path $PAVED_PATH --sync
+----
+
+The bootstrap script applies the rendered root Application, refreshes and syncs it, and waits for the Applications to converge.
+
+The new Applications report `Synced` and `Healthy`, and `terraform -chdir=terraform/$PAVED_PATH output -json ingress` shows the certificate ARN and the user pool. If one stays `Progressing` after its objects are ready, run the bootstrap script again, because Argo CD can keep the health it computed while they were starting. See <<agents-capabilities-later>>.
+
+The sync renders one shared load balancer for every exposed agent, owned by the platform team. The `LoadBalancerConfiguration` holds the settings that were annotations on an `Ingress`, so a reviewer sees the scheme, the certificate, and the idle timeout as typed fields. The `Gateway` has one HTTPS listener and admits routes only from the agent namespace and the `ingress` namespace. The following excerpt shows the two objects:
+
+[source,yaml]
+----
+apiVersion: gateway.k8s.aws/v1
+kind: LoadBalancerConfiguration
+metadata:
+  name: agent-ingress
+  namespace: agents
+spec:
+  scheme: internal
+  listenerConfigurations:
+    - protocolPort: HTTPS:443
+      defaultCertificate: "arn:aws:acm:us-west-2:111122223333:certificate/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111"
+  loadBalancerAttributes:
+    - key: idle_timeout.timeout_seconds
+      value: '900'
+    - key: routing.http.drop_invalid_header_fields.enabled
+      value: 'true'
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: agent-ingress
+  namespace: agents
+spec:
+  gatewayClassName: eks-auto-alb
+  listeners:
+    - name: https
+      protocol: HTTPS
+      port: 443
+      tls:
+        mode: Terminate
+        options:
+          gateway.k8s.aws/certificate-arn: "arn:aws:acm:us-west-2:111122223333:certificate/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111"
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchExpressions:
+              - key: kubernetes.io/metadata.name
+                operator: In
+                values:
+                  - agents
+                  - ingress
+----
+
+There's no HTTP listener, so there's no plaintext path to misconfigure. The sync also renders the `eks-agents-ingress-authenticated` admission policy. It rejects any `HTTPRoute` on this `Gateway` with a rule that has no `ListenerRuleConfiguration` filter, and any host name outside `ingress_domain_name`, which the certificate doesn't cover. The following excerpt shows the rule check:
+
+[source,yaml]
+----
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: eks-agents-ingress-authenticated
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups:
+          - gateway.networking.k8s.io
+        apiVersions:
+          - v1
+          - v1beta1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - httproutes
+  variables:
+    - name: onIngress
+      expression: >-
+        has(object.spec.parentRefs) && object.spec.parentRefs.exists(p,
+          p.name == "agent-ingress" && (!has(p.kind) || p.kind == 'Gateway'))
+    - name: ungatedRules
+      expression: >-
+        has(object.spec.rules) ? object.spec.rules.filter(r,
+          !(has(r.filters) && r.filters.exists(f,
+            f.type == 'ExtensionRef' && has(f.extensionRef) &&
+            f.extensionRef.kind == 'ListenerRuleConfiguration'))) : []
+  validations:
+    - expression: "!variables.onIngress || size(variables.ungatedRules) == 0"
+      reason: Forbidden
+----
+
+The policy matters for routes that the `Agent` resource didn't compose, such as a hand-written route or one edited in place, because the gate attaches to each rule separately.
+
+*An internal load balancer without a public zone.* ACM validates certificates only through DNS it can reach, and a load balancer serves only certificates in ACM. If your agents' domain isn't publicly delegated, set `ingress_self_signed_certificate = true` and omit `ingress_public_zone_id`. Both roots support the variable. Terraform generates a certificate and imports it into ACM. Clients don't trust it by default, so give them the `ingress_certificate_pem` output as a certificate authority. For the checks in this page, save it from the Terraform root, copy it to where the probes run, and add `--cacert ca.pem` to each `curl`:
+
+[source,bash]
+----
+terraform -chdir=terraform/$PAVED_PATH output -raw ingress_certificate_pem > ca.pem
+----
+
+Use this for workload and test traffic. A load balancer that people sign in through needs a delegated zone and an ACM-issued certificate. With a generated certificate, the load balancer stays internal, so run the manual checks in Step 3 from a host in the VPC. The bastion has no copy of the repository, so send the certificate with the command, such as `./scripts/run-stack.sh --root terraform/$PAVED_PATH --file ca.pem -- bash -c '...'`, which places `ca.pem` where the command runs.
+
+*To use an existing provider*
+
+[IMPORTANT]
+====
+With either OIDC value, the provider's client secret is stored in Terraform state. For `oidc`, Amazon Cognito stores it in the provider details, and the Terraform resource has no write-only form for that field. For `oidc-direct`, Terraform copies it into the Secrets Manager secret that the cluster syncs. Restrict access to the state.
+====
+
+Set `ingress_idp` to `"oidc"` or `"oidc-direct"` and describe the provider. Copy the endpoints from the provider's `/.well-known/openid-configuration`, and store the client secret in {aws} Secrets Manager as a plain string:
+
+[source,hcl]
+----
+ingress_idp = "oidc"
+ingress_oidc = {
+  issuer                 = "https://idp.example.com"
+  authorization_endpoint = "https://idp.example.com/oauth2/authorize"
+  token_endpoint         = "https://idp.example.com/oauth2/token"
+  user_info_endpoint     = "https://idp.example.com/oauth2/userinfo"
+  jwks_uri               = "https://idp.example.com/oauth2/keys"
+  client_id              = "my-client-id"
+  client_secret_arn      = "arn:aws:secretsmanager:us-west-2:111122223333:secret:ingress-oidc"
+}
+----
+
+`jwks_uri` is used only by `oidc`. After the apply, register the redirect URIs with your provider:
+
+[source,bash]
+----
+terraform -chdir=terraform/$PAVED_PATH output -json ingress | jq -r '.idp_redirect_uris[]'
+----
+
+For `oidc`, the redirect URI is the pool's endpoint, because the provider returns the person to the pool. For `oidc-direct`, it is the load balancer's `/oauth2/idpresponse` path on every exposed host name.
+
+*Rotating the client secret with `oidc-direct`.*
+
+. Add a second client secret at your provider. Keep the first.
+. Write the new value to the secret that `client_secret_arn` names, and apply with `scripts/apply.sh`.
+. Let the new secret reach the listener rule:
+* *Open source path.* The driver doesn't rotate. Commit the values file that the apply rewrote, which records the secret's new version, and Argo CD replaces the pod that syncs it.
+* *{aws} services path.* The Secrets Store CSI driver updates the synced Secret, and the EKS Auto Mode controller updates the listener rule. No restart is needed.
+. Revoke the old secret at the provider.
+
+*Users.* With `cognito`, the templates create no users. An administrator or your provisioning process creates them. With `oidc` or `oidc-direct`, users come from your provider. In all cases, Terraform state holds no user passwords.
+
+[#agents-ingress-step2]
+== Step 2: Expose the agent
+
+Set three fields on the `Agent` object. Everything else comes from the stack's values.
+
+[source,yaml]
+----
+spec:
+  expose: route
+  routeHostname: research.agents.example.com
+  routeAuth: workload          # or browser, for a human interface
+----
+
+`routeAuth` selects the gate from <<agents-ingress-two-gates>>. For unauthenticated callers, the gate defaults to `deny`, which returns `401`. That suits machine callers and denies requests when the provider is unreachable. A browser route needs `authenticate` instead, which redirects the person to sign in.
+
+Apply the `Agent` and recreate its pod. The default runtime doesn't replace a running pod when its `Sandbox` changes, so the restart is required:
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH --file my-agent.yaml -- kubectl apply -f my-agent.yaml
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/roll-agents.sh research
+----
+
+`roll-agents.sh` recreates the named agent's pod when its `Sandbox` changed, without another sync, and prints what changed.
+
+The route responds after the load balancer is provisioned and ExternalDNS writes its DNS record. The reference sample runs ExternalDNS every 5 minutes, so the name can take up to 5 minutes to appear after the route is accepted. Before you send the probes, confirm that the name resolves where they run, and repeat the check until it does. For an internal load balancer, the name resolves only inside the VPC:
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- getent hosts research.agents.example.com
+----
+
+For `routeAuth: workload`, the `Agent` resource composes an `HTTPRoute` in the agent's namespace and a `ListenerRuleConfiguration` that the route's rule names as a filter. The listener rule validates the caller's token at the load balancer, against the cluster's OIDC issuer, and requires the token's subject and audience to be the agent's own. The following excerpt shows both objects for `research`:
+
+[source,yaml]
+----
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: research
+  namespace: agents
+spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: agent-ingress
+      namespace: agents
+      sectionName: https
+  hostnames:
+    - research.agents.example.com
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: research
+          port: 8080
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: gateway.k8s.aws
+            kind: ListenerRuleConfiguration
+            name: research
+---
+apiVersion: gateway.k8s.aws/v1
+kind: ListenerRuleConfiguration
+metadata:
+  name: research
+  namespace: agents
+spec:
+  actions:
+    - type: jwt-validation
+      jwtValidationConfig:
+        issuer: "https://oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
+        jwksEndpoint: "https://oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE/keys"
+        additionalClaims:
+          - name: sub
+            format: single-string
+            values:
+              - system:serviceaccount:agents:research
+          - name: aud
+            format: string-array
+            values:
+              - research
+----
+
+For `routeAuth: browser`, the route and its listener rule are in the `ingress` namespace, named `agents-research`, and a `ReferenceGrant` in the agent's namespace lets that route reach the agent's Service. The listener rule signs the person in instead of validating a token. With `ingress_idp = "cognito"`, its action is the following, and with `oidc` or `oidc-direct` it's an `authenticate-oidc` action with your provider's endpoints:
+
+[source,yaml]
+----
+spec:
+  actions:
+    - type: authenticate-cognito
+      authenticateCognitoConfig:
+        userPoolArn: arn:aws:cognito-idp:us-west-2:111122223333:userpool/us-west-2_EXAMPLE1
+        userPoolClientId: 1example23456789
+        userPoolDomain: my-agents-ingress
+        scope: "openid email"
+        onUnauthenticatedRequest: authenticate
+----
+
+To confirm that the route was accepted with its gate, check the listener rule's status before you test it in Step 3.
+
+[#agents-ingress-step3]
+== Step 3: Verify the gate
+
+Confirm that the gate refuses unauthenticated callers. Object status doesn't show whether a gate is attached to a route, so send requests that must be refused. Send them from inside the VPC, such as from the bastion or a pod in the cluster, and resolve the host name explicitly so that TLS verification uses the real name. In workstation mode with an internal load balancer, the commands don't reach it from your workstation. Run `./scripts/exercise.sh --path $PAVED_PATH ingress` instead, which sends the same requests from a short-lived pod in the cluster. Its output confirms each one, with lines such as `a malformed token is refused at the load balancer (401 from awselb/2.0)` for each refusal and `the agent's own token reaches the agent through the gate, and a turn streams an answer` for the real turn.
+
+[IMPORTANT]
+====
+An unreachable host name, a connection with no status code, or a TLS verification failure means the check didn't run. Treat the result as unverified, not as a refusal.
+====
+
+For a workload route, send four requests that must be refused and one that must succeed. Each request prints its status and the `server` header, which identifies the component that answered. With a generated certificate, add `--cacert` with the `ingress_certificate_pem` output to each request. The third request uses a token for the namespace's `default` service account, which is a valid identity that isn't allowed to call the agent, so it must still be refused.
+
+[source,bash]
+----
+HOST=research.agents.example.com
+TOKEN=$(kubectl -n agents create token research --audience research --duration 900s)
+probe() { curl -s -D - -o /dev/null "https://$HOST/chat" "$@" | grep -iE '^HTTP|^server' | tr -d '\r' | tr '\n' ' '; echo; }
+
+# No token, and a malformed token. Both must be 401 from the load balancer.
+probe
+probe -H 'Authorization: Bearer not-a-token'
+
+# Another service account's token, and one minted for the wrong audience. Both must be 401.
+probe -H "Authorization: Bearer $(kubectl -n agents create token default --audience research)"
+probe -H "Authorization: Bearer $(kubectl -n agents create token research --audience something-else)"
+
+# The right token, on a real turn. This one must reach the agent and stream an answer.
+curl -s "https://$HOST/chat" -H "Authorization: Bearer $TOKEN" \
+  -H 'Content-Type: application/json' -d '{"prompt":"Reply with one word: reachable"}'
+----
+
+Each of the four refusals prints the status `HTTP/2 401` and the header `server: awselb/2.0`, which means the load balancer refused it. A `401` from the agent's own server means the gate let the request through and the agent's in-process check refused it. The last request succeeds if it returns `data:` lines with an answer. If it streams only `[DONE]`, the model returned no text, so retry once. The same token on a `GET` returns `405` from the agent, because `/chat` accepts only `POST`, which also confirms the request reached the agent.
+
+A workload route, its listener rule configuration, and the ingress `Gateway` are in the agent's namespace:
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- kubectl -n agents get gateways.gateway.networking.k8s.io,httproutes.gateway.networking.k8s.io
+----
+
+The Gateway reports `PROGRAMMED True` with an `internal-` load balancer address.
+
+For a browser route, test the flow with a cookie jar. The first request must return a `302` whose `Location` is the configured login endpoint (with `oidc-direct`, your provider's authorization endpoint), and the request after sign-in must reach the agent. A `200` on the first request means the route isn't authenticated.
+
+The reference sample scripts this test for the chat UI, using a temporary user in the Cognito pool. It needs the chat interface from <<agents-ingress-chat-ui>>, because the chat UI's route is the browser-gated route it tests, so run it after Step 4. It checks the redirect, the hosted login, the code exchange at the load balancer, the identity the UI verified, and a turn the UI relays to the agent. Run it from the machine where you run Terraform. The script creates the test user and fetches a generated certificate's CA on that machine, runs the sign-in on the bastion inside the VPC, and then deletes the user. In workstation mode, it runs the sign-in from your workstation, or from a short-lived pod in the cluster when the load balancer's names don't resolve on your machine.
+
+[source,bash]
+----
+./scripts/exercise.sh --path $PAVED_PATH signin
+----
+
+Browser-gated routes are in the `ingress` namespace. The chat UI's route from Step 4 is the one the reference sample creates. Before you test one, confirm that the route resolved and the rule was accepted:
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- kubectl -n ingress get httproutes
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- bash -c "kubectl -n ingress get listenerruleconfigurations.gateway.k8s.aws -o yaml | grep -A3 'status:'"
+----
+
+[#agents-ingress-chat-ui]
+== Step 4: (Optional) Deploy the chat interface
+
+Deploy the sample's browser interface, described in <<agents-ingress-browser-401>>, to give people a signed-in page in front of an agent's API.
+
+. Set `enable_chat_ui = true`, and optionally `chat_ui_agents`, then apply as in Step 1. This creates the interface's Amazon ECR repository.
+. Build the image:
++
+[source,bash]
+----
+./scripts/build-images.sh --root terraform/$PAVED_PATH
+----
++
+The script builds every image whose tag isn't in Amazon ECR yet.
+. Sync as in Step 1. If you sync before the image exists, its pods stay in `ImagePullBackOff` and the `eks-agents-base` Application reports `Degraded`.
+
+Open `https://chat.your-domain` from inside the VPC. The name resolves after the sync, once ExternalDNS writes its record. The page redirects you to sign in, then lists the agents in `chat_ui_agents`. To test the flow from a script, see the cookie-jar check in <<agents-ingress-step3>>. To confirm that the interface refuses an ungated request and a forged identity header, run the `chat` phase:
+
+[source,bash]
+----
+./scripts/exercise.sh --path $PAVED_PATH chat
+----
+
+The phase prints `the UI refuses an ungated request and a forged identity header`.
+
+[#agents-ingress-turn-off]
+== Turn off ingress
+
+Turning ingress off removes the load balancer, the certificate, the user pool, the private zone, and ExternalDNS. Terraform keeps the {aws} resources until the cluster has deleted the load balancer, so you run `terraform apply` twice.
+
+. Move every agent off the route. Set `expose: cluster` (or `none`) on each `Agent` that has `expose: route`, apply it, and recreate its pod:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH --file my-agent.yaml -- kubectl apply -f my-agent.yaml
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/roll-agents.sh research
+----
+. Set `enable_ingress = false`, and `enable_chat_ui = false` if the chat interface is on. Leave `enable_ingress_waf` as it is. The web ACL stays while the load balancer does, and the second apply removes it. Apply with `scripts/apply.sh`. This apply renders ingress off and leaves the {aws} resources in place, because the load balancer still uses them.
+. Sync with pruning:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/bootstrap-gitops.sh --path $PAVED_PATH --sync --prune
+----
++
+The script syncs the root Application with pruning and waits. The sync deletes the ingress `Gateway` first, and EKS Auto Mode deletes its load balancer, then the sync deletes the `GatewayClass` and its load balancer configuration. When the sync finishes, this command returns `NotFound`:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- kubectl -n agents get gateways.gateway.networking.k8s.io agent-ingress
+----
+. Apply again with `scripts/apply.sh`. With the load balancer gone, it deletes the certificate, the user pool and its domain, the private zone, and the ExternalDNS role.
+
+The `gateway.k8s.aws` and ExternalDNS custom resource definitions and the empty `external-dns` namespace stay on the cluster, because the stack never prunes a custom resource definition: deleting one deletes every object of its kind. Delete them if nothing else on the cluster uses them.
+
+[#agents-ingress-cleanup]
+== Clean up
+
+To remove ingress and keep the cluster, follow <<agents-ingress-turn-off>>. To remove only the chat interface, set `enable_chat_ui = false`, apply with `scripts/apply.sh`, and sync with pruning as in <<agents-capabilities-later>>. Agents that you exposed with `expose: route` in Step 2 stay exposed until you set them back to `expose: cluster`. The rest of this section applies when you remove the whole stack.
+
+[NOTE]
+====
+An Amazon Cognito domain must be deleted before its user pool, and domain prefixes are unique across all accounts, so an orphaned domain makes the next apply fail for a cluster with the same name. `terraform destroy` and the reference sample's teardown script delete them in that order.
+====
+
+Stop Argo CD from reconciling, then delete the Gateway while its GatewayClass and load balancer configuration still exist. The reference sample's teardown script orphans the Argo CD Applications before it deletes anything.
+
+`terraform destroy` removes the certificate, the private zone, and the user pool. After a partial teardown, check for an orphaned Amazon Cognito domain. The reference sample's teardown script checks for it.
+
+[#agents-ingress-next]
+== Next steps
+
+* <<agents-mcp>>: Expose a tool server.
+* <<auto-configure-alb>>: Configure load balancers on EKS Auto Mode.

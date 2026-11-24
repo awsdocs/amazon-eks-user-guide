@@ -1,0 +1,301 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-isolation]
+= Isolate agent workloads on Amazon EKS
+:info_titleabbrev: Isolation
+
+[abstract]
+--
+Run agent pods under a Nitro Sandbox runtime class, and split an agent that executes model-generated code into a reasoning tier with a network and an execution tier with no network device at all.
+--
+
+Containers on the same node share one Linux kernel. A process that escapes its container, through a kernel vulnerability or a misconfigured pod, reaches the node and every other pod on it. That risk is usually acceptable for code your team wrote and reviewed. It isn't acceptable for an agent, which runs code that a model generated, often from input an attacker can influence. Treat every agent pod as running hostile code.
+
+Several names on this page contain the word sandbox. Nitro Sandboxes are the EC2 isolation that runs each pod in its own lightweight virtual machine, with its own guest kernel. A pod requests one with the `isolated-sandbox` runtime class. Agent Sandbox is a Kubernetes SIG project whose `Sandbox` object runs one long-lived agent pod, which <<agents-sandbox-lifecycle>> covers.
+
+Isolation covers the boundary between the agent's code and the node, and whether model-generated code runs in the reasoning loop's pod, which needs network access to call a model, or in a separate pod with no network. For the sandbox mechanism itself, its Cedar policy, storage, and limitations, see <<sandboxing>>. For more Nitro Sandbox examples, see the link:https://github.com/aws-samples/sample-eks-nitro-sandbox[Nitro Sandbox samples for Amazon EKS] repository on GitHub. You declare the agent itself in <<agents-application-setup>>.
+
+The following diagram shows the two tiers. The reasoning agent drives the execution worker through the Kubernetes API. The execution worker has no network device.
+
+image::images/agents-isolation.png["The reasoning agent and the execution worker run in separate Nitro Sandbox pods. The reasoning agent drives the worker through the Kubernetes API. The worker runs generated code and has no network device.",scaledwidth=100%]
+
+[#agents-isolation-runtime-class]
+== Sandboxed runtime
+
+A Nitro Sandbox runs each pod in its own lightweight virtual machine with a dedicated guest kernel. Code that breaks out of the container reaches that guest kernel, not the node's, so it can't reach the node or other pods on it. The cost is slower startup and a few runtime limits, which <<agents-isolation-considerations>> lists. A pod opts in by requesting a sandbox runtime class.
+
+A runtime class that a pod author can leave out is only a convention. A pod that omits it runs on the node's kernel, next to every other agent, and nothing reports it. Admission enforcement turns the convention into a boundary, because the API server refuses any pod in an agent namespace that doesn't request a sandbox runtime class. Enforce it with a deny action. An audit-only policy records the unsandboxed pod after it's already running. Fail closed as well, so a pod is refused when the policy can't be evaluated.
+
+The same policy should refuse two other pod settings that bypass the sandbox:
+
+* *`hostNetwork: true`.* A pod on the host network reaches instance metadata regardless of the node's metadata settings, and instance metadata returns credentials for the node's IAM role. A sandboxed pod can't request host networking, so this rule catches the pod that isn't sandboxed.
+* *`hostPID` or `hostIPC`.* These expose other processes' memory and environment, and the node's shared memory.
+
+Scope the policy to agent namespaces, not the whole cluster, because system components in other namespaces legitimately use host networking.
+
+The reference sample enforces this with a Kubernetes `ValidatingAdmissionPolicy`, which runs in the API server with no webhook to operate. Agent pods set `runtimeClassName: isolated-sandbox`, and the policy binds to namespaces labeled `eks-agents/admission: enforce` with `failurePolicy: Fail`. When you add an agent namespace, add the label. A pod that should have been refused but was admitted usually means its namespace is missing the label. To apply this in your own cluster, write the same rules as CEL expressions on `spec.runtimeClassName`, `spec.hostNetwork`, `spec.hostPID`, and `spec.hostIPC`.
+
+[#agents-isolation-mode]
+== Isolated and confidential modes
+
+A Nitro Sandbox has two modes, and they protect in opposite directions.
+
+*Isolated mode*, the default, protects the node and other pods from the agent. It's the right mode for untrusted or model-generated code, and every page in this section assumes it. The parent instance stays trusted, so operators keep the visibility they're used to:
+
+* `exec`, logs, stats, and process listing work on agent pods.
+* The overlay filesystem is unencrypted, which shortens startup.
+* Instance metadata and EKS Pod Identity credentials work without policy changes.
+
+*Confidential mode* protects the agent's data from the node operator. Use it when the node operator must be excluded, for example when an agent handles tenant data your platform team isn't permitted to read, prompts contain regulated data, or a proprietary model must not be exposed to your own infrastructure. Confidential mode pins every admission field and denies the parent instance `exec` and introspection, so you give up the debugging access that isolated mode keeps. It only protects data when an {aws} KMS key policy has attestation conditions. Without an external verifier, the attestation is measured but never checked. Plan confidential mode as a separate project. See <<sandboxing-confidential-setup>>.
+
+By default, the admission policy accepts both runtime classes, so it doesn't block an agent that you move to confidential mode. A cluster that doesn't use confidential mode can restrict the policy to `isolated-sandbox`. In the reference sample, set `admission.allowConfidentialSandbox` to `false` in the base chart's values to do that.
+
+[#agents-isolation-considerations]
+== Considerations
+
+The following runtime properties affect how you build and operate agents. For the full list, see <<sandboxing-limitations>>.
+
+[cols="1,3", options="header"]
+|===
+|Property |What to do about it
+
+|No GPU or device passthrough
+|A model can't be served inside a sandbox. Serve it from an unsandboxed GPU deployment that the agent calls over the network, or call Amazon Bedrock. See <<agents-inference>>.
+
+|Kubelet HTTP and TCP probes fail
+|Use `exec` probes. An `httpGet` readiness probe leaves the pod permanently unready. Load balancer health checks reach sandboxed pods but don't see `exec` probes, so set the health check path for an exposed agent. See <<agents-ingress>>.
+
+|`port-forward` needs the pod IP
+|`kubectl port-forward` reaches only servers bound to the pod IP, so bind agent servers to `0.0.0.0`. It can't reach a network-isolated pod. Use `kubectl exec` instead.
+
+|Slower startup
+|A sandbox starts slower than a container. Use a warm pool so sessions don't wait. See <<agents-sandbox-lifecycle>>.
+
+|Small default size
+|A pod with no resource requests gets a small default sandbox and can be terminated during an `exec`. Set resource requests on every agent pod.
+|===
+
+[#agents-isolation-tiers]
+== Reasoning and execution tiers
+
+Use two tiers when an agent runs model-generated code. If the agent runs only its own code, keep one tier. See <<agents-isolation-when-not>>.
+
+A sandbox can start with no network device. Code in it can't reach any network, and there's no network policy to misconfigure. The reasoning loop needs network access to call a model, so split the agent into two tiers:
+
+* The *reasoning tier* plans and calls the model.
+* The *execution tier* runs model-generated code with no network device.
+
+[cols="1,3,2", options="header"]
+|===
+|Property |Reasoning tier |Execution tier
+
+|Runtime class
+|`isolated-sandbox`
+|`isolated-sandbox`
+
+|Network
+|Egress that network policy permits, to the gateway or directly to Amazon Bedrock
+|No network device
+
+|{aws} identity
+|Its own IAM role, with model access
+|None
+
+|Kubernetes API token
+|Mounted to drive the execution tier, with `exec` only on its pods
+|Not mounted or replicated into the sandbox
+
+|State
+|Outside the pod, checkpoints in Amazon S3
+|Ephemeral, plus the shared volume
+
+|Service mesh
+|Enrolled, if a mesh is used
+|Not enrolled, nothing to capture
+|===
+
+To configure the tiers:
+
+. Set the `sandbox.amazonaws.com/network-isolated: "true"` annotation on the execution tier's pods. The guest boots with only a loopback interface, so the pod has no route out, no DNS, no instance metadata, and no Pod Identity credentials. `kubectl exec`, `cp`, and `logs` still work because they use the sandbox's internal control channel.
+. Set `needsClusterApi: true` on the reasoning tier, and grant it only `exec` on the execution tier's pods. The reasoning tier drives the execution tier through `exec`, so it's the only agent that needs a Kubernetes API token. For the role, see <<agents-sandbox-lifecycle>>.
+. Pass work between the tiers on a shared workspace volume. The reasoning tier writes files and a command, and the execution tier writes results back. See <<agents-session-state>>.
+
+[IMPORTANT]
+.The tier split doesn't prevent data exfiltration
+====
+Command output returns to the reasoning tier and goes into the next model request, and the reasoning tier has network access. The split keeps attacker-controlled code off the tier with network access. It doesn't keep data that reaches the execution tier from leaving.
+====
+
+[#agents-isolation-when-not]
+=== When not to split
+
+If the agent runs only its own code, use a single reasoning tier under `isolated-sandbox`. A second tier adds a volume handoff without reducing risk.
+
+[#agents-isolation-prereqs]
+== Prerequisites
+
+* The base setup from <<agents-cluster-setup>> and the in-cluster components from <<agents-capabilities-setup>>, synced. The sync creates the `agents` and `agents-execution` namespaces, the admission policy, and the execution tier's deny-all network policy.
+* A running agent named `research`. See <<agents-application-setup>>.
+* A clone of the reference sample on your workstation, and a shell with `kubectl` access to the cluster, on the bastion or your workstation.
+* `PAVED_PATH` set to `open-source` or `aws-services`, such as with `export PAVED_PATH=open-source`.
+
+[#agents-isolation-step1]
+== Step 1: Confirm that the agent runs in a Nitro Sandbox
+
+The `Agent` resource sets the runtime class on every pod it creates, so an application team doesn't choose it. Read it from the running pod:
+
+[source,bash]
+----
+kubectl -n agents get pod -l eks-agents/agent=research \
+  -o jsonpath='{.items[0].spec.runtimeClassName}{"\n"}'
+----
+
+The command returns `isolated-sandbox`. That one field is what moves the pod off the node's kernel and into its own guest:
+
+[source,yaml]
+----
+spec:
+  runtimeClassName: isolated-sandbox
+----
+
+[#agents-isolation-step2]
+== Step 2: Confirm that admission rejects an unsandboxed pod
+
+A pod that someone creates directly, outside the `Agent` resource, doesn't get the runtime class from a template. The base setup closes that gap with a `ValidatingAdmissionPolicy`. The following excerpt shows its rules, with the message for the runtime class rule, and the binding that applies it to agent namespaces:
+
+[source,yaml]
+----
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: eks-agents-sandbox-required
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups:
+          - ''
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pods
+  variables:
+    - name: runtimeClass
+      expression: "has(object.spec.runtimeClassName) ? object.spec.runtimeClassName : ''"
+  validations:
+    - expression: "variables.runtimeClass in ['isolated-sandbox', 'confidential-sandbox']"
+      reason: Forbidden
+      messageExpression: >-
+        "pod must run in a Nitro sandbox: set spec.runtimeClassName to isolated-sandbox. Got " +
+        (variables.runtimeClass == "" ? "no runtime class" : "'" + variables.runtimeClass + "'") +
+        ". A pod without it runs on the node's own kernel next to every other agent."
+    - expression: "!has(object.spec.hostNetwork) || !object.spec.hostNetwork"
+      reason: Forbidden
+    - expression: "!has(object.spec.hostPID) || !object.spec.hostPID"
+      reason: Forbidden
+    - expression: "!has(object.spec.hostIPC) || !object.spec.hostIPC"
+      reason: Forbidden
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: eks-agents-sandbox-required
+spec:
+  policyName: eks-agents-sandbox-required
+  validationActions:
+    - Deny
+  matchResources:
+    namespaceSelector:
+      matchLabels:
+        eks-agents/admission: enforce
+----
+
+`failurePolicy: Fail` rejects a pod when the API server can't evaluate the policy, instead of letting it through. `validationActions: [Deny]` rejects a violating pod outright, where `Audit` would only record it. The binding selects namespaces by label, so a namespace becomes an agent namespace by carrying `eks-agents/admission: enforce`, and other workloads on the cluster are unaffected. The `hostNetwork` rule matters as much as the runtime class, because a pod on the host network reaches the node's instance metadata and its IAM role.
+
+Agent namespaces also enforce the `restricted` Pod Security Standard, which rejects a pod with a default security context before the sandbox policy is evaluated. To reach the sandbox policy, try to create a pod that meets the standard but has no runtime class, in the `agents` namespace:
+
+[source,bash]
+----
+kubectl -n agents run unsandboxed --image=public.ecr.aws/amazonlinux/amazonlinux:2023 \
+  --restart=Never --overrides='{"spec":{
+    "securityContext":{"runAsNonRoot":true,"runAsUser":10001,"seccompProfile":{"type":"RuntimeDefault"}},
+    "containers":[{"name":"unsandboxed","image":"public.ecr.aws/amazonlinux/amazonlinux:2023","command":["sleep","60"],
+      "securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]}}}]}}'
+----
+
+The API server rejects the pod with `ValidatingAdmissionPolicy 'eks-agents-sandbox-required' ... denied request: pod must run in a Nitro sandbox`, naming the missing runtime class. The `containment` phase of the reference sample's `exercise.sh` makes the same check, and also checks that a `hostNetwork` pod is rejected.
+
+[#agents-isolation-step3]
+== Step 3: Run an execution tier with no network
+
+The execution tier runs model-generated code in a pod that has no network interface besides loopback. The reference sample's `gitops/examples/reasoning-execution-split/execution.yaml` defines one. The following excerpt shows the settings that remove its network and its credentials:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: execution
+  namespace: agents-execution
+automountServiceAccountToken: false   # no Kubernetes API token in the pod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: execution
+  namespace: agents-execution
+spec:
+  template:
+    metadata:
+      annotations:
+        sandbox.amazonaws.com/network-isolated: "true"   # boot the guest with loopback only
+    spec:
+      serviceAccountName: execution
+      runtimeClassName: isolated-sandbox
+      enableServiceLinks: false        # no Service addresses injected as environment variables
+----
+
+The annotation boots the sandbox's guest with no route out, no DNS, no instance metadata, and no Pod Identity credentials, so there's no policy to get around and no window before a policy loads. The reasoning tier still drives the worker with `kubectl exec`, which uses the sandbox's control channel. That needs `needsClusterApi: true` on the reasoning agent and a Role scoped to the execution namespace. See <<agents-application-setup>>.
+
+From the `agents` directory, apply the execution tier and wait for it to roll out:
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- bash -c '
+  kubectl apply -f gitops/examples/reasoning-execution-split/execution.yaml
+  kubectl -n agents-execution rollout status deploy/execution'
+----
+
+Confirm that the worker has no default route. On a node that EKS Auto Mode just launched, `kubectl exec` fails with `tls: internal error` until the node's serving certificate is issued, so wait for it first:
+
+[source,bash]
+----
+until kubectl -n agents-execution exec deploy/execution -- true 2>/dev/null; do sleep 5; done
+kubectl -n agents-execution exec deploy/execution -- \
+  awk 'NR>1 && $2=="00000000" {d=1; print "DEFAULT ROUTE via " $1} END {if (!d) print "no default route: correct"}' /proc/net/route
+----
+
+The command prints `no default route: correct`. A pod that has a route blocked by policy would print `DEFAULT ROUTE`, which is why this check reads the route table instead of trying a connection.
+
+[#agents-isolation-cleanup]
+== Clean up
+
+Delete the execution tier that Step 3 applied. Run the command from the `agents` directory:
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- kubectl delete -f gitops/examples/reasoning-execution-split/execution.yaml
+----
+
+The `agents-execution` namespace, the admission policy, and the execution tier's deny-all network policy belong to the base setup and stay. Remove them with <<agents-cluster-setup-cleanup>>.
+
+== Next steps
+
+* <<agents-network-policies>>: Restrict the destinations the reasoning tier can reach.
+* <<agents-sandbox-lifecycle>>: Create sandboxes before a session starts.
+* <<sandboxing-network-isolation>>: Details of the network-isolated annotation.
+* link:https://github.com/aws-samples/sample-eks-nitro-sandbox[Nitro Sandbox samples for Amazon EKS]: More examples of workloads that run in Nitro Sandboxes.

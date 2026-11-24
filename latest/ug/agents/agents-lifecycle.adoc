@@ -1,0 +1,198 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-lifecycle]
+= Manage the agent session lifecycle on Amazon EKS
+:info_titleabbrev: Lifecycle
+
+[abstract]
+--
+Choose between a long-lived sandbox per agent, a Deployment, and a sandbox per session, keep idle sessions from holding compute, and decide where an agent's state lives between turns and between sessions.
+--
+
+Agent load doesn't look like web traffic. An agent spends most of its time idle, waiting on a person, a model, or a tool, and then many sessions start at once. An interactive session can last from minutes to days with long gaps between turns, and the person waiting sees every cold start. A workload shape built for steady request traffic either holds compute through those idle gaps or makes people wait while capacity catches up.
+
+The shape determines what an idle agent costs, whether an update interrupts a running conversation, and whether session state can stay in the pod. You choose it separately for each agent.
+
+The following diagram shows the three shapes and the task runtime. One long-lived sandbox per agent keeps state in the pod. Deployment replicas share sessions whose state is held outside the pod. A sandbox per session gives each session its own claimed pod. An agent that runs as tasks starts one sandboxed pod per message on its task queue and sends the answer to a result queue.
+
+image::images/agents-lifecycle.png["Lifecycle shapes in one cluster: one long-lived sandbox per agent with state in the pod, an agent as a Deployment whose replicas share sessions, a sandbox per session, and a sandboxed pod per task that reads a task queue and writes a result queue.",scaledwidth=100%]
+
+[#agents-lifecycle-shape]
+== Choose a lifecycle shape
+
+The shapes differ in how much isolation one session gets from another and in what you pay while sessions sit idle.
+
+* *One long-lived process per agent.* A single pod with a stable name holds the agent's conversations in memory and, optionally, a workspace on disk. It's the simplest shape to build an agent for, because the agent can keep state locally. It also can't scale past one pod, it holds compute while idle unless you stop it, and a change reaches it only when the pod is recreated, so a running conversation isn't interrupted by a rollout. Use it for an agent that is one conversation-holding process.
+* *Stateless replicas behind a Service.* Any replica serves any turn of any session, so you scale horizontally and every change rolls out like any other Deployment. Idle cost is shared across all sessions. The price is that nothing a session needs can live in the pod, because the next turn might land on a different replica. Use it for request-and-response agents and for any agent whose state is already external.
+* *A sandbox per session.* Each session gets its own pod, kernel, and filesystem, so model-generated code in one session can't read or affect another, and a session's workspace persists across turns. It's the most isolated and the most expensive shape, with one pod per active session and a sandbox boot on every new session unless you keep a warm pool. Use it when sessions execute model-generated code in a workspace or must not share a kernel. See <<agents-sandbox-lifecycle>>.
+
+The following table compares the three shapes.
+
+[cols="1,2,2,2", options="header"]
+|===
+|Property |`runtime: sandbox` (default) |`runtime: deployment` |A sandbox per session
+
+|What it is
+|One long-lived pod per agent, with a stable name
+|Replicas behind a Service, any replica serving any turn
+|One claimed sandbox per session
+
+|Suits
+|One conversation-holding process
+|Request-and-response agents, or state already outside the pod
+|Stateful sessions, and sessions that run model-generated code in a workspace
+
+|Idle resources
+|One pod per agent, unless `suspended: true`
+|Shared across sessions
+|One pod per idle session, unless suspended
+
+|Updates
+|Only when the pod is recreated
+|New pods on every change
+|Depends on template and pool. See <<agents-sandbox-lifecycle>>
+
+|Scaling
+|One pod per agent
+|Horizontal, by replicas
+|One pod per session
+|===
+
+In every shape, state that must survive a pod restart belongs outside the pod, as described in <<agents-session-state>>.
+
+The reference sample exposes the first two shapes, and the task runtime in <<agents-lifecycle-tasks>>, as the `runtime` field on the `Agent` resource. The default is `runtime: sandbox`, which runs the agent as one Agent Sandbox `Sandbox` that you can stop with `suspended: true` while keeping its workspace volume. `runtime: deployment` runs a Kubernetes Deployment instead. A sandbox per session isn't a `runtime` value, because the agent itself creates a `SandboxClaim` for each session. The fields are described in <<agents-application-setup>>.
+
+[#agents-lifecycle-tasks]
+== Tasks from a queue
+
+Some agent work doesn't arrive as a request that someone waits on. A nightly report, a review of every merged change, or a migration arrives as an event and can run for many minutes. For that work, `runtime: tasks` runs no long-lived pod. Each message on the agent's task queue starts one sandboxed pod, which takes the message, runs the task, sends the answer to a result queue, and exits. The pod is the same pod as the other runtimes, with the same sandbox, identity, and egress policy, and it holds compute only while a task runs.
+
+The reference sample implements it with Amazon SQS and KEDA, which starts one Kubernetes Job for each waiting message. While a task runs, the pod extends the message's visibility timeout so that a long task isn't handed to a second pod. A task that fails returns to the queue for another attempt, and after three attempts it moves to a dead-letter queue. A task that's malformed, or that the model stops at its maximum output length, is answered rather than retried, because every attempt would end the same way. To run an agent this way, see <<agents-lifecycle-tasks-run>>.
+
+Grant `sqs:SendMessage` on the task queue only to the services that should start this agent's work. Every task runs with the agent's permissions, so access to send a task is access to the agent. Amazon SQS reports queue depth approximately, so KEDA occasionally starts a pod after a task is already taken. That pod long-polls the queue once, finds no message, and exits.
+
+[#agents-lifecycle-capacity]
+== Capacity for bursty workloads
+
+Whichever lifecycle you choose, each sandbox needs a node whose instance type supports Nitro Sandboxes, and provisioning a node takes much longer than starting a sandbox on an existing node.
+
+* *Restrict the node pool to sandbox-capable instance types.* Support varies by instance type and is published as the `eks.amazonaws.com/nitro-sandbox` node label. A node pool that can choose any instance type provisions nodes that can't run a sandbox, and the pod fails node affinity. To see the label on each node, run the following command:
++
+[source,bash]
+----
+kubectl get nodes -L eks.amazonaws.com/nitro-sandbox,node.kubernetes.io/instance-type
+----
++
+Limit the agents' node pool to instance types where the label is `true`. See <<sandboxing-limitations>>.
+
+* *Use a warm pool to absorb bursts.* Node provisioning can't absorb a burst on its own. A warm pool holds running sandboxes, so a claim adopts one without waiting for a sandbox to boot, while the pool boots a replacement in the background.
+
+* *Annotate warm pods with `karpenter.sh/do-not-disrupt`.* Nothing reschedules a warm pod when consolidation, drift, or node expiry removes its node. Without the annotation, the pool drains without any error, and claims fall back to cold starts.
+
+[#agents-lifecycle-tasks-run]
+== Run an agent as tasks
+
+The example uses the `agents/reasoning` image, which calls the model through the gateway, so turn on the gateway first. See <<agents-gateway>>.
+
+. Add the following to your variables file, with each agent that runs as tasks in `task_agents`. On the {aws} services path, also add each of them to `gateway_permitted_agents`, such as `gateway_permitted_agents = ["research", "reporter"]`, because a task calls the model through the gateway like any other turn. Apply and sync as in <<agents-capabilities-later>>. The sync installs KEDA and gives the admission policy the list of task agents. Until then, the policy refuses an `Agent` with `runtime: tasks`.
++
+[source,hcl]
+----
+enable_agent_tasks              = true
+task_agents                     = ["reporter"]
+task_visibility_timeout_seconds = 300
+----
++
+For each agent in `task_agents`, the apply creates a task queue, a dead-letter queue, and a result queue, named `my-agents-reporter-tasks`, `my-agents-reporter-tasks-dlq`, and `my-agents-reporter-results`. It also creates a permission set that lets that agent receive and delete messages on its own task queue and send to its own result queue. KEDA gets its own IAM role, which can read only the task queues' depth, through an EKS Pod Identity association. With a bastion, the apply also lets the bastion's role send tasks and read results, so that the sample's exercise script and an operator can start a task agent's work. Nothing else in the cluster gets that access. After the sync, KEDA runs in the `keda` namespace and the agents' egress policy allows Amazon SQS.
+. Apply an `Agent` with `runtime: tasks`. It must set `expose: none`, because a task pod answers through the result queue and serves no requests. Save it as `reporter.yaml` in the `agents` directory.
++
+[source,yaml]
+----
+apiVersion: agents.eks.amazonaws.com/v1alpha1
+kind: Agent
+metadata:
+  name: reporter
+  namespace: agents
+spec:
+  image: 111122223333.dkr.ecr.us-west-2.amazonaws.com/my-agents/agents/reasoning:v1
+  modelArns:
+    - arn:aws:bedrock:us-west-2:111122223333:inference-profile/us.anthropic.claude-sonnet-5-5
+    - arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-sonnet-5-5
+    - arn:aws:bedrock:us-east-2::foundation-model/anthropic.claude-sonnet-5-5
+    - arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-sonnet-5-5
+  runtime: tasks
+  expose: none
+  taskConcurrency: 3         # at most this many tasks at once, one pod each
+  taskTimeoutSeconds: 900    # a longer task is stopped, and its message returns to the queue
+----
++
+Apply it:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH --file reporter.yaml -- kubectl apply -f reporter.yaml
+----
++
+The resource definition attaches the agent's queue permission set to its role, and composes a KEDA `ScaledJob`. An image change takes effect on the next task, without a restart.
+. Send a task. A task is a JSON message on the task queue. Only `prompt` is required. `user_id` names whose memories and saved session the task uses. It's a label, not an identity: the worker scopes it under `tasks/` and the IAM principal that Amazon SQS verified as the sender, so two producers that name the same user never share memories, and a task never acts with a person's authority. Send it with any principal that has `sqs:SendMessage` on the queue. Run these commands from your workstation with your own credentials, or from the bastion, whose role can send tasks and read results:
++
+[source,json]
+----
+{"task_id": "report-2026-11-15", "prompt": "Summarize yesterday's incidents.", "user_id": "alice"}
+----
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+QUEUE=$(aws sqs get-queue-url --region [.replaceable]`region-code` --queue-name my-agents-reporter-tasks --query QueueUrl --output text)
+aws sqs send-message --region [.replaceable]`region-code` --queue-url "$QUEUE" \
+  --message-body '{"task_id": "report-2026-11-15", "prompt": "Summarize yesterday'"'"'s incidents.", "user_id": "alice"}'
+----
++
+The answer arrives on the result queue, `my-agents-reporter-results`, with `status` set to `done`, `incomplete`, or `refused`. Read it, then delete the message:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+RESULTS=$(aws sqs get-queue-url --region [.replaceable]`region-code` --queue-name my-agents-reporter-results --query QueueUrl --output text)
+aws sqs receive-message --region [.replaceable]`region-code` --queue-url "$RESULTS" --wait-time-seconds 20
+aws sqs delete-message --region [.replaceable]`region-code` --queue-url "$RESULTS" --receipt-handle [.replaceable]`receipt-handle`
+----
++
+If `receive-message` returns nothing, run it again until the result arrives. The first task also waits for its pod to start. Replace `receipt-handle` with the `ReceiptHandle` that `receive-message` returned. The message body looks like the following:
++
+[source,json]
+----
+{"task_id": "report-2026-11-15", "status": "done", "answer": "...", "seconds": 25.0, "visibility_extensions": 1}
+----
++
+A result with `"status": "incomplete"` and the error `the model returned no text` means the model ended its turn with no answer, even after the worker asked it once more. Send the task again.
+. Confirm it with the `tasks` phase of the reference sample's exercise script. It sends a task and a malformed task to the first task agent's queue, and checks the answers and the pod that ran the task.
++
+[source,bash]
+----
+./scripts/exercise.sh --path $PAVED_PATH tasks
+----
++
+A passing run reports the following:
++
+[source,none]
+----
+  ✓ the task was taken from the queue, run, and answered on the result queue
+  ✓ a malformed task was answered refused rather than retried
+  ✓ the task ran in a sandboxed pod with the agent's own identity, once
+  ✓ the task queue is empty: each task was deleted once answered
+----
+
+[#agents-lifecycle-cleanup]
+== Clean up
+
+To stop running an agent as tasks, delete its `Agent` first, as in <<agents-application-cleanup>>, so no task pod starts while the queues go away. Then remove the agent from `task_agents`, or set `enable_agent_tasks = false`, and follow <<agents-capabilities-later>> with `--prune` on the bootstrap script. Terraform deletes the agent's task queue, dead-letter queue, and result queue, any messages still in them, and the queue permission set. With `enable_agent_tasks = false`, Terraform also deletes KEDA's role, and the pruned sync removes KEDA.
+
+== Next steps
+
+* <<agents-sandbox-lifecycle>>: Pools, claims, suspend, and expiry.
+* <<agents-session-state>>: Where state lives between turns, between tiers, and between sessions.
+
+include::agents-sandbox-lifecycle.adoc[leveloffset=+1]
+
+include::agents-session-state.adoc[leveloffset=+1]

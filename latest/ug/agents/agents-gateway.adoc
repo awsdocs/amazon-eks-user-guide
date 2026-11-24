@@ -1,0 +1,532 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-gateway]
+= Route agent egress through a gateway
+:info_titleabbrev: Gateway
+
+[abstract]
+--
+Send every model call and tool call through one egress gateway that authenticates the agent on a token, signs the outbound request itself, and applies budgets and policy where it can see the request.
+--
+
+An egress gateway is a proxy that an agent's outbound model, tool, and API calls pass through. It works with network policy, and each handles a different layer. Network policy controls where an agent can connect, and the base setup uses it to permit only the gateway. The gateway then handles what each request does. It terminates the request, verifies which agent sent it, applies policy to the model or tool the request asks for, and attaches the credential the destination needs. Network policy makes the gateway the agent's only way out, and the gateway decides what goes out through it.
+
+An agent that calls only Amazon Bedrock with its own IAM role can run without a gateway, because IAM already scopes what it can invoke. Add a gateway when agents call tools or third-party services, use models from more than one provider, or need a spending limit per agent. For how the gateway and network policy fit together, see <<agents-networking>>.
+
+The gateway is the one destination an agent's egress policy permits for these calls, so an agent with a gateway holds no credential for any of them. It carries three kinds of traffic:
+
+* *Model calls* to Amazon Bedrock, or to another provider that the gateway holds the key for.
+* *Tool calls* to MCP servers, which the gateway aggregates into one tool catalog for the agent.
+* *Third-party API calls*, such as to GitHub, where the gateway attaches the credential that it stores for that agent.
+
+The following diagrams show each path.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+The following diagram shows https://github.com/agentgateway/agentgateway[AgentGateway] on the open source path. The gateway runs in the cluster and verifies the agent's token. It applies token budgets and tool policy, signs model calls to Amazon Bedrock by assuming the agent's IAM role, routes tool calls to MCP servers, and attaches a stored credential to calls to third-party APIs. Network policy blocks direct calls.
++
+image::images/agents-gateway-open-source.png["The agent sends its token to AgentGateway in the cluster. The gateway applies its policies and sends model calls to Amazon Bedrock as the agent, tool calls to MCP servers, and third-party API calls with a credential it holds. Network policy refuses direct calls.",scaledwidth=100%]
+
+{aws} services::
++
+The following diagram shows link:bedrock-agentcore/latest/devguide/gateway.html[AgentCore Gateway,type="documentation"] on the {aws} services path. The gateway runs outside the cluster, and its Cedar policy engine enforces the permit you write for each agent. It signs model calls with its own IAM role, exposes MCP servers and Lambda functions as tools, and attaches credentials from AgentCore Identity to calls to third-party APIs that you describe as OpenAPI targets. Network policy blocks direct calls. Optionally, an interface VPC endpoint keeps the agents' calls inside the VPC, with a resource policy that refuses calls from anywhere else, and {aws} WAF inspects requests to the gateway.
++
+image::images/agents-gateway-aws-services.png["The agent sends a projected token to AgentCore Gateway outside the cluster, optionally through a VPC endpoint with a resource policy, and with optional WAF on the gateway. A Cedar policy permits each agent. The gateway sends model calls to Amazon Bedrock with its own role, tool calls to MCP and Lambda tools, and third-party API calls with a credential from AgentCore Identity. Network policy refuses direct calls.",scaledwidth=100%]
+
+The reference sample's `exercise.sh` sends a model call through the gateway in its `model` phase, and a tool call in its `tools` phase when the agent reaches its tools through the gateway rather than calling an MCP server directly. <<agents-third-party-credentials>> verifies a third-party API call. Calls to {aws} services made with a person's authority differ by path. See <<agents-identity-acting-for-flow-aws>>.
+
+* *Open source path.* By default, AgentGateway signs the agent's {aws} calls with the person's authority for that agent, and the gateway is the agent's only way to the person's authority. With `person_access_via_gateway = false`, for development only, the agent calls {aws} STS and the {aws} service itself, outside the gateway.
+* *{aws} services path.* AgentCore Gateway can't sign an {aws} call with a person's authority, so the agent calls {aws} STS and the {aws} service itself, outside the gateway.
+
+[#agents-gateway-paths]
+== Open source and {aws} services paths
+
+The reference sample uses https://github.com/agentgateway/agentgateway[AgentGateway] on the open source path and link:bedrock-agentcore/latest/devguide/gateway.html[AgentCore Gateway,type="documentation"], a managed capability of Amazon Bedrock AgentCore, on the {aws} services path. The following table compares how each path provides the gateway.
+
+[cols="1,2,2",options="header"]
+|===
+|Aspect |Open source |{aws} services
+
+|Gateway
+|AgentGateway, which you run in your cluster and configure with Kubernetes objects in your Git repository
+|AgentCore Gateway, which {aws} runs outside the cluster and you configure through {aws} APIs
+
+|Signs model calls as
+|The calling agent, by assuming its IAM role
+|The gateway's own IAM role
+
+|Admits callers
+|A list of service account subjects, with one route per agent
+|One subject, or every subject for the gateway's audience
+
+|Who chooses the model
+|The gateway. Each agent's backend names the model, whatever model the request names
+|The agent. The gateway routes on the model named in the request, unless a request interceptor rewrites it
+
+|Model failover
+|Yes, to fallback models in priority order, on errors and throttling
+|No built-in failover between models
+
+|Per-agent budget
+|Tokens per hour, keyed on the caller's token subject
+|Requests and tokens per minute, keyed on the caller's token subject
+
+|Content checks
+|An Amazon Bedrock guardrail on every model request and response, in the cluster data path
+|Guardrail checks through AgentCore Policy on prompt attacks in the conversation. Responses aren't screened
+
+|Network path
+|Inside the cluster, behind network policy
+|A public endpoint by default. With the VPC endpoint, a resource policy refuses every call that doesn't arrive through it, and {aws} WAF can inspect each call
+
+|Tool-level policy
+|Yes, CEL expressions
+|Yes, through Cedar policy and request interceptors
+
+|OAuth consent
+|No built-in flow. The sample adds a consent receiver
+|Through AgentCore Identity, with a consent receiver to complete the binding
+|===
+
+[#agents-gateway-why]
+== What the gateway adds
+
+A gateway changes where trust sits. Without one, each agent pod holds its credentials and decides on its own which requests to send. With one, the pod holds only a token that identifies it, and the gateway makes every decision that depends on the content of a request.
+
+* *Credential custody.* The agent presents a projected service account token that names it and grants no permissions. The gateway verifies the token against the cluster's OIDC issuer and signs the outbound request itself. Model-generated code in the pod can read anything the pod holds, so a credential that never enters the pod can't be taken from it.
+* *Spending limits.* The gateway counts the model tokens each agent consumes and refuses requests over that agent's budget. A loop or a prompt injection that drives an agent to call a model repeatedly hits the limit instead of running up cost. Size each budget from the agent's expected traffic, so that reaching it points to a problem with that agent.
+* *Content screening.* The gateway can screen every model call with a guardrail, whatever the agent asked for. A prompt injection that arrives in a conversation or a tool result is refused before it reaches the model. On the open source path, the guardrail also screens each response.
+* *Tool policy.* The gateway sees which tool a request calls and with which arguments, so it can refuse destructive operations for every agent or for specific callers. When the gateway aggregates many tool servers, a denylist of dangerous tools holds up better than an allowlist, because the catalog grows whenever a server adds a tool.
+* *Model indirection.* The agent sends model calls to the gateway rather than to a provider, so you change models or add providers in gateway configuration without rebuilding agents. Which component chooses the model differs by gateway. See <<agents-gateway-paths>>.
+* *One audit point.* Every model and tool call from every agent passes through one component.
+* *Credential brokering.* For services that issue only long-lived tokens or require a person's consent, the gateway stores the token and attaches it to calls from the agent it belongs to. See <<agents-third-party-credentials>>.
+
+[#agents-gateway-options]
+== Options
+
+You can run the gateway in your cluster or use a managed one. The choice comes down to where the data plane runs and who operates it.
+
+An in-cluster gateway keeps requests inside the cluster until the gateway forwards them, and its configuration is Kubernetes objects that you review in pull requests like the rest of the stack. Because it's a pod, a mesh can require unsandboxed workloads to send their traffic through it (see <<agents-mesh>>). You operate, scale, and patch it, and it becomes the highest-value workload in your cluster.
+
+A managed gateway runs outside the cluster as an endpoint you configure through {aws} APIs. There's no data plane to operate, and you get capabilities such as semantic search across a large tool catalog. Agents reach it by host name, so network policy permits it as a host name rather than a namespace, and it can't call a Service that is reachable only inside the cluster.
+
+The table in <<agents-gateway-paths>> compares the two gateways that the reference sample uses. Two limits can decide the choice:
+
+* AgentGateway doesn't offer tool discovery across a large catalog, and its open source edition has no OAuth consent flow. See <<agents-gateway-consent>>.
+* AgentCore Gateway can't admit a subset of service account subjects, and it can't reach a ClusterIP Service. See <<agents-gateway-inbound>> and <<agents-mcp-where>>.
+
+[#agents-gateway-endpoints]
+== Who signs the outbound request
+
+Each agent gets two gateway endpoints, one for models and one for tools, because policy, budget, and credentials differ between them. For model calls, the identity the gateway uses toward the model provider decides what limits an agent's model access.
+
+* *The gateway signs as the agent.* On the open source path, the gateway assumes the calling agent's IAM role for each model call. The agent's role still limits which models it reaches.
+* *The gateway signs as itself.* On the {aws} services path, AgentCore Gateway calls Amazon Bedrock with its own role, so the agent's IAM role no longer limits which models it reaches. Limit model access at the gateway instead, with a route that pins the model, a Cedar permit per target, or a rate limit keyed on the model. CloudTrail records the gateway's role, not the agent's. The agent requests a model by a name from the gateway's own catalog, so the agent's `modelArns` don't need to include that model.
+
+Signing as the agent keeps IAM as the one place that grants model access. Signing as the gateway lets one endpoint route across providers, and moves model authorization into gateway policy, which you then have to write and review with the same care as IAM.
+
+[#agents-gateway-inbound]
+== Caller authentication
+
+The gateway's controls are only as strong as its check on who is calling. It authenticates each caller with the agent's projected service account token, a JWT that the cluster's OIDC issuer signs, and it checks the token's audience. A pod can request a token for any audience, so the audience check is what stops a token the agent obtained for another service from working at the gateway. The audience configured on the gateway and the audience the agent's token is minted for must match. A mismatch fails every model call, and nothing reports an error on the Kubernetes objects.
+
+A token is also only as safe as where it can be used. AgentGateway runs in the cluster, behind network policy. AgentCore Gateway's endpoint is public, and its authorizer accepts any valid token for its audience, so a token copied out of an agent's pod works from anywhere until it expires. With the gateway's VPC endpoint, the reference sample attaches a resource policy that refuses every call that doesn't arrive through that endpoint, so the token works only inside the VPC. See <<agents-gateway-vpc-endpoint>>.
+
+Once the caller is authenticated, the gateway decides which callers to admit, and the two gateways differ:
+
+* *A subject allowlist.* AgentGateway admits a list of service account subjects, and each agent's route admits only that agent, so one agent can't use another's route or budget.
+* *One subject, or all.* AgentCore Gateway matches the token's `sub` claim with an equality check. It admits either one service account or every subject that the cluster's issuer signs for the gateway's audience, and it can't admit a subset. With more than one agent, or with the evaluation judge as a second caller, it has to admit all of them.
+
+[IMPORTANT]
+====
+On the {aws} services path, separate agents with the layers around the gateway. Egress network policy controls which namespaces can reach the gateway, and Cedar policy controls which caller can invoke which tool. Cedar permits combine, so any matching permit allows a call and a forbid overrides every permit. Restrict with forbid policies, and name the principal in every permit. Don't deploy a gateway per agent, because that replaces the single audit point with one per agent.
+====
+
+[#agents-gateway-cedar]
+== Write gateway policy
+
+On the {aws} services path, a Cedar policy engine attached to the gateway decides every model and tool call. When the gateway admits every agent, this policy is where agents are kept apart. Cedar denies by default, so in enforcing mode the gateway refuses any call that no `permit` matches. A log-only mode records each decision without refusing anything, which helps while you write the first policies. Each `permit` names an agent by its service account and the target it may call, such as the inference target. Keep the policies in Git so they're reviewed before they take effect.
+
+Follow these rules:
+
+* *Name each action.* Cedar has no wildcard action. To cover all tools on a target, reference the gateway target, which acts as an action group.
+* *Write policy only for existing tools.* The service validates action names against the gateway's current tool schema, so it rejects a policy for a tool that isn't configured yet.
+* *Name the principal in every `permit`.* A `permit` whose principal is open, or names only a type, admits every caller of that type. The reference sample refuses such a permit when you plan.
+* *Keep unlisted callers out with a `forbid` that has exceptions.* Because any matching `permit` allows a call, one broad `permit` can admit an agent you didn't intend. A `forbid` for every caller, `unless` the caller is one the gateway serves, stops that. A catch-all `forbid` with no exceptions overrides every `permit` and blocks everyone, so don't add one.
+* *Confirm that the policy engine is enforcing.* Attach a `forbid` for a call that currently succeeds, confirm that the call is denied, and then remove the `forbid`. A successful call alone doesn't show whether the engine evaluated the policy.
+
+[#agents-gateway-consent]
+== Services that require user consent
+
+Some services issue a token only after a person approves access in a browser, through OAuth consent. That approval happens outside the agent, so some component has to receive the result, store the token, refresh it, and attach it to the right caller's requests.
+
+* *Open source.* AgentGateway's open source edition has no consent flow. The sample includes a consent receiver that runs the OAuth authorization code flow with PKCE, stores the token where the gateway reads it, and refreshes it before it expires.
+* *{aws} services.* AgentCore Gateway runs the authorization code flow for an OAuth target through AgentCore Identity. The first tool call that needs the token returns the authorization URL. This requires the agent's MCP client to support protocol version 2025-11-25 and URL elicitation. After the person approves, a component you run must complete the session binding with the token that started the flow. The sample's consent receiver does this.
+
+On both paths:
+
+* A person approves interactively the first time. You reach the consent receiver through port forwarding. It isn't exposed through a load balancer.
+* The stored token belongs to the agent, because the gateway sees the agent as the caller. A token for each person requires that person's identity to reach the gateway on every call.
+* For agents that run unattended, complete the first approval as a separate setup step.
+
+See <<agents-third-party-credentials>>.
+
+[#agents-gateway-considerations]
+== Considerations
+
+* *Agents must use it, and must be unable to bypass it.* A gateway isn't transparent. In the same change, deploy the gateway, point every agent's model and tool URLs at it, and replace the direct model endpoint in every agent's egress policy with the gateway. A gateway that agents can bypass enforces nothing. The agent must read its model and tool URLs from the environment. See <<agents-application-contract>>.
+* *The gateway holds every agent's credentials.* Secure and monitor it as the highest-value target in the architecture.
+* *On the open source path, you operate it.* Its capacity, upgrades, and availability are yours, and while it's down no agent can call a model.
+
+The reference sample makes these changes together with `enable_gateway`.
+
+* *Open source path.* The token audience is `agentgateway` by default. Tool policy is CEL expressions over the caller's identity and the tool, and the sample denies destructive tools such as `delete_repository` and `force_push` to every agent. Each agent's token budget defaults to one million tokens per hour, with per-agent overrides. `gateway_guardrail` names an Amazon Bedrock guardrail and a published version, not `DRAFT`, that the gateway applies to every model request and response. It fails closed when the guardrail service doesn't answer. `gateway_audience` sets the token audience.
+* *{aws} services path.* `gateway_audiences` sets the token audience. `allowed_agent_subjects` holds the one admitted subject, or is left empty to admit every agent. `cedar_policies` holds the Cedar statements, and `policy_engine_mode` switches the engine between `ENFORCE`, the default, and `LOG_ONLY`. The following settings add protections, and each is off until you set it, except the VPC endpoint policy:
+** `gateway_guardrails` attaches guardrail checks as AgentCore Policy statements on the inference target. It refuses a chat completion whose newest message scores above `prompt_attack_threshold` for jailbreak or prompt injection: the person's prompt on a turn's first call, and each tool result on the calls after it. Each message is screened once, on the call that adds it, and the system prompt isn't screened. Scores come in steps of 0.2, and the default, 0.9, refuses only the highest score, because lower thresholds also refuse ordinary tool instructions. The check scores a message's text. A client that sends a message's content as a list of parts can be refused for an ordinary prompt, because the list is scored as written. The sample's reference agent sends text-only content as one string. The gateway doesn't screen the model's response, because AgentCore Policy's output check refuses every streamed completion and the agents stream every turn. Screen responses in the agent instead. Guardrails in policies are available only in some {aws} Regions.
+** `gateway_rate_limits` sets request and token budgets per minute for each agent, keyed on the caller's token subject, with per-agent overrides. An agent over its budget gets `429`, and the others keep working.
+** `enable_gateway_waf` puts an {aws} WAF web ACL with the {aws} managed rule groups for common exploits, known bad inputs, and SQL injection in front of the gateway. The rules that inspect the body count matches instead of blocking, because the body is the agent's conversation. There's no per-IP rate rule, because every agent reaches the gateway from the same addresses.
+** `gateway_require_vpc_endpoint`, on by default, attaches the resource policy that keeps the gateway answering only through its VPC endpoint, once that endpoint exists. See <<agents-gateway-vpc-endpoint>>.
+
+[#agents-gateway-prerequisites]
+== Prerequisites
+
+* The base setup from <<agents-cluster-setup>> and the EKS Capabilities from <<agents-capabilities-setup>>, with `enable_network_policy = true`. Without network policy, an agent can skip the gateway and call the model provider directly. See <<agents-networking-combinations>>.
+* Terraform and your variables file, with the IAM principal that applied the base setup.
+* `PAVED_PATH` set to `open-source` or `aws-services`, such as with `export PAVED_PATH=open-source`.
+* A shell with `kubectl` access to the cluster, on the bastion or your workstation.
+
+[IMPORTANT]
+.Turning on the gateway removes the direct model route
+====
+The change replaces the Amazon Bedrock runtime endpoint with the gateway in every agent's network policy. Plan for the following.
+
+* Move any agent on the `agents/reasoning-direct` image to the default `agents/reasoning` image, which can't bypass the gateway, after the sync in Step 1, before you recreate the agent pods. The default image needs the gateway's endpoint, so moving it before the apply leaves the agent with no model route. See <<agents-application-model>>.
+* On the {aws} services path, name each agent in `gateway_permitted_agents` in the same change. The policy engine runs in `ENFORCE` mode and Cedar denies by default, so an agent without a permit gets `403` with `No policy applies to the request (denied by default)` on every model call.
+====
+
+[#agents-gateway-step1]
+== Step 1: Turn on the gateway
+
+This step turns on the gateway and makes it the only model destination for every agent, with the changes described in <<agents-gateway-considerations>>. Outside these templates, ship the gateway, the agents' new model and tool URLs, and the agents' new egress policy in the same release.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+. Set the variable. To screen every model request and response with an Amazon Bedrock guardrail, also name the guardrail and a published version:
++
+[source,hcl,subs="verbatim,attributes,quotes"]
+----
+enable_gateway = true
+
+# Optional
+gateway_guardrail = {
+  arn     = "arn:aws:bedrock:[.replaceable]`region-code`:[.replaceable]`111122223333`:guardrail/[.replaceable]`guardrail-id`"
+  version = "1"   # a published version, not DRAFT
+}
+----
+. Apply and sync:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+./scripts/apply.sh --root terraform/open-source -var-file=my.tfvars
+./scripts/run-stack.sh --root terraform/open-source -- ./scripts/bootstrap-gitops.sh --path open-source --sync
+----
++
+The apply creates the gateway's IAM role and EKS Pod Identity association, and the Argo CD sync deploys AgentGateway into the cluster. The gateway records every call in its access log, on the data plane pods' standard output.
++
+The sync renders the gateway's policy as `AgentgatewayPolicy` objects from the `agentgateway-config` chart. The following excerpt shows the three that every agent's call passes through. The first verifies the agent's projected token against the cluster's OIDC issuer, so the gateway knows which agent is calling. The second gives each verified caller its own token budget, keyed on the token's `sub` claim. The third refuses the named tools on the aggregated MCP backend, whatever the model asks for:
++
+[source,yaml]
+----
+apiVersion: agentgateway.dev/v1alpha1
+kind: AgentgatewayPolicy
+metadata:
+  name: agent-inbound-auth
+  namespace: agentgateway-system
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: egress
+  traffic:
+    jwtAuthentication:
+      mode: Strict
+      providers:
+        - issuer: "https://oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
+          audiences:
+            - agentgateway
+          jwks:
+            remote:
+              url: "https://oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE/keys"
+---
+apiVersion: agentgateway.dev/v1alpha1
+kind: AgentgatewayPolicy
+metadata:
+  name: model-budget
+  namespace: agentgateway-system
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: egress
+  traffic:
+    rateLimit:
+      local:
+        - key: jwt.sub
+          tokens: 1000000
+          unit: Hours
+---
+apiVersion: agentgateway.dev/v1alpha1
+kind: AgentgatewayPolicy
+metadata:
+  name: mcp-tool-policy
+  namespace: agentgateway-system
+spec:
+  targetRefs:
+    - group: agentgateway.dev
+      kind: AgentgatewayBackend
+      name: mcp-servers
+  backend:
+    mcp:
+      authorization:
+        action: Allow
+        policy:
+          matchExpressions:
+            - '!(["delete_repository", "delete_branch", "force_push"].contains(mcp.tool.name))'
+----
++
+`agent-inbound-auth` also carries an authorization rule that ties each per-agent model route to the matching subject, so one agent can't use another agent's route and IAM role. To change the defaults, edit the chart's values in a repository of your own that Argo CD reads, as described in <<agents-capabilities-setup>>: `budgets.default.tokensPerHour` and `budgets.perAgent` for budgets, and `toolPolicy.deniedTools` and `toolPolicy.extraExpressions` for tool rules. Every tool-policy expression must hold for a call to be allowed, so an added expression can only narrow which tools an agent reaches.
++
+Every Application reports `Synced` and `Healthy`. If one stays `Progressing` after its objects are ready, run the bootstrap script again, because Argo CD can keep the health it computed while they were starting. See <<agents-capabilities-later>>.
+. If an agent uses the `agents/reasoning-direct` image, set its `image` to `agents/reasoning` in its manifest, such as `my-agent.yaml`, and apply it now, after the sync:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/open-source --file my-agent.yaml -- kubectl apply -f my-agent.yaml
+----
+. Recreate the agent pods. The default runtime doesn't replace a running pod when its `Sandbox` changes, so the gateway's variables and a new image reach an agent only in a new pod. `roll-agents.sh` recreates each agent pod whose `Sandbox` changed, once for both changes, and prints a line for each agent, such as `agents/research: recreating (env OPENAI_BASE_URL added)`, or `current` for an agent that didn't change. An agent with `runtime: deployment` rolls out the change on its own.
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/open-source -- ./scripts/roll-agents.sh
+----
+. Confirm that the agent's `Sandbox` has the gateway's `OPENAI_BASE_URL`:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/open-source -- bash -c "kubectl -n agents get sandbox research -o yaml | grep -A1 OPENAI_BASE_URL"
+----
++
+The new pod has `OPENAI_BASE_URL` set to the gateway.
++
+The `Agent` resource sets the following variables on the agent's container. Each agent gets its own model route, `/llm/<agent>`, on the in-cluster gateway:
++
+[source,yaml]
+----
+env:
+  - name: OPENAI_BASE_URL                 # model calls; AGENT_GATEWAY_URL has the same value
+    value: http://egress.agentgateway-system.svc.cluster.local:8080/llm/research
+  - name: AGENT_MODEL
+    value: bedrock-claude-sonnet
+  - name: AGENT_MCP_URL                   # tool calls
+    value: http://egress.agentgateway-system.svc.cluster.local:8080/mcp
+  - name: AGENT_IDENTITY_TOKEN_FILE       # projected token with the gateway's audience
+    value: /var/run/secrets/eks-agents/gateway/token
+----
+
+{aws} services::
++
+. Set `enable_gateway`, `gateway_model_id`, and the agents that may call the model. AgentCore Gateway serves models through an inference target, an OpenAI-compatible endpoint that routes on the `model` field of each request, and the sample creates one for Amazon Bedrock by default. `gateway_model_id` is the name agents put in that field. It must come from the gateway's own catalog, in the form `bedrock/<provider>.<model>`, because an Amazon Bedrock model ID returns `404`. Choose a model that serves the OpenAI chat completions API, since some models accept only the Anthropic messages API. The catalog doesn't include Claude Sonnet models, so the sample uses `bedrock/openai.gpt-oss-120b` here, while agents without the gateway use Claude Sonnet 5.5. See <<agents-inference>>. Terraform generates a Cedar permit for the inference target for each agent in `gateway_permitted_agents`, which defaults to `research`:
++
+[source,hcl]
+----
+enable_gateway           = true
+gateway_model_id         = "bedrock/openai.gpt-oss-120b"   # a name from the gateway's own catalog
+gateway_permitted_agents = ["research"]                     # name, or namespace/name; one permit each
+allowed_agent_subjects   = []                               # empty: admit every token for the gateway's audience
+----
++
+The two lists control different things. `allowed_agent_subjects` decides which `sub` claims the gateway authenticates at all, and it accepts at most one subject, because AgentCore Gateway can match only a single string value on that claim. With more than one caller, including the evaluation judge, leave it empty, or the gateway refuses the other callers before any policy runs. `gateway_permitted_agents` then decides, through Cedar, which authenticated callers may call the model. For `research`, Terraform generates the following permit, and replaces `{{gateway_arn}}` with the gateway's ARN when it creates the policy:
++
+[source]
+----
+permit(
+  principal == AgentCore::OAuthUser::"system:serviceaccount:agents:research",
+  action in AgentCore::Action::"bedrock",
+  resource == AgentCore::Gateway::"{{gateway_arn}}"
+);
+----
++
+The principal is the agent's service account subject from its projected token, and `bedrock` is the inference target's name. Each agent is a separate principal, so list every agent that calls the gateway. The evaluation judge's permit is generated when evaluation is on. For any other rule, add it to `cedar_policies`, and name its principal, because the plan refuses a permit that doesn't. With `gateway_baseline_forbid`, on by default, Terraform also attaches a `forbid` for every caller that isn't in `gateway_permitted_agents`, isn't the evaluation judge, and isn't in `gateway_extra_principals`. A workload that uses the gateway's tools without a model permit must be in `gateway_extra_principals`, or the `forbid` refuses it even when a `permit` names it. In those rules, the principal is `AgentCore::OAuthUser` with the caller's `sub` claim, the action is the target name (`bedrock` for the inference target), and Terraform replaces `{{gateway_arn}}` with the gateway's ARN. See <<agents-gateway-cedar>> and <<agents-evaluations>>. To list the model names the gateway serves, send a `GET` to the `/models` path of `OPENAI_BASE_URL` from inside an agent's pod, with the agent's token. <<agents-inference-step3>> gives the command.
++
+To screen model calls, budget each agent, and put {aws} WAF in front of the gateway, also set the protections described in <<agents-gateway-considerations>>. The following values are the sample's example:
++
+[source,hcl]
+----
+gateway_guardrails = {
+  prompt_attack_threshold = 0.9   # refuse a chat completion whose newest message scores above this
+}
+
+gateway_rate_limits = {
+  requests_per_minute = 300
+  tokens_per_minute   = 200000
+  per_agent = {
+    reporter = { tokens_per_minute = 50000 }
+  }
+}
+
+enable_gateway_waf = true
+----
+. Apply and sync:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+./scripts/apply.sh --root terraform/aws-services -var-file=my.tfvars
+./scripts/run-stack.sh --root terraform/aws-services -- ./scripts/bootstrap-gitops.sh --path aws-services --sync
+----
++
+The apply creates AgentCore Gateway with its credential providers, targets, and policy engine, and delivers the gateway's application log to Amazon CloudWatch Logs. The `gateway_log_group` output names that log group. Check it first when you troubleshoot, because it records why a target failed and which Cedar policy decided each call.
++
+Every Application reports `Synced` and `Healthy`. If one stays `Progressing` after its objects are ready, run the bootstrap script again, because Argo CD can keep the health it computed while they were starting. See <<agents-capabilities-later>>.
+. If an agent uses the `agents/reasoning-direct` image, set its `image` to `agents/reasoning` in its manifest, such as `my-agent.yaml`, and apply it now, after the sync:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/aws-services --file my-agent.yaml -- kubectl apply -f my-agent.yaml
+----
+. Recreate the agent pods. The default runtime doesn't replace a running pod when its `Sandbox` changes, so the gateway's variables and a new image reach an agent only in a new pod. `roll-agents.sh` recreates each agent pod whose `Sandbox` changed, once for both changes, and prints a line for each agent, such as `agents/research: recreating (env OPENAI_BASE_URL added)`, or `current` for an agent that didn't change. An agent with `runtime: deployment` rolls out the change on its own.
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/aws-services -- ./scripts/roll-agents.sh
+----
+. Confirm that the agent's `Sandbox` has the gateway's `OPENAI_BASE_URL`:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/aws-services -- bash -c "kubectl -n agents get sandbox research -o yaml | grep -A1 OPENAI_BASE_URL"
+----
++
+The new pod has `OPENAI_BASE_URL` set to the gateway.
++
+The `Agent` resource sets the following variables on the agent's container. The URLs are AgentCore Gateway's endpoints from the `model_endpoint` and `mcp_endpoint` Terraform outputs, and the model is `gateway_model_id`:
++
+[source,yaml]
+----
+env:
+  - name: OPENAI_BASE_URL
+    value: https://my-agents-agents-abcd1234ef.gateway.bedrock-agentcore.us-west-2.amazonaws.com/inference/v1
+  - name: AGENT_MODEL
+    value: bedrock/openai.gpt-oss-120b
+  - name: AGENT_MCP_URL
+    value: https://my-agents-agents-abcd1234ef.gateway.bedrock-agentcore.us-west-2.amazonaws.com/mcp
+----
++
+AgentCore Gateway answers an expired token with `403 insufficient_scope`, the same response it gives in two other cases. When the failures start tells you which cause it is:
++
+* *Every agent fails from the first request.* `allowed_clients` is set on the gateway. A projected token has no `client_id` claim, so no token matches.
+* *One agent fails from the first request, and others work.* The agent isn't an admitted subject of the gateway.
+* *Requests work, then the same process fails later.* The caller reuses a token that has expired.
+
+The bootstrap script applies the root Application with the values that the apply rendered, refreshes and syncs it, and waits for the Applications to converge. On both paths, the change sets the gateway's model and tool endpoints in every agent's environment.
+
+An agent built on another SDK reads the same variables. The OpenAI-compatible base URL and the token file are the whole contract, so the agent holds no provider credential. Read the token file on every request, not once per process or once per turn. The kubelet rewrites the file before the token expires, so a copy read once can expire while the agent still uses it. The reference agent passes its model client a function that the OpenAI SDK calls before each request, and passes its MCP client an `httpx.Auth` that reads the file. Your own code that calls the gateway, such as a script or a sidecar, needs the same.
+
+[#agents-gateway-verify]
+== Step 2: Verify egress through the gateway
+
+From the `agents` directory, confirm that a model call through the gateway succeeds and a direct call to the model provider fails.
+
+. *Call the model through the gateway.* The reference sample's `model` phase calls it from inside the agent's pod, so the call uses the agent's identity and network policy.
++
+[source,bash]
+----
+./scripts/exercise.sh --path $PAVED_PATH model
+----
++
+The call returns a completion. On the {aws} services path, a `403` with `No policy applies to the request` means the agent has no Cedar permit. The phase also confirms that the gateway's baseline `forbid` refuses a caller that isn't in `gateway_permitted_agents`, and prints `the gateway's baseline forbid refused a caller outside gateway_permitted_agents`. With `gateway_guardrails`, it sends a prompt-injection attempt and prints `the gateway's guardrail refused a prompt-injection attempt before it reached the model`. With the resource policy from <<agents-gateway-vpc-endpoint>>, it sends a valid agent token to the gateway's public address, outside the endpoint, and prints `a valid agent token is refused from outside the VPC: the gateway answers only through its VPC endpoint`. From the bastion, that call goes to the gateway's public address through the NAT gateway, so the check runs in both modes, as long as you run `exercise.sh` from the machine where you run Terraform, as with every other `exercise.sh` command, because that machine looks up the gateway's public address.
+. *Call the model provider directly.* Open a connection from the agent's pod to the Amazon Bedrock runtime endpoint in the cluster's Region:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+kubectl -n agents exec research -- python -c "
+import socket
+host = 'bedrock-runtime.[.replaceable]`region-code`.amazonaws.com'
+socket.create_connection((socket.gethostbyname(host), 443), timeout=8)
+print('connected: a second route out')"
+----
++
+The connection times out. If it succeeds, the agent can bypass the gateway, so check the network policy. On the open source path, the `egress` phase of the same script also confirms that the gateway rejects an unapproved host. AgentCore Gateway doesn't route on the host, so on the {aws} services path the phase skips that check. See <<agents-network-policies>>.
+
+[#agents-gateway-vpc-endpoint]
+== Step 3: (Optional) Keep gateway traffic in the VPC
+
+On the {aws} services path, agents reach AgentCore Gateway at its public endpoint, through the NAT gateway, and the gateway accepts a valid token from any network. An interface VPC endpoint keeps that traffic inside the VPC. It has private DNS turned on, so the gateway's host name resolves to addresses in the VPC, and the agents' URLs and network policy don't change. With the endpoint in place, the reference sample also attaches a resource policy to the gateway that refuses every invocation that doesn't arrive through it (`aws:SourceVpce`). A token copied out of an agent's pod then works only inside the VPC. `gateway_require_vpc_endpoint` controls this policy and is on by default.
+
+The endpoint's policy allows requests to this stack's gateway only. Gateway callers authenticate with a token rather than an IAM signature, so the policy limits the resource, not the caller, and a request to any other gateway through the endpoint returns `403`. {aws} enforces the policy outside the cluster, so it still holds if someone changes the cluster's network policy. See link:vpc/latest/privatelink/vpc-endpoints-access.html[Control access to VPC endpoints using endpoint policies,type="documentation"] in the _{aws} PrivateLink Guide_.
+
+We recommend the `agentcore` endpoint for production. It's the only way to attach the gateway's resource policy, so that a stolen token can't be used from outside the VPC.
+
+[NOTE]
+====
+An interface VPC endpoint is billed for each hour in each Availability Zone, and for the data it processes. See https://aws.amazon.com/privatelink/pricing/[{aws} PrivateLink pricing].
+====
+
+. Add `agentcore` to `vpc_endpoints` in your variables file, alongside any endpoints you set in <<agents-cluster-vpc-endpoints>>. The gateway must already be on, because the endpoint policy names the gateway's ARN. With the gateway on, the reference sample adds the `agentcore-gateway` endpoint for you, because the `agentcore` endpoint's private DNS covers every gateway's host name. The gateway's resource policy is attached only when `vpc_endpoints` lists `agentcore`. Listing `agentcore-gateway` alone creates the endpoint without the resource policy, so the gateway still accepts calls from outside the VPC.
++
+[source,hcl]
+----
+enable_gateway = true
+vpc_endpoints  = ["agentcore"]   # plus any endpoints you already listed
+----
++
+The reference sample creates the endpoint when it creates the VPC, or when you set `vpc_id` and `vpc_cidr` for an existing VPC.
+. Apply the change:
++
+[source,bash]
+----
+./scripts/apply.sh --root terraform/aws-services -var-file=my.tfvars
+----
++
+Terraform creates the interface endpoints in the cluster's subnets, a security group that admits HTTPS on port 443 from the VPC's CIDR range, the endpoint policy, and the gateway's resource policy. Nothing in the cluster changes, so there's nothing to sync and no pod to recreate. A change to the endpoint policy doesn't take effect immediately.
+. Confirm that the gateway's host name resolves inside the VPC. Run the lookup from the agent's pod:
++
+[source,bash]
+----
+GATEWAY_HOST=$(terraform -chdir=terraform/aws-services output -raw gateway_hostname)
+./scripts/run-stack.sh --root terraform/aws-services -- \
+  kubectl -n agents exec research -- python -c "import socket; print(socket.gethostbyname('$GATEWAY_HOST'))"
+----
++
+The command prints an address in the VPC's CIDR range. A public address means the endpoint or its private DNS isn't in place. Then repeat <<agents-gateway-verify>> to confirm that model calls still succeed through the endpoint and that the gateway refuses a valid agent token from outside the VPC. After the apply that creates the endpoint, model calls can time out for a while even though the host name already resolves to an address in the VPC. If the check times out, run it again before you look at the endpoint or the network policy.
+
+[#agents-gateway-cleanup]
+== Clean up
+
+Turning off the gateway removes the egress gateway, its IAM role and policy, and the network policy rule that names it. Agents then call Amazon Bedrock directly with their own IAM role, so they need the image built for that. The apply refuses `enable_gateway = false` while a component that needs the gateway is on, such as consolidation, evaluation, or person access on the open source path, so turn those off first. For the general steps, see <<agents-capabilities-later>>.
+
+. Point each agent at the direct image. Set its `image` to `agents/reasoning-direct`, and apply the `Agent` as in <<agents-application-setup>>.
+. Set `enable_gateway = false` in your variables file. On the {aws} services path, also remove `agentcore-gateway` from `vpc_endpoints` if you listed it, because the plan refuses that endpoint without the gateway. The gateway's {aws} WAF, guardrail, and rate limits are removed with it, so `enable_gateway_waf`, `gateway_guardrails`, and `gateway_rate_limits` can stay in your variables file for when you turn the gateway back on. Apply with `scripts/apply.sh`.
+. Sync with pruning, so Argo CD deletes the gateway's Applications and what they installed:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/bootstrap-gitops.sh --path $PAVED_PATH --sync --prune
+----
+. Recreate each agent's pod after its `Sandbox` no longer shows the gateway's `OPENAI_BASE_URL`. The default runtime doesn't replace a running pod when its `Sandbox` changes, so until you recreate it, the agent keeps calling a gateway that the network policy no longer allows:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/bootstrap-gitops.sh --path $PAVED_PATH --sync --roll-agents
+----
+
+The network policy then allows the Amazon Bedrock runtime endpoint instead of the gateway, as in the base setup. The gateway no longer attaches credentials for third-party APIs. To remove those credentials too, see <<agents-third-party-credentials-cleanup>>.
+
+[#agents-gateway-next]
+== Next steps
+
+* <<agents-inference>>: Configure the models the gateway serves.
+* <<agents-mcp>>: Configure the tools the gateway serves.
+* <<agents-mesh>>: Add verified identity and mTLS between unsandboxed workloads, and route their calls through the gateway.

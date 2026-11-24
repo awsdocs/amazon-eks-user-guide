@@ -1,0 +1,388 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-evaluations]
+= Evaluate agent output on Amazon EKS
+:info_titleabbrev: Evaluations
+
+[abstract]
+--
+Grade agent output on the traces your observability layer already collects, and treat the judge as a workload with its own identity and model access.
+--
+
+Agent output isn't deterministic. The same prompt can produce a different answer, a different tool call, or a different order of steps, and a model update, a prompt change, or a new tool can shift behavior without any code failing. A passing test run therefore doesn't guarantee the next release behaves the same way. Evaluation measures behavior instead, by grading what agents actually did.
+
+Most agent output has no single right answer to compare against, so grading usually uses a second model as the judge (LLM-as-judge). The judge reads a turn's input, output, and trajectory, and scores it against a rubric such as helpfulness, faithfulness to retrieved content, or whether the agent chose the right tool. Evaluation grades the traces that observability already collects (<<agents-observability>>), so it needs no separate instrumentation.
+
+Adopt evaluation in stages:
+
+. Grade by hand while an internal agent has a small audience.
+. Add the release gate (<<agents-evaluations-offline>>) when output reaches a wider audience or you need to block a release. It needs no live traffic and takes less work than online grading.
+. Add online grading when you need coverage of inputs you didn't anticipate.
+
+The following diagrams show each path.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+The following diagram shows the open source path. The Strands Evals runner grades sampled traces online and gates releases on declared cases. For each case, it sends a turn to the agent, reads the trace from Langfuse, and has the judge grade it through AgentGateway.
++
+image::images/agents-evaluations-open-source.png["The Strands Evals runner sends a real turn to the agent under test, reads the turn's trace from Langfuse, and has a judge grade it through AgentGateway and Amazon Bedrock.",scaledwidth=100%]
+
+{aws} services::
++
+The following diagram shows the {aws} services path. The Strands Evals runner is the release gate, run on demand. It reads each turn's spans from Amazon CloudWatch and grades through AgentCore Gateway. AgentCore Evaluations, a separate managed service, grades live traffic.
++
+image::images/agents-evaluations-aws-services.png["The Strands Evals runner sends a turn to the agent under test, reads its spans, and has a judge grade it through AgentCore Gateway. AgentCore Evaluations optionally grades a sample of live sessions.",scaledwidth=100%]
+
+[#agents-evaluations-paths]
+== Open source and {aws} services paths
+
+The following table compares how each path provides evaluation. Both paths grade with Strands Evals, an open source evaluation SDK.
+
+[cols="1,2,2",options="header"]
+|===
+|Aspect |Open source |{aws} services
+
+|Release gate
+|Strands Evals runner in the cluster, as a suspended CronJob that you run on demand
+|Strands Evals runner in the cluster, run on demand
+
+|Online grading
+|The same runner, as a CronJob that grades sessions after they end
+|AgentCore Evaluations, a managed service that you turn on separately, created stopped
+
+|Trace source
+|Langfuse, which evaluation requires
+|Agent spans in Amazon CloudWatch
+
+|Where grades go
+|Langfuse
+|The AgentCore Evaluations result log group in Amazon CloudWatch
+
+|Judge model access
+|A `/judge` route on AgentGateway that admits only the runner's service account
+|AgentCore Gateway, with a Cedar permit for the judge, and an empty `allowed_agent_subjects`
+
+|Sample rate
+|`online.samplingPercentage` in the chart values, 10% by default
+|`evaluation_sampling_percentage`, 10% by default
+|===
+
+[#agents-evaluations-what]
+== What to evaluate
+
+Evaluate the following, from least to most expensive:
+
+* *Final answer.* Whether it is correct, grounded in retrieved content, and within policy. Start here.
+* *Trajectory.* Whether the agent called the right tools, in a reasonable order, without looping. This requires spans. See <<agents-observability>>.
+* *Safety and policy.* Refusals, leaked context, and resistance to prompt injection. Guardrails enforce at request time (<<agents-inference>>). Evaluation measures whether they are configured correctly.
+
+[#agents-evaluations-options]
+== Release gates and online grading
+
+Evaluation runs in two modes, and they answer different questions:
+
+* *A release gate* runs a fixed set of declared cases against the deployed agent before you promote a release, and fails the release when too few grades pass. It catches regressions on inputs you anticipated, needs no live traffic, and costs only the judge calls for the cases. See <<agents-evaluations-gate>>.
+* *Online grading* samples real sessions after they end and grades them. It covers inputs you didn't anticipate and shows drift over time, but every sampled session costs judge calls on top of the agent's own model spend, and grades arrive after the session, so it can't block a release.
+
+* *Open source path.* A runner in the cluster does both, and grades go to Langfuse. To see them, open Langfuse as described in <<agents-observability-dashboards>>.
+* *{aws} services path.* The runner is the release gate, and AgentCore Evaluations, a capability of Amazon Bedrock AgentCore, grades live traffic as a managed service, with results in Amazon CloudWatch.
+
+Don't run online grading in both places, because each grade would be paid for twice.
+
+[#agents-evaluations-evaluators]
+== What the runner grades
+
+The runner grades at three levels, because a correct final answer can hide a wrong action:
+
+* *Session:* `GoalSuccessRate`.
+* *Trace:* `Helpfulness` and `Faithfulness`.
+* *Tool call:* `ToolSelectionAccuracy` and `ToolParameterAccuracy`. For a turn with no tool calls, these return not applicable and the runner publishes no score.
+
+None of these require an expected answer, so they also grade live traffic. The release gate also runs `Correctness` on cases that declare an expected output. To add your own dimensions, write rubrics that define each score, so runs are comparable and reviewers know what a score means.
+
+The runner fetches a turn's trajectory from the trace backend by session ID. The reference agent accepts `session_id` on its chat endpoint and sets `session.id` on its spans. Agents you build must do the same, or their turns cannot be graded.
+
+On the {aws} services path, AgentCore online evaluation selects sessions with a query over the span log. If the agent's telemetry lacks any of the following, the configuration shows as active but grades nothing:
+
+* *`session.id` on every span.*
+* *The resource attribute `aws.service.type=gen_ai_agent`.* The {aws} Distro for OpenTelemetry SDK sets it; the upstream OpenTelemetry SDK does not. The `Agent` object sets it in `OTEL_RESOURCE_ATTRIBUTES`.
+* *Prompts and responses on the spans.* Strands Agents records them as span events.
+
+[#agents-evaluations-judge]
+== Judge model access
+
+The judge is a model caller, so give it the same controls as an agent. Many teams also give it a different model from the agent's, so that a model doesn't grade its own output. In the templates, the judge runs as the runner's service account, `agent-evals`, and calls its model through the gateway with its projected service account token. It holds no model credential, and its spend is metered and audited at the gateway with the agents' calls.
+
+A harness that authenticates with a static API key can't present the short-lived token the gateway requires. Before you adopt a harness, confirm that its credential mechanism meets the gateway's inbound authentication. Don't relax the gateway's authentication to fit a harness. The egress design depends on the gateway verifying every caller.
+
+Plan for the following:
+
+* *On the {aws} services path, `enable_evaluations` requires an empty `allowed_agent_subjects`.* AgentCore Gateway admits either exactly one subject or every subject its audience accepts. The judge is a second subject, so pinning one agent refuses every judge call.
+* *On the {aws} services path, the judge has its own Cedar permit.* The gateway's policy engine denies by default, and the judge's service account is a principal like any agent. Terraform generates the judge's permit when `enable_evaluations` is on. Without a permit, every judge call returns `403` and nothing is graded. Step 1 shows the permit.
+* *The release gate calls each agent as a client.* Each `Agent` admits the runner's pods to the agent's port, in both its network policy and its inbound caller check. The runner presents a token minted for that agent's audience, and the agent rejects tokens minted for any other audience. Admitting the runner grants it no other authority. On the default runtime, recreate each agent's pod after turning on evaluation. Otherwise the agent rejects the runner with `401`. See <<agents-evaluations-step1>>.
+
+[#agents-evaluations-sampling]
+== Sampling and cost
+
+On the open source path, online grading runs every 15 minutes over sessions that ended in the previous window. A session must be idle for 10 minutes before it is graded, so conversations in progress are not graded partway through.
+
+* *Cost.* Each graded session makes several judge calls, one per evaluator plus one per tool call for the tool-call evaluators, in addition to the agent's own model spend. Both paths grade 10% of sessions by default. The sample rate is the main cost control, so raise it for a small project where 10% is too few sessions to show a trend, and lower it for high-volume agents. On the open source path, set `online.samplingPercentage` in `agent-evals-values.yaml`, which changes without rebuilding the image. On the {aws} services path, set `evaluation_sampling_percentage`, which becomes the sampling percentage of the AgentCore online evaluation configuration.
+* *Latency on the {aws} services path.* A grade arrives one session timeout after the conversation's last turn, plus up to five minutes for the service's next pass. `evaluation_session_timeout_minutes` sets the timeout, 30 by default. A lower value returns grades sooner, but set it above the longest pause users leave between turns, or one conversation is graded as several.
+* *Rollout.* Run new evaluators in report-only mode first and review what they flag. Gating releases on an untested judge produces failures that teams dispute and stop trusting.
+
+[#agents-evaluations-settings]
+== Evaluation in the reference sample
+
+The base setup in the reference sample leaves evaluation off. `enable_evaluations` turns on the runner and the judge's model access on both paths.
+
+* *Open source path.* `enable_evaluations` also needs `enable_langfuse`, which adds Langfuse as the trace and score store, at the cost of a ClickHouse tier, a Keeper quorum, object storage, Postgres, and a cache, plus the ClickHouse operator and cert-manager, which issues the operator's webhook certificates.
+* *{aws} services path.* `enable_online_evaluation` turns on AgentCore online evaluation independently of the release gate. It's created stopped by default so you can validate evaluators on a few sessions before every sampled session becomes a paid judge call.
+
+Both modes grade the spans the collector records, so both require `enable_observability`. The release gate's judge calls the gateway, so it also requires `enable_gateway`.
+
+[#agents-evaluations-gate]
+== How the release gate works
+
+The release gate runs a fixed set of inputs with known-good answers against the deployed agent. It catches regressions without live traffic, sampling, or a second bill. The cases live in `agent-evals-values.yaml`, so changes to them go through code review like any other release criteria. The file ships with no agents, so the gate runs nothing until you add one. The gate is a suspended CronJob, so it runs only when you create a job from it.
+
+For each case, the job sends a turn to the agent, waits for the turn's spans to reach the trace backend, and grades it. A case with `expectedOutput` is also graded for correctness. `minPassRate` is the share of grades that must pass, 0.8 by default. A pipeline can use the job's exit code:
+
+[cols="1,5", options="header"]
+|===
+|Result |Meaning
+
+|Exit `0`
+|The pass rate meets `minPassRate`.
+
+|Exit `1`
+|The pass rate is below `minPassRate`.
+
+|Exit `2`
+|Execution failure. A case couldn't run or its trace never arrived, and it isn't counted as a zero grade. `ConnectTimeout` means the runner couldn't reach the agent, so check the agent's `expose` setting and the network policy that admits the runner. `never reached the trace backend` means the turn ran but its spans didn't arrive. Check the collector's log for Langfuse export errors on the open source path, or the agents' telemetry log group in Amazon CloudWatch on the {aws} services path.
+
+|Exit `3`
+|Configuration error. The runner couldn't read its configuration or token, the backend isn't `langfuse` or `agentcore`, or no evaluators are declared, so the run grades nothing. Check the job's log for the message.
+
+|`"graded": 0`, no execution failures
+|The gateway refused the judge. Check the job's log for `403 Forbidden` on the judge's model calls. On the open source path, AgentGateway admits `/judge/agent-evals` only from the runner's service account, `system:serviceaccount:agent-evals:agent-evals`, so check that the runner calls that route with its own token. On the {aws} services path, check the judge's Cedar permit.
+|===
+
+Each case includes the turn, the wait for its spans, and one judge call per evaluator.
+
+[#agents-evaluations-prereqs]
+== Prerequisites
+
+* A shell with `kubectl` access to the cluster, on the bastion or your workstation.
+* `PAVED_PATH` set to `open-source` or `aws-services`, such as with `export PAVED_PATH=open-source`.
+* <<agents-observability>>, turned on. Both paths grade the spans it collects.
+* <<agents-gateway>>, turned on. The judge calls its model through the gateway. Online evaluation alone on the {aws} services path doesn't need it.
+* On the open source path, `platform-secrets`.
+* A clone of the reference sample on your workstation, to build and push the runner image. The build runs in the stack's CodeBuild project and needs only the {aws} CLI, or Docker or Finch with `enable_image_build = false`.
+* At least one agent with `expose: cluster` or `expose: route`, to run the release gate against.
+
+[#agents-evaluations-step1]
+== Step 1: Turn on evaluation
+
+This step creates the runner and the judge's model access, then builds the runner image that Argo CD deploys.
+
+To reproduce this outside the templates, you need a scheduled grader, a model route and identity for the judge, and read access to the trace store.
+
+The apply creates the `agents/evals` Amazon ECR repository. Build the runner image from `apps/evals` in the reference sample and push it there before you sync. Tags are immutable, so each rebuild needs a new tag. Set it in `agent-evals-values.yaml` in the path's `gitops/platform` directory before you sync.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+`enable_evaluations` deploys the `agent-evals` chart, which runs the online grading CronJob and the suspended release-gate CronJob in namespace `agent-evals`. It also creates the judge's IAM role, which the gateway assumes, adds a `/judge` route to the gateway that admits only the runner's service account, and copies the Langfuse project keys into the runner's namespace. `evaluation_judge_model_arns` scopes the judge's role. As with an agent's `modelArns`, list the inference profile and the foundation model in every Region the profile routes to. `evaluation_judge_model_id` selects the judge's model and defaults to the agents' model.
++
+Evaluation also requires Langfuse:
++
+[source,hcl]
+----
+enable_langfuse             = true
+enable_evaluations          = true
+evaluation_judge_model_arns = [
+  "arn:aws:bedrock:us-west-2:111122223333:inference-profile/us.anthropic.claude-sonnet-5-5",
+  "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-sonnet-5-5",
+  "arn:aws:bedrock:us-east-2::foundation-model/anthropic.claude-sonnet-5-5",
+  "arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-sonnet-5-5",
+]
+----
++
+Apply, build the runner image, and sync:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+./scripts/apply.sh --root terraform/open-source -var-file=my.tfvars
+./scripts/build-images.sh --root terraform/open-source
+# set image.tag in gitops/platform/open-source/agent-evals-values.yaml if it is not v1
+./scripts/run-stack.sh --root terraform/open-source -- ./scripts/bootstrap-gitops.sh --path open-source --sync --roll-agents
+----
++
+The runner reads what to grade from the `agent-evals` chart's values. The following excerpt shows the defaults that apply to both modes:
++
+[source,yaml]
+----
+evaluators:                    # graded on every sampled session and every release-gate case
+  - Helpfulness
+  - Faithfulness
+  - ToolSelectionAccuracy
+  - ToolParameterAccuracy
+  - GoalSuccessRate
+online:
+  schedule: "*/15 * * * *"     # grade the sessions that went quiet in the last window
+  windowMinutes: 15
+  quietMinutes: 10
+  samplingPercentage: 10
+experiment:
+  minPassRate: 0.8
+  extraEvaluators:
+    - Correctness              # needs an expected output, so only the release gate runs it
+----
++
+`samplingPercentage` is the online cost control, because each graded session costs several judge calls. Override any of these in `gitops/platform/open-source/agent-evals-values.yaml` rather than in the chart.
+
+{aws} services::
++
+`enable_evaluations` gives the runner an EKS Pod Identity role that reads the agents' telemetry log group and spans and writes results to the AgentCore Evaluations result log group. The runner's role has no model permission, because the release gate's judge calls the gateway with the runner's token. `enable_online_evaluation` creates a separate execution role for AgentCore Evaluations, which reads the agents' traces and calls the judge models, and an online evaluation configuration that grades with AgentCore's built-in evaluators, and a custom LLM-as-judge evaluator only for each entry in `llm_judge_evaluators`, and `enable_online_evaluation_on_create` decides whether it starts immediately.
++
+Turn on the release gate, online grading, or both:
++
+[source,hcl]
+----
+enable_evaluations                 = true
+enable_online_evaluation           = true
+enable_online_evaluation_on_create = true   # start grading now; false creates the configuration stopped
+----
++
+`enable_online_evaluation_on_create` decides whether the configuration grades sessions. With `false`, the default, it's created stopped, so you can validate the evaluator definitions before you pay for judge calls. Set it to `true` and apply again to start grading.
++
+For the release gate, keep `allowed_agent_subjects` empty. Terraform adds the Cedar permit for the judge's service account, `system:serviceaccount:agent-evals:agent-evals`.
++
+For online grading, set `evaluation_service_names` to the agent that the configuration grades. Use the `service.name` that the agent reports, which is its `Agent` name. Each online evaluation configuration grades one agent.
++
+[source,hcl]
+----
+evaluation_service_names = ["research"]
+----
++
+Online grading uses the built-in evaluators `Builtin.Helpfulness`, `Builtin.Correctness`, and `Builtin.GoalSuccessRate` unless you set `evaluation_builtin_evaluators`. To add your own judges, define them in `llm_judge_evaluators`. Terraform grants AgentCore Evaluations' execution role each judge's model, including every foundation model an inference profile routes to.
++
+Apply, build the runner image, and sync:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+./scripts/apply.sh --root terraform/aws-services -var-file=my.tfvars
+./scripts/build-images.sh --root terraform/aws-services
+# set image.tag in gitops/platform/aws-services/agent-evals-values.yaml if it is not v1
+./scripts/run-stack.sh --root terraform/aws-services -- ./scripts/bootstrap-gitops.sh --path aws-services --sync --roll-agents
+----
++
+Terraform creates the online evaluation as an AgentCore Evaluations resource. The following excerpt shows what it configures:
++
+[source,hcl]
+----
+resource "aws_bedrockagentcore_online_evaluation_config" "this" {
+  online_evaluation_config_name = "my_agents_agents"
+  evaluation_execution_role_arn = aws_iam_role.evaluation.arn
+  execution_status              = "DISABLED"   # "ENABLED" when enable_online_evaluation_on_create = true
+
+  data_source_config {
+    cloudwatch_logs {
+      log_group_names = ["/aws/eks/my-agents/agents"]   # the agents' telemetry log group
+      service_names   = ["research"]                    # from evaluation_service_names
+    }
+  }
+
+  evaluator { evaluator_id = "Builtin.Helpfulness" }
+  evaluator { evaluator_id = "Builtin.Correctness" }
+  evaluator { evaluator_id = "Builtin.GoalSuccessRate" }
+
+  rule {
+    sampling_config { sampling_percentage = 10 }        # evaluation_sampling_percentage
+    session_config  { session_timeout_minutes = 30 }    # evaluation_session_timeout_minutes
+  }
+}
+----
++
+The configuration reads spans from the telemetry log group and selects sessions by service name and by the `aws.service.type=gen_ai_agent` resource attribute that the `Agent` resource sets (see <<agents-observability-instrument>>). A session is graded only after it has been idle for the session timeout, so a conversation in progress isn't graded on half its turns.
+
+The bootstrap script applies the rendered root Application, refreshes and syncs it, and waits for the Applications to converge. With `--roll-agents`, it then recreates each agent pod whose `Sandbox` changed, and prints a line for each agent, such as `agents/research: recreating (env AGENT_ALLOWED_CALLER_NAMESPACES changed)`, or `current` for an agent that didn't change.
+
+The new Applications report `Synced` and `Healthy`. If one stays `Progressing` after its objects are ready, run the bootstrap script again, because Argo CD can keep the health it computed while they were starting. See <<agents-capabilities-later>>.
+
+[IMPORTANT]
+====
+A `Sandbox` doesn't replace its running pod when its spec changes, and an agent on the default runtime rejects the runner with `401` until its pod is recreated. The `--roll-agents` on the sync recreates it. If you synced without `--roll-agents`, run the sync again with it.
+====
+
+[#agents-evaluations-offline]
+== Step 2: Gate a release on declared cases
+
+Add your cases to `agent-evals-values.yaml` in the path's `gitops/platform` directory. Each listed agent needs `expose: cluster` or `expose: route`:
+
+[source,yaml]
+----
+experiment:
+  minPassRate: 0.8
+  agents:
+    research:
+      namespace: agents
+      port: 8080
+      cases:
+        - name: capital-france
+          input: What is the capital of France?
+          expectedOutput: Paris
+----
+
+Then sync. The bootstrap script passes the path's values files, including `agent-evals-values.yaml`, to the cluster in the root Application, so the edit needs no commit:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/bootstrap-gitops.sh --path $PAVED_PATH --sync
+----
+
+Run the gate on demand, wait for the job to finish, and read its result:
+
+[source,bash]
+----
+JOB=gate-$(date +%s)
+kubectl -n agent-evals create job --from=cronjob/agent-evals-experiment $JOB
+kubectl -n agent-evals wait --for=condition=complete --timeout=600s job/$JOB
+kubectl -n agent-evals logs job/$JOB
+----
+
+You can also run the `evals` phase of the sample's exercise script from the `agents` directory. The job exits with one of the codes in <<agents-evaluations-gate>>. A job that exits with a code other than `0` never reports `complete`, so the wait times out. Read its log the same way. A passing job exits `0` and its log reports each evaluator's grade:
+
+[source,json]
+----
+{
+  "mode": "experiment",
+  "graded": 4,
+  "passRate": 1.0,
+  "byEvaluator": {
+    "CorrectnessEvaluator":     { "n": 1, "passRate": 1.0, "meanScore": 1.0 },
+    "FaithfulnessEvaluator":    { "n": 1, "passRate": 1.0, "meanScore": 1.0 },
+    "GoalSuccessRateEvaluator": { "n": 1, "passRate": 1.0, "meanScore": 1.0 },
+    "HelpfulnessEvaluator":     { "n": 1, "passRate": 1.0, "meanScore": 0.833 }
+  },
+  "executionFailures": {}
+}
+----
+
+[#agents-evaluations-cleanup]
+== Clean up
+
+To remove evaluation, turn it off as described in <<agents-capabilities-later>>. Set the variable to `false`, apply with `scripts/apply.sh`, and run the bootstrap script with `--sync --prune`. Set `enable_evaluations` to `false`, and on the {aws} services path, `enable_online_evaluation` too.
+
+* *Open source path.* The prune removes the `agent-evals` chart, its CronJobs, and the judge's route on the gateway. Grades already written stay in Langfuse until you remove Langfuse. See <<agents-observability-cleanup>>.
+* *{aws} services path.* The apply deletes the runner's role and Pod Identity association, the evaluator, and the online evaluation configuration. Results already written stay in their log group until you remove the telemetry layer. See <<agents-observability-cleanup>>.
+
+The gateway and observability stay on, because other components use them. Turn them off on their own pages.
+
+[#agents-evaluations-next]
+== Next steps
+
+* <<agents-observability>> for the traces evaluation reads.
+* <<agents-inference>> for guardrails, which enforce at request time.

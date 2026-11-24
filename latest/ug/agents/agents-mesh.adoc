@@ -1,0 +1,308 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-mesh]
+= Choose a service mesh mode for agents
+:info_titleabbrev: Mesh
+
+[abstract]
+--
+Choose between no mesh and ambient mode for agent namespaces, and understand what a mesh does and does not enforce for a sandboxed agent.
+--
+
+A service mesh adds identity to the traffic between workloads. Network policy controls which addresses a pod can connect to, and the gateway governs the model, tool, and API calls that pass through it. A mesh adds the following for the workloads it captures:
+
+* *A verified caller identity.* Each connection carries the calling workload's mesh identity, so a server can admit callers by identity rather than by address. The reference MCP server on the open source path admits only the gateway this way.
+* *Encryption with no application change.* Traffic between captured pods uses mutual TLS, without changes to the workloads.
+* *A record of every connection.* The mesh logs each connection with the caller's and the destination's identities, including traffic that never passes through the gateway.
+* *Routing through the gateway.* On the open source path, the mesh can send a workload's outbound calls to AgentGateway without configuring the gateway in that workload. See <<agents-mesh-capture>>.
+
+A mesh doesn't replace either of the other layers. Network policy still provides the egress boundary that fails closed, and the gateway still enforces budgets, tool policy, and credentials.
+
+Today these benefits apply to unsandboxed workloads, such as MCP servers, tool servers, the chat interface, and the gateway itself. Ambient mode doesn't capture traffic from a pod in a Nitro Sandbox, which is where agents run by default, so a call to an agent is authorized by the agent's own token check (see <<agents-mesh-sandbox>>). Add a mesh when unsandboxed workloads run beside your agents, especially workloads you didn't build, and need encrypted, identity-aware traffic or routing to the gateway.
+
+The reference sample uses Istio in ambient mode. A proxy on each node, ztunnel, handles mTLS and identity for every enrolled pod on that node, so no mesh key lives in an application pod. Layer 7 policy needs an additional waypoint proxy. Pods join without a restart. A compromised node exposes the identity of every pod on it, which is an acceptable trade when workloads can't reach their nodes. Istio's sidecar mode isn't offered. See <<agents-mesh-no-sidecar>>.
+
+The reference sample exposes the choice as the `mesh_mode` variable, `"none"` by default or `"ambient"`. Choose `"ambient"` when unsandboxed workloads beside your agents need mTLS or should be routed to the gateway.
+
+The following diagram shows the mesh in ambient mode with the optional in-cluster gateway. The agent calls the gateway at its configured endpoint, and the gateway makes the agent's tool call to an MCP server in a regular pod. ztunnel captures that connection and delivers it with mTLS and the gateway's identity, which the server's policy admits. ztunnel doesn't capture the outbound traffic of the agent's Nitro Sandbox pod.
+
+image::images/agents-mesh.png["In ambient mode, the agent in a Nitro Sandbox pod calls AgentGateway at its endpoint. The gateway makes the tool call to an MCP server in a regular pod, and ztunnel captures that connection and delivers it with mTLS and the gateway's identity. The agent's own traffic isn't captured.",scaledwidth=100%]
+
+[#agents-mesh-paths]
+== Open source and {aws} services paths
+
+Both paths offer the same mesh, Istio in ambient mode, and differ in where the gateway runs. The following table compares what the mesh does on each path.
+
+[cols="1,2,2",options="header"]
+|===
+|Aspect |Open source |{aws} services
+
+|Mesh
+|Istio in ambient mode, with `mesh_mode`
+|Istio in ambient mode, with `mesh_mode`
+
+|Gateway
+|AgentGateway, in the cluster
+|AgentCore Gateway, a managed endpoint outside the cluster, with no mesh identity
+
+|Routing to the gateway
+|The mesh can deliver an unsandboxed workload's outbound calls to the gateway, and ambient mode can require that pods outside a Nitro Sandbox send their traffic through it
+|The mesh can't route calls to the gateway, so there's no in-cluster hop for it to require
+
+|Admitting the gateway at a tool server
+|The reference MCP server in `mcp-servers` admits only the gateway, by mesh identity
+|A server in the cluster can't admit the gateway by mesh identity
+
+|Traffic the mesh carries in the reference sample
+|The gateway's connections to MCP servers
+|None. Agents are sandboxed and call the MCP server in `mcp-servers`, which isn't enrolled
+
+|Where the mesh applies
+|Unsandboxed workloads in enrolled namespaces, including the gateway
+|Calls between unsandboxed workloads in enrolled namespaces
+|===
+
+[#agents-mesh-sandbox]
+== Limits for sandboxed agents
+
+A mesh doesn't capture traffic from agents in a Nitro Sandbox. Weigh the following before you turn it on.
+
+The node proxy doesn't capture outbound traffic from a pod that uses a Nitro Sandbox runtime class. With the same Deployment and destination, adding the runtime class drops the tunnel port, the tunneled destination, and the source identity. The connection arrives as plaintext on the application port, with no mesh identity.
+
+The pod still carries the mesh redirection annotation, and the node proxy still lists it as tunneled. Neither means its traffic is captured.
+
+When every agent is sandboxed:
+
+* *The mesh doesn't route sandboxed agents to the gateway.* Network policy keeps them on it with or without a mesh, by blocking a sandboxed agent that ignores its gateway configuration. For unsandboxed workloads, the mesh can deliver traffic to the gateway. See <<agents-mesh-capture>>.
+* *A rule that names the caller's principal or namespace can't match a sandboxed caller*, because the connection has no source identity. An unsandboxed destination with an `ALLOW` policy refuses the call. Only a rule on the source address, `ipBlocks`, matches a sandboxed caller, and a pod's address changes each time the pod is recreated. Between two sandboxed pods, the node proxy isn't in the path, so no authorization decision is made.
+* *Strict peer authentication doesn't reject the plaintext connection*, because the proxy never sees it.
+
+On the {aws} services path, the reference sample gives the mesh nothing to do. Every pod in an agent namespace is sandboxed, and agents call the MCP server directly in `mcp-servers`, which isn't enrolled. Turning on the mesh installs Istio, and no agent traffic passes through it. Turn it on there only for unsandboxed workloads that you run in enrolled namespaces, such as a tool server that other unsandboxed workloads call. An `ALLOW` policy on that server admits the callers it names and refuses other callers in the mesh. It also refuses every sandboxed agent unless a rule names the agent's address, so keep the server's own token check as the gate for agents.
+
+[#agents-mesh-capture]
+== Route traffic to the gateway through the mesh
+
+On the open source path, the mesh can deliver a workload's outbound connections to AgentGateway, so that the gateway governs them without the workload knowing it exists. The workload addresses the real destination, such as Amazon Bedrock, an MCP server, or a third-party API, and carries no gateway endpoint. Every captured call gets the gateway's budgets, tool policy, credentials, and audit log.
+
+In ambient mode, this takes the following objects:
+
+* *A catch-all `ServiceEntry`* declares every destination address on the captured port as a mesh service whose only endpoints are the gateway's pods. The node proxy matches the destination and tunnels the connection to the gateway instead. You don't list destinations. Each destination is a route at the gateway, and a request for a host that no route names is refused at the gateway rather than leaving the cluster.
+* *An HBONE listener on the gateway* accepts the tunneled connections. The gateway's pods are labeled so that the mesh doesn't capture the gateway's own traffic, and so that the node proxy delivers tunneled connections to them directly.
+* *A gateway-wide policy* refuses any caller without a verified mesh identity, and a routing policy writes the verified identity into a header that the client can't set. Routes match the host and that header to select the caller's backend, so the per-caller allowlist lives in the gateway's routes.
+
+With capture on, the cluster egress policy must allow the gateway's pods on the tunnel port, 15008, selected by label. The workload's traffic leaves the pod as the tunnel hop, not as a connection to the gateway's Service address or host name.
+
+Capture applies only to unsandboxed workloads, because the node proxy doesn't capture a Nitro Sandbox pod's traffic. Sandboxed agents reach the gateway because they're configured with its endpoints and network policy allows no other destination. ztunnel 1.30.4 and 1.30.5 send the catch-all to no endpoint without reporting an error, so use 1.30.6 or later. The reference sample pins Istio 1.31. The reference sample doesn't deploy capture. Sample agents are sandboxed, so it would capture none of their traffic.
+
+[#agents-mesh-modes]
+== Mesh modes
+
+The following table compares the two mesh modes.
+
+[cols="2,2,3", options="header"]
+|===
+|Property |No mesh |Ambient
+
+|Proxies
+|None
+|One per node
+
+|Mesh identity held
+|Nowhere
+|In the node's proxy
+
+|Layer 7 authorization
+|Not available
+|Needs a waypoint proxy
+
+|Adding a running pod
+|Not applicable
+|No restart
+
+|What you operate
+|Nothing
+|A node-level data plane and its charts
+|===
+
+[#agents-mesh-none]
+== No mesh
+
+Use no mesh when inbound traffic passes through an authenticating Application Load Balancer, and you don't want to operate a mesh. This is the default on both paths. Network policy still blocks unapproved egress.
+
+Without a mesh, nothing redirects a workload's traffic, so every workload must address its destinations itself. Each agent is configured with the gateway's endpoints and sends its model and tool calls there. Network policy refuses any destination the workload's policy doesn't permit, but it doesn't route a call to the gateway. A workload that isn't configured with the gateway's endpoints, such as a third-party tool server, fails its outbound calls rather than being sent through the gateway. On the open source path, ambient mode with capture can route such workloads through the gateway without changing them. See <<agents-mesh-capture>>.
+
+[#agents-mesh-ambient]
+== Ambient mode
+
+Use ambient mode when the cluster runs tool pods or other workloads your platform team didn't package, and they need mTLS, identity-based authorization, or routing to the gateway.
+
+The node proxy holds a certificate for every identity scheduled on its node, and the certificate authority refuses to issue it identities from other nodes, so a compromise stays bounded to one node. The sandbox, the execution tier with no network, and default-deny egress all exist to contain a compromised agent pod, so keeping mesh keys out of that pod fits the rest of the design.
+
+Ambient mode also captures unsandboxed workloads in the namespaces you enroll, such as a tool server's namespace. Agent namespaces admit only sandboxed pods, so those workloads run in namespaces of their own. With the capture objects in <<agents-mesh-capture>>, a captured tool pod's outbound calls reach the gateway even if it ignores the gateway's configuration.
+
+A rule on a path, method, header, or token subject is a Layer 7 rule, and ztunnel enforces only Layer 4. In ambient mode, such a rule needs a waypoint, an Envoy deployment that you create for a namespace or service as a Gateway API `Gateway` with the `istio-waypoint` class. ztunnel then routes that destination's traffic through it. Without a waypoint, Istio accepts the Layer 7 rule, but an `ALLOW` rule that uses Layer 7 attributes denies the traffic, and a `DENY` rule that uses only them blocks nothing.
+
+[#agents-mesh-no-sidecar]
+== Why not sidecar mode
+
+The reference sample doesn't offer Istio's sidecar mode, for two reasons:
+
+* *It can't run an agent.* Agents run in Nitro Sandboxes, in namespaces that enforce the Pod Security `restricted` profile. The `istio-init` container that sets up the sidecar's traffic redirect needs `NET_ADMIN`, `NET_RAW`, and root, so admission refuses the pod. The Istio CNI plugin, the other way to set up the redirect, doesn't work in a Nitro Sandbox.
+* *It would put a mesh private key in the agent's pod.* The agent's pod runs model-generated code. Istio's comparison of its data planes notes that a compromised application pod exposes its mesh keys in sidecar mode, and none in ambient mode. See https://istio.io/latest/docs/overview/dataplane-modes/[Data plane modes] in the Istio documentation.
+
+The sample's admission policy also refuses an injected pod in an agent namespace.
+
+[#agents-mesh-traps]
+== Considerations
+
+* *Don't add the sidecar injection label to an agent namespace.* If a namespace is labeled for both ambient and sidecar injection, Istio silently uses sidecar, which changes how the namespace is enforced.
+* *Scope `DENY` rules to a port.* For TCP traffic, Istio treats a missing attribute in a `DENY` rule as a match, so a rule without a port denies everything. A catch-all `DENY` also overrides every `ALLOW`. To default-deny in the mesh, use an `ALLOW` policy with no rules.
+* *Write principals without the `spiffe://` prefix.* An `AuthorizationPolicy` names a caller as `cluster.local/ns/namespace/sa/service-account`. ztunnel's access log shows the same identity as `spiffe://cluster.local/ns/namespace/sa/service-account`. A rule with the prefix matches nothing.
+
+[#agents-mesh-prerequisites]
+== Prerequisites
+
+* A shell with `kubectl` access to the cluster, on the bastion or your workstation.
+* `PAVED_PATH` set to `open-source` or `aws-services`, such as with `export PAVED_PATH=open-source`.
+* The base setup from <<agents-cluster-setup>> and <<agents-capabilities-setup>>.
+* A decision to turn on the mesh, made after reading <<agents-mesh-sandbox>>.
+
+[#agents-mesh-step1]
+== Step 1: Turn on the mesh
+
+Install Istio and enroll the agent namespaces in ambient mode. `mesh_mode` adds the Istio Applications to the root Application, which installs the Istio CRDs, the Istio CNI node agent, istiod, and ztunnel, and it labels the `agents` namespace `istio.io/dataplane-mode=ambient`. The `agents-execution` namespace isn't enrolled, because its pods have no network device for a proxy to capture. Outside these templates, install Istio with the ambient profile and apply the same namespace label.
+
+Set the mode:
+
+[source,hcl]
+----
+mesh_mode = "ambient"
+----
+
+Apply and sync:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+./scripts/apply.sh --root terraform/$PAVED_PATH -var-file=my.tfvars
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/bootstrap-gitops.sh --path $PAVED_PATH --sync
+----
+
+The bootstrap script applies the root Application with the values that the apply rendered, refreshes and syncs it, and waits for the Applications to converge. Add `--roll-agents` to also recreate each agent pod whose `Sandbox` changed.
+
+The new Applications report `Synced` and `Healthy`. `istio-base`, which holds only the Istio CRDs and a webhook configuration, can keep reporting `Progressing` after its objects are in place, because Argo CD keeps the health it computed while the CRDs were being established. Run the bootstrap script again to clear it. The sync both installs Istio and enrolls the agent namespaces. The proxy captures nothing in a namespace that isn't enrolled, and enrollment does nothing without the proxy.
+
+[#agents-mesh-authz]
+== Step 2: Admit only the gateway to a tool server
+
+With ambient mode on, the mesh can decide which workloads may call an unsandboxed server, using each caller's mesh identity instead of its address. On the open source path, the reference MCP server in `mcp-servers` admits only the gateway this way. Enroll the server's namespace in the mesh with a label:
+
+[source,yaml]
+----
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mcp-servers
+  labels:
+    istio.io/dataplane-mode: ambient
+----
+
+Then allow only the gateway's identity to reach the server's port. The following excerpt is from `gitops/examples/mcp-server/mesh-authz.yaml` in the reference sample:
+
+[source,yaml]
+----
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: mcp-server-allow-gateway
+  namespace: mcp-servers
+spec:
+  selector:
+    matchLabels:
+      app: mcp-server
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/agentgateway-system/sa/egress
+      to:
+        - operation:
+            ports:
+              - '8080'
+----
+
+The principal is the gateway's service account, `egress` in `agentgateway-system`, written without the `spiffe://` prefix. Once an `ALLOW` policy selects the server, the mesh refuses every caller that the policy doesn't name. A rule on a principal and a port is a Layer 4 rule, so ztunnel enforces it without a waypoint. Only a rule on paths, methods, or headers needs one. The policy has no effect on a caller in a Nitro Sandbox, because that caller's traffic carries no mesh identity, which is why the server's network policy also admits only the gateway's namespace.
+
+Apply both from the `agents` directory:
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/open-source -- bash -c '
+  cd gitops/examples/mcp-server
+  ../../../scripts/render-example.sh namespace.yaml open-source | kubectl apply -f -
+  ../../../scripts/render-example.sh mesh-authz.yaml open-source | kubectl apply -f -
+  kubectl -n mcp-servers get authorizationpolicy mcp-server-allow-gateway'
+----
+
+The `get` command lists the policy. Step 3 tests that it refuses another caller. For the server itself, see <<agents-mcp>>.
+
+[#agents-mesh-step2]
+== Step 3: Verify the mesh is carrying traffic
+
+Confirm that the mesh captures and authorizes traffic. Status fields and annotations don't prove this, so test behavior.
+
+Check that the per-node proxy is ready on every node, including agent nodes:
+
+[source,bash]
+----
+kubectl -n istio-system rollout status daemonset/ztunnel
+kubectl -n istio-system get daemonset ztunnel
+----
+
+The `READY` count equals the `DESIRED` count. Run the check after the sync settles, because EKS Auto Mode can add a node while it runs, and ztunnel on that node isn't ready yet. `rollout status` waits for it.
+
+Test authorization by triggering a denial. A workload that no `AuthorizationPolicy` allows is refused when it connects to an unsandboxed destination in an enrolled namespace. A caller that the policy doesn't name has its connection reset, and ztunnel logs `connection closed due to policy rejection: allow policies exist, but none allowed`. Between two sandboxed pods, expect no mesh decision, as described in <<agents-mesh-sandbox>>. The `mesh` phase of the sample's `exercise.sh` makes a connection from the agent and checks ztunnel's access log for it.
+
+* *Open source path.* The MCP server in `mcp-servers` is such a destination. The `mesh` phase also starts a pod in the gateway's namespace that isn't the gateway and calls the MCP server from it. The server's network policy admits that namespace, so only the server's `AuthorizationPolicy`, which names the gateway's identity, can refuse the call. The check needs the MCP server and its `mesh-authz.yaml` from <<agents-mcp-step1>>, applied with the mesh on. Otherwise the phase skips it and says why.
++
+[source,bash]
+----
+./scripts/exercise.sh --path open-source mesh
+----
++
+The phase prints `a caller the MCP server's AuthorizationPolicy does not name is refused by the mesh (connection reset)`.
+* *{aws} services path.* Every pod in an agent namespace is sandboxed, so the reference sample has no such destination. Enroll an unsandboxed workload's namespace to test it.
+
+To check whether a pod's traffic is captured, look for its connections in ztunnel's access log. The workload table and the pod annotation aren't reliable. A sandboxed agent appears in the workload table and carries `ambient.istio.io/redirection: enabled`, but ztunnel logs nothing for its traffic. `--ignore-errors` keeps the command going when one node can't return its logs yet, such as a node that has just joined:
+
+[source,bash]
+----
+kubectl -n istio-system logs -l app=ztunnel --since=10m --ignore-errors | grep "$(kubectl -n agents get pod research -o jsonpath='{.status.podIP}')"
+----
+
+[#agents-mesh-cleanup]
+== Clean up
+
+Turning off the mesh removes Istio's control plane and data plane, and the namespace labels that enroll namespaces in it. Istio's custom resource definitions stay, because its chart marks them to be kept, and an empty `istio-system` namespace can remain. Calls between pods are then no longer encrypted or authorized by the mesh, so the network policies and each callee's token check are the only controls left on those calls. For the general steps, see <<agents-capabilities-later>>.
+
+. On the open source path, delete the authorization policy that you applied in Step 2, while the Istio custom resource definitions still exist. The {aws} services path doesn't create it, so skip this step there:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/open-source -- \
+  kubectl -n mcp-servers delete authorizationpolicy mcp-server-allow-gateway --ignore-not-found
+----
++
+If you deployed the MCP server in <<agents-mcp>> and still use it, leave the `mcp-servers` namespace in place.
+. Set `mesh_mode = "none"` in your variables file. Apply with `scripts/apply.sh`, and sync with pruning:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/bootstrap-gitops.sh --path $PAVED_PATH --sync --prune
+----
+
+[#agents-mesh-next]
+== Next steps
+
+* <<agents-ingress>>: Expose an agent to callers outside the cluster. Ingress works independently of the mesh.

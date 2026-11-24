@@ -1,0 +1,565 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-identity-acting-for]
+= Act on behalf of a user with an agent on Amazon EKS
+:info_titleabbrev: On-behalf-of user
+
+[abstract]
+--
+Let a person's own permissions carry through an agent's actions, so that a tool or {aws} refuses a request for data the person can't reach, whatever the agent was asked to do.
+--
+
+An agent acts on behalf of a person when that person's permissions carry through the agent's actions to the service that holds the data. That service decides with the person's authority, not the agent's, so a request for someone else's data is refused whatever the agent was asked to do, and a prompt that steers the agent toward another person's records gets nothing back.
+
+On-behalf-of authorization depends on the two ends of a request:
+
+* *The entry point* is where the person's identity enters the request, usually a load balancer or a gateway in front of the agent. It verifies the person's credential and passes the verified claims on, so what reaches the agent is a signed statement of who asked, not a header that the agent or a caller could have written.
+* *The exit point* is where a credential that represents the person reaches the service that authorizes them. That service, not the agent, decides what the person may do.
+
+The following diagram shows the recommended shape of on-behalf-of authorization. A front end verifies the person and passes their token to the agent. The agent doesn't hand that token to a tool. A token exchange returns one token, issued for the tool, that names the person as the subject and the agent as the actor, and the tool checks both and answers only for that person. For {aws} data, the agent exchanges the person's ID token with {aws} STS for its own on-behalf-of role, which IAM scopes to that person's data for that agent. An on-behalf-of role belongs to the agent, not to the person, and people have no IAM roles of their own. For how the reference sample implements each part on each path, see <<agents-identity-acting-for-options>>.
+
+image::images/agents-identity-on-behalf-of.png["A person signs in at a front end, which passes the person's token to the agent in a Nitro Sandbox pod. The agent sends its own token and the person's token to a token exchange, which issues one token for the tool that names both, and the tool answers for that person. For stored data, the agent exchanges the person's ID token with STS for a per-agent on-behalf-of role that reaches only that person's data in Amazon S3.",scaledwidth=100%]
+
+[#agents-identity-acting-for-modes]
+== Choose an approach
+
+Use the least delegation that meets what the agent must do for each person:
+
+* *Most agents act as themselves.* An agent that serves other workloads, runs on a schedule, or does the same thing whoever asks needs only its own least-privilege IAM role. See <<agents-identity-agent>>.
+* *A shared assistant acts for a person as context.* When people share one agent and must not see each other's conversations or memories, but may all cause the same actions, the agent names the person on each request and scopes its state to them. The agent's IAM role still bounds every turn.
+* *Act with the person's authority only when results must differ by who asked.* If the same request from two people should return different data, or be refused for one of them, the agent's role can't decide, because it's the same for everyone. The service that holds the data must decide with a credential for that person. This is on-behalf-of authorization, and it's the only one of the three that needs the rest of this page.
+
+The following table compares the three patterns. Each one adds to the one before it.
+
+[%header,cols="2,2,3,4"]
+|===
+|Pattern |Whose authority |How the caller is known |Use it when
+
+|As itself
+|The agent's IAM role and gateway policy, on every request
+|The agent verifies the caller's token audience and the namespaces in `callerNamespaces`
+|The agent serves workloads or runs on a schedule. Every caller may cause anything the agent's role allows.
+
+|For a person, as context
+|Still the agent's role
+|A front end verifies the person and names them on each request. The agent scopes conversations and memories to that person, and logs them
+|People share one agent and must not see each other's conversations or memories, but may all cause the same actions. This is the sample's chat interface.
+
+|With the person's authority
+|The person's, on each call to a service that authorizes people
+|The service receives a credential for the person and decides itself
+|What the agent may do depends on who asked, such as people with different access to the same repository or records.
+|===
+
+Acting for a person as context is the pattern that's easiest to get wrong. The agent authorizes the front end as one workload, so to the agent every person signed in through that front end is the same caller. It keeps people apart only by the identifier the front end names. If the front end doesn't send one, everyone who uses it shares one memory, and what one person tells a consolidating agent can be recalled in another person's conversation.
+
+In the reference sample, the chat interface verifies the claims that the load balancer signed, calls the agent with its own projected token, and sends the person's `sub` as the `user_id` field of each request. The reference agent accepts `user_id` only beneath the verified caller's own subject, so a front end can separate its own users but can't name another caller's. Treat access to the front end as access to everything the agent's role permits, and scope the role to what every user may do. To set it up, see <<agents-identity-acting-for-try>>.
+
+[#agents-identity-acting-for-practices]
+== Security best practices
+
+The following practices apply whenever an agent acts with a person's authority. They follow one principle: each hop holds only enough authority for the next call, and the service that holds the data decides.
+
+* *Send each service a token issued for it.* A service should accept a person's token only when the token's audience is that service. Don't pass a person's token on to a tool unchanged, because the tool can't tell whether the token was meant for it, and a token accepted that way can be replayed at any other service that trusts the same issuer. The https://modelcontextprotocol.io/specification/2025-11-25/basic/security_best_practices[MCP security best practices] forbid this token passthrough and require an MCP server to accept only tokens issued for it.
+* *Exchange the token at each hop.* Exchange the token that a hop received for a short-lived, down-scoped one that's valid only for the next call, with OAuth 2.0 token exchange (RFC 8693). The exchanged token names the person as its subject and the agent in an `act` claim, so the service that decides reads both from claims that the identity provider signed.
+* *Check both the agent and the person where the decision is made.* The service refuses a person's request through an agent that isn't allowed to act for people, and an allowed agent's request for anyone but the person in the token. An allowlist of agents is the minimum. A decision at a gateway that every call passes keeps the policy in one place.
+* *Take the person only from verified claims.* Verify the person's token against the identity provider's signing keys, or its token introspection endpoint for opaque tokens, and answer from its `sub`. Never take the person's identity from model output, a tool argument, or a header the caller can set. Use a stable identifier such as `sub`, not a display name or an email address, which can change or be reused.
+* *Keep person credentials short-lived, and don't store them.* An agent can present a person's token again until it expires, so keep token lifetimes short. For work that outlives the person's session, such as a task an agent runs later, don't keep a refresh token or a long-lived credential for the person in the agent.
+* *Scope what an agent may do for a person.* Give each agent its own on-behalf-of role or token audience, and allow only what that agent should do for a person, not everything the person may do.
+* *Record both identities.* Log the agent and the person on every call that acts for a person, at the tool and at {aws}. CloudTrail records an `AssumeRoleWithWebIdentity` exchange with the person's `sub` as the user name and the agent's role and session name.
+* *Protect any component that asserts the person.* A gateway that exchanges tokens or signs requests for people can act as any of them. Protect its configuration and IAM role as you would the on-behalf-of roles themselves. On the open source path, the reference sample publishes every change to these to an Amazon SNS topic, as described in <<agents-identity-acting-for-setup>>.
+* *Limit each person at the entry point.* Rate-limit by the verified person, not only by source address, so one signed-in person can't exhaust an agent that many people share. The reference agent limits each person to 20 turns a minute by default, and answers `429` with `Retry-After` before it calls a model. It counts in the agent's own pod, so an agent built from another image needs its own limit.
+
+[#agents-identity-acting-for-options]
+== Options for acting with a person's authority
+
+The person's token travels with each request in its own header, `x-person-token`, next to the caller's credential in `Authorization`. The `Authorization` header says who is calling, and `x-person-token` says who the call is for. The identity provider signs the person's token, so the agent can pass it on but can't create one for anyone else. The agent doesn't authorize on it. What happens at the exit point decides how well the design meets the practices above. The following options are ordered from the strongest.
+
+[#agents-identity-acting-for-option-exchange]
+=== Exchange the token for one that names the person and the agent
+
+Use token exchange for tools and any API that authorizes people. The service receives one token, issued for it, with the person as the subject and the agent as the actor. Neither the person's own token nor the agent's reaches it.
+
+* *Open source path.* The reference sample does this by default with `enable_person_access`. AgentGateway exchanges the person's access token and the calling agent's own token at the ingress user pool, sends the tool only the result, and the tool refuses a person's own token. See <<agents-identity-acting-for-flow-delegated>> and <<agents-identity-acting-for-delegated>>.
+* *{aws} services path.* The reference sample does this by default with `enable_person_access`. Each agent makes the exchange itself, with AgentCore Identity's on-behalf-of token exchange: the person's access token is the subject, and the agent's own client in the user pool is the actor. The agent sends the tool only the delegated token, and the tool refuses a person's own token. See <<agents-identity-acting-for-flow-delegated>> and link:bedrock-agentcore/latest/devguide/on-behalf-of-token-exchange.html[On-behalf-of token exchange with AgentCore Identity,type="documentation"] in the _Amazon Bedrock AgentCore Developer Guide_.
+
+The identity provider must support token exchange. With Amazon Cognito, that needs managed login. The identity provider checks the tokens but doesn't decide which agents may act, so keep the agent allowlist at the gateway or the tool.
+
+[#agents-identity-acting-for-option-aws]
+=== Reach {aws} data with the person's identity
+
+For {aws} data, IAM or the {aws} service makes the decision. The following options describe how a request reaches it:
+
+* *A per-agent role scoped to the person.* The reference sample does this on the {aws} services path, and on the open source path only with `person_access_via_gateway = false`, for development. The agent exchanges the person's ID token with {aws} STS for its own on-behalf-of role, whose permissions use the person's `sub` as a policy variable, so IAM refuses every other person's data. The agent holds the person's ID token until it expires and can exchange it again. Whoever holds the token can exchange it for any listed agent's role, as long as the session names that agent, so the role ARN, not the session name, places an action with an agent. See <<agents-identity-acting-for-flow-aws>>.
+* *The gateway signs for the person.* The reference sample does this by default on the open source path. AgentGateway does the exchange, and the on-behalf-of roles trust only the gateway, so the agent holds no credential it can exchange. IAM then trusts the gateway to assert the person, which makes the gateway's configuration as sensitive as the roles. AgentCore Gateway can't sign an {aws} call with a person's authority. See <<agents-identity-acting-for-flow-aws-gateway>>.
+* *IAM Identity Center trusted identity propagation.* An alternative where people are already users in IAM Identity Center. Services such as Amazon S3 Access Grants authorize the person's own directory identity, and CloudTrail records that person on each data access. It needs every person to exist as an Identity Center user, and each grant names a user or a group, so scoping data to each person takes a grant per person. The reference sample doesn't use it. See link:singlesignon/latest/userguide/tip-tutorial-s3.html[Setting up Amazon S3 Access Grants with IAM Identity Center,type="documentation"] in the _{aws} IAM Identity Center User Guide_.
+
+The token the person brings decides which of these a request can use. The following table compares the two tokens.
+
+[%header,cols="1,3,1,3"]
+|===
+|Token |Source |Tool can verify |{aws} credentials
+
+|Access token
+|The load balancer, after browser sign-in, in `x-amzn-oidc-accesstoken`
+|Yes
+|No. It has no `aud` claim, so {aws} STS and Amazon Cognito identity pools refuse it
+
+|ID token
+|An application that signs the person in itself
+|Yes
+|Yes, through `AssumeRoleWithWebIdentity`
+|===
+
+A person signed in at the sample's chat interface can therefore be served by a tool that checks their token, but has no {aws} credentials of their own. An application that holds the person's ID token can give the agent both.
+
+[#agents-identity-acting-for-option-passthrough]
+=== Pass the person's token to the tool
+
+On both paths, the reference sample passes the person's access token to the tool unchanged only with `person_access_delegated_token = false`, for development. The tool then verifies the token's signature, issuer, expiry, token type, and client. The access token has no audience, so the tool can't confirm that it was issued for the tool, which doesn't meet the first practice above. Keep the delegated token, which is on by default, for anything beyond development.
+
+Third-party APIs need the same care. OAuth consent stores one token per agent, granted by one person, so every caller of that agent acts with that one person's access. Consent alone means the agent acts as itself with one person's credential, not with each caller's authority. See <<agents-third-party-credentials>>.
+
+[#agents-identity-acting-for-paths]
+== Open source and {aws} services paths
+
+On both paths, a front end passes the person's token to the agent in `x-person-token`, only an agent in `person_access_agents` can act with a person's authority, removing an agent from that list revokes it, and the reference agent limits each person's turns. The following table compares how each path carries the person's authority past the agent.
+
+[%header,cols="1,2,2"]
+|===
+|Aspect |Open source |{aws} services
+
+|Tool calls for a person
+|Pass through AgentGateway, which exchanges the person's and the agent's tokens for one delegated token and sends only that to the tool
+|The agent exchanges the person's token with AgentCore Identity and calls the MCP server directly, with its own token and the delegated token
+
+|The actor in the delegated token
+|The agent's service account, issued by the cluster
+|The agent's own client in the user pool, which the tool maps to the agent
+
+|Who refuses an unlisted agent
+|The gateway, and the tool, which reads the agent from the delegated token
+|The tool, which reads the agent from the delegated token and refuses an actor that isn't the agent that called
+
+|{aws} calls with the person's authority
+|AgentGateway signs them with the person's authority for that agent. The agent can't exchange the person's token itself
+|The agent exchanges the person's ID token with {aws} STS and calls the service itself. AgentCore Gateway can't sign an {aws} call with a person's authority
+
+|One token that names the person and the agent
+|Issued by default, by the gateway at the ingress user pool
+|Issued by default, by AgentCore Identity at the ingress user pool
+|===
+
+[#agents-identity-acting-for-flows]
+== How a request carries the person
+
+Every call made for a person carries two identities: the workload making the call, and the person the call is for. Each hop verifies the first and passes the second on, and only the service that holds the data decides with the second. The following flows show where each identity comes from, which header or claim carries it, and who verifies it.
+
+[#agents-identity-acting-for-flow-tool]
+=== Tool calls with the person's own token (development only)
+
+The following diagram shows a tool answering for the person who signed in at the chat interface. The person's access token travels next to each caller's own token, and the tool verifies both. The reference sample sends the person's token to the tool unchanged only with `person_access_delegated_token = false`, for development, as described in <<agents-identity-acting-for-option-passthrough>>. By default, the token is exchanged before the tool call on both paths, as shown in <<agents-identity-acting-for-flow-delegated>>. The first three hops are the same either way.
+
+image::images/agents-identity-on-behalf-of-tool.png["A person signs in at the load balancer, which passes signed claims and the access token to the chat interface. The chat interface calls the agent with its own token and the person's token, and the agent calls the tool with its own token and the person's token. The tool answers for that person only.",scaledwidth=100%]
+
+. *The person signs in.* The load balancer runs the OIDC sign-in with the user pool. The person holds a session cookie, and the load balancer holds the person's tokens.
+. *The load balancer passes the person on.* Each request to the chat interface carries `x-amzn-oidc-data`, claims that the load balancer signed, and `x-amzn-oidc-accesstoken`, the access token that the user pool signed. The chat interface verifies the load balancer's signature and reads the person's `sub` from the claims.
+. *The chat interface calls the agent.* It sends its own projected service account token in `Authorization`, so the agent knows which workload is calling, and the person's access token in `x-person-token`. It forwards the token only when the token's `sub` matches the claims it verified, so one request can't carry one person's claims and another person's token.
+. *The agent calls the tool.* The agent verifies the chat interface's token and treats `x-person-token` as opaque. On each MCP call, it sends its own token in `Authorization` and the person's token unchanged in `x-person-token`. Its own token's issuer is the cluster, not the user pool, so it can't be presented as a person's token. On the open source path, the call passes through AgentGateway, which refuses a call that carries a person's token from an agent that isn't in `person_access_agents`.
+. *The tool answers for that person only.* The tool verifies the person's token against the user pool's signing keys, then checks the token type and the client it was issued for. It answers from the verified `sub`, never from a tool argument, and logs both the agent and the person. On the {aws} services path, the tool also verifies the agent's token and refuses an agent that isn't in `person_access_agents`, because the agent calls the MCP server directly, not through AgentCore Gateway.
+
+AgentCore Gateway can carry the person's token to a target: a target that lists `x-person-token` in its allowed request headers receives it unchanged. The gateway doesn't forward the agent's own token, so the agent and the person are checked in different places. Cedar policy decides which agents may call the tool, and the tool verifies the person's token but can't tell which agent called. Cedar can't decide on the person, because it doesn't read request headers. AgentCore Gateway's on-behalf-of token exchange starts from the gateway's inbound token, which is the agent's, so it doesn't produce a token that names both the person and the agent. The reference sample therefore makes the exchange in the agent, with AgentCore Identity, and the agent calls the MCP server directly.
+
+[#agents-identity-acting-for-flow-aws]
+=== {aws} answers for the person
+
+The following diagram shows the agent reading a person's data in Amazon S3 with that person's own permissions. The agent exchanges the person's ID token for credentials, and IAM decides on each request.
+
+[NOTE]
+====
+In this flow, the traffic doesn't pass through the egress gateway. The agent calls {aws} STS and the {aws} service itself, and the agent's egress policy permits both.
+
+* *Open source path.* By default, AgentGateway signs the agent's {aws} calls for the person instead, and this flow applies only with `person_access_via_gateway = false`, for development. The on-behalf-of role then has no web identity trust, so the agent can't exchange the person's token itself, even where its egress policy allows {aws} STS. See <<agents-identity-acting-for-flow-aws-gateway>>.
+* *{aws} services path.* AgentCore Gateway can't sign an {aws} call with a person's authority for an agent. For targets that call an {aws} service, its outbound authorization is its service role, OAuth, or an API key, and none of these takes a token from the request and exchanges it for a person's {aws} credentials. Its on-behalf-of token exchange returns an OAuth access token for a resource server, not {aws} credentials. See link:bedrock-agentcore/latest/devguide/gateway-outbound-auth.html[Set up outbound authorization for your gateway,type="documentation"] in the _Amazon Bedrock AgentCore Developer Guide_.
+====
+
+image::images/agents-identity-on-behalf-of-aws.png["An application sends a request with the person's ID token to the agent. The agent exchanges the ID token with STS for the on-behalf-of role and receives credentials for this person and agent. A read of that person's prefix in Amazon S3 succeeds, and a read of another person's prefix is refused.",scaledwidth=100%]
+
+. *An application sends the person's ID token.* An application that signs the person in itself, through the user pool's `api` client, receives an ID token and sends it in `x-person-token`. Unlike the access token, the ID token names the client in `aud`, which {aws} STS requires.
+. *The agent exchanges the ID token.* The agent calls `AssumeRoleWithWebIdentity` for its own on-behalf-of role. The request is unsigned, because {aws} STS authenticates the person's token, not the agent. The session name starts with the agent's name, and the role's trust policy admits only ID tokens for the `api` client, and only sessions that name this agent:
++
+[source,json]
+----
+"Condition": {
+  "StringEquals": { "cognito-idp.us-west-2.amazonaws.com/us-west-2_EXAMPLE:aud": "2example34567890" },
+  "StringLike":   { "sts:RoleSessionName": "research-*" }
+}
+----
+. *{aws} STS returns credentials.* The credentials are for this person through this agent. The agent builds the resource name from the subject that {aws} STS verified, not from the model.
+. *Amazon S3 serves that person's prefix.* The role's permissions name the person's `sub` as a policy variable and the agent's name, as shown in <<agents-identity-acting-for-setup>>.
+. *IAM refuses anything else.* A request for another person's prefix, or for this person's data under another agent, is refused by IAM, whatever the agent's code or the model asked for. CloudTrail records the exchange with the person's `sub` as the user name and the agent's role and session name.
+
+[#agents-identity-acting-for-flow-aws-gateway]
+=== {aws} answers for the person, through AgentGateway
+
+On the open source path, by default, the agent's {aws} calls for a person go through AgentGateway, which signs each call with that person's authority for that agent. The agent holds no {aws} credential for the person, and the gateway is its only way to the person's authority. Amazon S3 on the person-data bucket is built in, and `person_access_gateway_services` adds other {aws} services. The following diagram shows the flow.
+
+image::images/agents-identity-on-behalf-of-aws-gateway.png["The agent sends its own token and the person's ID token to AgentGateway. The gateway assumes the agent's on-behalf-of role with session tags for the person and the agent, receives credentials, and signs the request to the service, scoped by the person tag. A request for another person's data is refused, and so is the agent's own exchange of the person's token.",scaledwidth=100%]
+
+. *The agent sends an unsigned request.* The agent calls the service at the gateway's `/aws/<agent>/<service>/` path, such as `/aws/research/s3/` for Amazon S3, with its own token in `Authorization` and the person's ID token in `x-person-token`. Amazon S3 requires `x-amz-content-sha256`, and the gateway's signer doesn't add it, so the agent sends the hash of the body.
+. *The gateway verifies both tokens.* Before it routes the request, the gateway verifies the agent's token and checks that `/aws/<agent>/` is that agent's own path. The route then verifies the person's ID token against the user pool, the `api` client, and its expiry. A request with no person token, a token signed by another key, an unsigned token, an expired token, or the person's access token is refused with `401` before the gateway calls {aws} STS.
+. *The gateway assumes the agent's on-behalf-of role.* It calls `AssumeRole` as its own role, with a session name that starts with the agent's name and `person` and `agent` session tags taken from the verified token. The role's trust policy admits only the gateway's role, and only with an `agent` tag that names this agent, a `person` tag, and a session name that starts with the agent's name. The gateway caches the credentials for each person and agent, and still refuses an expired person token while cached credentials remain.
+. *The gateway signs the request.* It signs the call with those credentials. The role's permissions read the person from the session tag, `${aws:PrincipalTag/person}`. For Amazon S3, they allow only `people/${aws:PrincipalTag/person}/research/*`. For another service, your statements decide, such as a `dynamodb:LeadingKeys` condition on the person tag.
+. *IAM refuses anything else.* A request for another person's prefix, for this person's data under another agent, or for the bucket root is refused with `403 AccessDenied`. Another agent is refused on this agent's route and has no route of its own. The agent's own `AssumeRoleWithWebIdentity` with the person's token is refused, because the on-behalf-of role trusts only the gateway. CloudTrail records the gateway's `AssumeRole` with the session name and both tags.
+
+[IMPORTANT]
+====
+On this route, {aws} STS never sees the person's token. AgentGateway's {aws} authentication can't pass a token from the request to {aws} STS, so it uses `AssumeRole` with session tags instead. IAM trusts the gateway's verification of the token and its assertion of the `person` tag, so anyone who can change the gateway's configuration can assert any person for these roles. Protect the gateway's configuration and its IAM role as you would the on-behalf-of roles themselves.
+====
+
+[#agents-identity-acting-for-flow-delegated]
+=== One token names the person and the agent
+
+The delegated token is the default on both paths. The tool receives one token that names the person and the agent, and never the person's own token. This is the shape that <<agents-identity-acting-for-practices>> describes. Where the exchange happens differs by path.
+
+The following diagram shows the open source path, where the gateway exchanges the person's token and the agent's token.
+
+image::images/agents-identity-on-behalf-of-delegated.png["The agent sends its own token and the person's token to AgentGateway. The gateway exchanges them at the user pool, with the person as subject and the agent as actor, and receives a delegated token that names both. The gateway sends only the delegated token to the tool, which answers for that person.",scaledwidth=100%]
+
+. *The agent sends both tokens.* The call is the same as in <<agents-identity-acting-for-flow-tool>>, with the agent's token in `Authorization` and the person's access token in `x-person-token`.
+. *The gateway exchanges them.* AgentGateway verifies the agent's token and checks that the agent is in `person_access_agents`. It then sends an OAuth 2.0 token exchange request to the user pool's token endpoint, with the person's token as the subject, the agent's token as the actor, and `mcp-server` as the audience.
+. *The user pool returns a delegated token.* The pool verifies both tokens and signs one access token. The person is `sub`, the agent is `act.sub`, and the cluster that issued the agent's token is `act.iss`:
++
+[source,json]
+----
+{
+  "iss": "https://cognito-idp.us-west-2.amazonaws.com/us-west-2_EXAMPLE",
+  "sub": "8f3e2a71-5c4d-4b9e-a1f0-2d6c7e8b9a01",
+  "aud": "mcp-server",
+  "token_use": "access",
+  "act": {
+    "sub": "system:serviceaccount:agents:research",
+    "iss": "https://oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
+  },
+  "exp": 1794850900
+}
+----
+. *The gateway sends only the delegated token.* It writes the delegated token to `Authorization` and removes `x-person-token`, so the person's own token never reaches the tool.
+. *The tool answers for that person.* The tool verifies the pool's signature and the audience, checks that `act.iss` is this cluster, reads the person from `sub` and the agent from `act.sub`, and refuses an agent that isn't in `person_access_agents`.
+
+On the {aws} services path, the agent makes the exchange itself, with AgentCore Identity. The following diagram shows the exchange.
+
+image::images/agents-identity-on-behalf-of-delegated-aws.png["The agent asks AgentCore Identity for a workload token for the person. AgentCore Identity exchanges the person's token at the user pool, with the agent's own client as the actor, and returns a delegated token that names both. The agent sends the tool its own token and the delegated token, and the tool answers for that person.",scaledwidth=100%]
+
+
+. *The agent asks AgentCore Identity for its workload access token.* It calls `GetWorkloadAccessTokenForJWT` with its own workload identity and the person's access token as the user token.
+. *AgentCore Identity brokers the exchange.* The agent calls `GetResourceOauth2Token` with the `ON_BEHALF_OF_TOKEN_EXCHANGE` flow on its own OAuth 2.0 credential provider, and names the tools as the audience. AgentCore Identity sends the user pool a token exchange request with the person's token as the subject and, as the actor, a token for the agent's own client that it gets with the client credentials grant.
+. *The user pool returns a delegated token.* The person is `sub`, the audience is the tools, such as `my-agents-tools`, and `act.sub` is the agent's own client ID in the pool.
+. *The agent sends the tool its own token and the delegated token.* Its own token is in `Authorization`, and the delegated token is in `x-delegated-token`. The person's own token isn't sent.
+. *The tool answers for that person.* The tool verifies the delegated token's signature, audience, and `act` claim, maps `act.sub` to an agent in `person_access_agents`, and refuses a token whose actor isn't the agent that called. It then answers from `sub`.
+
+The agent's role may use only its own workload identity and credential provider, and that provider's secret, and the agents' permissions boundary admits only this stack's own.
+
+[#agents-identity-acting-for-try]
+== Keep people apart behind a shared agent
+
+This procedure sets up acting for a person as context and confirms that two people who share one agent don't see each other's memories. It needs ingress with a browser gate, the chat interface, and a consolidating memory, because consolidation is what would leak one person's facts into another person's conversation.
+
+. Turn on ingress as in <<agents-ingress>>, then set the following in your variables file. See <<agents-memory-step1>>.
++
+[source,hcl]
+----
+enable_ingress       = true
+enable_chat_ui       = true
+chat_ui_agents       = ["research"]
+enable_consolidation = true
+----
++
+** *Open source path.* `enable_consolidation` also needs `enable_gateway`, `enable_platform_secrets`, and `enable_semantic_recall`, because the agent extracts memories through the gateway and stores them in pgvector.
+** *{aws} services path.* Also set `consolidation_strategies` with `{actorId}` in every namespace template.
+. Apply, build the chat interface's image, and sync, as in <<agents-ingress-chat-ui>>.
+. From your workstation, run the `people` phase. The script creates two test users in the user pool and runs the phase through `scripts/run-stack.sh`.
++
+The following commands use `PAVED_PATH`, set to `open-source` or `aws-services`, such as with `export PAVED_PATH=open-source`.
++
+[source,bash]
+----
+./scripts/exercise.sh --path $PAVED_PATH people
+----
++
+Each person signs in through the load balancer and talks to the agent through the chat interface. The first person tells the agent a fact and gets it back in a new conversation. The second person asks the same question and doesn't get it. If the second person gets the fact, the front end isn't naming each person in its requests, and every person shares one memory.
+
+This shows separation by context, not the person's authority. Both people's turns still run with the agent's IAM role, and the agent can reach whatever that role permits for either of them.
+
+[#agents-identity-acting-for-setup]
+== Act with a person's authority
+
+The reference sample implements acting with the person's authority on both paths with `enable_person_access`. The person's tokens come from the ingress user pool, so it needs `enable_ingress` with `ingress_idp` set to `cognito` or `oidc`. See <<agents-ingress>>.
+
+What the procedure sets up differs by path:
+
+* *Open source path.* The gateway exchanges the person's token for a delegated token that it sends the tool, and signs the agent's {aws} calls for the person. So `enable_person_access` also needs `enable_gateway` and `enable_platform_secrets`. See <<agents-identity-acting-for-delegated>> and <<agents-identity-acting-for-via-gateway>>.
+* *{aws} services path.* The agent exchanges the person's token for a delegated token with AgentCore Identity and sends the tool only that, and exchanges the person's ID token with {aws} STS itself for {aws} data. See <<agents-identity-acting-for-flow-delegated>>.
+
+Set up person access for your path:
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+Add the following to your variables file, apply, and sync as in <<agents-ingress-step1>>. `person_access_agents` names each agent that may act with a person's authority. An agent that isn't listed can't.
++
+[source,hcl]
+----
+enable_gateway          = true
+enable_platform_secrets = true
+enable_person_access    = true
+person_access_agents    = ["research"]
+identity_change_alert_emails = ["security-team@example.com"]   # optional
+----
++
+The apply creates the following:
++
+** An `api` client in the user pool, which an application uses to sign a person in and receive an ID token. Its tokens last 15 minutes. It allows the `USER_PASSWORD_AUTH` flow so that the sample's test can sign in its test users. For your own application, use the authorization code flow through the pool's hosted UI, and set `person_access_callback_urls`.
+** An IAM OIDC provider for the user pool. With the gateway route, the on-behalf-of roles don't trust it, so no ID token can be exchanged for them.
+** The token exchange for the delegated token: a resource server whose identifier, `mcp-server`, is the delegated token's audience, and the exchange client whose secret only the gateway's namespace receives. It moves the pool's sign-in page to managed login. See <<agents-identity-acting-for-delegated>>.
+** One on-behalf-of role for each agent in `person_access_agents`, such as `my-agents-research-person-data`, which trusts only the gateway's role. See <<agents-identity-acting-for-via-gateway>>.
+** An Amazon S3 bucket that holds each person's data for each agent under `people/<sub>/<agent>/`.
+** An Amazon SNS topic, `my-agents-identity-changes`, and the EventBridge rules that publish to it every change to the gateway's role and each on-behalf-of role (trust, policies, permissions boundary, or deletion), to a Pod Identity association on the cluster, and to the user pool's app clients, identity providers, and resource servers. The `identity_change_topic_arn` output names it. The rules read CloudTrail, so the account needs an active trail that records global service events. IAM publishes its events only in us-east-1, so a rule there forwards them to the cluster's Region. Each address in `identity_change_alert_emails` confirms its subscription by email first. `identity_change_alerts = false` turns the alerts off.
+** With a bastion, a policy that lets the bastion's role read CloudTrail events (`cloudtrail:LookupEvents`), for the exercise script's check of the gateway's `AssumeRole` record.
++
+After the sync, each listed agent's pod has `AGENT_PERSON_S3_URL` and `AGENT_PERSON_AWS_URL`, its routes on the gateway for the person's data. An unlisted agent's are empty. Removing an agent from the list deletes only that agent's role and routes, which revokes it without affecting the people who use other agents. After you change the list, recreate the pod of every agent, not only the listed ones, because a sandboxed agent keeps its old environment until its pod is recreated. The chat interface forwards the signed-in person's access token to the agent.
+
+{aws} services::
++
+Add the following to your variables file, apply, and sync as in <<agents-ingress-step1>>. `person_access_agents` names each agent that may act with a person's authority. An agent that isn't listed can't.
++
+[source,hcl]
+----
+enable_person_access = true
+person_access_agents = ["research"]
+----
++
+The apply creates the following:
++
+** An `api` client in the user pool, which an application uses to sign a person in and receive an ID token. Its tokens last 15 minutes. It allows the `USER_PASSWORD_AUTH` flow so that the sample's test can sign in its test users. For your own application, use the authorization code flow through the pool's hosted UI, and set `person_access_callback_urls`.
+** An IAM OIDC provider for the user pool, so that {aws} STS can validate the pool's ID tokens. It names the pool, not the cluster's OIDC issuer, so a workload's token can't be exchanged for a person's credentials.
+** One on-behalf-of role for each agent in `person_access_agents`, such as `my-agents-research-person-data`. Its trust policy admits only ID tokens for the `api` client, and only sessions whose name starts with the agent's name. Its permissions use the token's own subject as a policy variable and name the agent, so a session reaches only that person's data for that agent.
+** An Amazon S3 bucket that holds each person's data for each agent under `people/<sub>/<agent>/`.
+** The token exchange for the delegated token: a resource server whose identifier, such as `my-agents-tools`, is the delegated token's audience, and for each agent in `person_access_agents`, its own client in the user pool, which gets tokens with the client credentials grant and may exchange a token only for delegation, an AgentCore Identity OAuth 2.0 credential provider for that client, and a workload identity. The exchange moves the pool's domain to managed login, because Cognito allows token exchange only with managed login.
+** With a bastion, a policy that lets the bastion's role read CloudTrail events (`cloudtrail:LookupEvents`), for the exercise script's check of the exchange record.
++
+After the sync, each listed agent's pod has its own role in `AGENT_PERSON_ROLE_ARN`, and `AGENT_PERSON_BUCKET`. An unlisted agent's `AGENT_PERSON_ROLE_ARN` is empty. Removing an agent from the list deletes only that agent's role, which revokes it without affecting the people who use other agents. After you change the list, recreate the pod of every agent, not only the listed ones, because a sandboxed agent keeps its old `AGENT_PERSON_ROLE_ARN` until its pod is recreated. The agents' egress allows {aws} STS and the bucket, and the chat interface forwards the signed-in person's access token to the agent.
+
+. Render and apply the sample MCP server again, as in <<agents-mcp>>. The render now sets the issuer and the clients whose tokens the server accepts, and the delegated token's audience and actor, so the server accepts only a delegated token. The actor is the cluster's issuer on the open source path, and each agent's own client in the user pool on the {aws} services path. The server lists two tools that answer only for the person whose token comes with the call: `my_account` and `get_account`.
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- bash -c "
+  cd gitops/examples/mcp-server && ../../../scripts/render-example.sh mcp-server.yaml $PAVED_PATH | kubectl apply -f -"
+----
+. Recreate every agent's pod, not only the listed ones, so that each starts with the new environment variables. `roll-agents.sh` with no agent name recreates every agent whose `Sandbox` changed, without another sync:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/roll-agents.sh
+----
+
+The reference agent registers two more tools for a request that carries an ID token, `save_my_note` and `read_my_note`. Each reaches the person's data with the agent's on-behalf-of role:
+
+* *Open source path.* The agent calls its route on the gateway, which signs the call, as shown in <<agents-identity-acting-for-flow-aws-gateway>>.
+* *{aws} services path.* The agent exchanges the ID token with `AssumeRoleWithWebIdentity`, with a session name that starts with the agent's name, such as `research-1a2b3c4d-1794850000`. The request to {aws} STS is unsigned, so the agent's own role isn't involved.
+
+The following excerpt shows the `research` role's permissions for the bucket on the {aws} services path. IAM fills in the subject from the verified token, so a session for one person is refused on every other person's data, and on that person's data for other agents:
+
+[source,json,subs="verbatim,attributes,quotes"]
+----
+{
+  "Effect": "Allow",
+  "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+  "Resource": "arn:aws:s3:::my-agents-person-data-111122223333/people/${cognito-idp.[.replaceable]`region-code`.amazonaws.com/[.replaceable]`user-pool-id`:sub}/research/*"
+}
+----
+
+To act for a person in your own agent and tools, do the following. They apply the practices in <<agents-identity-acting-for-practices>>.
+
+* In the caller, send the person's token in `x-person-token`, and keep the caller's own credential in `Authorization`. A front end behind the load balancer forwards `x-amzn-oidc-accesstoken`. An application that signs the person in forwards their ID token.
+* In the agent, pass `x-person-token` on to each tool call that acts for the person. On the open source path, AgentGateway exchanges it for a delegated token for the MCP servers behind it, but only for an agent in `person_access_agents`. An agent that isn't listed and sends a person's token sees no tools, and a tool call returns an unknown-resource error, so access is limited by both the agent and the person. On the {aws} services path, an agent that sets `mcpAudience` exchanges the person's token with AgentCore Identity and calls the MCP server directly, with the delegated token beside its own MCP token, and the server refuses an agent that isn't listed. On both paths, an agent that isn't in `person_access_agents` can't act with a person's authority, for tools as well as {aws} data. See <<agents-mcp>>.
+* In a tool, verify the caller's own credential as well as the person's token. For the person's token, check the signature, issuer, expiry, token type, and that its audience is this tool. A delegated token carries both identities in one token. Then answer only from the verified `sub`, only for a caller allowed to act for people, and log both the caller and the person. Never take the person's identity from a tool argument.
+* For {aws} data, use a role per agent whose permissions scope each session to the person and name the agent. Where the agent exchanges an ID token itself, use the provider's `sub` policy variable, name the agent in the session, and build each resource name from the subject that {aws} STS returns. Where a gateway signs for the person, use the session tag the gateway sets, as in <<agents-identity-acting-for-flow-aws-gateway>>.
+
+[#agents-identity-acting-for-delegated]
+== Delegated token on the open source path
+
+On the open source path, the gateway exchanges the person's access token and the calling agent's own token for one delegated token, by OAuth 2.0 token exchange at the ingress user pool, as shown in <<agents-identity-acting-for-flow-delegated>>. It's on by default with `enable_person_access`. The tool then receives only that token, and the person's own token never reaches it. The token's audience is `mcp-server`, so other relying parties of the pool refuse it. A call that brings a person's own token, an access token or an ID token, and no delegated one is refused with the following message:
+
+[source,none]
+----
+refused: this tool acts only for a signed-in person through an agent, and no verifiable delegated token came with the request
+----
+
+The user pool checks the agent's token but doesn't decide which agents may act. It issues a delegated token for any workload in the cluster, so the gateway's tool policy and the tool's own `act.sub` check stay on. Only an access token can be the subject. The delegated token also moves the pool's sign-in page to Cognito managed login on the Essentials tier, because token exchange isn't available with the classic hosted UI. The apply switches the pool's domain to managed login version 2 and gives the load balancer's client Cognito's default managed login style, because managed login serves no sign-in page for a client without a style.
+
+With the delegated token, the `delegation` phase in <<agents-identity-acting-for-verify>> prints `the tool read the agent and the person from one delegated token, and its log names both` in place of the line about the tool's log, and adds `the person's own token did not reach the tool; only the delegated token did` and `the tool refuses a person's own token (access or ID) without a delegated one: no token passthrough`. It skips the tool's own check for an unlisted agent, because the gateway refuses that agent first.
+
+`person_access_delegated_token = false` passes the person's own token to the tool instead, as described in <<agents-identity-acting-for-option-passthrough>>. Use it for development only.
+
+[#agents-identity-acting-for-via-gateway]
+== {aws} calls for a person through AgentGateway
+
+On the open source path, the agent's {aws} calls for a person go through the gateway, as shown in <<agents-identity-acting-for-flow-aws-gateway>>. It's on by default with `enable_person_access`, through `person_access_via_gateway`. The agent can't reach the person-data bucket, and the on-behalf-of role has no web identity trust, so the agent can't exchange the person's token itself. Amazon S3 on the person-data bucket is built in. To add another {aws} service, do the following.
+
+. Add the service to `person_access_gateway_services` in your variables file. Each entry, keyed by the service's SigV4 signing name, gets a route for each agent at `/aws/<agent>/<signing name>/`. Its IAM statements are added to every agent's on-behalf-of role, with `{agent}` replaced by the agent's name. Scope them to the person with a resource or a condition on `${aws:PrincipalTag/person}`, which only the gateway's tagged session carries. The following entry gives each person access to their own items in an Amazon DynamoDB table:
++
+[source,hcl]
+----
+person_access_gateway_services = {
+  dynamodb = {
+    statements = [{
+      actions   = ["dynamodb:GetItem", "dynamodb:PutItem", "dynamodb:DeleteItem"]
+      resources = ["arn:aws:dynamodb:us-west-2:111122223333:table/my-person-records"]
+      conditions = [{
+        test     = "ForAllValues:StringEquals"
+        variable = "dynamodb:LeadingKeys"
+        values   = ["$${aws:PrincipalTag/person}"]
+      }]
+    }]
+  }
+}
+----
++
+In the agent, `person_access.gateway_client("dynamodb", token)` returns an unsigned client for that route.
+. Apply with `scripts/apply.sh`, and sync with `--roll-agents`, as in <<agents-capabilities-later>>:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/open-source -- ./scripts/bootstrap-gitops.sh --path open-source --sync --roll-agents
+----
+
+The `delegation` phase in <<agents-identity-acting-for-verify>> checks the gateway route, and prints lines such as the following:
+
+[source,none]
+----
+  ✓ through the gateway, a person's own prefix for this agent is read and written with their authority
+  ✓ IAM refuses a person's gateway-signed call on another person's prefix, and outside their prefix
+  ✓ IAM refuses a person's gateway-signed call on their own data under another agent's part
+  ✓ the gateway refuses no person token, a forged one, an unsigned one and an access token, before any AssumeRole
+  ✓ the agent can neither reach the person-data bucket nor exchange the person's token itself; the gateway is its only way to the person's data
+  ✓ each other service routed for a person refuses a call with no person token, and signs one with it: dynamodb
+  ✓ the person role refuses AssumeRole from anyone but the gateway, even with the person and agent tags
+----
+
+The check for each other service confirms only that the gateway refuses a call without a person token and signs a call with one. It doesn't test what your statements allow, so test those for your service.
+
+`person_access_via_gateway = false` lets the agent exchange the person's ID token with {aws} STS itself, as in <<agents-identity-acting-for-flow-aws>>. Use it for development only. To change it, apply, sync with pruning, and recreate every agent's pod.
+
+[#agents-identity-acting-for-verify]
+== Verify on-behalf-of authorization
+
+From your workstation, run the `delegation` phase of the sample's exercise script. It creates two test users in the user pool and checks each refusal three ways: with each person's ID token from inside the agent's sandbox, through an agent turn, and through the chat interface with the access token the load balancer forwards.
+
+[source,bash]
+----
+./scripts/exercise.sh --path $PAVED_PATH delegation
+----
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+A passing run reports lines such as the following:
++
+[source,none]
+----
+  ✓ the person-data bucket keeps its public access block, BucketOwnerEnforced and the TLS-only policy
+  ✓ through the gateway, a person's own prefix for this agent is read and written with their authority
+  ✓ IAM refuses a person's gateway-signed call on another person's prefix, and outside their prefix
+  ✓ IAM refuses a person's gateway-signed call on their own data under another agent's part
+  ✓ the gateway refuses no person token, a forged one, an unsigned one and an access token, before any AssumeRole
+  ✓ the agent can neither reach the person-data bucket nor exchange the person's token itself; the gateway is its only way to the person's data
+  ✓ the person role refuses AssumeRole from anyone but the gateway, even with the person and agent tags
+  ✓ CloudTrail records the gateway's AssumeRole with the session named for research and the person, and both as session tags
+  ✓ a change to the person roles, the gateway's role, the cluster's Pod Identity associations or the user pool is published to my-agents-identity-changes
+  ✓ the tool answered for the person whose token came with the call
+  ✓ the tool refused one person another person's account
+  ✓ with no person token, the tool refused
+  ✓ the gateway refused the same person's token through an agent without person access (exercise-unlisted)
+  ✓ the tool read the agent and the person from one delegated token, and its log names both
+  ✓ the person's own token did not reach the tool; only the delegated token did
+  ✓ the tool refuses a person's own token (access or ID) without a delegated one: no token passthrough
+----
++
+The CloudTrail check reads the gateway's `AssumeRole` event, whose session name and tags name the agent and the person. The alert check confirms that the rules for IAM, Amazon EKS, and Amazon Cognito are on and publish to the topic, including the rule in us-east-1 that forwards IAM's events. It doesn't make a change to trigger one.
+
+{aws} services::
++
+A passing run reports the following:
++
+[source,none]
+----
+  ✓ the person-data bucket keeps its public access block, BucketOwnerEnforced and the TLS-only policy
+  ✓ a person's credentials read and write their own prefix
+  ✓ IAM refuses one person's credentials on another person's data, and outside their prefix
+  ✓ the agent's own workload token is not accepted as a person's
+  ✓ the person's credentials through this agent are refused on their own data outside this agent's part
+  ✓ the agent's person role admits only sessions that name this agent
+  ✓ an agent not given person access (exercise-unlisted) has no person role, and the same person's exchange for it is refused
+  ✓ the agent exchanged each person's token for a delegated one with AgentCore Identity
+  ✓ the tool answered for the person whose token came with the call
+  ✓ the tool refused one person another person's account
+  ✓ with no person token, the tool refused
+  ✓ the tool refused the person's own token: it accepts only a token delegated to an agent
+  ✓ the tool refused a token delegated to research when exercise-unlisted presented it
+  ✓ the tool read the agent and the person from one delegated token, and its log names both
+  ✓ the person's own token did not reach the tool; only the delegated token did
+  ✓ an agent turn saved and read back a person's note with that person's permissions
+  ✓ another person's turn did not get it
+  ✓ CloudTrail records the exchange with this agent's role and session, and the person's sub
+  ✓ signed in at the chat UI, a person got their own account through the tool
+  ✓ another person signed in at the chat UI was refused that account
+----
++
+The CloudTrail check reads the `AssumeRoleWithWebIdentity` event, whose user name is the person's `sub` and whose request names the agent's role and session.
+
+With `person_access_delegated_token = false`, for development only, the line about exchanging each person's token and the four lines about the delegated token don't print. The phase prints `the tool refused the same person's token through an agent without person access (exercise-unlisted)` and `the tool's log names the agent and the person on each call` instead, and a `!` line for the gateway's agent-side refusal, which is the open source gateway's check.
+
+The names in parentheses are the agent outside `person_access_agents` that the phase creates for the check and deletes afterward. CloudTrail delivers events some time after the call, so the phase waits for each event. Each refusal comes from IAM, the gateway, or the tool, not from the agent or the model.
+
+The `identity` phase checks the per-person turn limit. It prints `one person over 20 turns a minute is refused (429, Retry-After); another person behind the same caller is not`.
+
+[#agents-identity-acting-for-cleanup]
+== Clean up
+
+Turning off person access deletes the `api` client, the IAM OIDC provider for the user pool, each agent's on-behalf-of role, and the person-data bucket. It also deletes the token exchange's resource server and clients, and, on the {aws} services path, each agent's credential provider and workload identity. On the open source path, it also deletes the identity-change topic and rules.
+
+The bucket holds each person's data, and the apply can delete it only when it's empty, unless `checkpoint_bucket_force_destroy` is `true`. The ingress, chat interface, and consolidation that the procedures on this page also turn on have their own clean-up steps. See <<agents-ingress-cleanup>> and <<agents-memory-cleanup>>.
+
+. Export or delete the person-data bucket's contents. The bucket is named `my-agents-person-data-` followed by your account ID, so replace `bucket` with that name:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws s3 rm s3://[.replaceable]`bucket` --recursive
+----
++
+The bucket is versioned, so also delete the noncurrent versions. Alternatively, set `checkpoint_bucket_force_destroy = true` and apply it before the next step. Terraform deletes the bucket with the setting from its last apply, so the setting has no effect if you set it in the same apply that deletes the bucket.
+. Set `enable_person_access = false` in your variables file. Apply with `scripts/apply.sh`, and sync with pruning:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/bootstrap-gitops.sh --path $PAVED_PATH --sync --prune
+----
+. Render and apply the sample MCP server again, as in <<agents-mcp>>, so it no longer lists the tools that act for a person.
+. Recreate the pod of every agent. An agent keeps its old person-access environment variables until its pod is recreated:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/bootstrap-gitops.sh --path $PAVED_PATH --sync --roll-agents
+----
+
+Also set `person_access_delegated_token = false` in the same change, which returns the user pool's sign-in page to the classic hosted UI. To revoke one agent instead, remove it from `person_access_agents` and follow the same steps without the bucket step. The apply deletes only that agent's on-behalf-of role.
+
+[#agents-identity-acting-for-next]
+== Next steps
+
+* <<agents-ingress>>: Sign people in at the load balancer, which is where a person's identity enters the request.
+* <<agents-third-party-credentials>>: Give an agent access to a third-party API, where consent is per agent rather than per person.
+* <<agents-mcp>>: Run the MCP server whose tools verify the person's token.

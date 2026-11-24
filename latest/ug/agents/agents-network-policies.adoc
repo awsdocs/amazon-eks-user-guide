@@ -1,0 +1,342 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-network-policies]
+= Restrict agent egress with network policy
+:info_titleabbrev: Network policies
+
+[abstract]
+--
+Limit agent egress to DNS and approved destinations with three tiers of network policy, and deny traffic from new pods until their policies are programmed.
+--
+
+Network policy decides which connections a pod can open, by destination address, host name, and port. For an agent, it holds even when the code inside the pod is compromised. A prompt can tell the agent to call any host, and model-generated code can open sockets directly, so the agent's own configuration can't limit where it connects. The node enforces network policy outside the pod, whatever the code inside attempts.
+
+Every agent deployment needs it. It's the only networking layer in the base setup from <<agents-cluster-setup>>, and the gateway, mesh, and ingress layers in <<agents-networking>> assume it holds. Without it, nothing forces an agent to send traffic through the gateway.
+
+Policy objects don't enforce anything by themselves. The cluster must run a network policy controller, and until it does, the API server accepts every policy object and no traffic is filtered. A cluster can look protected without being protected, which is why <<agents-network-policies-verify>> tests a real connection.
+
+The reference sample turns enforcement on with `enable_network_policy = true`, the default, and boot agent nodes in `DefaultDeny`. Declare each agent's own destinations on its `Agent` object. Change the cluster tier only for destinations that every agent needs, or for system namespaces. Both paths apply the same policy tiers and node settings, and differ in two details:
+
+* *Open source.* With the gateway on, the gateway rule names the gateway's namespace. With observability on, the policy decisions dashboard shows denials as counts in Grafana.
+* *{aws} services.* With the gateway on, the gateway rule names the gateway's host name. With observability on, the policy decisions dashboard shows denials as records in CloudWatch Logs.
+
+To build the same boundary on another EKS Auto Mode cluster, turn on the network policy controller and set the `NodeClass` field as described in <<auto-net-pol>>, then apply equivalent policies.
+
+The following diagram shows the three policy tiers that apply to an agent pod.
+
+image::images/agents-network-policies.png["Three policy tiers, cluster, namespace, and agent, govern an agent pod's egress. DNS and approved destinations are allowed, and everything else is refused. Agent nodes deny traffic until policy loads.",scaledwidth=100%]
+
+[#agents-network-policies-shape]
+== What the policy permits
+
+Agent egress is an allowlist. Everything not on it is denied, including a host supplied in a prompt, a model endpoint the agent infers, and any {aws} API outside the agent's permissions.
+
+The allowlist has the following entries:
+
+* *DNS.* Port 53 to private address ranges. Every host-name rule depends on resolution, so without this entry the agent can reach nothing.
+* *The model endpoint.* Without a gateway, this is the Amazon Bedrock runtime endpoint in the cluster's Region, which the agent calls with its own IAM role. When you turn on the gateway, it replaces this entry with an in-cluster namespace on the open source path, or a host name on the {aws} services path. See <<agents-gateway>>.
+* *{aws} APIs the agent calls with its own credentials.* EKS Pod Identity delivers credentials from the Pod Identity Agent on the node, at a link-local address, so resolving credentials needs no egress rule. The agent needs egress to each {aws} service it calls directly, such as the checkpoint bucket's Amazon S3 host when `enable_checkpoints` is on. The base setup also permits the Regional `sts` endpoint, for agents that call STS APIs such as `GetCallerIdentity`.
+* *In-cluster services*, such as the session cache and the telemetry collector.
+
+Without a gateway, every model provider and tool an agent calls adds an allowlist entry that someone must review. The gateway replaces those entries with one destination that has a policy engine in front of it.
+
+[#agents-network-policies-fqdn]
+== Destinations by host name
+
+Standard Kubernetes network policy matches IP address blocks. That works for destinations inside the cluster, but model and {aws} endpoints are managed services whose addresses change without notice. A CIDR rule for them either breaks when the addresses move or has to be broad enough to cover the provider's whole range, which also covers every other customer on that range. A host-name rule avoids both. The node checks each DNS lookup the agent makes against the allowed names, and permits traffic only to the addresses an allowed name resolved to, for as long as the DNS record is valid.
+
+Two consequences follow. Host-name rules work only when DNS is permitted. And a wildcard permits every endpoint under the domain, including other tenants' endpoints on a shared provider domain, so use one only when you intend that scope.
+
+On EKS Auto Mode, you write host-name rules in an `ApplicationNetworkPolicy`, which accepts every standard `NetworkPolicy` field plus an FQDN filter on egress rules. For DNS-based and cluster-scoped policy on EKS Auto Mode, see <<auto-net-pol>>. For network policy on Amazon EKS in general, see <<cni-network-policy>>.
+
+[#agents-network-policies-tiers]
+== Policy tiers
+
+Kubernetes network policy is namespaced, and anyone who can edit policies in a namespace can loosen them. When application teams own their agent namespaces, a namespaced policy can't be the cluster's egress guarantee. Splitting policy into tiers solves this. A cluster-scoped tier, evaluated before any namespaced policy and editable only by the platform team, holds the rules every agent must follow. The namespaced tier sets the default for one namespace. The per-agent tier carries the destinations one agent declares, so they're deployed and reviewed with that agent.
+
+On EKS Auto Mode, the cluster tier is a `ClusterNetworkPolicy` in the `Admin` tier, which selects namespaces across the cluster. The other two are `ApplicationNetworkPolicy` objects, which live in one namespace and select pods there. Both kinds can name destinations by host name. The following table describes the three tiers.
+
+[cols="1,1,3", options="header"]
+|===
+|Tier |Scope |Why it exists
+
+|Cluster-scoped
+|Every agent namespace
+|Holds the cluster's egress rules where a tenant can't edit them.
+
+|Namespaced
+|One agent namespace
+|Denies by default anything the cluster tier didn't accept, and narrows what it leaves unnamed.
+
+|Per agent
+|One agent's pods, by label
+|Composed from the `Agent` object, so each agent's destinations deploy with the agent.
+|===
+
+[IMPORTANT]
+====
+The cluster tier is the Admin tier and is evaluated first, in priority order. An `Accept` or `Deny` there ends evaluation. A lower tier can't remove a destination the cluster tier accepts or permit one it denies. Traffic that the cluster tier doesn't name falls through to the namespace-scoped policies, where the per-agent policy allows the agent's declared destinations and the namespaced policy denies the rest.
+
+By default, then, a namespaced policy can widen what an agent reaches, and anyone with RBAC in the namespace can edit one. Set `network_policy_admin_tier_default_deny = true` to end the cluster tier with a `Deny` for the agent namespace. The cluster tier's `Accept` rules then become the most any agent can reach, and no namespaced policy can widen them. Run the egress check in <<agents-network-policies-verify>> with it on before you rely on it, because a destination that's currently allowed only below the cluster tier stops working. The cluster tier keeps two exceptions for agents that need them: `eks-agents-cluster-api` admits the Kubernetes API for an agent with `needsClusterApi`, and `eks-agents-mcp-servers` admits the in-cluster MCP servers for an agent with `mcpAudience`.
+
+When a destination is unexpectedly reachable or blocked, read the cluster-scoped policies first, in priority order. For example, agents reach the telemetry collector, Amazon S3, and {aws} STS with no namespaced or per-agent rule, because the cluster tier accepts all three.
+
+The cluster tier also accepts traffic between pods in an agent namespace, such as the chat interface's calls to an agent. Every agent can therefore reach any workload you run in its namespace, regardless of that workload's own policy. For example, an MCP server in `agents` whose policy admits only the gateway still answers a direct call from an agent that presents no token. Run services that agents must reach only through the gateway in their own namespace. See <<agents-mcp>>.
+====
+
+[#agents-network-policies-window]
+== Enforcement at node startup
+
+A pod can start running before the node programs its policies. For most workloads this gap doesn't matter, but an agent often makes an outbound call as its first action.
+
+The `networkPolicy` field on the EKS Auto Mode `NodeClass` sets what the node agent does during this gap:
+
+* `DefaultAllow` permits traffic until policies are programmed. In testing, a sandboxed pod whose first action was an outbound call reached the internet in 3 of 10 attempts with every policy applied.
+* `DefaultDeny` denies traffic until policies are programmed. In the same test, 0 of 20 attempts reached the internet. The base setup uses `DefaultDeny` for agent nodes. Because the field belongs to a `NodeClass`, agent node pools can boot in `DefaultDeny` while other node pools keep `DefaultAllow`.
+
+[IMPORTANT]
+====
+The node agent reads this setting at boot. Set it before you create the agents' node pool, or replace the nodes after you change it.
+====
+
+The execution tier has no network device, so it has no policies to program and no gap in either mode. See <<agents-isolation>>.
+
+[#agents-network-policies-infrastructure]
+== Scope of strict enforcement
+
+In strict mode (`DefaultDeny`), a pod that no policy selects is denied in both directions. That is the intended behavior for agents, but it also blocks DaemonSets and other system pods that run on the same nodes.
+
+To exempt them, the base setup includes a cluster-tier policy at the highest priority whose subject lists the system namespaces, and which accepts both directions for them: the node agent, mesh, gateway, sandbox controller, telemetry, and any stateful components. When you deploy a component that runs on agent nodes, add its namespace to this policy.
+
+[IMPORTANT]
+.Never put an agent namespace in that carve-out
+====
+Because a cluster-tier `Accept` ends evaluation, an agent namespace in this exemption gets unrestricted egress. No lower-tier rule applies, and nothing reports the overlap. The egress check in <<agents-network-policies-verify>> tests one agent pod, so it catches the overlap only when that pod's namespace is the exempt one. Enforce the separation in your pipeline. Read the agent namespaces from the rendered manifests instead of a hardcoded list, and fail the build if any of them appears in the exemption. The reference sample's `scripts/validate.sh` runs this check against the rendered manifests.
+====
+
+[#agents-network-policies-ingress]
+== Ingress for an exposed agent
+
+The namespace-wide policy also selects every pod for ingress, with one rule: allow traffic from pods in the same namespace. That is sufficient for an agent with no callers outside the cluster. An agent exposed through an Application Load Balancer needs two more rules. Without them, the Gateway and route report healthy, sign-in completes, and the request still fails with a `504` from the load balancer while the target shows `Target.Timeout`.
+
+*Allow ingress from the load balancer's subnets.* With an `ip` target group, the load balancer health-checks and forwards to the pod from its own network interfaces. Their VPC addresses don't match a same-namespace rule. An ingress `from` accepts an address block, a namespace selector, or a pod selector, so an address block is the only way to name the load balancer. As a result:
+
+* *Write the rule in the namespaced policy.* Cluster-scoped ingress rules accept only namespaces and pods, not CIDRs, although cluster-scoped egress rules do accept networks. Scope the rule to the load balancer's subnets, not the whole VPC, and to the agent's port.
+* *Select pods by label.* A namespace-wide rule would also admit the load balancer to pods that must stay unreachable, such as execution-tier pods. Label each workload that sits behind the ingress load balancer, and select on that label. The base setup uses `eks-agents/ingress: "true"`. Every `Agent` already gets this rule in its own composed policy, scoped to its port, so the label is for other workloads behind the same load balancer, such as the chat UI or an MCP server. An agent with `expose: none` also admits its port from those subnets, but no target group points at it.
+
+*Allow egress to the load balancer's signing-key endpoint.* A workload that verifies the claims the browser gate attaches fetches the load balancer's regional public key, which is outside the VPC. If egress permits only the model gateway, the fetch times out and the workload rejects every request. Permit that host name, `public-keys.auth.elb.region.amazonaws.com`, on port 443 for the labeled pods only. Agents that don't verify claims don't need it. See <<agents-ingress>>.
+
+[#agents-network-policies-observability]
+== Troubleshoot refused connections
+
+The network policy agent doesn't expose a metric for denied connections, so from the agent's side a denied egress attempt looks like a failed request. The base setup sets `networkPolicyEventLogs: Enabled` on the agents' `NodeClass`, which turns on logging of network policy events on agent nodes. With observability on, a policy decisions dashboard shows the denials:
+
+* *Open source path.* As counts in Grafana.
+* *{aws} services path.* As records in CloudWatch Logs.
+
+See <<agents-observability-decisions>>.
+
+* When an agent times out connecting to a host name that resolves, check policy first. A connection that policy denies times out. A backend that is down refuses the connection immediately.
+* If egress rules permit a connection that still fails, check the destination's own ingress policy. A chart that ships one, such as a cache, database, or collector, admits only the sources it names, and the agent's egress policies don't show that denial.
+* If a destination is unexpectedly reachable or blocked, see the evaluation order in <<agents-network-policies-tiers>>.
+
+[#agents-network-policies-prereqs]
+== Prerequisites
+
+* A clone of the reference sample on your workstation, and a shell with `kubectl` access to the cluster, on the bastion or your workstation.
+* `PAVED_PATH` set to `open-source` or `aws-services`, such as with `export PAVED_PATH=open-source`.
+* At least one running agent. See <<agents-application-setup>>.
+
+[#agents-network-policies-review]
+== Step 1: Review the policies the base setup applies
+
+The base setup applies every tier of the boundary from Git, so you don't write these objects for a first agent. Read them before you change one, because a change at the cluster tier changes what every agent can reach.
+
+Start with the nodes. The agents' `NodeClass` boots nodes in strict mode and logs policy decisions:
+
+[source,bash]
+----
+kubectl get nodeclass eks-agents -o yaml
+----
+
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: eks-agents
+spec:
+  networkPolicy: DefaultDeny          # a pod no policy selects gets no traffic, including before its policies load
+  networkPolicyEventLogs: Enabled     # log each allow and deny decision on the node
+----
+
+The node agent reads `networkPolicy` when a node boots, so a change reaches only nodes launched after it.
+
+The cluster tier holds the guarantee. List its policies, which are evaluated in priority order:
+
+[source,bash]
+----
+kubectl get clusternetworkpolicies
+----
+
+The following excerpt shows the two policies that every agent in the `agents` namespace depends on, as the base setup renders them with no gateway. The first accepts DNS to private address ranges. The second accepts the one approved model destination by host name, so the rule follows the endpoint's addresses as they change:
+
+[source,yaml]
+----
+apiVersion: networking.k8s.aws/v1alpha1
+kind: ClusterNetworkPolicy
+metadata:
+  name: eks-agents-dns
+spec:
+  tier: Admin
+  priority: 20
+  subject:
+    namespaces:
+      matchLabels:
+        kubernetes.io/metadata.name: agents
+  egress:
+    - name: allow-dns
+      action: Accept
+      to:
+        - networks:
+            - 10.0.0.0/8
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+            - 100.64.0.0/10
+            - 169.254.0.0/16    # link-local: the VPC resolver at 169.254.169.253 and node-local caches
+      ports:
+        - portNumber:
+            protocol: UDP
+            port: 53
+        - portNumber:
+            protocol: TCP
+            port: 53
+---
+apiVersion: networking.k8s.aws/v1alpha1
+kind: ClusterNetworkPolicy
+metadata:
+  name: eks-agents-approved-destinations
+spec:
+  tier: Admin
+  priority: 30
+  subject:
+    namespaces:
+      matchLabels:
+        kubernetes.io/metadata.name: agents
+  egress:
+    - name: allow-egress-bedrock
+      action: Accept
+      to:
+        - domainNames:
+            - bedrock-runtime.us-west-2.amazonaws.com
+      ports:
+        - portNumber:
+            protocol: TCP
+            port: 443
+----
+
+Turning on the gateway replaces `allow-egress-bedrock` with `allow-egress-gateway`.
+
+* *Open source path.* The rule names the gateway's namespace.
+* *{aws} services path.* The rule names the gateway's host name in `domainNames`.
+
+A separate policy at priority 10 denies all traffic to and from the execution tier's namespace.
+
+The namespaced and per-agent tiers are `ApplicationNetworkPolicy` objects, which can also name hosts. The `Agent` resource composes one for each agent, selecting only that agent's pods:
+
+[source,bash]
+----
+kubectl -n agents get applicationnetworkpolicy research -o yaml
+----
+
+[source,yaml]
+----
+apiVersion: networking.k8s.aws/v1alpha1
+kind: ApplicationNetworkPolicy
+metadata:
+  name: research
+  namespace: agents
+spec:
+  podSelector:
+    matchLabels:
+      eks-agents/agent: research
+  policyTypes:
+    - Ingress
+    - Egress
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 10.0.0.0/8
+        - ipBlock:
+            cidr: 172.16.0.0/12
+        - ipBlock:
+            cidr: 192.168.0.0/16
+        - ipBlock:
+            cidr: 100.64.0.0/10
+        - ipBlock:
+            cidr: 169.254.0.0/16
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    - to:
+        - ipBlock:  # the EKS Pod Identity credential endpoint
+            cidr: 169.254.170.23/32
+      ports:
+        - protocol: TCP
+          port: 80
+    - to:
+        - domainNames:
+            - bedrock-runtime.us-west-2.amazonaws.com
+      ports:
+        - protocol: TCP
+          port: 443
+----
+
+The Pod Identity rule is easy to miss when you write policies yourself. Without it, the agent's request for its {aws} credentials times out, and the agent can't reach a model that its role permits. When you turn on a component such as the session cache, its namespace and port appear as another `to` entry in all three tiers, because each tier must permit a destination before the agent can reach it.
+
+[#agents-network-policies-verify]
+== Step 2: Verify the boundary
+
+Confirm that an agent pod can't reach a destination outside the allowlist. Run this check after the first agent is running and before you add any other networking layer, and again after any change to the cluster-scoped policies.
+
+Run the `egress` phase of the reference sample's exercise script. It attempts a connection from a running agent pod to an unapproved destination.
+
+[source,bash]
+----
+./scripts/exercise.sh --path $PAVED_PATH egress
+----
+
+The connection times out when the boundary holds. If the connection succeeds, the agent can reach an unapproved destination. Check the cluster-scoped policies in priority order, including the system namespace exemption, because a lower tier can't override an `Accept` there.
+
+[#agents-network-policies-off]
+== Turn off the boundary
+
+[WARNING]
+====
+Don't run the gateway with network policy off. Without the policy, nothing forces agents to send traffic through the gateway. See <<agents-networking-combinations>>.
+====
+
+Setting `enable_network_policy = false` removes the policies and the configuration that turns on enforcement. The agents' `NodeClass` then launches nodes in standard mode, because strict mode with no policy selecting an agent pod denies it all traffic.
+
+This setting has two limits:
+
+* Nodes that booted in strict mode keep it until they're replaced, and with no policies left they deny the agents all traffic, including DNS and Amazon Bedrock. Sandboxed agent pods are marked `karpenter.sh/do-not-disrupt` so that a session isn't interrupted, so EKS Auto Mode doesn't replace these nodes on its own. After the sync with `--prune`, replace them yourself, which ends the sessions running on them:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- kubectl delete nodeclaims -l karpenter.sh/nodepool=eks-agents
+----
+* It doesn't turn off enforcement on the EKS cluster. That setting belongs to the cluster, outside this stack. Set it to `false` yourself if you need to.
+
+[#agents-network-policies-cleanup]
+== Clean up
+
+The network policies are part of the base setup, and this page installs nothing else. To turn them off, see <<agents-network-policies-off>>. To remove them with the rest of the stack, see <<agents-cluster-setup-cleanup>>.
+
+[#agents-network-policies-next]
+== Next steps
+
+* <<agents-gateway>>: Turn on the egress gateway, which becomes the agent's single approved destination for model and tool calls.

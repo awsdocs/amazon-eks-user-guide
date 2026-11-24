@@ -1,0 +1,602 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-observability]
+= Observe agent workloads on Amazon EKS
+:info_titleabbrev: Observability
+
+[abstract]
+--
+Emit OpenTelemetry with the GenAI semantic conventions from the agent, land it in Prometheus and Grafana or in Amazon CloudWatch, and attribute spend per agent and per model.
+--
+
+Pod metrics tell you a container is busy. They don't tell you which agent spent the tokens, which model it called, how long a turn took, which tools it used, or what it did in what order. Those are the questions you answer when an agent's cost spikes, when a model change makes it slower, or when you need to reconstruct what an agent did after an incident. Agent telemetry answers them, and evaluation (<<agents-evaluations>>) grades agents on the traces it collects, so turn telemetry on first.
+
+Agent telemetry has two shapes. Metrics, such as tokens, call latency, and errors per agent and per model, are cheap to keep and drive dashboards and alarms. Traces record each turn as a tree of spans, one per model call and tool call, and show the agent's trajectory. Keep per-turn detail on spans and keep metric dimensions coarse (see <<agents-observability-cardinality>>).
+
+The OpenTelemetry GenAI semantic conventions define standard names for these signals, such as the model, token counts by type, and operation. An agent that emits them works with any backend that understands the conventions, so you choose the backend for operational reasons and can change it later without changing the agent:
+
+* *Prometheus and Grafana, with a trace backend you run,* keep telemetry in the cluster and give you full control of dashboards and retention. You operate every component, and you build trajectory views yourself.
+* *Amazon CloudWatch and {aws} X-Ray* are managed. The CloudWatch GenAI Observability views show model calls, tool calls, and trajectories without views you build, and AgentCore online evaluation reads spans from the same store.
+
+The following diagrams show each path.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+The following diagram shows the open source path. The collector exports the agent's metrics to Prometheus, which also scrapes the gateway when the gateway is on. Grafana reads Prometheus. The collector sends traces to Langfuse when Langfuse is on.
++
+image::images/agents-observability-open-source.png["The agent sends OTLP to an OpenTelemetry collector, which sends metrics to Prometheus for Grafana dashboards and traces to Langfuse.",scaledwidth=100%]
+
+{aws} services::
++
+The following diagram shows the {aws} services path. The ADOT collector sends metrics and logs to Amazon CloudWatch, and spans to {aws} X-Ray, which stores them in the `aws/spans` log group.
++
+image::images/agents-observability-aws-services.png["The agent sends OTLP to the ADOT collector, which sends metrics and logs to Amazon CloudWatch and spans to X-Ray.",scaledwidth=100%]
+
+[#agents-observability-paths]
+== Open source and {aws} services paths
+
+The following table compares how each path provides agent telemetry.
+
+[cols="1,2,2",options="header"]
+|===
+|Aspect |Open source |{aws} services
+
+|Collector
+|OpenTelemetry collector in the cluster
+|{aws} Distro for OpenTelemetry (ADOT) collector in the cluster
+
+|Metrics and dashboards
+|Prometheus and Grafana, and Prometheus also scrapes the gateway
+|Amazon CloudWatch metrics and dashboard, with Container Insights for nodes and pods
+
+|Traces
+|Langfuse, when you turn it on
+|{aws} X-Ray, with spans stored in the `aws/spans` log group through Transaction Search
+
+|Collector's access to the backend
+|Writes to backends in the cluster, with Langfuse's credentials from `platform-secrets`
+|Signs its writes with its own IAM role
+
+|Spend panels
+|Dollar metric that the in-cluster gateway emits from its model cost catalog
+|Read from Amazon CloudWatch
+
+|Policy decisions
+|Grafana dashboard that counts refusals, with no log store
+|Network policy verdict log in CloudWatch Logs and a policy decisions dashboard
+
+|Operation
+|You operate every component, and build trajectory views yourself
+|Managed, with CloudWatch GenAI Observability views of model calls, tool calls, and trajectories
+|===
+
+[#agents-observability-how]
+== How telemetry reaches the backend
+
+Agents send telemetry to a collector in the cluster, not directly to the backend. The collector batches and filters telemetry and holds the backend's credentials, so changing backends means changing the collector, not every agent. It also keeps the network boundary small. Each agent needs egress to one in-cluster address instead of to every backend, and on the {aws} services path the collector signs its writes with its own IAM role, so agents need no permission to write telemetry.
+
+An agent that isn't told where the collector is exports nothing. The standard OpenTelemetry variable `OTEL_EXPORTER_OTLP_ENDPOINT` carries the address, and the agent's network policy must permit it.
+
+In the reference sample, `enable_observability` turns on the whole layer on either path, and the base setup in the reference sample leaves it off.
+
+* *Open source.* `enable_langfuse` adds Langfuse as the trace backend, at the cost of another stateful tier.
+* *{aws} services.* CloudWatch Transaction Search must be on to store spans for querying. It's an account-and-Region setting, which the stack turns on by default.
+
+For the agent code and collector configuration that the reference sample uses, see <<agents-observability-review>>.
+
+[#agents-observability-what]
+== Key signals
+
+Both paths ship a dashboard with the same panels:
+
+* Estimated spend per agent and per model.
+* Tokens by agent and by token type.
+* Model call rate, and call latency at p50 and p95.
+* Errors by type.
+
+Use spend per agent to find the agent driving cost, and latency and errors per model to detect a model change.
+
+[#agents-observability-spend]
+== Cost estimates
+
+The dashboard's dollar figures are estimates for comparing agents and weeks, not billing data.
+
+* *Source.* On the open source path, the in-cluster gateway prices each call from its model cost catalog and emits a dollar metric per model and per agent. On the {aws} services path, the managed gateway has no in-cluster metrics endpoint, so the spend panels read Amazon CloudWatch.
+* *Unpriced models.* When the gateway finds no price for a model, it under-reports that model's cost, and no panel flags the gap. Track the share of calls the gateway priced exactly.
+* *Your rates.* The catalog has list prices only. It excludes provisioned throughput, batch pricing, negotiated rates, and free tiers.
+
+For billing-grade cost, use the {aws} Cost and Usage Report with these cost allocation tags:
+
+* *`iamPrincipal/agent`.* The agent's session tag. On the open source path, the gateway assumes each agent's role to sign its model calls, so this tag splits model spend per agent. On the {aws} services path, the managed gateway signs model calls with its own role, so the report attributes model spend to the gateway, and this tag splits only an agent's own {aws} calls, such as checkpoints and session state.
+* *`aws:eks:cluster-name`.* Splits the cluster's infrastructure cost, including nodes.
+
+Set `activate_cost_allocation_tags = true` to activate the keys. Plan for these constraints before you set it:
+
+* It is an account-level billing setting, so the apply needs payer-account credentials.
+* A key can be activated only after it appears in the account's tag inventory. Set the variable on a second apply, after agents have made calls.
+* Activation is not retroactive. Cost Explorer can take up to 24 hours to show a newly activated key.
+
+[#agents-observability-limits]
+== Limitations
+
+* *Denied egress.* The network policy agent emits no metric for a denied connection, so on the agent dashboard a denial looks like a failed agent request. Its verdict log records the denial. See <<agents-observability-decisions>>.
+* *Tool-call outcomes and trajectories.* These are spans, so the metrics dashboard does not show them. On the {aws} services path, use the GenAI Observability views. On the open source path, query the trace backend; you build those views yourself.
+* *Budget headroom.* The gateway enforces budgets. The headroom panel compares the agent's metric against a limit copied from the gateway configuration. If the gateway configuration changes and the panel's copy does not, the panel is wrong.
+
+[#agents-observability-decisions]
+== Policy decisions
+
+Each control in the stack decides something different and records its decision in a different place. To confirm that a policy took effect, look where the control that applies it writes its decisions:
+
+[cols="1,2,2", options="header"]
+|===
+|Control |Decides |Recorded in
+
+|Network policy
+|Each flow into and out of an agent pod, by IP address, with `ACCEPT` or `DENY` and the tier that decided
+|The verdict log on each agent node
+
+|AgentCore Gateway
+|Each model call and tool call, by Cedar policy
+|The `DenyDecisions` and `AllowDecisions` metrics, which don't name the caller
+
+|Admission
+|Each pod an agent namespace refuses
+|The control plane audit log, when it's turned on
+
+|IAM
+|Each {aws} call an agent's role makes
+|{aws} CloudTrail, as `AccessDenied`
+
+|MCP server
+|Each tool call made for a person
+|The MCP server's pod log
+
+|Nitro Sandbox
+|Nothing, because it isolates rather than decides
+|Nowhere
+|===
+
+A network policy count is of verdict records, not connections. A refused connection is logged once for each retry of its first packet, so it can count several times. The verdict log names IP addresses, not pods, and a pod's address is reused when the pod is replaced, so resolve an address soon after the denial. The tier names the kind of policy that decided. `NETWORK_POLICY` is a namespaced policy, `ADMIN` is a cluster-scoped policy, and `DEFAULT` means that no policy matched and the node's default applied.
+
+Container Network Observability, which includes Network Flow Monitor and the service map in the EKS console, doesn't show a sandboxed agent's own flows. A sandboxed agent appears only where the other end of a connection is an unsandboxed pod, such as an MCP server, so its calls to the gateway and to the internet are missing from the map.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+The path has no log store, so the Grafana dashboard *Agents · policy decisions* counts refusals instead of keeping records. It's installed with the observability stack, with no variable to set. It counts gateway refusals with the calling agent named, mesh refusals with the caller and destination, admission refusals by `ValidatingAdmissionPolicy`, and network policy denials by IP address, port, and tier. A DaemonSet on the agent nodes reads the network policy verdict log and counts each verdict without keeping the lines. The counts don't say which request a refusal was.
+
+{aws} services::
++
+With `enable_observability`, `enable_network_policy_logs`, on by default, ships the verdict log from each agent node to the `/aws/eks/<cluster>/network-policy` log group. The `<name>-policy-decisions` dashboard shows network policy denials, the gateway's Cedar decisions when the gateway is on, and admission refusals when `enable_cluster_log_types` includes `audit`. Saved CloudWatch Logs Insights queries in the `<name>/policy-decisions` folder list denials, show every flow for one pod address, and list admission refusals. The log carries every `ACCEPT` as well as every `DENY`, so its volume grows with agent traffic. CloudTrail and the MCP server's pod log stay out of the dashboard. The MCP server's log carries tool arguments, so it isn't shipped.
+
+[#agents-observability-cardinality]
+== Metric design
+
+Don't use per-turn or per-cycle identifiers as metric dimensions. Each value creates a new time series, so cost grows without bound and no aggregate series exists for dashboards to query. Put per-turn identifiers on spans. Limit metric dimensions to agent, model, and operation.
+
+[#agents-observability-prereqs]
+== Prerequisites
+
+* The base setup from <<agents-cluster-setup>>, applied, and the in-cluster components from <<agents-capabilities-setup>>, synced.
+* `PAVED_PATH` set to `open-source` or `aws-services`, such as with `export PAVED_PATH=open-source`.
+* A shell with `kubectl` access to the cluster, on the bastion or your workstation, and an agent deployed as in <<agents-application-setup>>. The commands use the reference agent `research` in namespace `agents`.
+* On the {aws} services path, the {aws} CLI, for the CloudWatch Logs query in Step 3.
+
+[IMPORTANT]
+====
+On the {aws} services path, the stack turns on {aws} X-Ray Transaction Search by default. It's an account-level setting, so it affects every workload in the account. The sample's teardown script turns it off only on request, and only if no other cluster from this stack in the account uses it.
+====
+
+[#agents-observability-enable]
+== Step 1: Turn on observability
+
+This step turns on the telemetry layer.
+
+Every agent gets `OTEL_EXPORTER_OTLP_ENDPOINT`, pointing at the collector over OTLP/HTTP on port 4318, and an egress rule to it. Outside these templates, run a collector Service, set the variable on each agent, and permit egress to the collector only.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+Set the variable. Also set `enable_langfuse = true` if you want a trace backend:
++
+[source,hcl]
+----
+enable_observability = true
+enable_langfuse      = true   # optional
+----
++
+Apply and sync:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+./scripts/apply.sh --root terraform/open-source -var-file=my.tfvars
+./scripts/run-stack.sh --root terraform/open-source -- ./scripts/bootstrap-gitops.sh --path open-source --sync --roll-agents
+----
++
+The sync deploys the OpenTelemetry collector as `opentelemetry-collector` in namespace `monitoring`, Prometheus, Grafana, the agent dashboard, and the policy decisions dashboard described in <<agents-observability-decisions>>, and Prometheus also scrapes the gateway directly. `enable_langfuse = true` adds Langfuse and points the collector's traces at it. Grafana's admin password and Langfuse's credentials come from `enable_platform_secrets` (see <<agents-session-state-settings>>).
++
+With Langfuse, `langfuse-web` restarts in `CrashLoopBackOff` until ClickHouse, Postgres, and its object storage are ready. The restarts are expected, and the Applications then report `Synced` and `Healthy` without intervention.
+
+{aws} services::
++
+Set the variable:
++
+[source,hcl]
+----
+enable_observability = true
+----
++
+Apply and sync:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+./scripts/apply.sh --root terraform/aws-services -var-file=my.tfvars
+./scripts/run-stack.sh --root terraform/aws-services -- ./scripts/bootstrap-gitops.sh --path aws-services --sync --roll-agents
+----
++
+The apply creates the agents' telemetry log group, the collector's IAM role, and the CloudWatch dashboard, and installs the Amazon CloudWatch Observability add-on for Container Insights, which shows the nodes and pods the agents run on. The sync deploys the {aws} Distro for OpenTelemetry collector as `adot-collector` in `opentelemetry-operator-system`, with cert-manager for the ADOT operator's webhooks. `enable_transaction_search`, on by default, turns on Transaction Search, which stores every span in the `aws/spans` log group. `enable_network_policy_logs`, also on by default, ships the network policy verdict log and adds the policy decisions dashboard described in <<agents-observability-decisions>>.
+
+The bootstrap script applies the rendered root Application, refreshes and syncs it, and waits for the Applications to converge. With `--roll-agents`, it then recreates each agent pod whose `Sandbox` changed, and prints a line for each agent, such as `agents/research: recreating (env OTEL_EXPORTER_OTLP_ENDPOINT added)`, or `current` for an agent that didn't change.
+
+The new Applications report `Synced` and `Healthy`. If one stays `Progressing` after its objects are ready, run the bootstrap script again, because Argo CD can keep the health it computed while they were starting. See <<agents-capabilities-later>>.
+
+[IMPORTANT]
+====
+A `Sandbox` doesn't replace its running pod when its spec changes, so without `--roll-agents` a sandboxed agent keeps exporting nothing. The `--roll-agents` on the sync recreates the pod. To confirm that the agent's `Sandbox` has `OTEL_EXPORTER_OTLP_ENDPOINT`, run the following:
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- bash -c "kubectl -n agents get sandbox research -o yaml | grep -A1 OTEL_EXPORTER_OTLP_ENDPOINT"
+----
+
+An agent with `runtime: deployment` rolls automatically.
+====
+
+[#agents-observability-review]
+== Step 2: Review how the agent and the collector are configured
+
+The sync in Step 1 configures both ends of the pipeline. The agent's own code and environment decide what it emits, and the collector decides where the telemetry lands. If you build an agent or a collector of your own, these are the pieces it needs.
+
+[#agents-observability-instrument]
+=== Agent instrumentation
+
+Setting the `OTEL_*` environment variables isn't enough on its own. Nothing reads them until the agent creates an OpenTelemetry tracer provider and meter provider and attaches exporters. Without that, an agent completes model calls and emits nothing, and every component still reports healthy. The reference agent uses the Strands Agents SDK, which emits the GenAI semantic conventions, and turns both signals on at startup:
+
+[source,python]
+----
+import os
+from strands.telemetry import StrandsTelemetry
+
+def setup_telemetry():
+    if not os.environ.get("OTEL_EXPORTER_OTLP_ENDPOINT"):
+        return                                        # no collector: export nothing
+    telemetry = StrandsTelemetry()
+    telemetry.setup_otlp_exporter()                   # spans for each turn, model call, and tool call
+    telemetry.setup_meter(enable_otlp_exporter=True)  # GenAI metrics: token usage, operation duration
+----
+
+Traces alone leave metric dashboards empty, so set up the meter too. The agent also puts the conversation's ID on every span as the `session.id` attribute, by passing `trace_attributes={"session.id": session_id}` to the Strands `Agent`. Trace backends and both evaluation backends group a conversation's turns on that attribute.
+
+If you build your agent's server on FastAPI 0.165 or later, turn off FastAPI's own OpenTelemetry tracing. Otherwise it makes an HTTP server span with no session ID the root of every trace, above the agent's `invoke_agent` span, and the open source evaluation runner finds no agent invocation to grade. The reference agent's server turns it off:
+
+[source,python]
+----
+# apps/reference/server.py, abridged
+app = FastAPI(..., telemetry={"tracing": False, "metrics": False, "logs": False})
+----
+
+The `Agent` resource sets the standard OpenTelemetry variables on the agent's container. On the open source path, the result looks like the following:
+
+[source,yaml]
+----
+env:
+  - name: OTEL_SERVICE_NAME              # the Agent's name; backends group by it
+    value: research
+  - name: OTEL_RESOURCE_ATTRIBUTES
+    value: k8s.namespace.name=agents,k8s.deployment.name=research,eks.agent=research,aws.service.type=gen_ai_agent
+  - name: OTEL_EXPORTER_OTLP_PROTOCOL
+    value: http/protobuf
+  - name: OTEL_EXPORTER_OTLP_ENDPOINT
+    value: http://opentelemetry-collector.monitoring.svc.cluster.local:4318
+----
+
+`eks.agent` is the dimension that the dashboards and the CloudWatch metrics use to split by agent. `aws.service.type=gen_ai_agent` is the attribute that AgentCore online evaluation selects sessions on. The {aws} Distro for OpenTelemetry sets it automatically, but the plain OpenTelemetry SDK doesn't, so an agent without it is never graded. When observability is off, the resource sets `OTEL_SDK_DISABLED=true` instead of an endpoint, so an SDK doesn't retry against `localhost:4318`.
+
+[#agents-observability-collector]
+=== Collector and scrape configuration
+
+Both paths run the collector as a Deployment with an OTLP receiver on ports 4317 (gRPC) and 4318 (HTTP). They differ in where the collector exports.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+The OpenTelemetry Collector exposes metrics on port 8889 for Prometheus and sends traces to Langfuse when Langfuse is on. It also deletes prompt and completion attributes from metrics, so model input and output don't become metric labels. The following excerpt is from the collector's Helm values:
++
+[source,yaml]
+----
+config:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:4317
+        http:
+          endpoint: 0.0.0.0:4318
+  processors:
+    attributes/strip_content:
+      actions:
+        - key: gen_ai.prompt
+          action: delete
+        - key: gen_ai.completion
+          action: delete
+        - key: gen_ai.request.messages
+          action: delete
+        - key: gen_ai.response.messages
+          action: delete
+  exporters:
+    prometheus:
+      endpoint: 0.0.0.0:8889
+      resource_to_telemetry_conversion:  # resource attributes such as eks.agent become labels
+        enabled: true
+    otlphttp/langfuse:
+      endpoint: http://langfuse-web.langfuse.svc.cluster.local:3000/api/public/otel
+  service:
+    pipelines:
+      metrics:
+        receivers:
+          - otlp
+        processors:
+          - memory_limiter
+          - attributes/strip_content
+          - batch
+        exporters:
+          - prometheus
+      traces:
+        receivers:
+          - otlp
+        processors:
+          - memory_limiter
+          - batch
+        exporters:
+          - debug
+          - otlphttp/langfuse
+ports:
+  metrics:
+    enabled: true
+    containerPort: 8889
+    servicePort: 8889
+----
++
+Prometheus doesn't scrape the collector by default. Two pieces are needed, and the dashboards stay empty while every component reports healthy if either is missing. First, the collector's Service publishes port 8889, which is the `ports.metrics` entry above. Second, a Prometheus Operator `ServiceMonitor` selects that Service and scrapes the port:
++
+[source,yaml]
+----
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: agent-genai
+  namespace: monitoring
+spec:
+  namespaceSelector:
+    matchNames:
+      - monitoring
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: opentelemetry-collector
+  endpoints:
+    - port: metrics
+      interval: 30s
+      honorLabels: true
+----
++
+A `PodMonitor` scrapes the gateway's data plane pods directly, because the gateway's own metrics carry the per-model token counts and cost figures.
+
+{aws} services::
++
+The ADOT collector writes metrics to CloudWatch in the embedded metric format, spans to X-Ray, and logs to the agents' telemetry log group. Its IAM role permits those writes, so agents need no permissions for telemetry. The following excerpt is from the collector's `OpenTelemetryCollector` resource:
++
+[source,yaml]
+----
+exporters:
+  otlphttp/xray:
+    traces_endpoint: https://xray.us-west-2.amazonaws.com/v1/traces
+    auth:
+      authenticator: sigv4auth
+  awsemf:
+    namespace: EKSAgents/GenAI
+    log_group_name: /aws/eks/my-agents/agents
+    dimension_rollup_option: NoDimensionRollup
+    resource_to_telemetry_conversion:
+      enabled: true
+    metric_declarations:
+      - dimensions:  # per cluster and per agent, nothing finer
+          - []
+          - - aws.eks.cluster.name
+          - - eks.agent
+        metric_name_selectors:
+          - .*
+  awscloudwatchlogs:
+    log_group_name: /aws/eks/my-agents/agents
+service:
+  pipelines:
+    traces:
+      receivers:
+        - otlp
+      exporters:
+        - otlphttp/xray
+    metrics:
+      receivers:
+        - otlp
+      exporters:
+        - awsemf
+    logs:
+      receivers:
+        - otlp
+      exporters:
+        - awscloudwatchlogs
+----
++
+The `metric_declarations` block decides which dimensions become CloudWatch metrics, and each dimension combination is a separately billed metric. Keep it to cluster and agent, and put per-turn detail on spans (see <<agents-observability-cardinality>>). This collector keeps prompt and completion content on spans and logs by default, so the CloudWatch trajectory view can show each step. Set the chart's `collector.keepPromptContent` to `false` if your organization doesn't allow agent content in CloudWatch.
++
+The Amazon CloudWatch Observability add-on covers the infrastructure side, Container Insights for the nodes and pods the agents run on. Terraform turns off application and host log collection, because agent container logs carry prompts and model output that the OTLP pipeline already handles. The reference sample doesn't expose a setting to turn agent container logs on. With `enable_network_policy_logs`, which is on by default, Fluent Bit runs on each node only to ship the network policy verdict log. The add-on's configuration with the defaults is as follows:
++
+[source,yaml]
+----
+containerLogs:
+  enabled: true                  # Fluent Bit runs, for the verdict log only
+  fluentBit:
+    config:
+      extraFiles:
+        application-log.conf: "# Agent container logs are off: they carry prompts and model output.\n"
+        host-log.conf: "# Host logs are off.\n"
+        dataplane-log.conf: ...  # tails the network policy agent's log and ships it to /aws/eks/<cluster>/network-policy
+agent:
+  config:
+    traces:
+      traces_collected:
+        xray: {}
+        otlp: {}
+----
+
+[#agents-observability-setup]
+== Step 3: Verify telemetry
+
+This step confirms the agent's telemetry reaches the backend.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+The OpenTelemetry Prometheus exporter lowercases metric names, replaces dots with underscores, and, depending on the collector version, appends a unit suffix. Read the exported names from the collector and set them in the dashboard configuration:
++
+[source,bash]
+----
+kubectl -n monitoring port-forward svc/opentelemetry-collector 8889:8889
+curl -s localhost:8889/metrics | grep -o '^[a-z]*_[a-z_]*' | sort -u
+----
++
+The collector runs two replicas, and each holds only the metrics of the agents connected to it. A port-forward to the Service reaches one of them, so if the list is empty, run the commands again, or port-forward one pod with `pod/<name>`. The `telemetry` phase reads every replica. The collector carries the agent's own metrics, prefixed `strands_`. The agent exports its metrics once a minute, the OpenTelemetry default, so the list fills about a minute after its first turn. The GenAI semantic-convention metrics, including cost by model, come from the gateway, which Prometheus scrapes directly. The `telemetry` phase of the sample's exercise script checks both:
++
+[source,bash]
+----
+./scripts/exercise.sh --path open-source telemetry
+----
++
+With Langfuse on, the phase also sends a turn and prints `the turn's spans reached Langfuse (session exercise-telemetry-...)`.
++
+To confirm that the policy decisions view receives each control's refusals, run the `decisions` phase. The phase provokes one refusal at each control and checks that the dashboard counted it. It needs no other phase first:
++
+[source,bash]
+----
+./scripts/exercise.sh --path open-source decisions
+----
++
+Each check prints a pass line, such as one reporting that the gateway's refusal of `research` on another agent's route was counted with the agent named.
+
+{aws} services::
++
+The GenAI Observability views require {aws} X-Ray Transaction Search and ADOT instrumentation. See <<amazon-cloudwatch-observability>>. The collector has no Prometheus endpoint, so verify in CloudWatch. After the agent serves a turn, run the `telemetry` phase of `exercise.sh`:
++
+[source,bash]
+----
+./scripts/exercise.sh --path aws-services telemetry
+----
++
+The phase prints `agent metrics have arrived in CloudWatch` and `the collector is writing to its log group`. Spans arrive in the `aws/spans` log group shortly after the turn, each with the conversation's `session.id`:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws logs start-query --region [.replaceable]`region-code` --log-group-names aws/spans \
+  --start-time $(( $(date +%s) - 3600 )) --end-time $(date +%s) \
+  --query-string 'stats count() as spans by resource.attributes.service.name'
+----
++
+Pass the returned query ID to `aws logs get-query-results`, and repeat the command until its `status` is `Complete`:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws logs get-query-results --region [.replaceable]`region-code` --query-id [.replaceable]`query-id`
+----
++
+The result is a span count for the agent's service name.
++
+To confirm that the policy decisions view receives each control's refusals, run the `decisions` phase after the `containment` phase. It makes a connection that network policy refuses, waits for the `DENY` to reach the log group, reads the gateway's `DenyDecisions` and the admission refusal from the audit log, and checks that the dashboard exists. If no refused gateway call is in its window, the phase sends one itself.
++
+[source,bash]
+----
+./scripts/exercise.sh --path aws-services containment decisions
+----
++
+To find the pod behind a denied address from the `network-policy-denials` query, look it up by IP address. Replace `pod-ip` with the source address from the query result:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/aws-services -- \
+  kubectl get pods -A -o wide --field-selector status.podIP=pod-ip
+----
+
+[#agents-observability-dashboards]
+== Step 4: View the dashboards
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+Grafana and Langfuse have no load balancer. Each is a ClusterIP Service that only `kubectl port-forward` reaches, and each asks for its own sign-in. From the `agents` directory, open a tunnel to one of them:
++
+[source,bash]
+----
+./scripts/open-dashboard.sh --cluster my-agents --region us-west-2 grafana    # http://localhost:3000
+./scripts/open-dashboard.sh --cluster my-agents --region us-west-2 langfuse   # http://localhost:3001
+----
++
+When `kubectl` reaches the cluster from your workstation, the script port-forwards locally, on the loopback address only. With the bastion, it starts a port-forward on the bastion's loopback address, which ends after an hour, and tunnels `localhost` to it with a Session Manager port-forwarding session. That needs the Session Manager plugin for the {aws} CLI. The script prints the user to sign in as, `admin` for Grafana and `admin@eks-agents.local` for Langfuse, and the command that reads the password from Secrets Manager, from `my-agents/platform/grafana-admin` or `my-agents/platform/langfuse-init`. Press Ctrl-C to end the tunnel.
++
+* *Grafana.* The dashboards "Agents · overview" and "Agents · policy decisions" are in the folder "Agents".
+* *Langfuse.* The project "agents" has a Tracing view that lists each turn, with its model and tool calls.
+
+{aws} services::
++
+Open the CloudWatch console. The apply in <<agents-observability-enable>> created the agents' dashboard, and the GenAI Observability views show model calls, tool calls, and trajectories.
+
+[#agents-observability-cleanup]
+== Clean up
+
+To remove the telemetry layer, turn it off as described in <<agents-capabilities-later>>. Set the variable to `false`, apply with `scripts/apply.sh`, and run the bootstrap script with `--sync --prune`. Set `enable_observability` to `false`, and `enable_langfuse` too if you turned it on. Agents then export nothing.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+[IMPORTANT]
+====
+Pruning removes the collector, Prometheus, Grafana, and Langfuse, but leaves their volume claims. Langfuse keeps its claims after its StatefulSets are gone, so their disks keep billing until you delete the claims. The storage class deletes a volume when its claim is deleted.
+====
++
+. After the prune, delete the remaining volume claims in `monitoring` and `langfuse`, and confirm that none are left. Deleting a claim deletes its volume:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/open-source -- kubectl -n monitoring delete pvc --all
+./scripts/run-stack.sh --root terraform/open-source -- kubectl -n langfuse delete pvc --all
+./scripts/run-stack.sh --root terraform/open-source -- kubectl -n monitoring get pvc
+./scripts/run-stack.sh --root terraform/open-source -- kubectl -n langfuse get pvc
+----
++
+The last two commands return no claims.
+. Recreate each agent's pod, so it starts without `OTEL_EXPORTER_OTLP_ENDPOINT`. See <<agents-capabilities-later>>.
+
+{aws} services::
++
+[IMPORTANT]
+====
+The apply deletes the agents' telemetry log groups and the logs in them, the network policy log group, the collector's role, the dashboards, and the saved queries. Transaction Search is an account-wide setting, and turning observability off doesn't revert it. The teardown script's `--revert-account-settings` reverts it, and only when no other cluster with this stack's tag remains in the account.
+====
++
+. Recreate each agent's pod, so it starts without `OTEL_EXPORTER_OTLP_ENDPOINT`. See <<agents-capabilities-later>>.
+. Optionally, delete the `amazon-cloudwatch` and `opentelemetry-operator-system` namespaces. They stay on the cluster, empty, after the prune.
+
+[#agents-observability-next]
+== Next steps
+
+<<agents-evaluations>>, which runs on the traces this layer collects.

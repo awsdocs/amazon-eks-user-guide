@@ -1,0 +1,48 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-identity]
+= Agent identity and authorization on Amazon EKS
+:info_titleabbrev: Identity
+
+[abstract]
+--
+Give each agent its own {aws} identity and token, and let a person's own authority carry through an agent's actions.
+--
+
+Every action an agent takes runs with some identity's authority, and for an agent, two identities are involved. The agent's own identity decides what the agent can reach on {aws}, how the gateway and its callers recognize it, and what an audit record attributes to it. A person's identity, carried through the agent's calls, decides whose authority those calls run with when the agent acts for that person.
+
+Every agent needs its own identity. Add the person's identity whenever that person's authority should scope what the agent can reach and do in downstream systems. That includes a service that holds per-person data, and any downstream system that already authorizes people, such as a source repository, a ticketing system, a data warehouse, or an internal API with its own access rules. Each system then enforces the person's existing permissions, so the agent can't use broader access of its own to read data or take actions that the person couldn't, and a prompt that steers the agent toward something the person isn't allowed to touch is refused downstream.
+
+The two identities work together. The person's identity says whose authority a call carries, and the agent's identity says who decided to make the call. Design the effective access as the intersection of what the person may do, what the agent is allowed to do, and what the target system accepts, so that delegating work to an agent can only narrow access, never widen it. OAuth 2.0 token exchange (RFC 8693) can express both in one token, with the person as the subject and the agent in an `act` claim. On the open source path, the reference sample can issue that token. See <<agents-identity-acting-for-delegated>>. Keeping the agent's identity on every delegated call is also what lets an audit record show that an agent acted rather than the person directly, and lets you revoke one agent without affecting the people who use it.
+
+A third-party API outside {aws} adds one more question, which is what credential the API accepts and who holds it. The gateway holds that credential and attaches it to the calls of the agent it belongs to, so the agent's pod never holds it.
+
+The following table compares them.
+
+[cols="1,4,2", options="header"]
+|===
+|Identity |What it decides |Page
+
+|Agent
+|The agent's {aws} permissions through its own IAM role, the token that names it to the gateway, and which callers may reach it
+|<<agents-identity-agent>>
+
+|Person
+|Whose authority a call carries when the agent acts for a person. A downstream tool or {aws} enforces the person's permissions from a credential the identity provider signed, not the agent or the model
+|<<agents-identity-acting-for>>
+
+|Person and agent
+|What the agent may do for this person. The downstream system decides on both identities at once: the tool verifies the agent's token and the person's token, or one delegated token with the person as the subject and the agent in `act`, and IAM scopes an on-behalf-of role session to one person and one agent
+|<<agents-identity-acting-for-flows>>
+
+|Third-party API
+|Which agent may use a credential for an API outside {aws}, such as a personal access token or a token from a person's OAuth consent. The gateway holds it, not the pod
+|<<agents-third-party-credentials>>
+|===
+
+include::agents-identity-agent.adoc[leveloffset=+1]
+
+include::agents-identity-on-behalf-of.adoc[leveloffset=+1]
+
+include::agents-third-party-credentials.adoc[leveloffset=+1]

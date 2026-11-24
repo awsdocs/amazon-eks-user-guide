@@ -1,0 +1,398 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-session-state]
+= Store agent session state
+:info_titleabbrev: Session state
+
+[abstract]
+--
+Keep what an agent holds between turns outside the pod, hand work between the reasoning and execution tiers on a volume, and put state that must outlive the pod in Amazon S3.
+--
+
+An agent's model call is stateless, so the agent itself carries everything that connects one turn to the next: the conversation so far, intermediate results, and files it's working on. Where that state lives decides whether an agent survives a pod restart, whether more than one replica can serve it, and whether one agent can read another's sessions.
+
+Agent state has three lifetimes, and each one needs a different kind of storage:
+
+[cols="1,1,2", options="header"]
+|===
+|Lifetime |Where it goes |Why
+
+|Between turns
+|Key-value cache outside the pod
+|Any replica serves the next turn, and a restart keeps the session.
+
+|Between tiers
+|A workspace volume
+|The execution tier has no network, so files are its only channel.
+
+|After the session
+|Amazon S3, per-agent prefix
+|Checkpoints, results, and the record of the agent's actions.
+|===
+
+The following diagrams show each path.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+The following diagram shows the open source path. Valkey in the cluster holds working state shared across replicas, and Amazon S3 holds conversation checkpoints.
++
+image::images/agents-session-state-open-source.png["The agent keeps working state in Valkey in the cluster and saves the conversation to its own prefix in Amazon S3 as a durable checkpoint.",scaledwidth=100%]
+
+{aws} services::
++
+The following diagram shows the {aws} services path. Amazon ElastiCache Serverless holds working state shared across replicas, and Amazon S3 holds conversation checkpoints.
++
+image::images/agents-session-state-aws-services.png["The agent keeps working state in Amazon ElastiCache Serverless, with IAM authentication and TLS, and saves the conversation to its own prefix in Amazon S3 as a durable checkpoint.",scaledwidth=100%]
+
+[#agents-session-state-paths]
+== Open source and {aws} services paths
+
+The following table compares how each path provides session state.
+
+[cols="1,2,2",options="header"]
+|===
+|Aspect |Open source |{aws} services
+
+|Cache
+|Valkey in the cluster
+|Amazon ElastiCache Serverless
+
+|Authentication
+|A password stored in a Kubernetes Secret, which `platform-secrets` generates
+|IAM. Each agent signs a short-lived token with its own role, and no password is stored.
+
+|Connection
+|Plaintext inside the cluster
+|TLS only
+
+|Who operates the cache
+|You operate its upgrades, capacity, and failover
+|The managed service, which scales with load
+
+|Durable state
+|A versioned Amazon S3 bucket with one prefix per agent
+|A versioned Amazon S3 bucket with one prefix per agent
+
+|Separation between agents
+|One shared cache with one credential. See <<agents-session-state-isolation>>.
+|One shared cache with one credential. See <<agents-session-state-isolation>>.
+|===
+
+[#agents-session-state-turns]
+== Cache between turns
+
+State kept in the pod disappears when the pod restarts, and it ties a session to one replica. A key-value cache outside the pod fixes both. A restarted or replaced pod continues the session, and any replica behind a Service can serve the next turn. The second point matters more for agents than for web applications, because agent protocols such as MCP have no cookie to pin a session to one replica (see <<agents-mcp>>).
+
+You need the cache when an agent runs more than one replica, or when a restarted pod must continue a task in progress. An agent that runs as one long-lived sandbox, the default runtime, is capped at one replica, so multiple replicas apply to agents that run as a Deployment. The reference agent saves its conversation to Amazon S3, not to the cache (see <<agents-session-state-conversation>>). The cache holds the working state that changes within a task.
+
+The cache can run in the cluster or as a managed service:
+
+* *Valkey in the cluster* keeps the cache next to the agents and under your control. You operate its upgrades, capacity, and failover, and it authenticates with a password stored in a Kubernetes Secret.
+* *Amazon ElastiCache Serverless* removes the cache tier from your operations and scales with load. It authenticates with IAM, so each agent signs a short-lived token with its own credentials and no password is stored.
+
+Either cache works on both paths, and you can mix components from both paths.
+
+[#agents-session-state-isolation]
+=== Isolate agents that share a cache
+
+A cache is usually shared by every agent in the cluster, and a shared cache with one credential lets any agent read and overwrite any other agent's keys. A prompt injection can make an agent do exactly that, so isolation has to be enforced by the cache, not by the agent's code. A key prefix that only the application applies isn't a boundary, because a compromised agent can choose any key.
+
+The sample deploys a shared cache with one credential, which is acceptable for a single agent. Before several agents share it, separate them in one of these ways:
+
+* *A cache user per agent, limited to the agent's key prefix.* Valkey ACLs and ElastiCache access strings both restrict a user to a key pattern, such as `~agent:research:*`, and to non-administrative commands. The cache returns `NOPERM` for another agent's keys. With IAM authentication, each agent's role must permit `elasticache:Connect` on its own user only, or the agent can present another agent's user.
+* *A separate cache per agent*, or per group of agents that may share state. This costs more and gives the strongest separation.
+
+Whichever you choose, require authentication, because a cache that answers an unauthenticated `PING` with `PONG` is open to every pod that network policy lets reach it. In ElastiCache, also turn off the `default` user that every user group must contain. Keep key names non-sensitive, because a key-pattern restriction protects values but leaves key names enumerable. The default users-per-user-group quota supports dozens of agents, and you can request an increase for more.
+
+[#agents-session-state-tiers]
+== Workspace volume between tiers
+
+When an agent is split into reasoning and execution tiers (<<agents-isolation>>), they exchange data only through a volume. The reasoning tier writes files to the volume and runs commands in the execution tier over the sandbox's control channel. The execution tier writes results back to the volume.
+
+Because the execution tier has no network, only some storage types work there:
+
+[cols="1,1,3", options="header"]
+|===
+|Storage |In a network-isolated sandbox |Use it for
+
+|Amazon EBS
+|Yes
+|A per-session workspace. The CSI driver attaches it from outside the guest, so the pod needs no network.
+
+|Amazon EFS
+|No
+|Shared read-write workspaces for pods with a network, such as the reasoning tier, because the mount needs one.
+
+|Amazon S3
+|Not directly
+|Durable data. The reasoning tier copies objects onto the volume and results back to Amazon S3.
+|===
+
+For the full storage matrix for sandboxed pods, see <<sandboxing-storage>>.
+
+[#agents-session-state-durable]
+== Durable state in Amazon S3
+
+Use Amazon S3 when state must outlive the pod: checkpoints the agent resumes from, the record of its actions, and files returned by the execution tier. This is the same on both paths, and it's off in the base setup in the reference sample (`enable_checkpoints = false`). S3 and the cache are separate layers. An agent typically accesses S3 once per session and the cache once per turn.
+
+Configure the bucket as follows:
+
+* *One prefix per agent, enforced in IAM.* Each agent's role permits only its own prefix, so a request for another agent's prefix returns `AccessDenied`. <<agents-identity-verify>> describes how to verify this.
+* *Versioning.* An agent can overwrite its checkpoint with a bad one. Versioning lets you restore the previous checkpoint.
+* *A data perimeter in the bucket policy.* Restrict access to principals and networks in your organization.
+
+[#agents-session-state-conversation]
+=== Save the conversation between turns
+
+An agent that is constructed per request starts each turn with no history unless the conversation is saved. The reference agent uses session managers from the Strands Agents SDK:
+
+* *`S3SessionManager`* (when a bucket is configured). Writes the conversation under the agent's prefix after every turn and reloads it when the session continues, on any replica or after a restart.
+* *`FileSessionManager`* (on a sandbox with a workspace volume and no bucket). Keeps the conversation on the volume, so it survives suspend and resume.
+
+Key saved sessions on the verified caller identity and the session ID together. The caller chooses the session ID, so a store keyed on the ID alone lets one caller load another's conversation by guessing it. The reference agent keys on a digest of both.
+
+The egress policy permits the bucket's virtual-hosted endpoint, `bucket.s3.region-code.amazonaws.com`, not the Regional endpoint `s3.region-code.amazonaws.com`. The Regional endpoint serves every bucket. The agent's IAM role limits only requests signed with the agent's credentials. It does not limit anonymous requests or presigned URLs signed by someone else. For those requests, the egress rule is what keeps the pod away from other buckets.
+
+[#agents-session-state-beyond]
+== Beyond session state
+
+Session state is one of four memory capabilities, and most agents with more than one turn need it. Semantic recall and consolidation across sessions are separate components. See <<agents-memory>> before you add either.
+
+[#agents-session-state-settings]
+== Session state in the reference sample
+
+The base setup turns off both the cache and durable storage. `enable_session_state` turns on the cache, shared by all agents through one credential. `enable_checkpoints` turns on the versioned bucket and gives each agent a grant scoped to its own prefix.
+
+* *Open source path.* The cache is Valkey in the cluster. `enable_platform_secrets`, which is on by default, generates the cache password and the stack's other passwords outside Git. Set it to `false` only if you create those Secrets yourself.
+* *{aws} services path.* The cache is ElastiCache Serverless.
+
+`enable_platform_secrets` doesn't manage credentials for third-party APIs, which <<agents-third-party-credentials>> covers.
+
+[#agents-session-state-prereqs]
+== Prerequisites
+
+* The base setup from <<agents-cluster-setup>>, applied, and the in-cluster components from <<agents-capabilities-setup>>, synced.
+* Permissions to run `terraform apply` for the bucket and, on the {aws} services path, the ElastiCache Serverless cache.
+* `PAVED_PATH` set to `open-source` or `aws-services`, such as with `export PAVED_PATH=open-source`.
+* A shell with `kubectl` access to the cluster, on the bastion or your workstation, and an agent deployed as in <<agents-application-setup>>. The commands use the reference agent `research` in namespace `agents`.
+
+[#agents-session-state-step1]
+== Step 1: Turn on session state
+
+This step turns on the cache, the bucket, or both. With `enable_session_state`, each agent gets the endpoint in `SESSION_STATE_ENDPOINT` and a network policy rule permitting it. With `enable_checkpoints`, Terraform creates a versioned bucket whose policy limits access to principals in your account or organization, and gives each agent a prefix-scoped IAM grant, an egress rule for the bucket's endpoint, and `CHECKPOINT_BUCKET` and `CHECKPOINT_PREFIX` in its environment. Outside these templates, create the same cache and bucket, scope each agent's credentials, and pass the endpoint and bucket to the agent as environment variables.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+Set the variables for the components your agents need:
++
+[source,hcl]
+----
+enable_checkpoints   = true   # the bucket, where the reference agent saves its conversation
+enable_session_state = true   # the cache, for state that changes within a turn
+----
++
+Apply and sync:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+./scripts/apply.sh --root terraform/open-source -var-file=my.tfvars
+./scripts/run-stack.sh --root terraform/open-source -- ./scripts/bootstrap-gitops.sh --path open-source --sync --roll-agents
+----
++
+With `enable_session_state`, Valkey is deployed from the Bitnami chart in namespace `agent-memory`, and reads its password from the `valkey-auth` Secret. That Secret comes from `enable_platform_secrets`, which generates the stack's passwords into {aws} Secrets Manager and syncs them into Kubernetes Secrets with the Secrets Store CSI driver. If the Secret doesn't exist, the Valkey pod waits in `ContainerCreating` or `CreateContainerConfigError`.
+
+{aws} services::
++
+Set the variables for the components your agents need:
++
+[source,hcl]
+----
+enable_checkpoints   = true   # the bucket, where the reference agent saves its conversation
+enable_session_state = true   # the cache, for state that changes within a turn
+----
++
+Apply and sync:
++
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+./scripts/apply.sh --root terraform/aws-services -var-file=my.tfvars
+./scripts/run-stack.sh --root terraform/aws-services -- ./scripts/bootstrap-gitops.sh --path aws-services --sync --roll-agents
+----
++
+With `enable_session_state`, Terraform creates the ElastiCache Serverless cache and an IAM-authenticated user group with the `default` user turned off.
+
+The bootstrap script applies the rendered root Application, refreshes and syncs it, and waits for the Applications to converge. With `--roll-agents`, it then recreates each agent pod whose `Sandbox` changed, and prints a line for each agent, such as `agents/research: recreating (env SESSION_STATE_ENDPOINT added)`, or `current` for an agent that didn't change.
+
+Every Application reports `Synced` and `Healthy`. If one stays `Progressing` after its objects are ready, run the bootstrap script again, because Argo CD can keep the health it computed while they were starting. See <<agents-capabilities-later>>.
+
+[IMPORTANT]
+====
+A `Sandbox` doesn't replace its running pod when its spec changes, so without `--roll-agents` a sandboxed agent keeps running without the cache endpoint. The `--roll-agents` on the sync recreates the pod. To confirm that the agent's `Sandbox` has `SESSION_STATE_ENDPOINT`, run the following:
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- bash -c "kubectl -n agents get sandbox research -o yaml | grep -A1 SESSION_STATE_ENDPOINT"
+----
+
+An agent with `runtime: deployment` rolls automatically.
+====
+
+After the restart, the `Agent` resource has put the state settings in the agent's environment. On the {aws} services path with both components on, they look like the following:
+
+[source,yaml]
+----
+env:
+  - name: SESSION_STATE_ENDPOINT     # the cache; on the open source path, the Valkey Service in agent-memory
+    value: my-agents-agent-session-abc123.serverless.usw2.cache.amazonaws.com:6379
+  - name: CHECKPOINT_BUCKET
+    value: my-agents-agent-checkpoints-111122223333
+  - name: CHECKPOINT_PREFIX          # set by the stack, never by the model
+    value: agents/research/
+----
+
+`CHECKPOINT_PREFIX` is configuration rather than a tool argument, so the model never sees it as something it can choose. A write outside the prefix also fails, because the agent's IAM role allows only that prefix.
+
+The reference agent saves its conversation with a Strands Agents SDK session manager. The following excerpt shows the choice it makes on each turn:
+
+[source,python]
+----
+import hashlib, os
+from strands.session import FileSessionManager, S3SessionManager
+
+def session_manager(user_id: str, session_id: str):
+    # Key on the verified caller as well as the session ID, so one caller can't load another's conversation.
+    key = hashlib.sha256(f"{user_id}\0{session_id}".encode()).hexdigest()[:40]
+    bucket = os.environ.get("CHECKPOINT_BUCKET")
+    if bucket:
+        prefix = os.environ["CHECKPOINT_PREFIX"].rstrip("/") + "/sessions"
+        return S3SessionManager(session_id=key, bucket=bucket, prefix=prefix,
+                                region_name=os.environ.get("AWS_REGION"))
+    if os.environ.get("AGENT_WORKSPACE_PERSISTENT") == "true":
+        # No bucket: keep the conversation on the workspace volume, which survives suspend and resume.
+        return FileSessionManager(session_id=key, storage_dir="/workspace/.sessions")
+    return None                                       # no durable state: each turn stands alone
+----
+
+The session manager saves the agent's messages after each turn and loads them when an agent is built with the same key, so another replica or a restarted pod continues the conversation.
+
+[#agents-session-state-verify]
+== Step 2: Verify the cache refuses an unauthenticated caller
+
+This step confirms that the cache requires a credential. Run the check from the agent's pod. A check from your workstation can report an open cache as closed. The command names the pod `research`, as on the default runtime. For an agent with `runtime: deployment`, use `deploy/research` instead.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+[source,bash]
+----
+kubectl -n agents exec research -- python -c "
+import os, socket
+host = os.environ['SESSION_STATE_ENDPOINT'].split(':')[0]
+s = socket.create_connection((host, 6379), timeout=5)
+s.sendall(b'PING\r\n'); print(s.recv(100))"
+----
+
+{aws} services::
++
+ElastiCache Serverless accepts only TLS connections and does not reply to plaintext, so the check wraps the socket in TLS.
++
+[source,bash]
+----
+kubectl -n agents exec research -- python -c "
+import os, socket, ssl
+host = os.environ['SESSION_STATE_ENDPOINT'].split(':')[0]
+s = socket.create_connection((host, 6379), timeout=5)
+s = ssl.create_default_context().wrap_socket(s, server_hostname=host)
+s.sendall(b'PING\r\n'); print(s.recv(100))"
+----
+
+The check passes when it returns an authentication error, such as `-NOAUTH Authentication required.` That confirms the agent can reach the cache through network policy and that the cache requires a credential. A `PONG` reply means the cache is open. Right after the apply that creates the cache, the connection can time out while the cache starts. Run the check again before you look at network policy.
+
+An agent that uses the cache must then authenticate. The reference agent doesn't use the cache itself, so write this part into your agent.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+The agent sends `AUTH` with the Valkey password from the `valkey-auth` Secret.
+
+{aws} services::
++
+There's no password. The agent sends `AUTH` with the cache's IAM user and a SigV4-presigned token that its own role signs.
++
+The following excerpt, adapted from the sample's `state` check, builds that token with botocore:
++
+[source,python]
+----
+import urllib.parse
+from botocore.model import ServiceId
+from botocore.session import Session
+from botocore.signers import RequestSigner
+
+CACHE_NAME = "my-agents-agent-session"   # the cache's name, not its endpoint
+CACHE_USER = "my-agents-agents"          # the IAM-enabled ElastiCache user
+
+session = Session()
+signer = RequestSigner(ServiceId("elasticache"), "us-west-2", "elasticache", "v4",
+                       session.get_credentials(), session.get_component("event_emitter"))
+query = urllib.parse.urlencode({"Action": "connect", "User": CACHE_USER})
+url = signer.generate_presigned_url(
+    request_dict={"method": "GET", "url": f"http://{CACHE_NAME}/?{query}", "body": {}, "headers": {},
+                  "query_string": {}, "url_path": "/", "context": {}},
+    operation_name="connect", expires_in=900, region_name="us-west-2")
+token = url.removeprefix("http://")      # send: AUTH my-agents-agents <token>, over TLS
+----
++
+The token is signed for the cache's name and expires after 15 minutes, so generate a new one for each connection. The credentials come from EKS Pod Identity, so the agent's IAM role must allow `elasticache:Connect` on the cache and the user.
+
+The `state` and `session` phases of the sample's `exercise.sh` also run an authenticated round trip, and confirm that a saved conversation continues in a new process and that another caller cannot read it.
+
+[source,bash]
+----
+./scripts/exercise.sh --path $PAVED_PATH state session
+----
+
+[#agents-session-state-cleanup]
+== Clean up
+
+To remove the session cache and durable checkpoints, first prepare the checkpoint bucket, because the apply that turns checkpoints off deletes it. Copy out any conversations you want to keep. Then either empty the bucket, including every object version, or set `checkpoint_bucket_force_destroy = true` and apply once while checkpoints are still on. Terraform deletes the bucket with the setting from its last apply, so the setting has no effect if you set it in the same apply that deletes the bucket.
+
+Then turn both off as described in <<agents-capabilities-later>>. Set `enable_session_state` and `enable_checkpoints` to `false`, apply with `scripts/apply.sh`, and run the bootstrap script with `--sync --prune`.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+[IMPORTANT]
+====
+Turning the cache off deletes it and the working state in it. Pruning removes Valkey but leaves its volumes.
+
+The checkpoint bucket holds every agent's saved conversations. Terraform deletes the bucket only when it's empty, unless `checkpoint_bucket_force_destroy = true`. With that setting, deleting the bucket deletes every checkpoint and every version of it.
+====
++
+. After the prune, delete the Valkey volumes. The release is named `agent-session-state` in namespace `agent-memory`:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/open-source -- \
+  kubectl -n agent-memory delete pvc -l app.kubernetes.io/instance=agent-session-state
+----
+. Recreate each agent's pod, so it starts without `SESSION_STATE_ENDPOINT` and the bucket variables. See <<agents-capabilities-later>>.
+
+{aws} services::
++
+[IMPORTANT]
+====
+Turning the cache off deletes it and the working state in it. The apply deletes the ElastiCache Serverless cache.
+
+The checkpoint bucket holds every agent's saved conversations. Terraform deletes the bucket only when it's empty, unless `checkpoint_bucket_force_destroy = true`. With that setting, deleting the bucket deletes every checkpoint and every version of it.
+====
++
+. Recreate each agent's pod, so it starts without `SESSION_STATE_ENDPOINT` and the bucket variables. See <<agents-capabilities-later>>.
+
+[#agents-session-state-next]
+== Next steps
+
+* <<agents-identity-agent>> for the per-agent IAM scoping the S3 prefix depends on.
+* <<agents-memory>> for semantic recall and consolidation.

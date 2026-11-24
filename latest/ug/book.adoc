@@ -62,6 +62,8 @@ include::networking/eks-networking.adoc[leveloffset=+1]
 
 include::workloads/eks-workloads.adoc[leveloffset=+1]
 
+include::agents/agents.adoc[leveloffset=+1]
+
 include::sandboxing/sandboxing.adoc[leveloffset=+1]
 
 include::cluster-management/eks-managing.adoc[leveloffset=+1]

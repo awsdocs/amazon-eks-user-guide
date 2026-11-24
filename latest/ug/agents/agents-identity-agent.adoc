@@ -1,0 +1,301 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-identity-agent]
+= Give each agent its own identity with EKS Pod Identity
+:info_titleabbrev: Agent identity
+
+[abstract]
+--
+Authorize and attribute {aws} access per agent with an IAM role and EKS Pod Identity, and give the agent a token that names it and grants nothing.
+--
+
+Cluster-wide permissions, such as one role that lets every pod call Amazon Bedrock, don't work for agents. Each agent needs its own identity, which must let you:
+
+* Authorize each agent separately.
+* Attribute each action in CloudTrail to one agent.
+* Revoke one agent without affecting others.
+* Limit what a leaked credential grants, because agents run model-generated code that can read the pod's filesystem.
+
+The following table lists each identity decision, its default, and when to choose the alternative.
+
+[cols="2,3,5", options="header"]
+|===
+|Decision |Default |Choose the alternative when
+
+|{aws} credentials
+|An IAM role per agent, through EKS Pod Identity
+|Several agents need identical permissions. Share one role and scope each agent with session tag conditions.
+
+|Per-request scoping
+|Session tags
+|You need to narrow permissions per request. Use a session policy, which turns session tags off for that association.
+
+|Credentials for services agents call
+|The agent's own IAM role, for Amazon Bedrock
+|You turn on the gateway. The agent then holds only a token that identifies it, and the gateway signs outbound requests. See <<agents-gateway>>.
+
+|Authority for person's request
+|The agent's role, with the person as context for their conversations and memories
+|What the agent may do must depend on who asked. The service the agent calls then needs a credential for the person, which `enable_person_access` provides. See <<agents-identity-acting-for>>.
+
+|Warm-pool identity
+|Tenant identity in the reasoning tier, none in the execution sandbox
+|Sessions need distinct identities. Use a pool per identity or create sandboxes on demand. See <<agents-identity-pooled>>.
+|===
+
+The following diagram shows an agent's identity. EKS Pod Identity delivers temporary credentials for the agent's IAM role. The agent presents a projected service account token whose audience names the service it calls.
+
+image::images/agents-identity.png["The agent in a Nitro Sandbox pod holds no access key. EKS Pod Identity delivers temporary credentials for the agent's own IAM role, and the agent presents a projected token to a gateway or tool server.",scaledwidth=100%]
+
+An agent's identity is the same on both paths: an IAM role per agent through EKS Pod Identity, and a projected token that names the agent. The paths differ only when the gateway is on. On the open source path, AgentGateway assumes the agent's role to sign its model calls, and on the {aws} services path, AgentCore Gateway signs them with its own role. See <<agents-identity-inspect>> and <<agents-gateway-endpoints>>.
+
+[#agents-identity-per-agent]
+== Per-agent authority on {aws}
+
+An agent that shares an IAM role with other agents shares their permissions. If one agent is compromised through a prompt or a dependency, the attacker gets everything any agent on that role can do, CloudTrail can't tell which agent acted, and revoking the role stops every agent at once. Giving each agent its own role removes all three problems, and it's the default for any service that authorizes with IAM policies.
+
+You can get per-agent authority in either of the following ways.
+
+* *A role per agent.* Each agent's role grants only what that agent needs, such as invoke access to specific models and Amazon S3 access under its own prefix. Policies stay simple, and you revoke one agent by removing its role. The cost is one IAM role per agent to manage.
+* *A shared role, scoped by session tags.* Several agents with identical permissions share one role, and the permissions policy uses the session tags that EKS Pod Identity attaches to keep each agent in its own resources. This keeps the role count low, but each agent's isolation now depends on every policy statement referencing the tags correctly.
+
+Either way, cap what any agent role can be granted with a permissions boundary. When application teams declare their own agents, the boundary is what stops an agent from requesting permissions the platform team doesn't allow. A role created with more than the boundary permits still can't exceed it.
+
+EKS Pod Identity delivers the role's temporary credentials to the pod, so no long-lived access key exists to leak. Two objects decide who receives them. The role's trust policy allows the Pod Identity service, `pods.eks.amazonaws.com`, to assume the role, limited with an `aws:SourceArn` condition to one cluster. The Pod Identity association then binds the role to one namespace and service account. The association, not the trust policy, decides which pods get the role's credentials. See <<pod-identities>>.
+
+EKS Pod Identity adds session tags for the cluster name, cluster ARN, namespace, service account, pod name, and pod UID to every session. You don't configure these tags. CloudTrail records them, which is how you attribute an action to one agent's pod. For a shared role, reference them in the permissions policy. For example, `${aws:PrincipalTag/kubernetes-service-account}` in an Amazon S3 resource ARN keeps each agent in its own prefix.
+
+In the reference sample, each `Agent` resource creates its own role, trust policy, permissions policy, and Pod Identity association through ACK. See <<agents-application-setup>>. The permissions policy grants Amazon Bedrock invoke access on the agent's `modelArns` and, when checkpoints are on, Amazon S3 access under `agents/agent-name/`. On the open source path with the gateway on, the trust policy has a second statement that lets the gateway's role assume the agent's role, so the gateway signs model calls as the agent and CloudTrail attributes them to it.
+
+[#agents-identity-session-policy]
+== Session tags and session policies
+
+Use session tags unless you need to narrow an agent's permissions per request. For per-request scoping, add a session policy to the Pod Identity association. The effective permissions are the intersection of the role's policies and the session policy.
+
+[IMPORTANT]
+====
+An association can't use session tags and a session policy together. Adding a session policy requires turning session tags off, so the session policy must also express any scoping the tags provided, such as the agent's Amazon S3 prefix. If it doesn't, the association still works and the scoping is silently gone.
+====
+
+[#agents-identity-tokens]
+== Agent tokens
+
+{aws} credentials work only for services that authorize with IAM. For everything else, such as the gateway or a tool server, the agent proves who it is with a projected service account token. The token names the agent's service account and carries no permissions of its own, so a stolen token lets the holder impersonate one agent to one service and nothing more. Each token is issued for one audience, and the receiving service verifies it against the cluster's OIDC issuer and rejects a token issued for anyone else. When the gateway is on, an agent's outbound requests carry these tokens instead of {aws} credentials.
+
+[cols="1,4", options="header"]
+|===
+|Token |What accepts it
+
+|Gateway token
+|The egress gateway, which validates it and then signs the outbound request itself. See <<agents-gateway>>.
+
+|Tool-server token
+|An MCP server that validates its own audience rather than the gateway's. See <<agents-mcp>>.
+|===
+
+Each relying party accepts only tokens issued for its own audience. If an agent sends the same token to every service, every service except the intended one returns `401`. This mismatch is the most common error when you connect an agent to a second service.
+
+Nothing checks that the audience an agent requests matches the audience a relying party accepts. A mismatch fails closed with no error on either object. The pod runs and the policies are accepted, but the relying party rejects every call. Define each audience once and render it into both sides. In the sample, the audience is `agentgateway` by default, written into the stack's values that both the `Agent` resource definition, which requests the token, and the gateway configuration, which checks it, read.
+
+* *Open source path.* The Terraform variable is `gateway_audience`.
+* *{aws} services path.* `gateway_audiences` lists the audiences that AgentCore Gateway accepts, and it must include the audience that agents request.
+
+[#agents-identity-containment]
+== Containment controls
+
+The following controls keep an agent from obtaining credentials beyond its own role and token.
+
+[#agents-identity-k8s-token]
+=== Kubernetes API token
+
+By default, Kubernetes mounts a service account token into every pod. Code running in the pod can use that token to call the Kubernetes API with whatever RBAC grants. If an agent doesn't call the Kubernetes API, turn off the token mount.
+
+Set `automountServiceAccountToken: false` on the agent's service account instead of in the pod spec. The setting then applies to every pod that uses the service account, including pods from templates added later. A pod that needs the Kubernetes API can override it in its own pod spec.
+
+RBAC limits what a token can do. This setting removes the token from the pod. RBAC alone still leaves a usable credential on the filesystem for any code that runs in the pod. In isolated mode, the sandbox also doesn't replicate the service account token into the guest.
+
+The token that EKS Pod Identity uses to issue {aws} credentials is a separate token with a different audience, and it stays mounted. The Kubernetes API server accepts only the first token, and the EKS Auth API accepts only the second.
+
+[#agents-identity-imds]
+=== Instance metadata
+
+Instance metadata returns credentials for the node's IAM role, which would give an agent the node's permissions in addition to its own. EKS Auto Mode sets the node's metadata options so that pods can't reach instance metadata, and you can't change them.
+
+A pod with `hostNetwork: true` bypasses that setting. The admission policy in <<agents-isolation>> rejects those pods.
+
+[#agents-identity-pooled]
+== Identity for pooled and per-tenant sessions
+
+Sandboxes in a warm pool are created before any session exists, so they all use the template's service account. Claiming a sandbox doesn't change its identity.
+
+That works for execution sandboxes, which hold no identity. If a session needs the permissions of the tenant it serves, use one of the following options, in increasing order of complexity:
+
+. *Keep tenant identity in the reasoning tier (recommended).* The reasoning tier holds the identity, and the execution sandbox holds none. This is the architecture in <<agents-isolation>>, and it fits most cases.
+. *Create a pool per identity*, when the set of identities is small and known.
+. *Create sandboxes on demand* instead of claiming them from a shared pool, when the set of identities is large or unbounded. Each session then waits for a cold start.
+
+[#agents-identity-callers]
+== Inbound identity
+
+The ingress Application Load Balancer authenticates the caller with the caller's token. The gateway authenticates the agent with a token that the cluster issued. Neither one passes a person's identity through the agent to the services the agent calls. When the service an agent calls must decide with the person's authority rather than the agent's, see <<agents-identity-acting-for>>.
+
+Configure the inbound side as follows:
+
+* *Workload callers:* At the load balancer, validate both the token's subject and its audience, with the audience set to the agent's name. The same projected token then passes the load balancer and the agent's in-process check. The agent's check still protects the agent if a route is misconfigured. A gate that checks only the subject accepts a token issued for any audience.
+* *Browser callers:* The load balancer attaches signed claims about the person. The agent still acts with its own IAM role and policies. Log the person's identity and pass it to downstream services for their own authorization, but don't use it to grant the agent more permissions. See <<agents-identity-acting-for>> and <<agents-ingress>>.
+
+[#agents-identity-inspect]
+== Inspect the agent's identity
+
+Each `Agent` object composes four identity objects through ACK. Inspecting them shows what the agent can do on {aws} before you test it. The examples use the `research` agent on the `my-agents` cluster.
+
+The IAM role's trust policy decides who can obtain the role's credentials. The first statement admits EKS Pod Identity, and only for this cluster, through the `aws:SourceArn` condition. Both `sts:AssumeRole` and `sts:TagSession` are required, because Pod Identity attaches session tags to every session. On the open source path with the gateway on, a second statement lets the gateway's role assume the agent's role, so the gateway signs model calls as the agent:
+
+[source,bash]
+----
+aws iam get-role --role-name my-agents-agent-research --query Role.AssumeRolePolicyDocument
+----
+
+[source,json]
+----
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "EksPodIdentity",
+      "Effect": "Allow",
+      "Principal": { "Service": "pods.eks.amazonaws.com" },
+      "Action": ["sts:AssumeRole", "sts:TagSession"],
+      "Condition": {
+        "ArnEquals": { "aws:SourceArn": "arn:aws:eks:us-west-2:111122223333:cluster/my-agents" }
+      }
+    },
+    {
+      "Sid": "EgressGatewayActingAsThisAgent",
+      "Effect": "Allow",
+      "Principal": { "AWS": "arn:aws:iam::111122223333:role/my-agents-agentgateway" },
+      "Action": ["sts:AssumeRole", "sts:TagSession"]
+    }
+  ]
+}
+----
+
+The second statement depends on the path:
+
+* *Open source path.* The second statement exists only with the gateway on, where AgentGateway assumes the agent's role to sign its model calls as that agent.
+* *{aws} services path.* The trust policy has only the first statement, because AgentCore Gateway signs model calls with its own role.
+
+The trust policy names the cluster, not the agent. The Pod Identity association binds the role to one namespace and service account, so no other pod in the cluster gets this role:
+
+[source,bash]
+----
+kubectl -n agents get podidentityassociations.eks.services.k8s.aws research -o yaml
+----
+
+[source,yaml]
+----
+apiVersion: eks.services.k8s.aws/v1alpha1
+kind: PodIdentityAssociation
+metadata:
+  name: research
+  namespace: agents
+spec:
+  clusterName: my-agents
+  namespace: agents
+  serviceAccount: research
+  roleARN: arn:aws:iam::111122223333:role/eks-agents/my-agents-agent-research
+  disableSessionTags: false
+----
+
+The role's inline policy, `agent-permissions`, grants only what the `Agent` object declares. The following excerpt shows model invocation on the agent's `modelArns` and, when checkpoints are on, object access under the agent's own prefix in the checkpoint bucket. The `s3:prefix` condition keeps `ListBucket` from listing other agents' prefixes. The permissions boundary attached to the role caps all of it:
+
+[source,bash]
+----
+aws iam get-role-policy --role-name my-agents-agent-research --policy-name agent-permissions
+----
+
+[source,json]
+----
+{
+  "Statement": [
+    {
+      "Sid": "InvokeGrantedModels",
+      "Effect": "Allow",
+      "Action": ["bedrock:InvokeModel", "bedrock:InvokeModelWithResponseStream", "bedrock:Converse", "bedrock:ConverseStream"],
+      "Resource": ["arn:aws:bedrock:us-west-2:111122223333:inference-profile/us.anthropic.claude-sonnet-5-5", "..."]
+    },
+    {
+      "Sid": "AgentCheckpointObjects",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject", "s3:AbortMultipartUpload"],
+      "Resource": "arn:aws:s3:::my-agents-agent-checkpoints-111122223333/agents/research/*"
+    },
+    {
+      "Sid": "AgentCheckpointList",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::my-agents-agent-checkpoints-111122223333",
+      "Condition": { "StringLike": { "s3:prefix": "agents/research/*" } }
+    }
+  ]
+}
+----
+
+Inside the pod, the agent's tokens are projected service account tokens, each scoped to one audience. The following excerpt from the pod spec shows the token the Pod Identity credential endpoint accepts, and the token the agent presents to the gateway. A token for one audience is rejected by every other relying party, and the short expiration limits how long a stolen token works:
+
+[source,bash]
+----
+kubectl -n agents get pod research -o jsonpath='{.spec.volumes}'
+----
+
+[source,yaml]
+----
+volumes:
+  - name: eks-pod-identity-token
+    projected:
+      sources:
+        - serviceAccountToken:
+            audience: pods.eks.amazonaws.com
+            expirationSeconds: 3600
+            path: eks-pod-identity-token
+  - name: gateway-identity
+    projected:
+      defaultMode: 0400
+      sources:
+        - serviceAccountToken:
+            audience: agentgateway
+            expirationSeconds: 600
+            path: token
+----
+
+The Pod Identity token expires after 3600 seconds and the gateway token after 600 seconds. The kubelet rotates both files before they expire, so the agent reads the token file on each request instead of caching it.
+
+[#agents-identity-verify]
+== Verify the scoping
+
+From the `agents` directory, run the reference sample's exercise script. It runs both checks from inside the agent's sandbox.
+
+The following commands use `PAVED_PATH`, set to `open-source` or `aws-services`, such as with `export PAVED_PATH=open-source`.
+
+[source,bash]
+----
+./scripts/exercise.sh --path $PAVED_PATH identity state
+----
+
+* *`identity`* confirms that EKS Pod Identity delivers credentials into the sandboxed pod, and that the agent's projected token names the gateway's audience and the agent's service account.
+* *`state`* requires session state and durable storage. In the base setup in the reference sample, it reports both as off and skips. When they're on, it confirms that the session cache rejects an unauthenticated command and accepts an authenticated one, and it writes to Amazon S3 with the agent's own role. A write inside the agent's prefix must succeed, and writes to another agent's prefix or the bucket root must return `AccessDenied`. See <<agents-session-state>>.
+
+`state` makes those writes from a short-lived {aws} CLI pod with the agent's service account, its `eks-agents/agent` label, and its sandbox, which gets the agent's role and network policy, so it tests the agent's own permissions without a model call. If a write outside the prefix succeeds, the role isn't scoped per agent.
+
+[#agents-identity-agent-cleanup]
+== Clean up
+
+This page inspects and verifies the identity that the base setup and each `Agent` create, and installs nothing. Deleting an `Agent` deletes its IAM role and EKS Pod Identity association. To remove everything with the stack, see <<agents-cluster-setup-cleanup>>.
+
+[#agents-identity-next]
+== Next steps
+
+* <<agents-gateway>>: Sign outbound requests in the gateway so agents hold no credentials.
+* <<agents-network-policies>>: Restrict which destinations an agent can reach.
+* <<agents-identity-acting-for>>: Let an agent act with a person's own authority.

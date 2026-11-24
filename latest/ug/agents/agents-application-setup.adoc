@@ -1,0 +1,486 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-application-setup]
+= Deploy an agent on Amazon EKS
+:info_titleabbrev: Application setup
+
+[abstract]
+--
+Build an agent image, declare the agent as one Kubernetes resource, and have kro and ACK compose its identity, network policy, and workload.
+--
+
+An agent on Kubernetes isn't one object. It needs a service account, an IAM role with a trust policy and a permissions policy, an EKS Pod Identity association, a network policy, a workload, and often a Service and a route. Each of these carries part of the agent's security boundary. When every team writes them by hand, every new agent is another chance to ship a role without the permissions boundary, a pod without the sandbox runtime class, or a network policy that's too broad.
+
+An API for agents removes that risk. An application team declares the agent as one object, and the definition generates the rest from templates the platform team controls. The reference sample defines that API as a custom resource, `Agent`, using two EKS Capabilities. kro (Kube Resource Orchestrator) composes the Kubernetes objects, and ACK ({aws} Controllers for Kubernetes) controllers turn custom resources for the IAM role and Pod Identity association into {aws} resources. Both keep reconciling the generated objects toward the templates, and the whole agent is delivered from Git like any other manifest.
+
+The `Agent` resource splits the work between two kinds of team:
+
+* The *platform team* owns the `Agent` resource definition, a kro `ResourceGraphDefinition`. The definition decides what an agent can be. Its schema lists the fields that application teams may set, with their defaults, and its templates generate every object behind an agent with the platform team's guardrails built in. For example, every IAM role gets the permissions boundary, every pod gets the sandbox runtime class, and every agent gets its own network policy. The features the definition offers, such as gateway access, MCP tools, and ingress, are fields in the schema, so the platform team adds a capability for every agent by changing the definition once.
+* *Application teams* create their own `Agent` objects from that definition. Each object customizes an agent within the platform team's guardrails by choosing its image, models, tools, callers, and exposure. An application team can't change anything the schema doesn't expose. Each agent's IAM role and network policy are created and deleted with its `Agent` object, so removing an agent leaves no permissions behind.
+
+To build the same API without the reference sample's templates, write one `ResourceGraphDefinition` whose templates emit the objects in the following diagram. The fields in <<agents-application-fields>>, after the procedure, are the decisions an application team makes about its agent. Everything else is fixed by the platform team. To deploy your first agent, you build and push its image, apply one `Agent` object, and send the agent a request, starting at <<agents-application-prerequisites>>.
+
+The following diagram shows one `Agent` object and the resources created from it. kro creates a service account, a network policy, and a Nitro Sandbox pod, which mounts the configuration and secrets that the platform team defines for the agent. ACK creates the IAM role and EKS Pod Identity association, and attaches the permission sets that the agent names.
+
+image::images/agents-application-setup.png["One Agent custom resource. kro composes it into a service account, a network policy, and a Nitro Sandbox pod, and ACK creates the agent's IAM role and Pod Identity association inside the permissions boundary, with permission sets attached. The pod mounts configuration and secrets that the platform team defines.",scaledwidth=100%]
+
+[#agents-application-model]
+== Model access
+
+The agent image you use depends on whether the gateway is on.
+
+[cols="1,2,2", options="header"]
+|===
+|Property |Without a gateway |With a gateway
+
+|Model calls
+|Directly to Amazon Bedrock in the cluster's Region, signed with the agent's EKS Pod Identity credentials. Network policy permits `bedrock-runtime`
+|To the gateway, which signs the call to Amazon Bedrock. Network policy permits only the gateway
+
+|Agent receives
+|A model ID in its environment and no endpoint
+|An OpenAI-compatible model endpoint, a tool endpoint, and a token for the gateway
+
+|Image must
+|Call the Amazon Bedrock runtime API
+|Call an OpenAI-compatible endpoint
+
+|Reference image
+|`agents/reasoning-direct`
+|`agents/reasoning`, the default
+
+|Applies to
+|Either path, until you turn the gateway on
+|Either path, after <<agents-gateway>>
+|===
+
+The reference sample builds the reference agent as two images from one Dockerfile:
+
+* `agents/reasoning`, the default, calls models only through the gateway. It has no code path to Amazon Bedrock and doesn't start without a gateway.
+* `agents/reasoning-direct` calls Amazon Bedrock directly when there's no gateway, and uses the gateway when one is configured.
+
+[IMPORTANT]
+====
+Use the direct image only until you turn on the gateway. Without a gateway, the agent holds the credentials it uses, and you get no per-agent token budget, no model failover, no tool policy, and no audit record beyond CloudTrail's log of the agent role's calls. Network policy and IAM still apply: network policy permits only the Amazon Bedrock runtime endpoint in the Region, and the agent's IAM role permits only the models in `modelArns`. When you turn on the gateway in <<agents-gateway>>, move agents to `agents/reasoning`.
+
+Without a gateway, the agent's model ID is a cross-Region inference profile, because many current models don't support on-demand invocation by foundation model ID. See <<agents-inference>>.
+====
+
+[#agents-application-contract]
+== Agent image requirements
+
+The stack passes endpoints and credentials to an agent through environment variables and a projected volume. With the gateway on, an image that meets the following requirements runs on either path without changes:
+
+* *Read endpoints from the environment.* Don't hardcode a model provider's URL. The model endpoint is in `OPENAI_BASE_URL` (also `AGENT_GATEWAY_URL`), the tool endpoint is in `AGENT_MCP_URL`, and the model name is in `AGENT_MODEL`. The same image then works with the in-cluster gateway and the managed gateway.
+* *Send the projected token on every call to the gateway.* Read it from `/var/run/secrets/eks-agents/gateway/token` for each request. The kubelet rotates the file, so don't cache the token.
+* *Check the audience on every inbound request.* Return `401` if the token is missing or has the wrong audience. Workloads inside the cluster can reach the agent without going through the ingress load balancer, so the agent's own check is required regardless of route configuration.
+
+[#agents-application-prerequisites]
+== Prerequisites
+
+* The in-cluster components from <<agents-capabilities-setup>>, with the `Agent` resource definition reporting `Active`.
+* `PAVED_PATH` set to `open-source` or `aws-services`, such as with `export PAVED_PATH=open-source`.
+* The {aws} CLI, and a shell with `kubectl` access to the cluster, on the bastion or your workstation. Docker or Finch only to build images by hand, or with `enable_image_build = false`.
+* {aws} credentials that can push to the Amazon ECR repositories that Terraform created.
+
+[#agents-application-step1]
+== Step 1: Build and push the agent image
+
+Nothing builds agent images until you run a build, and no agent can start until an image is pushed. Terraform already created the Amazon ECR repositories. To list them, run `terraform -chdir=terraform/$PAVED_PATH output ecr_repository_urls`. The base setup creates `agents/reasoning-direct`, `agents/execution`, `agents/reasoning`, and `agents/mcp-server` on both paths, whether or not the gateway is on, so turning the gateway off never deletes a repository that holds images.
+
+From the reference sample's root, build an image for every repository.
+
+[source,bash]
+----
+./scripts/build-images.sh --root terraform/$PAVED_PATH
+----
+
+The script uploads the repository to the stack's {aws} CodeBuild project, starts one build, and prints its output, so it needs only the {aws} CLI on the machine that runs it. The build takes about 3 minutes. `image_build_architecture` sets the images' architecture, `x86_64` by default to match the EKS Auto Mode default node pool, or `arm64`. Repositories are immutable, so the script skips a tag that already exists. Pass `--tag` to build a new one. With `enable_image_build = false`, the script builds on the bastion or your workstation with Docker or Finch. An Arm workstation then builds `linux/amd64` images through emulation, and `--platform` overrides it.
+
+To build an image by hand instead, build from the reference sample's `apps` directory, which contains shared code that the image copies in.
+
+[IMPORTANT]
+====
+Build for your nodes' architecture. The EKS Auto Mode default node pool uses x86_64, and an `arm64` image fails with `exec format error`. On an Arm workstation, pass `--platform linux/amd64` to `docker build`.
+====
+
+On the base setup, build the direct image:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+cd apps
+aws ecr get-login-password --region [.replaceable]`region-code` \
+  | docker login --username AWS --password-stdin [.replaceable]`account-id`.dkr.ecr.[.replaceable]`region-code`.amazonaws.com
+
+docker build -f reference/Dockerfile --build-arg MODEL_ROUTE=bedrock-direct \
+  -t [.replaceable]`ecr-url`/agents/reasoning-direct:v1 .
+docker push [.replaceable]`ecr-url`/agents/reasoning-direct:v1
+----
+
+After you turn on the gateway, build the default image and update the `Agent` to use it:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+docker build -f reference/Dockerfile -t [.replaceable]`ecr-url`/agents/reasoning:v1 .
+docker push [.replaceable]`ecr-url`/agents/reasoning:v1
+----
+
+To update a running agent, for example to pick up a dependency fix, build with a new tag, set the `Agent`'s `image` to it, and apply the `Agent`. After the agent's `Sandbox` shows the new image, delete the pod, because the default runtime doesn't replace a running pod when its `Sandbox` changes. The sample's example manifests name `:v1`, so render them with the new tag, such as `IMAGE_TAG=v2 ./scripts/render-example.sh gitops/examples/mcp-server/mcp-server.yaml $PAVED_PATH`. The chat interface's tag is `chatUi.imageTag` in `gitops/base/values.yaml`. Change it in your own fork, as described in <<agents-cluster-own-repo>>, and it takes effect after the next sync.
+
+The build output, and each `docker push`, ends by printing the image digest.
+
+[#agents-application-step2]
+== Step 2: Apply the agent
+
+Save the smallest `Agent` object that works as `my-agent.yaml` in the `agents` directory, with your image URL from Step 1. The reference sample's `.gitignore` keeps this file and the other files these pages save in the root out of Git, because they name your account. For `modelArns`, paste the list that `terraform -chdir=terraform/$PAVED_PATH output agent_model_arns` prints in your Terraform root. It holds the inference profile for `direct_model_id`, which defaults to the US cross-Region profile for Claude Sonnet 5.5, and the foundation model in every Region the profile routes to. The list in the following example has the same shape:
+
+[#agents-application-smallest]
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: agents.eks.amazonaws.com/v1alpha1
+kind: Agent
+metadata:
+  name: research              # the service account name, the model route, and the token audience
+  namespace: agents           # must carry the admission label the stack sets
+spec:
+  image: 111122223333.dkr.ecr.us-west-2.amazonaws.com/my-agents/agents/reasoning-direct:v1   # agents/reasoning once the gateway is on
+  modelArns:   # paste from: terraform -chdir=terraform/$PAVED_PATH output agent_model_arns
+    - arn:aws:bedrock:us-west-2:111122223333:inference-profile/us.anthropic.claude-sonnet-5-5
+    - arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-sonnet-5-5
+    - arn:aws:bedrock:us-east-2::foundation-model/anthropic.claude-sonnet-5-5
+    - arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-sonnet-5-5
+  expose: cluster   # the default, none, serves no HTTP, so Step 4 has nothing to reach
+----
+
+All other fields have defaults. On a cluster created by <<agents-cluster-setup>>, the defaults match the path you deployed. The manifest uses the `reasoning-direct` image because the base setup in the reference sample has no gateway. See <<agents-application-model>>.
+
+`metadata.name` sets the service account name, the model route, the token audience that callers check, and the label that the per-agent network policy selects. Renaming an agent deletes it and creates a new one.
+
+Apply it from the `agents` directory. `run-stack.sh` sends the file and runs the command on the bastion or your workstation. kro creates the service account, network policy, and `Sandbox` in dependency order, and ACK creates the IAM role and the Pod Identity association that the pod needs before it can call Amazon Bedrock.
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH --file my-agent.yaml -- kubectl apply -f my-agent.yaml
+----
+
+The pod becomes `Ready` in about 2 minutes. Most of that is the first agent waiting for EKS Auto Mode to launch a sandbox-capable node, so later agents that schedule onto a running node start faster.
+
+[#agents-application-step3]
+== Step 3: Confirm every composed object was accepted
+
+kro reports the result of every object it created on the `Agent` itself, so one status check confirms the whole composition, including the {aws} resources that ACK created. `run-stack.sh` runs the command on the bastion or your workstation.
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- kubectl -n agents get agent research -o yaml
+----
+
+The output ends with the `Agent` object's `status`.
+
+`state: ACTIVE` means that every object was accepted and the agent is running: its `Sandbox` is ready, or the `Agent` is suspended, or, for `runtime: deployment`, every replica is available. `status.roleArn` is the IAM role that ACK created.
+
+Until the agent is running, the `Agent` reads `IN_PROGRESS`, and the `Sandbox`'s `Ready` condition says why, such as an image that can't be pulled or a pod that admission refused:
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- \
+  kubectl -n agents get sandbox research -o jsonpath='{.status.conditions[?(@.type=="Ready")].message}'
+----
+
+[#agents-application-step4]
+== Step 4: Send a request
+
+The reference agent serves `POST /chat` and streams the response as server-sent events. It checks the audience of the inbound token, so the request needs a token with the agent's name as its audience. The image doesn't include `curl`, so the following script uses Python's standard library. On the default runtime, the pod has the agent's name. For an agent with `runtime: deployment`, use `deploy/research`. Save the script as `chat.sh` in the `agents` directory:
+
+[source,bash]
+----
+TOKEN=$(kubectl -n agents create token research --audience research --duration 900s)
+kubectl -n agents exec research -- python -c "
+import json, urllib.request
+req = urllib.request.Request('http://localhost:8080/chat', data=json.dumps({'prompt': 'hello'}).encode(),
+      headers={'Authorization': 'Bearer $TOKEN', 'Content-Type': 'application/json'})
+print(urllib.request.urlopen(req, timeout=60).read().decode())"
+----
+
+Run it through `run-stack.sh`, which sends the file along and runs it where the cluster is reachable, so the token is created and used in the same place:
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH --file chat.sh -- bash chat.sh
+----
+
+The output is a stream of `data:` lines. If you get `401`, the token's audience isn't the agent's name. If the connection is refused, the agent isn't serving HTTP. Check that the `Agent` sets `expose: cluster` or `expose: route`.
+
+[IMPORTANT]
+====
+On the default runtime, changing an `Agent` updates its `Sandbox` but doesn't replace the running pod. After you change an agent, such as its image or `expose`, recreate its pod:
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- kubectl -n agents delete pod -l eks-agents/agent=research
+----
+====
+
+[#agents-application-step5]
+== Step 5: (Optional) Add configuration, secrets, and {aws} permissions
+
+This step gives the `research` agent a permission set, a ConfigMap, and a Secret, as described in <<agents-application-fields-extend>>.
+
+. In your variables file, define the permission set, then apply with `scripts/apply.sh` and sync as in <<agents-capabilities-later>>. The admission policy reads the defined sets from the synced values, so until the sync it refuses an `Agent` that names the new set. Set `namespaces` to the agent namespaces that may use the set, or leave it empty for every agent namespace.
++
+[source,hcl]
+----
+agent_permission_sets = {
+  orders-read = {
+    statements = [{
+      actions   = ["dynamodb:GetItem", "dynamodb:Query"]
+      resources = ["arn:aws:dynamodb:us-west-2:111122223333:table/orders"]
+    }]
+    namespaces = ["agents"]
+  }
+}
+----
+. Name the set in the `Agent`, and apply it as in Step 2:
++
+[source,yaml]
+----
+spec:
+  permissionSets:
+    - orders-read
+----
+. Create a ConfigMap named `research-config` and a Secret named `research-secrets` in the `agents` namespace, then delete the agent's pod so that it starts with them. Replace `api-key-value` with your value:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- bash -c "
+  kubectl -n agents create configmap research-config --from-literal=REPORT_REGION=us-west-2
+  kubectl -n agents create secret generic research-secrets --from-literal=api-key=api-key-value
+  kubectl -n agents delete pod research"
+----
++
+`REPORT_REGION` appears in the agent's environment. The secret's key arrives as the file `/var/run/secrets/eks-agents/app/api-key`, not as an environment variable.
+. Confirm all three with the `extensions` phase of the reference sample's exercise script. It applies a temporary `Agent` with a ConfigMap, a Secret, and the first permission set that the cluster defines, checks each one, and deletes them.
++
+[source,bash]
+----
+./scripts/exercise.sh --path $PAVED_PATH --agent research extensions
+----
++
+A passing run reports the following:
++
+[source,none]
+----
+  ✓ admission refuses a permission set the platform team did not define
+  ✓ a key in <agent>-config reached the agent's environment
+  ✓ the ConfigMap could not override a variable the platform sets (AGENT_MODEL)
+  ✓ a key in <agent>-secrets arrived as a file
+  ✓ the secret value is not in the agent's environment
+  ✓ the permission set was attached to the agent's role, and ACK synced it
+----
+
+[#agents-application-step6]
+== Step 6: (Optional) Manage the agent from Git and view it in Argo CD
+
+An `Agent` that you apply with `kubectl` isn't owned by an Argo CD Application, so it doesn't appear in the Argo CD UI, and nothing reverts a change made to it by hand. To deliver agents the same way as the in-cluster components, commit their manifests to a private Git repository of your own and give Argo CD an Application for them. The manifests name your account, so use a private repository, not a public fork. Set it up and give Argo CD access to it as described in <<agents-cluster-private-repo>>. The following steps use the sample's CodeCommit mirror. With another private repository, push with your usual Git workflow instead. To create the mirror, run `./scripts/gitops-mirror.sh create --name my-agents --region us-west-2`, add the `argocd_codecommit_repository_arns` line it prints to your variables file, and apply. Leave `gitops_repo_url` as it is, so the in-cluster components keep coming from the reference sample's public repository.
+
+. Commit `my-agent.yaml` in your clone, in a directory of its own, such as `gitops/agents/`. If you turned on the reference sample's pre-commit hook, which refuses files that name your account, commit this file with `git commit --no-verify`, because its image URL names the account. Then push the committed tree to your repository, which must be a private repository of your own, never the reference sample's public repository. The push carries only committed files:
++
+[source,bash]
+----
+./scripts/gitops-mirror.sh push --name my-agents --region us-west-2
+----
+. Create an Application for that directory in the `eks-agents` project, with the same cluster destination as the stack's other Applications. Replace `repo-url` with your repository's URL, such as the `gitops_repo_url` that `gitops-mirror.sh create` printed. The following example syncs the directory automatically and reverts a change made by hand to any field that the manifest sets. A field that the manifest leaves at its default, such as `cpuLimit`, isn't compared, so set every field you want Git to own:
++
+[source,yaml,subs="verbatim,attributes,quotes"]
+----
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: eks-agents-agents
+  namespace: argocd
+spec:
+  project: eks-agents
+  source:
+    repoURL: [.replaceable]`repo-url`
+    targetRevision: my-agents   # your branch; gitops-mirror.sh push writes my-agents
+    path: gitops/agents
+  destination:
+    name: eks-agents
+    namespace: agents
+  syncPolicy:
+    automated:
+      selfHeal: true
+----
+. Save it as `agents-app.yaml` in the `agents` directory, and apply it:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH --file agents-app.yaml -- kubectl apply -f agents-app.yaml
+----
+. In the Argo CD UI, open the `eks-agents-agents` Application. It shows each `Agent` and whether it matches the manifest in Git. To change an agent, edit its manifest, commit it, and push it to your repository, such as with `gitops-mirror.sh push` for the CodeCommit mirror. On the default runtime, delete the agent's pod after the sync, as in Step 4.
+
+[#agents-application-fields]
+== Fields
+
+[#agents-application-fields-required]
+=== Required
+
+The following fields have no default:
+
+[cols="2,1,6", options="header"]
+|===
+|Field |Type |Description
+
+|`image`
+|string
+|The container image, which must meet <<agents-application-contract>>.
+
+|`modelArns`
+|list
+|The Amazon Bedrock models the agent may use. The ARNs are the resources of the role's invoke permission, so an unlisted model returns `AccessDeniedException`. On the {aws} services path with the gateway on, the gateway signs with its own role, so gateway policy limits models instead. For a cross-Region inference profile, list the profile ARN and the foundation model ARN in every Region it routes to, because Amazon Bedrock authorizes against both. See <<agents-inference>>.
+|===
+
+[#agents-application-fields-endpoints]
+=== Endpoints an agent calls
+
+These fields default to the values that Terraform rendered, so you don't normally set them. The stack injects them only when the gateway is on. Without a gateway, the agent calls Amazon Bedrock directly. See <<agents-application-model>>.
+
+[cols="2,2,5", options="header"]
+|===
+|Field |Default |Description
+
+|`gatewayBaseUrl`
+|The stack's gateway
+|The model endpoint URL, with the scheme. On the open source path, the stack appends a per-agent path that selects the model backend. On the {aws} services path, one URL serves every model, and the gateway routes on the model in the request body.
+
+|`mcpUrl`
+|Gateway tool endpoint
+|The tool endpoint for the agent's MCP client. See <<agents-mcp>>.
+
+|`gatewayAudience`
+|Gateway audience
+|The audience of the projected token the agent presents to the gateway. The gateway rejects any other audience, so an agent can't replay another service's token.
+|===
+
+If an agent ignores these endpoints, network policy still blocks every destination except the gateway. See <<agents-network-policies>>.
+
+[#agents-application-fields-reach]
+=== Tools and the EKS cluster API
+
+The following fields control what the agent can reach beyond its model:
+
+[cols="2,1,6", options="header"]
+|===
+|Field |Default |Description
+
+|`mcpAudience`
+|Empty
+|Set only for an agent that calls an MCP server directly, not through the gateway. Projects a second token with the server's audience. Leave empty for servers behind the gateway, which rejects that audience. See <<agents-mcp>>.
+
+|`needsClusterApi`
+|`false`
+|Whether the agent may call the Kubernetes API. Leave it off unless the agent manages Kubernetes objects, such as a reasoning tier driving execution sandboxes, because any code in the pod can use the token. When on, the pods mount the service account token, and network policy permits egress to the `kubernetes` Service's cluster IP. Grant the service account only the RBAC it needs. See <<agents-identity-k8s-token>>.
+
+|`callerNamespaces`
+|Empty
+|Comma-separated namespaces, besides its own, whose workloads may call this agent. The agent gets the list in `AGENT_ALLOWED_CALLER_NAMESPACES` and refuses other callers with `401`, even with the right audience, because any service account can request a token for any audience.
+|===
+
+[#agents-application-fields-expose]
+=== Exposure
+
+By default, nothing can reach an agent. Set `expose` to allow inbound traffic on `port`, which defaults to `8080`. No value creates an internet-facing load balancer. An agent that must be reachable from the internet needs a separately reviewed Ingress.
+
+[cols="1,3,3", options="header"]
+|===
+|`expose` |What is created |Who can reach the agent
+
+|`none` (default)
+|Nothing
+|No one. The agent can still make outbound calls.
+
+|`cluster`
+|A ClusterIP Service
+|Cluster workloads, subject to network policy and any mesh authorization policy.
+
+|`route`
+|The Service, a route on the shared ingress `Gateway`, its gating listener rule, and a target group configuration that pins the health check. With `routeAuth: browser`, the route and rule go in the `ingress` namespace, with a `ReferenceGrant` beside the Service
+|Callers that pass the load balancer's authentication. The load balancer is internal by default. See <<agents-ingress>>.
+|===
+
+The following fields apply only with `expose: route`:
+
+[cols="2,1,6", options="header"]
+|===
+|Field |Default |Description
+
+|`routeHostname`
+|`agent-name.domain`
+|The host name the route matches. The load balancer's certificate must cover it, so a name outside the stack's domain needs its own certificate.
+
+|`routeAuth`
+|The stack's default
+|`browser` runs a sign-in flow at the load balancer for people. `workload` validates the caller's projected token, for MCP clients and scheduled jobs, which can't follow a browser gate's redirect. See <<agents-ingress>>.
+
+|`onUnauthenticatedRequest`
+|`deny`
+|`deny` returns `401`, for machine callers and to fail closed when the identity provider is unreachable. `authenticate` redirects people to the sign-in page.
+|===
+
+The stack sets the identity provider. When the stack's values name one, the stack doesn't render an unauthenticated route, so no field on an `Agent` can bypass authentication.
+
+[#agents-application-fields-size]
+=== Runtime, size, and prompt
+
+`runtime` reflects where the agent keeps its state between turns. The default, `sandbox`, suits an agent that keeps state in its pod or on a workspace volume. It creates one Agent Sandbox `Sandbox` object, so the agent runs as a single pod that has the agent's name. Changing the `Agent` updates the `Sandbox` but doesn't replace a running pod. `runtime: deployment` suits an agent whose session state is already outside the pod. It creates a Kubernetes Deployment instead, which rolls out a new pod on every change and can run several replicas. `runtime: tasks` runs no long-lived pod. Each message on the agent's task queue starts one sandboxed pod that runs the task and exits. It requires `expose: none`, `taskConcurrency` sets how many tasks run at once, and `taskTimeoutSeconds` stops a task that runs longer. See <<agents-lifecycle-tasks>>. The platform team can change the default in the resource definition. For how to choose, see <<agents-lifecycle>>.
+
+The following fields apply only to `runtime: sandbox`:
+
+* `workspaceSize`, such as `10Gi`, adds a persistent volume at `/workspace` from `workspaceStorageClass`. The volume survives suspend and resume, and is deleted with the `Agent`. Empty, the default, leaves `/workspace` an `emptyDir` that's lost with the pod. Set it at creation, because it can't be changed afterward.
+* `suspended: true` terminates the agent's pod and stops its compute charges, but keeps the `Sandbox` and its workspace volume. Setting it back to `false` resumes the agent on a new pod. See <<agents-sandbox-lifecycle>>.
+
+`replicas` defaults to 1 and applies only to `runtime: deployment`. A `Sandbox` is one pod, so an admission policy on `Agent` objects refuses more than one replica with it. Without that policy, the `Agent` would be accepted and quietly run one pod. kro's schema can't express a rule that relates two fields. `cpuRequest` and `cpuLimit` default to `500m` and `2`, and `memoryRequest` and `memoryLimit` default to `2Gi` and `4Gi`.
+
+An agent that imports an {aws} SDK, a model client, and the OpenTelemetry SDK uses several hundred mebibytes of memory before it serves a request. With a low memory limit, the pod is terminated during startup.
+
+`guardrailArn` and `guardrailVersion` pass an Amazon Bedrock guardrail to the agent in `GUARDRAIL_ARN` and `GUARDRAIL_VERSION`, for the agent to apply to its model calls. Name a numbered version, because `DRAFT` changes whenever someone edits the guardrail. See <<agents-inference>>.
+
+`systemPrompt` sets the agent's system prompt inline. Use it for a first deployment. After that, keep prompts in a versioned prompt store with review, separate from the object that defines the agent's IAM scope.
+
+[#agents-application-fields-extend]
+=== Configuration, secrets, and {aws} permissions
+
+The platform team decides what an agent gets beyond the defaults. The `Agent` can only choose from what the platform team defines.
+
+* *Configuration.* A ConfigMap named `<agent>-config` in the agent's namespace becomes environment variables in the agent's container. Variables that the resource definition sets, such as `AGENT_MODEL`, `OPENAI_BASE_URL`, and the token files, take precedence, so the ConfigMap can't override them.
+* *Secrets.* A Secret named `<agent>-secrets` is mounted read-only at `/var/run/secrets/eks-agents/app/`, with one file for each key. The secret values don't appear in the agent's environment, where code the model generates could print them. Sync the Secret from {aws} Secrets Manager with the tool your platform already uses.
+* *{aws} permissions beyond the model.* `permissionSets` names permission sets that the platform team defines in Terraform with `agent_permission_sets`. Each set becomes a managed IAM policy that's attached to the agent's role, and its statements are added to the agent permissions boundary. An admission policy refuses a set that isn't defined or isn't offered to the agent's namespace, and the ACK capability can attach only the policies of this cluster's permission sets. Terraform refuses sets that grant `iam:`, `sts:`, `eks:`, `organizations:`, or `ec2:` actions, which the boundary denies to every agent.
+
+The agent can reach an {aws} endpoint only if the cluster egress policy also allows it. See <<agents-network-policies>>. A `Sandbox` doesn't restart its pod when the ConfigMap or Secret changes, so delete the pod to pick up a change. To add all three to an agent, see <<agents-application-step5>>.
+
+[#agents-application-cleanup]
+== Clean up
+
+Remove what this page created, in reverse order. Run the commands from the `agents` directory.
+
+. If you created the Argo CD Application in Step 6, delete it first, so Argo CD doesn't re-create the `Agent`. The Application in Step 6 has no finalizer, so deleting it leaves the `Agent` running and the manifests on your repository's branch:
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- kubectl -n argocd delete applications.argoproj.io eks-agents-agents
+----
+. Delete the `Agent`. kro deletes the objects it composed, including the pod and its workspace volume, and ACK deletes the agent's IAM role and Pod Identity association. Delete an `Agent` before you delete the cluster, because a role that outlives the cluster keeps the permissions boundary attached and blocks `terraform destroy`.
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH --file my-agent.yaml -- kubectl delete -f my-agent.yaml
+----
+. If you added them in Step 5, delete the `research-config` ConfigMap and `research-secrets` Secret, remove the permission set from `agent_permission_sets`, and apply with `scripts/apply.sh`.
+
+Deleting the agent leaves its images in Amazon ECR and its prefix in the checkpoint bucket. The teardown in <<agents-cluster-setup-cleanup>> removes both.
+
+== Next steps
+
+* <<agents-isolation,Isolate agent workloads on Amazon EKS>>: Learn what the sandbox isolates the agent from.
+* <<agents-identity-agent>>: Learn what credentials the agent holds and how they're scoped.

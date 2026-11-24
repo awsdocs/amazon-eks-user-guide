@@ -1,0 +1,227 @@
+include::../attributes.txt[]
+
+[.topic]
+[#agents-capabilities-setup]
+= Set up EKS Capabilities and in-cluster components for agents
+:info_titleabbrev: Capabilities setup
+
+[abstract]
+--
+Use the Argo CD, kro, and ACK EKS Capabilities to reconcile per-agent infrastructure, the in-cluster components, and agentic applications from Git.
+--
+
+The security of agents on a cluster depends on objects that are easy to change by hand, such as network policies, admission policies, and each agent's IAM role. A `kubectl edit` made during an incident, or a component installed once with Helm and never updated, quietly weakens the boundary, and nothing reports it. GitOps addresses this by making a Git repository the source of truth. A controller continuously compares the cluster with the repository and reverts drift, so every change to the stack goes through review, and a manual change to a guarded object doesn't survive.
+
+You can run that controller yourself or use EKS Capabilities, which run Argo CD, kro (Kube Resource Orchestrator), and ACK ({aws} Controllers for Kubernetes) as managed services outside your cluster. With the managed capabilities, {aws} installs and upgrades the controllers, so they don't consume your nodes and you don't patch them. For creating and troubleshooting capabilities, see <<working-with-capabilities>>. Self-managed Argo CD gives you full control of its configuration, at the cost of operating it. A one-time Helm install is the simplest option, but nothing reverts drift afterward, so your team owns reconciliation.
+
+Whichever controller you use, split ownership by how often resources change and who changes them:
+
+* *Terraform*, or another infrastructure tool, manages the shared {aws} infrastructure that changes rarely and needs an operator: the cluster, its network, the permissions boundary, the container registry, the Amazon S3 bucket, and any managed services that a path uses.
+* *GitOps* reconciles everything that changes with a commit: the in-cluster components, the `Agent` objects that application teams commit, and the per-agent resources each `Agent` creates, including its IAM role and EKS Pod Identity association.
+
+The reference sample uses all three EKS Capabilities. You bootstrap Argo CD once, and it then delivers the base network policies, the `Agent` resource definition, and every in-cluster component that later pages turn on.
+
+The following diagram shows the three EKS Capabilities. Argo CD syncs the stack from the reference sample's repository, kro composes each `Agent`, and ACK creates its IAM role and EKS Pod Identity association. A platform engineer signs in to the Argo CD UI through IAM Identity Center.
+
+image::images/agents-capabilities-setup.png["EKS Capabilities run outside the cluster. Argo CD syncs the stack from the reference sample's Git repository, kro composes each Agent object, and ACK creates the agent's IAM resources. A platform engineer signs in to the Argo CD UI.",scaledwidth=100%]
+
+[#agents-capabilities-which]
+== EKS Capabilities
+
+*Argo CD* syncs the stack from Git to the cluster, from the reference sample's public repository by default, including the in-cluster components, the agent resource definition, and the `Agent` objects that application teams commit. See <<argocd>>.
+
+*kro* expands one `Agent` object into the service account, IAM role, EKS Pod Identity association, network policy, workload, and optional Service and route that make up an agent. The workload is a `Sandbox` by default, or a Deployment with `runtime: deployment`. The resource graph definition declares the creation order and the values passed between resources once, so you don't create each resource by hand for every agent. See <<kro>>.
+
+*ACK* creates the agent's {aws} resources, its IAM role and Pod Identity association, from inside the cluster. An application team that commits an `Agent` gets the agent's identity without a separate request. See <<ack>>.
+
+The base setup in <<agents-cluster-setup>> creates all three capabilities. The procedure that follows bootstraps Argo CD.
+
+[#agents-capabilities-bootstrap]
+== Bootstrap GitOps
+
+Before Argo CD can reconcile anything, it needs three bootstrap objects. Argo CD can't create them itself, so you apply them once, with the reference sample's `scripts/bootstrap-gitops.sh` in Step 3.
+
+* *Cluster secret.* A Secret labeled `argocd.argoproj.io/secret-type: cluster` registers the destination cluster with Argo CD. For the capability, an Application names its destination by the cluster secret's name, such as `eks-agents`, or by the cluster's ARN as `server`.
+* *`AppProject`.* Limits which repositories the Applications may pull from, which destinations and namespaces they may deploy to, and which resource kinds they may create. The sample's project allows every repository, destination, and kind so that any component can sync. For production, restrict it to your repository and to the namespaces and kinds the stack needs, so that a change merged to Git can't deploy outside that scope.
+* *Root `Application`.* Renders the root chart, whose templates are the child Applications, one for each component, as described in <<agents-capabilities-components>>. It also carries your stack's values.
+
+The apply renders the cluster secret with your cluster's ARN, name, and certificate data, and the root Application with the repository URL, revision, and path that the stack's code comes from. The script folds the values files that the apply rendered into the root Application, and applies the three objects in order.
+
+The root Application has no automated sync policy, so Argo CD shows what it would apply and waits for you to start the sync. That lets you review the first sync, and every later change to the set of components, before it reaches the cluster. The child Applications use automated sync with `prune` and `selfHeal`, so Argo CD deletes objects removed from Git and reverts manual changes to the network and admission policies. Custom resource definitions are the exception. Their Applications set `prune: false`, because pruning a CRD deletes every object of that kind.
+
+[#agents-capabilities-argocd-prerequisites]
+== Prerequisites
+
+* *The repository the stack's code comes from.* By default, it's the reference sample's public repository at the revision that `gitops_repo_revision` names. For templates you change, use a repository of your own, as described in <<agents-cluster-own-repo>>.
+* *The Argo CD capability, created by the base setup.* It requires the {aws} IAM Identity Center instance and administrator from <<agents-cluster-identity-center>>.
+* *A shell with `kubectl` access to the cluster* and the {aws} CLI. Use the bastion from <<agents-cluster-setup>> or your workstation (<<agents-cluster-public-endpoint>>). In workstation mode, checks that call an internal load balancer run from a short-lived pod in the cluster. The {aws} credentials must allow `eks:DescribeCapability` for Step 1.
+* *`PAVED_PATH` set to `open-source` or `aws-services`*, such as with `export PAVED_PATH=open-source`. The commands on this page use it.
+
+If your organization can't use Identity Center, set `enable_argocd = false` in the base variables from <<agents-cluster-setup>>. Then run `scripts/install-platform.sh --path` with `open-source` or `aws-services` through `scripts/run-stack.sh`, as in <<agents-cluster-kubectl>>. The script installs the same Argo CD Application manifests with Helm and `kubectl`, with the same chart versions and values. Like Argo CD, it skips an Application that has no sync policy unless you name its file. Without Argo CD, nothing reverts drift, so you own reconciliation.
+
+[#agents-capabilities-step1]
+== Step 1: Check that Argo CD is active
+
+The base apply created the capability, its administrator group, and the role mapping for the users you named. It also rendered the bootstrap objects for Step 3. Confirm that the capability is active:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-capability --region [.replaceable]`region-code` \
+  --cluster-name my-agents --capability-name my-agents-argocd \
+  --query 'capability.status' --output text
+----
+
+The status must be `ACTIVE`. The capability hosts the Argo CD UI at its own URL, and the users in `argocd_admin_existing_user_names` or `argocd_admin_users` sign in to it through Identity Center. To open it, choose your cluster in the Amazon EKS console, open the *Capabilities* tab, and choose the Argo CD capability's URL. Alternatively, read the URL with the {aws} CLI:
+
+[source,bash,subs="verbatim,attributes,quotes"]
+----
+aws eks describe-capability --region [.replaceable]`region-code` \
+  --cluster-name my-agents --capability-name my-agents-argocd \
+  --query 'capability.configuration.argoCd.serverUrl' --output text
+----
+
+The UI has no Applications yet. They appear after Step 3. For other ways to reach the server, such as the Argo CD CLI, see <<argocd-cli-configuration>>.
+
+[#agents-capabilities-step2]
+== Step 2: Review the stack's code and values
+
+Argo CD reads two things, from two places:
+
+* *The stack's code* comes from Git: the charts and Application templates in the repository that `gitops_repo_url` names, at `gitops_repo_revision`. Pin the revision to a release tag or a commit, so that the cluster runs the code you tested.
+* *Your stack's values* never go to Git. The base apply wrote them into the `*-values.yaml` files in `gitops/platform/$PAVED_PATH/`, and the bootstrap script in Step 3 folds each file into the root Application's Helm values. An edit to one of those files, or a later apply that rewrites them, reaches the cluster on the next run of the script.
+
+Step 1 of `terraform -chdir=terraform/$PAVED_PATH output next_steps` names the repository and the revision that the stack points at. There's nothing to push. Keep the rendered values files out of your commits, as described in <<agents-cluster-setup-step2>>.
+
+[#agents-capabilities-step3]
+== Step 3: Bootstrap Argo CD and start the first sync
+
+From the `agents` directory, run the bootstrap script through `scripts/run-stack.sh`, which runs it on the bastion or your workstation.
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/bootstrap-gitops.sh --path $PAVED_PATH --sync
+----
+
+The script applies the three objects described in <<agents-capabilities-bootstrap>> in order, because the project references the destination and the root Application references the project. It applies the cluster secret and the root Application from the files the apply rendered, with your values folded into the root Application. `run-stack.sh` sends the files along, because they aren't in Git. It then starts the root Application's first sync and waits until every Application is `Synced` and `Healthy`. For the base setup, this takes about 2 minutes.
+
+The root Application's sync is manual, as described in <<agents-capabilities-bootstrap>>. To review what it will apply first, run the script without `--sync`, review the root Application in the Argo CD UI, and then sync it from the UI or run the script again with `--sync`.
+
+[#agents-capabilities-step4]
+== Step 4: Watch the stack converge
+
+The sync creates one child Application per component that isn't excluded, and each child installs its component. In the Argo CD UI, the root Application `eks-agents-platform` shows each child Application with its sync and health status, and choosing a child shows the Kubernetes objects it manages. To list them, run the following from the `agents` directory:
+
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- kubectl -n argocd get applications.argoproj.io
+----
+
+For the base setup, the root Application has two child Applications: the base components and the Agent Sandbox controller. Both reach `Synced` and `Healthy` after the first sync. Check the child Applications, not the root. The root Application has no automated sync, so it can report `OutOfSync` even when every child is `Synced` and `Healthy`. Each component you turn on later adds its own Applications.
+
+[#agents-capabilities-step5]
+== Step 5: Confirm the agent resource definition is active
+
+kro generates the `Agent` custom resource definition from the resource graph definition after it validates the graph. Until both exist, `kubectl apply` of an `Agent` fails. Confirm that they do:
+
+[source,bash]
+----
+kubectl get resourcegraphdefinitions.kro.run
+kubectl get crd agents.agents.eks.amazonaws.com
+----
+
+The resource graph definition must report `Active` and `GraphAccepted=True`.
+
+[#agents-capabilities-step6]
+== Step 6: Confirm the network policies are in place
+
+Argo CD delivers the base network policies in this sync. Confirm that they exist:
+
+[source,bash]
+----
+kubectl get clusternetworkpolicies.networking.k8s.aws
+kubectl get nodeclass -o jsonpath='{.items[*].spec.networkPolicy}{"\n"}'
+----
+
+The first command must list the cluster-scoped policies. The second must include `DefaultDeny` for the agents' `NodeClass`. After an agent is running, verify that the policies block unapproved egress. See <<agents-network-policies>>.
+
+[#agents-capabilities-components]
+== In-cluster components
+
+Argo CD applies the following components from the root chart. The base setup applies the first group, and later pages turn on the others. The components in the tabs differ by path.
+
+*Always applied*::
+The `Agent` definition, the admission and network policies, the storage class, and the Agent Sandbox controller.
+
+*Ingress*::
+Turned on with ingress, the same on both paths. It adds the ingress `Gateway`, listener rules, and the route-gating admission policy, and ExternalDNS for agent DNS records, with an IAM role scoped to the one zone. `enable_chat_ui` adds the chat interface. See <<agents-ingress>>.
+
+*Service mesh*::
+Istio on both paths, unless `mesh_mode` is `none`. See <<agents-mesh>>.
+
+*Evaluation runner*::
+Turned on with `enable_evaluations` on both paths. See <<agents-evaluations>>.
+
+[role="tablist",sync-group-id="agents-path"]
+Open source::
++
+On this path, each of these components runs in the cluster:
++
+* *Egress gateway.* AgentGateway, with `enable_gateway`. See <<agents-gateway>>.
+* *Telemetry pipeline.* An OpenTelemetry collector, Prometheus, Grafana, and a dashboard, with `enable_observability`. `enable_langfuse` adds Langfuse. See <<agents-observability>>.
+* *Session state.* Valkey, with `enable_session_state`. See <<agents-session-state>>.
+* *Memory.* pgvector on CloudNativePG, with `enable_semantic_recall`. Consolidation runs as Mem0 in the agent image. See <<agents-memory>>.
+* *`platform-secrets`, from Secrets Manager.* Applied for any component that reads one, such as session state, Grafana, or Langfuse.
+* *OAuth consent receiver.* Applied when the gateway is on and an `oauth_consent` entry names a client. See <<agents-third-party-credentials>>.
+
+{aws} services::
++
+On this path, several of these components are managed services that Terraform creates outside the cluster:
++
+* *Egress gateway.* Nothing in the cluster. Terraform creates AgentCore Gateway with `enable_gateway`. See <<agents-gateway>>.
+* *Telemetry pipeline.* An ADOT collector, and cert-manager for its webhook certificates, with `enable_observability`. See <<agents-observability>>.
+* *Session state.* Nothing in the cluster. Terraform creates ElastiCache with `enable_session_state`. See <<agents-session-state>>.
+* *Memory.* Nothing in the cluster. Terraform creates Amazon S3 Vectors and AgentCore memory with `enable_semantic_recall`. See <<agents-memory>>.
+* *`platform-secrets`, from Secrets Manager.* Applied with `ingress_idp = "oidc-direct"`, for the provider's client secret.
+* *OAuth consent receiver.* Applied when the gateway is on and an `agentcore_consent` entry names a provider. See <<agents-third-party-credentials>>.
+
+[#agents-capabilities-later]
+== Turn on a component later
+
+The repository uses the Argo CD app-of-apps pattern. The root `Application` renders a Helm chart whose templates are the child `Application` manifests, one per component, and each child installs that component's Helm chart or manifests. Terraform renders two things from your variables. The first is a set of values files with cluster-specific values, such as the account ID, OIDC issuer, and Amazon ECR URLs, that the charts read. The second is the chart's `excluded` list, which names the child templates to leave out. A component whose variable is off is on the list, so the chart never renders its Application. The bootstrap script passes both to the cluster in the root Application, so neither goes to Git. You can apply the same pattern with any tool that renders the values and the list.
+
+Every later page turns on its component with the following steps.
+
+[IMPORTANT]
+====
+Turn a component on or off with its Terraform variable, not only its chart value. The chart value configures the component, but only the Terraform variable controls whether Argo CD syncs it. A component turned off only in its chart keeps running.
+
+To turn a component off, set its variable to `false` and follow the same steps, with two changes. Sync the root with pruning, by adding `--prune` to the `bootstrap-gitops.sh` command. The root Application otherwise syncs without pruning, so the component's child Application and everything it installed keep running. Without `--prune`, the script lists each Application that is turned off but still running. In short, to turn a component off, set its variable to `false`, apply with `scripts/apply.sh`, and run `bootstrap-gitops.sh --sync --prune`. Ingress is the one layer that needs a second apply after the pruned sync, because its {aws} resources stay until the load balancer is gone. See <<agents-ingress-turn-off>>.
+====
+
+. Change the variable in your variables file and apply with `scripts/apply.sh`. Terraform updates the rendered values files and the `excluded` list together, and creates any {aws} resources the component needs. There's nothing to push.
+. Run the bootstrap script again, as in Step 3. Argo CD doesn't manage the bootstrap objects, so the script reapplies the root Application, which carries the new values and the new `excluded` list. It then refreshes the Applications, so Argo CD renders them with the new values instead of waiting for its next poll, syncs the root, and waits for the new Applications to converge. With `--roll-agents`, it then recreates each agent pod whose `Sandbox` changed, because with the default `Sandbox` runtime the running pod doesn't restart when the `Sandbox` changes. It prints a line for each agent, such as `agents/research: recreating (env SESSION_STATE_ENDPOINT added)`, or `current`.
++
+[source,bash]
+----
+./scripts/run-stack.sh --root terraform/$PAVED_PATH -- ./scripts/bootstrap-gitops.sh --path $PAVED_PATH --sync --roll-agents
+----
++
+If an Application stays `Progressing` while every object in it is healthy, run the script again. Argo CD can keep a stale health status until the Application is refreshed. An agent with `runtime: deployment` rolls out the change without `--roll-agents`.
+
+[#agents-capabilities-cleanup]
+== Clean up
+
+To turn off one component, follow <<agents-capabilities-later>> with its variable set to `false` and `--prune` on the bootstrap script. Components that hold data, such as the semantic recall database, aren't deleted by pruning, so delete their Applications deliberately after the data is somewhere else. To remove the in-cluster components but keep the cluster, run the teardown script without `--cluster-going-away`, as in <<agents-cluster-setup-cleanup>>. It also removes the three EKS Capabilities this stack created. To install the in-cluster components on that cluster again, apply with `--allow-replace`, because the teardown removed the capabilities and the Amazon ECR repositories outside Terraform, and the plan guard refuses to recreate them without the flag. The teardown script prints the command when it finishes:
+
+[source,bash]
+----
+./scripts/apply.sh --root terraform/$PAVED_PATH -var-file=my.tfvars --allow-replace
+----
+
+The teardown also deleted every `Agent` and every agent image with its repository. After the apply, repeat the rest of the <<agents-cluster-quickstart>>: build the agent images, run the bootstrap script with `--sync`, and apply each `Agent` again.
+
+To delete everything, see <<agents-cluster-setup-cleanup>>.
+
+== Next steps
+
+<<agents-application-setup>>: Create your first agent.
