@@ -211,6 +211,10 @@ Specifically, ensure your policy includes:
 
 **Chore**: NodeClass dry run validation will now use dynamically selected instance types based on linked NodePools.
 
+== February 10, 2026
+
+**Feature**: Added support for {aws} managed component log delivery. Configure automatic log delivery from compute autoscaling, block storage, load balancing, and pod networking to Amazon CloudWatch Logs, Amazon S3, or Amazon Data Firehose. For more information, see <<auto-managed-component-logs>>.
+
 == February 2, 2026
 
 **Feature**: Added support to disable v4Egress traffic from IPv6 pods in EKS Auto Mode IPv6 clusters. For more information, see <<enableV4Egress>>.
