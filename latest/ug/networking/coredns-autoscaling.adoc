@@ -137,7 +137,7 @@ The following example also sets the `nodesPerReplica` and `cpuCoresPerReplica` s
 +
 When the update changes only the `autoScaling` settings, Amazon EKS doesn't restart the existing CoreDNS pods. Amazon EKS changes only the number of replicas in the CoreDNS Deployment, and the pod template stays the same. If the same update also changes other configuration values or the add-on version, Amazon EKS rolls out the CoreDNS Deployment and replaces its pods.
 +
-You can track the update in the *Update history* of the add-on in the {aws-management-console}. If the update fails, an entry with the type *Addon Update* and a status of *Failed* appears in the *Update history*. To see the health issues that Amazon EKS reports for the add-on, run `aws eks describe-addon --cluster-name my-cluster --addon-name coredns --query addon.health`.
+You can track the update in the *Update history* of the add-on in the {aws-management-console}. If the update fails, an entry with the type *Addon Update* and a status of *Failed* appears in the *Update history*. To see the health issues that Amazon EKS reports for the add-on, run `aws eks describe-addon --cluster-name my-cluster --addon-name coredns --query addon.health`, replacing `my-cluster` with the name of your cluster.
 . If the new entry in the *Update history* has a status of *Successful*, then the add-on is using the new autoscaling configuration. As you change the number of nodes and CPU cores of nodes in the cluster, Amazon EKS scales the number of replicas of the CoreDNS deployment.
 
 ====
@@ -185,7 +185,7 @@ aws eks update-addon --cluster-name my-cluster --addon-name coredns \
 +
 When the update changes only the `autoScaling` settings, Amazon EKS doesn't restart the existing CoreDNS pods. Amazon EKS changes only the number of replicas in the CoreDNS Deployment, and the pod template stays the same. If the same update also changes other configuration values or the add-on version, Amazon EKS rolls out the CoreDNS Deployment and replaces its pods.
 +
-You can track the update in the *Update history* of the add-on in the {aws-management-console}. If the update fails, an entry with the type *Addon Update* and a status of *Failed* appears in the *Update history*. To see the health issues that Amazon EKS reports for the add-on, run `aws eks describe-addon --cluster-name my-cluster --addon-name coredns --query addon.health`.
+You can track the update in the *Update history* of the add-on in the {aws-management-console}. If the update fails, an entry with the type *Addon Update* and a status of *Failed* appears in the *Update history*. To see the health issues that Amazon EKS reports for the add-on, run `aws eks describe-addon --cluster-name my-cluster --addon-name coredns --query addon.health`, replacing `my-cluster` with the name of your cluster.
 . (Optional) You can provide minimum and maximum values that autoscaling can scale the number of CoreDNS pods to.
 +
 The following example shows autoscaling enabled with minimum and maximum replica values. We recommend that the minimum number of CoreDNS pods is always greater than 2 to provide resilience for the DNS service in the cluster.
