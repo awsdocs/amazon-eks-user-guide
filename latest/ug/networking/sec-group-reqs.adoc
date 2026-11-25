@@ -48,7 +48,7 @@ When you create a cluster, Amazon EKS creates a security group that's named `eks
 [NOTE]
 ====
 
-For new clusters created with Amazon EKS version `1.34` or later, Amazon EKS adds a description to the inbound rule of the default cluster security group. Clusters created before version `1.34`, and existing clusters upgraded to version `1.34` or later, don't have this inbound rule description.
+For new clusters created with Kubernetes version `1.33` or later, the inbound rule of the default cluster security group has the description `Allows EFA traffic, which is not matched by CIDR rules.` Upgrading a cluster doesn't change the description of its existing inbound rule.
 
 ====
 
