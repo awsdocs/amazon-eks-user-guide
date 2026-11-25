@@ -9,12 +9,20 @@ EKS Auto Mode provides simplified cluster management with automatic node provisi
 
 This guide also demonstrates how to use Kubernetes taints and tolerations to ensure that only specific workloads run on your Local Zone nodes, helping you control costs and optimize resource usage.
 
+[#auto-local-zone-prereqs]
 == Prerequisites
 
 Before you begin deploying EKS Auto Mode nodes onto Local Zones, ensure you have the following prerequisites in place: 
 
 * <<create-auto,An existing EKS Auto Mode Cluster>>
 * link:local-zones/latest/ug/getting-started.html#getting-started-find-local-zone[Opted-in to local zone in your {aws} account,type="documentation"]
+* A Local Zone that supports `gp3` Amazon EBS volumes
+
+.`gp3` volume support required
+[NOTE]
+====
+Amazon EKS Auto Mode uses `gp3` volumes for each node's root and data volumes, and the NodeClass doesn't have a setting for another volume type. Amazon EBS volume type availability varies by Local Zone, and some Local Zones support only `gp2`. If the Local Zone doesn't support `gp3`, EKS Auto Mode can't launch nodes in it. To confirm which volume types are available in your Local Zone, see the https://aws.amazon.com/about-aws/global-infrastructure/localzones/features/[{aws} Local Zones features page], or contact {aws} Support.
+====
 
 == Step 1: Create Local Zone Subnet
 
@@ -141,6 +149,12 @@ Together, these ensure that your latency-sensitive application runs only on Loca
 == Step 5: Verify with {aws} Console
 
 After setting up your NodeClass, NodePool, and Deployments, you should verify that nodes are being provisioned in your Local Zone as expected and that your workloads are running on them. You can use the {aws} Management Console to verify that EC2 instances are being launched in the correct Local Zone subnet. 
+
+.Nodes don't appear in your Local Zone
+[NOTE]
+====
+If nodes don't appear in your Local Zone, one possible cause is a Local Zone that doesn't support `gp3` Amazon EBS volumes. For more information, see the <<auto-local-zone-prereqs,prerequisites>> at the beginning of this topic.
+====
 
 Additionally, you can check the Kubernetes node list using `kubectl get nodes -o wide` to confirm that the nodes are joining your cluster with the correct labels and taints:
 
