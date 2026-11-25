@@ -246,10 +246,11 @@ Review these default values and features before creating the cluster:
 
 Before running the `create-cluster` command, set the following environment variables. Replace the placeholder values with your own:
 
+[source,bash,subs="verbatim,attributes"]
 ----
 export AWS_REGION=us-east-1
 export CLUSTER_NAME=my-auto-cluster
-export K8S_VERSION=1.35
+export K8S_VERSION={k8s-n}
 export CLUSTER_ROLE_ARN=arn:aws:iam::111122223333:role/AmazonEKSAutoClusterRole
 export NODE_ROLE_ARN=arn:aws:iam::111122223333:role/AmazonEKSAutoNodeRole
 export SUBNETS_JSON='["subnet-ExampleID1","subnet-ExampleID2","subnet-ExampleID3"]'
