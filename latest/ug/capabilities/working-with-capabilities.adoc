@@ -280,7 +280,7 @@ Deleting a capability resource does not automatically delete resources created f
 * kro ResourceGraphDefinitions and instances remain in your cluster
 * The access entry that Amazon EKS created for the capability's IAM role remains on your cluster, along with any access policies associated with it
 
-You should delete these resources before deleting the capability to avoid orphaned resources. If you no longer need the access entry, delete it after you delete the capability. For more information, see <<deleting-access-entries>>.
+Delete these resources before deleting the capability to avoid orphaned resources. If you no longer need the access entry, delete it after you delete the capability. For more information, see <<deleting-access-entries>>.
 
 You may optionally choose to retain {aws} resources associated with ACK Kubernetes resources. See <<ack-considerations,ACK considerations>>
 ====
