@@ -20,6 +20,19 @@ This topic describes how to set up Elastic Fabric Adapter (EFA) tuning with Amaz
 
 ====
 
+[IMPORTANT]
+.File system requirements for EFA
+====
+Lustre traffic uses EFA only when the file system is EFA-enabled. You enable EFA when you create the file system, and you can't enable it later. An EFA-enabled file system has the following requirements:
+
+* The deployment type is `PERSISTENT_2` with a metadata configuration. A file system created this way uses Lustre version 2.15 by default.
+* The file system and the nodes are in the same Availability Zone and the same `/16` CIDR block.
+* The file system and node security groups allow all traffic to and from each other, and the file system security group allows all traffic to and from itself. Each of these needs both an inbound and an outbound rule that references the other security group's ID. CIDR-based rules, including the default outbound rule to `0.0.0.0/0`, don't meet this requirement. Without these rules, the file system still mounts, but Lustre traffic uses TCP instead of EFA.
+* The nodes run on Nitro v4 or later instance types that support EFA.
+
+The Ubuntu 24.04 nodes on this page run the Lustre 2.15 client, which can't mount a Lustre 2.10 file system. For the full requirements, see link:fsx/latest/LustreGuide/efa-file-systems.html[Working with EFA-enabled file systems,type="documentation"]. For client and file system version compatibility, see link:fsx/latest/LustreGuide/lustre-client-matrix.html[Lustre file system and client kernel compatibility,type="documentation"].
+====
+
 [#create-eks-cluster]
 == Step 1. Create EKS cluster
 
@@ -31,9 +44,21 @@ Create a cluster using the provided configuration file:
 eksctl create cluster -f efa-cluster.yaml
 ----
 
+The example uses the latest Kubernetes version that Amazon EKS supports, {k8s-n}. To use a different version, see <<kubernetes-versions>>.
+
+[NOTE]
+.Confirm AMI kernel and Lustre module compatibility
+====
+The node group on this page uses the Canonical Ubuntu 24.04 Amazon EKS AMI. Canonical publishes Ubuntu 22.04 Amazon EKS AMIs only up to Kubernetes version 1.32, so use Ubuntu 24.04 for version 1.33 and later.
+
+The bootstrap script installs the Lustre client module that matches the running kernel, `lustre-client-modules-$(uname -r)`. FSx for Lustre publishes modules for new Ubuntu kernels after Canonical releases them, so a newly released AMI can boot a kernel that doesn't have a module yet. In that case, the install step fails and the file system doesn't mount.
+
+Before you create the node group, launch one instance from the AMI and run `uname -r`. Confirm that the kernel version is listed in link:fsx/latest/LustreGuide/lustre-client-matrix.html[Lustre file system and client kernel compatibility,type="documentation"]. If it isn't listed, use an earlier AMI build. The {aws} Systems Manager Parameter Store path `/aws/service/canonical/ubuntu/eks/24.04/[.replaceable]``kubernetes-version``/stable/` lists the available builds, by date.
+====
+
 Example `efa-cluster.yaml`:
 
-[source,yaml]
+[source,yaml,subs="verbatim,attributes"]
 ----
 #efa-cluster.yaml
 
@@ -43,88 +68,12 @@ kind: ClusterConfig
 metadata:
   name: csi-fsx
   region: us-east-1
-  version: "1.30"
+  version: "{k8s-n}"
 
 iam:
   withOIDC: true
 
 availabilityZones: ["us-east-1a", "us-east-1d"]
-
-managedNodeGroups:
-  - name: my-efa-ng
-    instanceType: c6gn.16xlarge
-    minSize: 1
-    desiredCapacity: 1
-    maxSize: 1
-    availabilityZones: ["us-east-1b"]
-    volumeSize: 300
-    privateNetworking: true
-    amiFamily: Ubuntu2204
-    efaEnabled: true
-    preBootstrapCommands:
-      - |
-        #!/bin/bash
-        eth_intf="$(/sbin/ip -br -4 a sh | grep $(hostname -i)/ | awk '{print $1}')"
-        efa_version=$(modinfo efa | awk '/^version:/ {print $2}' | sed 's/[^0-9.]//g')
-        min_efa_version="2.12.1"
-
-        if [[ "$(printf '%s\n' "$min_efa_version" "$efa_version" | sort -V | head -n1)" != "$min_efa_version" ]]; then
-            sudo curl -O https://efa-installer.amazonaws.com/aws-efa-installer-1.37.0.tar.gz
-            tar -xf aws-efa-installer-1.37.0.tar.gz && cd aws-efa-installer
-            echo "Installing EFA driver"
-            sudo apt-get update && apt-get upgrade -y
-            sudo apt install -y pciutils environment-modules libnl-3-dev libnl-route-3-200 libnl-route-3-dev dkms
-            sudo ./efa_installer.sh -y
-            modinfo efa
-        else
-            echo "Using EFA driver version $efa_version"
-        fi
-
-        echo "Installing Lustre client"
-        sudo wget -O - https://fsx-lustre-client-repo-public-keys.s3.amazonaws.com/fsx-ubuntu-public-key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/fsx-ubuntu-public-key.gpg > /dev/null
-        sudo echo "deb [signed-by=/usr/share/keyrings/fsx-ubuntu-public-key.gpg] https://fsx-lustre-client-repo.s3.amazonaws.com/ubuntu jammy main" > /etc/apt/sources.list.d/fsxlustreclientrepo.list
-        sudo apt update | tail
-        sudo apt install -y lustre-client-modules-$(uname -r) amazon-ec2-utils | tail
-        modinfo lustre
-
-        echo "Loading Lustre/EFA modules..."
-        sudo /sbin/modprobe lnet
-        sudo /sbin/modprobe kefalnd ipif_name="$eth_intf"
-        sudo /sbin/modprobe ksocklnd
-        sudo lnetctl lnet configure
-
-        echo "Configuring TCP interface..."
-        sudo lnetctl net del --net tcp 2> /dev/null
-        sudo lnetctl net add --net tcp --if $eth_intf
-
-        # For P5 instance type which supports 32 network cards,
-        # by default add 8 EFA interfaces selecting every 4th device (1 per PCI bus)
-        echo "Configuring EFA interface(s)..."
-        instance_type="$(ec2-metadata --instance-type | awk '{ print $2 }')"
-        num_efa_devices="$(ls -1 /sys/class/infiniband | wc -l)"
-        echo "Found $num_efa_devices available EFA device(s)"
-
-        if [[ "$instance_type" == "p5.48xlarge" || "$instance_type" == "p5e.48xlarge" ]]; then
-           for intf in $(ls -1 /sys/class/infiniband | awk 'NR % 4 == 1'); do
-               sudo lnetctl net add --net efa --if $intf --peer-credits 32
-          done
-        else
-        # Other instances: Configure 2 EFA interfaces by default if the instance supports multiple network cards,
-        # or 1 interface for single network card instances
-        # Can be modified to add more interfaces if instance type supports it
-            sudo lnetctl net add --net efa --if $(ls -1 /sys/class/infiniband | head -n1) --peer-credits 32
-            if [[ $num_efa_devices -gt 1 ]]; then
-               sudo lnetctl net add --net efa --if $(ls -1 /sys/class/infiniband | tail -n1) --peer-credits 32
-            fi
-        fi
-
-        echo "Setting discovery and UDSP rule"
-        sudo lnetctl set discovery 1
-        sudo lnetctl udsp add --src efa --priority 0
-        sudo /sbin/modprobe lustre
-
-        sudo lnetctl net show
-        echo "Added $(sudo lnetctl net show | grep -c '@efa') EFA interface(s)"
 ----
 
 [#create-node-group]
@@ -158,7 +107,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: final-efa
+  name: csi-fsx
   region: us-east-1
 
 managedNodeGroups:
@@ -170,7 +119,7 @@ managedNodeGroups:
     availabilityZones: ["us-east-1a"]
     volumeSize: 300
     privateNetworking: true
-    amiFamily: Ubuntu2204
+    amiFamily: Ubuntu2404
     efaEnabled: true
     preBootstrapCommands:
       - |
@@ -216,14 +165,17 @@ managedNodeGroups:
         # 1. Install Lustre client
         if grep -q '^ID=ubuntu' /etc/os-release; then
             echo "Detected Ubuntu, proceeding with Lustre setup..."
+            # Install prerequisites for the signed repository (gnupg is not preinstalled)
+            sudo apt-get -o DPkg::Lock::Timeout=300 update
+            sudo apt-get -o DPkg::Lock::Timeout=300 install -y gnupg lsb-release
+
             # Add Lustre repository
             sudo wget -O - https://fsx-lustre-client-repo-public-keys.s3.amazonaws.com/fsx-ubuntu-public-key.asc | sudo gpg --dearmor | sudo tee /usr/share/keyrings/fsx-ubuntu-public-key.gpg > /dev/null
             
-            echo "deb [signed-by=/usr/share/keyrings/fsx-ubuntu-public-key.gpg] https://fsx-lustre-client-repo.s3.amazonaws.com/ubuntu jammy main" | sudo tee /etc/apt/sources.list.d/fsxlustreclientrepo.list
+            echo "deb [signed-by=/usr/share/keyrings/fsx-ubuntu-public-key.gpg] https://fsx-lustre-client-repo.s3.amazonaws.com/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/fsxlustreclientrepo.list
             
-            sudo apt-get update
-            sudo apt-get install -y lustre-client-modules-$(uname -r)
-            sudo apt-get install -y lustre-client
+            sudo apt-get -o DPkg::Lock::Timeout=300 update
+            sudo apt-get -o DPkg::Lock::Timeout=300 install -y lustre-client-modules-$(uname -r) lustre-client-utils
         else
             echo "Not Ubuntu, exiting"
             exit 1
@@ -313,12 +265,12 @@ managedNodeGroups:
             # Install or verify EFA driver
             if [[ "$(printf '%s\n' "$min_efa_version" "$efa_version" | sort -V | head -n1)" != "$min_efa_version" ]]; then
                 echo "Installing EFA driver..."
-                sudo curl -O https://efa-installer.amazonaws.com/aws-efa-installer-1.37.0.tar.gz
-                tar -xf aws-efa-installer-1.37.0.tar.gz && cd aws-efa-installer
+                sudo curl -O https://efa-installer.amazonaws.com/aws-efa-installer-latest.tar.gz
+                tar -xf aws-efa-installer-latest.tar.gz && cd aws-efa-installer
                 
                 # Install dependencies
-                sudo apt-get update && apt-get upgrade -y
-                sudo apt install -y pciutils environment-modules libnl-3-dev libnl-route-3-200 libnl-route-3-dev dkms
+                sudo apt-get -o DPkg::Lock::Timeout=300 update && sudo apt-get -o DPkg::Lock::Timeout=300 upgrade -y
+                sudo apt-get -o DPkg::Lock::Timeout=300 install -y pciutils environment-modules libnl-3-dev libnl-route-3-200 libnl-route-3-dev dkms
                 
                 # Install EFA
                 sudo ./efa_installer.sh -y
@@ -346,10 +298,12 @@ managedNodeGroups:
             sudo lnetctl net del --net tcp 2> /dev/null
             sudo lnetctl net add --net tcp --if $eth_intf
 
-            # For P5 instance type which supports 32 network cards,
-            # by default add 8 EFA interfaces selecting every 4th device (1 per PCI bus)
+            # The P5 branch below assumes 32 network cards and adds 8 EFA interfaces,
+            # selecting every 4th device (1 per PCI bus).
+            # c6gn.16xlarge has ONE network card, so the single-interface else branch applies here.
             echo "Configuring EFA interface(s)..."
-            instance_type="$(ec2-metadata --instance-type | awk '{ print $2 }')"
+            TOKEN="$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")"
+            instance_type="$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/instance-type)"
             num_efa_devices="$(ls -1 /sys/class/infiniband | wc -l)"
             echo "Found $num_efa_devices available EFA device(s)"
 
@@ -359,10 +313,9 @@ managedNodeGroups:
                     sudo lnetctl net add --net efa --if $intf --peer-credits 32
                 done
             else
-                # Standard configuration
-                # Other instances: Configure 2 EFA interfaces by default if the instance supports multiple network cards,
-                # or 1 interface for single network card instances
-                # Can be modified to add more interfaces if instance type supports it
+                # Single network card configuration (applies to c6gn.16xlarge, which has ONE network card).
+                # This branch configures 1 EFA interface. Instances with multiple network cards add a second.
+                # Can be modified to add more interfaces if the instance type supports it.
                 sudo lnetctl net add --net efa --if $(ls -1 /sys/class/infiniband | head -n1) --peer-credits 32
                 if [[ $num_efa_devices -gt 1 ]]; then
                     sudo lnetctl net add --net efa --if $(ls -1 /sys/class/infiniband | tail -n1) --peer-credits 32
@@ -494,6 +447,9 @@ managedNodeGroups:
         }
         EOF
 
+            # The LNet EFA configuration doesn't persist across reboots, so save it for the boot-time service
+            declare -f configure_efa_network >> $FUNCTIONS_SCRIPT
+
             # Create tuning script
             cat << EOF > $TUNINGS_SCRIPT
         #!/bin/bash
@@ -517,6 +473,9 @@ managedNodeGroups:
         # Main execution
         # Try to mount if not already mounted
         if ! is_lustre_mounted; then
+            # Configure the TCP and EFA LNet interfaces before mounting, so the mount uses EFA
+            eth_intf="\$(/sbin/ip -br -4 a sh | grep \$(hostname -i)/ | awk '{print \$1}')"
+            configure_efa_network
             echo "Lustre filesystem not mounted, attempting to mount..."
             mount_lustre
         fi
@@ -528,7 +487,7 @@ managedNodeGroups:
                 apply_lustre_tunings
                 exit 0
             fi
-            echo "Waiting for Lustre filesystem to be mounted... (attempt $i/30)"
+            echo "Waiting for Lustre filesystem to be mounted... (attempt \$i/30)"
             sleep 10
         done
 
@@ -545,7 +504,8 @@ managedNodeGroups:
             cat << EOF > $SERVICE_FILE
         [Unit]
         Description=Apply Lustre Performance Tunings
-        After=network.target remote-fs.target
+        Wants=network-online.target
+        After=network-online.target remote-fs.target
 
         [Service]
         Type=oneshot
@@ -573,29 +533,28 @@ managedNodeGroups:
 [#verify-efa-setup]
 == (Optional) Step 3. Verify EFA setup
 
-SSH into node:
+Start a debugging session on the node. Replace [.replaceable]`node-name` with the name of a node in the node group:
 
 [source,bash,subs="verbatim,quotes"]
 ----
-# Get instance ID from EKS console or {aws} CLI
-ssh -i /path/to/your-key.pem ec2-user@<node-internal-ip>
+kubectl debug node/[.replaceable]`node-name` -it --profile=sysadmin --image=public.ecr.aws/amazonlinux/amazonlinux:2023 -- chroot /host
 ----
 
 Verify EFA configuration:
 
 [source,bash]
 ----
-sudo lnetctl net show
+lnetctl net show
 ----
 
 Check setup logs:
 
 [source,bash]
 ----
-sudo cat /var/log/cloud-init-output.log
+cat /var/log/cloud-init-output.log
 ----
 
-Here's example expected output for `lnetctl net show`:
+The output of `lnetctl net show` includes an `efa` net type:
 
 [source,text]
 ----
@@ -658,7 +617,7 @@ spec:
     - ReadWriteMany
   mountOptions:
     - flock
-  persistentVolumeReclaimPolicy: Recycle
+  persistentVolumeReclaimPolicy: Retain
   csi:
     driver: fsx.csi.aws.com
     volumeHandle: fs-<1234567890abcdef0>
@@ -687,7 +646,7 @@ metadata:
 spec:
   containers:
   - name: app
-    image: amazonlinux:2
+    image: public.ecr.aws/amazonlinux/amazonlinux:2023
     command: ["/bin/sh"]
     args: ["-c", "while true; do dd if=/dev/urandom bs=100M count=20 > data/test_file; sleep 10; done"]
     resources:
@@ -727,14 +686,14 @@ kubectl exec -ti fsx-efa-app -- ls /data
 # test_file
 ----
 
-SSH onto the node to verify traffic is going over EFA:
+To verify that traffic is going over EFA, start a debugging session on the node as in Step 3, and run the following command:
 
 [source,bash]
 ----
-sudo lnetctl net show -v
+lnetctl net show -v
 ----
 
-The expected output will show EFA interfaces with traffic statistics.
+In the output, the `send_count` and `recv_count` statistics under the `efa` net type increase while the Pod writes to the file system. If only the `tcp` statistics increase, check the security group rules in the requirements at the top of this page.
 
 == Related information
 
