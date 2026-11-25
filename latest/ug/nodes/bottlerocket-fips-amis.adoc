@@ -38,7 +38,9 @@ For more information on selecting FIPS-enabled variants, see <<retrieve-ami-id-b
 
 Bottlerocket FIPS AMIs are supported directly in the United States, including {aws} GovCloud (US) Regions. For {aws} Regions where the AMIs are available but not supported directly, you can still use the AMIs by creating a managed node group with a launch template.
 
-The Bottlerocket FIPS AMI relies on the Amazon ECR FIPS endpoint during bootstrap, which are not generally available outside of the United States. To use the AMI for its FIPS kernel in {aws} Regions that don't have the Amazon ECR FIPS endpoint available, do these steps to disable the FIPS endpoint:
+By default, Bottlerocket FIPS AMIs generate the `settings.aws.config` setting as an {aws} config file that contains `use_fips_endpoint=true`, so the Bottlerocket host services that call {aws} APIs use FIPS endpoints. If you set `settings.aws.config` yourself, Bottlerocket uses your file instead.
+
+The Bottlerocket FIPS AMI relies on the Amazon ECR FIPS endpoint during bootstrap, and that endpoint isn't available outside of the United States. To use the AMI for its FIPS kernel in {aws} Regions that don't have the Amazon ECR FIPS endpoint available, complete the following steps to disable the FIPS endpoint:
 
 . Create a new configuration file with the following content or incorporate the content into your existing configuration file.
 
