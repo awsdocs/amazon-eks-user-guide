@@ -50,7 +50,7 @@ For clusters on Kubernetes version `1.33` or later, the default security group i
 [NOTE]
 ====
 
-For new clusters created with Kubernetes version `1.33` or later, the inbound rule of the default cluster security group has the description `Allows EFA traffic, which is not matched by CIDR rules.` Upgrading a cluster doesn't change the description of its existing inbound rule.
+For new clusters created with Kubernetes version `1.33` or later, the inbound rule of the default cluster security group has the description `Allows EFA traffic, which is not matched by CIDR rules.` If you upgrade a cluster created with an earlier version to `1.33` or later, Amazon EKS doesn't add this description to its existing inbound rule.
 
 ====
 
