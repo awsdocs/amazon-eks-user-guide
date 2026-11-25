@@ -138,6 +138,9 @@ We recommend that you link:vpc/latest/privatelink/interface-endpoints.html#enabl
 |Amazon Route 53
 |com.amazonaws.route53
 
+|(Optional) {aws} Certificate Manager (required for the {aws} Load Balancer Controller to discover ACM certificates from Ingress hostnames)
+|com.amazonaws.[.replaceable]`region-code`.acm
+
 |===
 +
 [NOTE]
@@ -147,7 +150,7 @@ Create the ``com.amazonaws.[.replaceable]`region-code`.s3`` endpoint in the Amaz
 * Any self-managed nodes must be deployed to subnets that have the VPC interface endpoints that you require. If you create a managed node group, the VPC interface endpoint security group must allow the CIDR for the subnets, or you must add the created node security group to the VPC interface endpoint security group.
 * *EFS storage* - If your Pods use Amazon EFS volumes, then before deploying the <<efs-csi,Store an elastic file system with Amazon EFS>>, the driver's https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/deploy/kubernetes/overlays/stable/kustomization.yaml[kustomization.yaml] file must be changed to set the container images to use the same {aws} Region as the Amazon EKS cluster.
 * If you use the EKS Optimized AMI, you should enable the `ec2` endpoint in the table above. Alternatively, you can manually set the Node DNS name. The optimized AMI uses EC2 APIs to set the node DNS name automatically. 
-* You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to deploy {aws} Application Load Balancers (ALB) and Network Load Balancers to your private cluster. When deploying it, you should use https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/configurations/#controller-command-line-flags[command line flags] to set `enable-shield`, `enable-waf`, and `enable-wafv2` to false. https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/cert_discovery/#discover-via-ingress-rule-host[Certificate discovery] with hostnames from Ingress objects isn't supported. This is because the controller needs to reach {aws} Certificate Manager, which doesn't have a VPC interface endpoint.
+* You can use the <<aws-load-balancer-controller,{aws} Load Balancer Controller>> to deploy {aws} Application Load Balancers (ALB) and Network Load Balancers to your private cluster. When deploying it, you should use https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/configurations/#controller-command-line-flags[command line flags] to set `enable-shield`, `enable-waf`, and `enable-wafv2` to false. To use https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/cert_discovery/#discover-via-ingress-rule-host[certificate discovery] with hostnames from Ingress objects in a private cluster, create an interface VPC endpoint for {aws} Certificate Manager (ACM) so that the controller can reach ACM.
 +
 The controller supports network load balancers with IP targets, which are required for use with Fargate. For more information, see <<alb-ingress>> and <<network-load-balancer>>.
 * https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md[Cluster Autoscaler] is supported. When deploying Cluster Autoscaler Pods, make sure that the command line includes `--aws-use-static-instance-list=true`. For more information, see https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#use-static-instance-list[Use Static Instance List] on GitHub. The worker node VPC must also include the {aws} STS VPC endpoint and autoscaling VPC endpoint.
