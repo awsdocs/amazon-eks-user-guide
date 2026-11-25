@@ -33,7 +33,7 @@ The following are considerations for using the feature.
 * If you plan to use custom networking only to help alleviate `IPv4` address exhaustion, you can create a cluster using the `IPv6` family instead. For more information, see <<cni-ipv6>>.
 * Even though Pods deployed to subnets specified for secondary network interfaces can use different subnet and security groups than the node's primary network interface, the subnets and security groups must be in the same VPC as the node.
 * For Fargate, subnets are controlled through the Fargate profile. For more information, see <<fargate-profile>>.
-* If you manage the Amazon VPC CNI plugin as an Amazon EKS add-on, use the add-on's configuration values to enable custom networking. Don't edit the `aws-node` DaemonSet directly (for example, with `kubectl set env`). Amazon EKS reconciles the DaemonSet to the stored add-on configuration and can revert direct edits on the next create, update, or edit. For more information about updating Amazon EKS add-ons, see <<updating-an-add-on>>.
+* If you manage the Amazon VPC CNI plugin as an Amazon EKS add-on, use the add-on's configuration values to enable custom networking. Don't edit the `aws-node` DaemonSet directly (for example, with `kubectl set env`). Amazon EKS manages the `AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG` field, so after a direct edit the next add-on update either fails with a conflict or resets the value and turns off custom networking. For more information about updating Amazon EKS add-ons, see <<updating-an-add-on>>.
 
 include::cni-custom-network-tutorial.adoc[leveloffset=+1]
 
