@@ -22,7 +22,7 @@ If you want to use Amazon EKS CA to generate serving certificates for your workl
 * Permitted key usages: Must not include usages beyond ["key encipherment", "digital signature", "server auth"]
 +
 NOTE: Client certificate signing is not supported.
-* Expiration/certificate lifetime: 45 days (default and maximum) 
+* Expiration/certificate lifetime: 1 year (default and maximum). To request a shorter lifetime, set `expirationSeconds` in the CSR.
 * CA bit allowed/disallowed: Not allowed
 
 
