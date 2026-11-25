@@ -89,6 +89,8 @@ spec:
   networkPolicyEventLogs: Enabled  
   # Include other Node Class configurations as needed
 ----
++
+For where EKS Auto Mode writes the network policy event logs and how to read them, see <<network-policy-event-logs>>.
 . Apply the Node Class configuration to your cluster:
 +
 ----
