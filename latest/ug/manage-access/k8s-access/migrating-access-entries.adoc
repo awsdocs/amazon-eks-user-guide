@@ -52,7 +52,7 @@ ARN                                                                             
 ====
 Access entries don't accept usernames or Kubernetes group names that start with `system:`, `amazon:`, `aws:`, `eks:`, or `iam:`. You can't copy the values for `aws-auth` entries that use these prefixes. Migrate the two most common cases as follows:
 
-* *Node roles* (username starts with `system:node:`): Create the access entry with type `EC2_LINUX` or `EC2_WINDOWS`, and don't specify a username or Kubernetes groups. Amazon EKS sets them for you.
+* *Node roles* (username starts with `system:node:`): Create the access entry with type `EC2_LINUX` or `EC2_WINDOWS`, and let Amazon EKS set the username and Kubernetes groups.
 * *Cluster administrators* (group `system:masters`): Create a `STANDARD` access entry without Kubernetes groups, and associate the `AmazonEKSClusterAdminPolicy` access policy with the cluster as the access scope.
 
 For more information, see <<creating-access-entries>> and <<access-policies>>.
