@@ -174,7 +174,7 @@ include::iam_snippet:0e05bbcb-8642-4e51-93db-141ad54e1740[]
 aws iam list-attached-role-policies --role-name my-role --query 'AttachedPolicies[].PolicyArn' --output text
 ----
 +
-NOTE: This command returns managed policies but not inline policies. If you embedded an inline policy in the role, such as with `aws iam put-role-policy` or the IAM console, use `aws iam list-role-policies --role-name my-role` to list it and `aws iam get-role-policy --role-name my-role --policy-name my-policy` to view its permissions. The remaining steps in this procedure apply to managed policies.
+NOTE: This command returns managed policies but not inline policies. If you embedded an inline policy in the role, such as with `aws iam put-role-policy` or the IAM console, list it with `aws iam list-role-policies --role-name my-role`. To view its permissions, run `aws iam get-role-policy --role-name my-role --policy-name my-policy`. The remaining steps in this procedure apply to managed policies.
 +
 An example output is as follows.
 +
