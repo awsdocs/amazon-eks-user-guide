@@ -15,7 +15,7 @@ You can start a zonal shift for an EKS cluster, or you can allow {aws} to shift 
 
 == Understanding east-west network traffic flow between Pods
 
-The following diagram illustrates two example workloads, Orders, and Products. The purpose of this example is to show how workloads and Pods in different AZs communicate.
+The following diagram illustrates two example workloads, Orders and Products. The purpose of this example is to show how workloads and Pods in different AZs communicate.
 
 image::images/zs-traffic-flow-before-1.png[Illustration of network traffic]
 
@@ -278,9 +278,11 @@ No, by default Amazon EKS runs and scales the Kubernetes control plane across mu
 
 *Are there any costs associated with this new feature?*
 
-You can use ARC zonal shift and zonal autoshift in your EKS cluster at no additional charge. However, you will continue to pay for provisioned instances and we strongly recommended that you pre-scale your Kubernetes data plane before using this feature. You should consider a balance between cost and application availability. 
+You can use ARC zonal shift and zonal autoshift in your EKS cluster at no additional charge. However, you will continue to pay for provisioned instances, and we strongly recommend that you pre-scale your Kubernetes data plane before using this feature. You should consider a balance between cost and application availability. 
 
 == Additional resources
+
+For more information about zonal shift and building resilient workloads, see the following resources:
 
 * link:r53recovery/latest/dg/arc-zonal-shift.how-it-works.html["How a zonal shift works",type="documentation"]
 * link:r53recovery/latest/dg/route53-arc-best-practices.zonal-shifts.html#zonalshift.route53-arc-best-practices.zonal-shifts["Best practices for zonal shifts in ARC",type="documentation"]
