@@ -57,6 +57,35 @@ For the IAM principal to have access to Kubernetes objects on your cluster, you 
 . Create Kubernetes `Role` or `ClusterRole` objects that define the permissions.
 . Create Kubernetes `RoleBinding` or `ClusterRoleBinding` objects on your cluster that specify the group name as a `subject` for `kind: Group`.
 
+The following example grants the `my-viewers` group read access to Pods in the `default` namespace. Use the same group name that you passed to `--kubernetes-groups` in the previous step.
+
+[source,yaml,subs="verbatim,attributes"]
+----
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-reader
+  namespace: default
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: my-viewers-pod-reader
+  namespace: default
+subjects:
+- kind: Group
+  name: my-viewers
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io
+----
+
 For detailed information about configuring groups and permissions in Kubernetes, see https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Using RBAC Authorization] in the Kubernetes documentation.
 
 == Next steps
