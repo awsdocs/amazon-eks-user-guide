@@ -291,6 +291,22 @@ The following table lists the fields that you can set in an `IngressClassParams`
 
 |===
 
+To select subnets by tag, specify `subnets.matchTags`. Specify either `subnets.ids` or `subnets.matchTags`, not both. The following example selects subnets that have the tag key `Environment` with the value `prod`.
+
+[source,yaml]
+----
+apiVersion: eks.amazonaws.com/v1
+kind: IngressClassParams
+metadata:
+  name: alb-matchtags
+spec:
+  scheme: internet-facing
+  subnets:
+    matchTags:
+      - key: Environment
+        values:
+          - prod
+----
 
 == Considerations
 
