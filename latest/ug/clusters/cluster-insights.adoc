@@ -43,6 +43,19 @@ Before updating your cluster Kubernetes version, you can use the *Upgrade insigh
 
 Amazon EKS returns insights related to Kubernetes version upgrade readiness. Upgrade insights identify possible issues that could impact Kubernetes cluster upgrades. This minimizes the effort that administrators spend preparing for upgrades and increases the reliability of applications on newer Kubernetes versions. Clusters are automatically scanned by Amazon EKS against a list of possible Kubernetes version upgrade impacting issues. Amazon EKS frequently updates the list of insight checks based on reviews of changes made in each Kubernetes version release.
 
+.CRD version deprecation not detected
+[NOTE]
+====
+The deprecated API checks in upgrade insights evaluate usage of built-in Kubernetes APIs. They don't currently
+detect usage of deprecated custom resource versions that a CustomResourceDefinition
+(CRD) defines. This applies even when the CRD marks a version as deprecated.
+Before you upgrade, review the CRDs installed on your cluster separately. For more
+information about custom resources and version deprecation, see
+https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/[Custom resources]
+and https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-deprecation[Version deprecation]
+in the Kubernetes documentation.
+====
+
 Amazon EKS upgrade insights speed up the testing and verification process for new versions. They also allow cluster administrators and application developers to leverage the newest Kubernetes capabilities by highlighting concerns and offering remediation advice.
 
 === Configuration insights
