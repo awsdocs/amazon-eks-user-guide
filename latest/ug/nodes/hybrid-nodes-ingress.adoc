@@ -342,7 +342,7 @@ cilium-z7hlb                       1/1     Running   0          6m30s
 [#hybrid-nodes-ingress-cilium-gateway-configure]
 == Configure Cilium Gateway
 
-Cilium Gateway is enabled on Gateway objects by setting the `gatewayClassName` to `cilium`. The Service that Cilium creates for Gateway resources can be configured with fields on the Gateway object. Common annotations used by Gateway controllers to configure the load balancer infrastructure can be configured with the Gateway object's `infrastructure` field. When using Cilium's LoadBalancer IPAM (see example in <<hybrid-nodes-ingress-cilium-loadbalancer>>), the IP address to use for the Service of type LoadBalancer can be configured on the Gateway object's `addresses` field. For more information on Gateway configuration, see the link:https://gateway-api.sigs.k8s.io/reference/spec/#gateway[Kubernetes Gateway API specification].
+Cilium Gateway is enabled on Gateway objects by setting the `gatewayClassName` to `cilium`. The Service that Cilium creates for Gateway resources can be configured with fields on the Gateway object. Common annotations used by Gateway controllers to configure the load balancer infrastructure can be configured with the Gateway object's `infrastructure` field. When using Cilium's LoadBalancer IPAM (see example in <<hybrid-nodes-ingress-cilium-loadbalancer>>), the IP address to use for the Service of type LoadBalancer can be configured on the Gateway object's `addresses` field. For more information on Gateway configuration, see the link:https://gateway-api.sigs.k8s.io/reference/api-spec/main/spec/#gateway[Kubernetes Gateway API specification].
 
 [source,yaml]
 ----
@@ -365,7 +365,7 @@ spec:
 
 Cilium and the Kubernetes Gateway specification support the GatewayClass, Gateway, HTTPRoute, GRPCRoute, and ReferenceGrant resources. 
 
-- See link:https://gateway-api.sigs.k8s.io/api-types/httproute/HTTPRoute[HTTPRoute] and link:https://gateway-api.sigs.k8s.io/api-types/grpcroute/GRPCRoute[GRPCRoute] specifications for the list of available fields. 
+- See link:https://gateway-api.sigs.k8s.io/reference/api-types/httproute/[HTTPRoute] and link:https://gateway-api.sigs.k8s.io/reference/api-types/grpcroute/[GRPCRoute] specifications for the list of available fields. 
 - See the examples in the <<hybrid-nodes-ingress-cilium-gateway-deploy>> section below and the examples in the link:https://docs.cilium.io/en/stable/network/servicemesh/gateway-api/gateway-api/#examples[Cilium documentation] for how to use and configure these resources.
 
 [#hybrid-nodes-ingress-cilium-gateway-deploy]
